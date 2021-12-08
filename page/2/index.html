@@ -71,6 +71,51 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Webpack学习笔记1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" class="article-date">
+  <time class="dt-published" datetime="2021-12-05T12:40:49.152Z" itemprop="datePublished">2021-12-05</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">Webpack学习笔记01</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="webpack是什么"><a href="#webpack是什么" class="headerlink" title="webpack是什么"></a>webpack是什么</h1><p>webpack是一种前端资源构建工具，一个静态的模块打包器（module bundler）。在webpack看来，前端的所有资源文件（js/json/css/img/less）都会作为模块处理。</p>
+<p>五个核心概念<br>   Entry<br>     入口：提示webpack以哪一个文件为入口起点打包，分析构建内部依赖图。<br>   Output<br>     输出：提示webpack打包后的资源bundles输出到哪里去，以及如何命名<br>   Loader<br>     Loader：相当于翻译官，让webpack能够取处理哪些非JavaScript文件（webpack本身只能理解JavaScript）<br>   Plugins<br>     插件：可以用于执行范围更广的任务。插件的范围包括从打包优化和压缩，一直到重新定义环境中的变量。<br>   Mode<br>     development<br>       会将DefinePlugin中process.env.NODE_ENV的值设置为development。<br>         能让代码本地调试运行的环境<br>     production<br>       会将DefinePlugin中process.env.NODE_ENV的值设置为production<br>         能让代码优化上线运行的环境</p>
+<h1 id="搭建一个基础开发环境"><a href="#搭建一个基础开发环境" class="headerlink" title="搭建一个基础开发环境"></a>搭建一个基础开发环境</h1><p>webpack.config.js<br>   webpack配置文件，webpack开发环境配置基本都在这里写</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">/*</span><br><span class="line">  开发环境配置：能让代码运行</span><br><span class="line">    运行项目指令：</span><br><span class="line">      webpack 会将打包结果输出出去</span><br><span class="line">      npx webpack-dev-server 只会在内存中编译打包，没有输出</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">const &#123; resolve &#125; = require(&#x27;path&#x27;);</span><br><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#x27;./src/js/index.js&#x27;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &#x27;js/built.js&#x27;,</span><br><span class="line">    path: resolve(__dirname, &#x27;build&#x27;)</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      // loader的配置</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理less资源</span><br><span class="line">        test: /\.less$/,</span><br><span class="line">        use: [&#x27;style-loader&#x27;, &#x27;css-loader&#x27;, &#x27;less-loader&#x27;]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理css资源</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [&#x27;style-loader&#x27;, &#x27;css-loader&#x27;]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理图片资源</span><br><span class="line">        test: /\.(jpg|png|gif)$/,</span><br><span class="line">        loader: &#x27;url-loader&#x27;,</span><br><span class="line">        options: &#123;</span><br><span class="line">          limit: 8 * 1024,</span><br><span class="line">          name: &#x27;[hash:10].[ext]&#x27;,</span><br><span class="line">          // 关闭es6模块化</span><br><span class="line">          esModule: false,</span><br><span class="line">          outputPath: &#x27;imgs&#x27;</span><br><span class="line">        &#125;，</span><br><span class="line">        type: &#x27;javascript/auto&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理html中img资源</span><br><span class="line">        test: /\.html$/,</span><br><span class="line">        loader: &#x27;html-loader&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理其他资源</span><br><span class="line">        exclude: /\.(html|js|css|less|jpg|png|gif)/,</span><br><span class="line">        loader: &#x27;file-loader&#x27;,</span><br><span class="line">        options: &#123;</span><br><span class="line">          name: &#x27;[hash:10].[ext]&#x27;,</span><br><span class="line">          outputPath: &#x27;media&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    // plugins的配置</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: &#x27;./src/index.html&#x27;</span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  mode: &#x27;development&#x27;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    static: resolve(__dirname, &#x27;build&#x27;),</span><br><span class="line">    //启动gzip压缩</span><br><span class="line">    compress: true,</span><br><span class="line">    port: 3000,</span><br><span class="line">    open: true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>webpack5踩得坑<br>   在devServer配置中出口文件配置要使用static而不是contextBase<br>   使用devServer之后打包命令在Webpack5要用npx webpack serve而不是npx webpack-dev-server<br>   处理图片资源的时候要在rules的具体规则中加一句type: ‘javascript/auto’来阻止Webpack5自动打包</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" data-id="ckwt8ix3m0000rgudawjf1z8x" data-title="Webpack学习笔记01" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Vue源码笔记04" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/GiorunoGiovana.github.io/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/" class="article-date">
@@ -441,6 +486,10 @@ vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
       <ul>
         
           <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/">Vue源码学习笔记06</a>
+          </li>
+        
+          <li>
             <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">js学习笔记07对象、类域面向对象编程</a>
           </li>
         
@@ -454,10 +503,6 @@ vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
         
           <li>
             <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记03变量、作用域与内存</a>
-          </li>
-        
-          <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/">Js学习笔记03变量、作用域与内存</a>
           </li>
         
       </ul>
