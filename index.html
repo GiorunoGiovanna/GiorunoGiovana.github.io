@@ -71,6 +71,649 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js学习笔记07对象、类域面向对象编程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-12-07T13:51:01.511Z" itemprop="datePublished">2021-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">js学习笔记07对象、类域面向对象编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><ol>
+<li><h4 id="属性的类型"><a href="#属性的类型" class="headerlink" title="属性的类型"></a>属性的类型</h4><ol>
+<li><h5 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h5><ol>
+<li>数据属性包含一个保存数据值的位置。值会从这个位置读取，也会写入到这个位置。</li>
+<li>要修改属性的默认特性，就必须使用Object.defineProperty()方法。这个方法接受3个参数（要个其添加属性的对象，属性的名称和一个描述对象）<ol>
+<li>最后一个参数，即描述符对象上的属性可以包含:configurable、enumerable、wirtable和value</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="访问器属性"><a href="#访问器属性" class="headerlink" title="访问器属性"></a>访问器属性</h5><ol>
+<li>访问器属性不包含数据值，包含一个获取(getter)函数和一个(setter)函数，不过这两个函数不是必须的。</li>
+<li>在读取访问器属性时，会调用获取函数，这个函数的责任是返回一个有效的值。再写入访问器属性时，会调用设置函数并传入新值，这个函数必须决定对数据做出什么修改。（Vue响应式原理）</li>
+</ol>
+</li>
+<li><h5 id="定义多个属性"><a href="#定义多个属性" class="headerlink" title="定义多个属性"></a>定义多个属性</h5><ol>
+<li>Object.defineProperties()可以通过多个描述符一次性定义多个属性。它接受两个参数（要为之添加或修改属性的对象和另一个描述符对象，其属性与一一对应）</li>
+</ol>
+</li>
+<li><h5 id="读取属性的特性"><a href="#读取属性的特性" class="headerlink" title="读取属性的特性"></a>读取属性的特性</h5><ol>
+<li>使用Object.getOwnPropertyDescriptor()方法可以取得指定属性的属性描述符。<ol>
+<li>这个方法接受两个参数:属性所在的对象和要去的其描述符的属性名。返回值是一个对象，包含访问器属性</li>
+</ol>
+</li>
+<li>ES7新增了Object.getOwnPropertyDescriptors()静态方法<ol>
+<li>接受一个对象，并返回这个对象每个属性的特性</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h4><ol>
+<li>使用解构，可以在一个类似对象字面量的结构中，声明多个变量，同时执行多个复制动作。可以简写<ol>
+<li>解构赋值不一定与对象属性匹配，赋值的时候可以忽略某些属性，如果引用的属性不存在，则该变量的值为undefined，也可以定义默认值，适用于属性不存在的情况。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="增强的对象语法"><a href="#增强的对象语法" class="headerlink" title="增强的对象语法"></a>增强的对象语法</h4><ol>
+<li><h5 id="属性值的简写"><a href="#属性值的简写" class="headerlink" title="属性值的简写"></a>属性值的简写</h5><ol>
+<li>简写的属性名只要使用变量名就会自动被解释为同名的属性键</li>
+</ol>
+</li>
+<li><h5 id="可计算属性"><a href="#可计算属性" class="headerlink" title="可计算属性"></a>可计算属性</h5><ol>
+<li>如果想使用变量的值作为属性，那么必须先声明对象，然后使用中括号语法来添加属性。换句话说，不能再对象字面量中直接动态命名属性<ol>
+<li>中括号包围的对象属性键告诉运行时将其作为JavaScript表达式而不是字符串来求值。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="简写方法名"><a href="#简写方法名" class="headerlink" title="简写方法名"></a>简写方法名</h5><ol>
+<li><p>再给对象定义方法时，通常要写一个方法名、冒号，然后再引用一个匿名函数表达式。</p>
+<ol>
+<li>新的简写方法可以直接声明函数，例如sayName(){…}，与可计算属性键相互兼容</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const methodKey = &quot;foo&quot;</span><br><span class="line">let person = &#123;</span><br><span class="line">	[methodKey](name)&#123;</span><br><span class="line">		alert(&quot;aaa &quot;+name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.sayName(&quot;john&quot;)		//aaa john</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="对象标识及相等判定"><a href="#对象标识及相等判定" class="headerlink" title="对象标识及相等判定"></a>对象标识及相等判定</h4><ol>
+<li>ES6新增了Object.assign()方法用于合并对象。接受一个目标对象和一个多源对象作为参数，然后将每个源对象中可枚举和自由属性赋值到目标函数。<ol>
+<li>这是一种浅拷贝，如果多个源对象有相同的属性，则使用最后一个。此外，从源对象访问器属性中取得的值，比如获取函数，会作为一个静态值赋值给目标对象。如果赋值期间出错，则操作会终止并退出，同时抛出错误。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>前提：使用Object构造函数创建多个有相同接口的对象会比较麻烦。ES6开始正式支持类和继承。</p>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>简单来说，就是把创建Object对象的过程封装到函数中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	let 0 = new Object</span><br><span class="line">	o.name = name</span><br><span class="line">	o.age = age</span><br><span class="line">	o.job = job</span><br><span class="line">	o.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">	return o</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h3><ol>
+<li><h5 id="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"><a href="#跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。" class="headerlink" title="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"></a>跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。</h5><ol>
+<li>没有显示地创建对象</li>
+<li>属性和方法直接赋值给this</li>
+<li>没有return</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	this.name = name</span><br><span class="line">	this.age = age</span><br><span class="line">	this.job = job</span><br><span class="line">	this.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"><a href="#按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的" class="headerlink" title="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"></a>按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的</h5></li>
+<li><h5 id="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"><a href="#要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作" class="headerlink" title="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"></a>要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作</h5><ol>
+<li>在内存中创建一个新对象</li>
+<li>在这个新对象的内部的[[Prototype]]特性被赋值为构造函数的prototype属性</li>
+<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
+<li>执行构造函数内部的代码（给新对象添加属性）</li>
+<li>如果构造函数返回非空对象，则返回该对象；否则返回创建的新对象</li>
+</ol>
+</li>
+<li><h5 id="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"><a href="#构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数" class="headerlink" title="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"></a>构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数</h5></li>
+<li><h5 id="如果不想传参数，那么new的时候后面的括号可以不加。"><a href="#如果不想传参数，那么new的时候后面的括号可以不加。" class="headerlink" title="如果不想传参数，那么new的时候后面的括号可以不加。"></a>如果不想传参数，那么new的时候后面的括号可以不加。</h5></li>
+<li><h5 id="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"><a href="#构造函数也是函数，和普通函数的唯一区别是调用方式的不同。" class="headerlink" title="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"></a>构造函数也是函数，和普通函数的唯一区别是调用方式的不同。</h5><ol>
+<li>使用new操作符调用就是构造函数，不使用new操作符调用就是普通函数</li>
+</ol>
+</li>
+<li><h5 id="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"><a href="#构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。" class="headerlink" title="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"></a>构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。</h5><ol>
+<li>要解决这个问题，可以把函数定义转移到构造函数外面。</li>
+</ol>
+</li>
+</ol>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><ol>
+<li><h4 id="理解原型"><a href="#理解原型" class="headerlink" title="理解原型"></a>理解原型</h4><ol>
+<li>可以看成JavaScript版的继承</li>
+<li>只要创建函数，就会为其创建一个prototype属性（指向原型对象）</li>
+<li>默认情况下，所有原型对象自动获得一个名为constructor的属性，只会函数本身。</li>
+</ol>
+</li>
+<li><h4 id="原型层级"><a href="#原型层级" class="headerlink" title="原型层级"></a>原型层级</h4><ol>
+<li>再通过对象访问属性是，会按照这个属性的名称开始搜索。顺着原型链一直向上查找，直到object’原型，也就是null。</li>
+<li>这就是原型用于多个对象实例间共享属性和方法的原理。</li>
+<li>虽然可以通过实例读取原型对象的值，但是不可以通过实例重写这些值。</li>
+<li>如果在实例上添加一个与原型对象中同名的属性，那就会再实例上创建这个属性，这个属性会遮住原型对象上的对应属性。（优先级比原型链上的同名属性高）<ol>
+<li>即时实例上的属性设置为null，依然会屏蔽，但是使用delete操作符删除属性可以回复。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="原型和in操作符"><a href="#原型和in操作符" class="headerlink" title="原型和in操作符"></a>原型和in操作符</h4><ol>
+<li>有两种方式使用in操作符<ol>
+<li>使用for。。。in循环</li>
+<li>单独使用<ol>
+<li>in操作符会在可以通过对象访问到指定属性时候返回true（包括原型链上的同名属性）</li>
+</ol>
+</li>
+<li>如果想列出所有实例属性，无论是否可以枚举，都可以使用Object.getOwnPropertyNames()</li>
+<li>使用Object.keys()可以获取实例上的属性</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="属性枚举顺序"><a href="#属性枚举顺序" class="headerlink" title="属性枚举顺序"></a>属性枚举顺序</h4><ol>
+<li>for-in循环和Object,keys()枚举顺序是不确定的。</li>
+<li>Object.getOwnPropertyNames(), Object.getOwnPropertySymbols和Object.assign()的枚举顺序是确定的。</li>
+</ol>
+</li>
+<li><p>每个函数都会创建一个prototype属性，包含应该有特定应用类型的实例共享的属性和方法。实际上这个对象就是通过调用构造函数创建对象的原型。</p>
+<ol>
+<li>使用原型对象的好处是，再它上面定义的属性和方法可以被对象实例共享。原来再构造函数中直接赋给对象实例的值，可以直接赋值给他们的原型。</li>
+</ol>
+</li>
+<li><p>与构造函数模式不同，使用这种原型模式定义的属性和方法是有所有实例共享的。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" data-id="ckwwutjrm0002w4udhsl06qb3" data-title="js学习笔记07对象、类域面向对象编程" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记06迭代器与生成器" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" class="article-date">
+  <time class="dt-published" datetime="2021-12-07T12:55:54.825Z" itemprop="datePublished">2021-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">Js学习笔记06迭代器与生成器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><ol>
+<li><h5 id="理解迭代"><a href="#理解迭代" class="headerlink" title="理解迭代"></a>理解迭代</h5><ol>
+<li>迭代是循环的一种，可以指定迭代次数，以及迭代要执行的操作，顺序也是事先定好的。</li>
+</ol>
+</li>
+<li><p>可迭代协议</p>
+<ol>
+<li>实现Iterrable接口（可迭代协议）要求支持迭代的自我识别能力和创建实现Iterable接口的对象能力。在ECMAScript中，这意味着必须暴露一个属性作为默认的迭代器，而这个属性必须使用特殊的Symbol.iterator作为键。这个默认的迭代器属性必须应用一个迭代器工厂函数，调用这个工厂函数必须返回一个迭代器。</li>
+</ol>
+</li>
+<li><p>迭代器模式</p>
+<ol>
+<li>可迭代对象可以理解为数组或集合这样的集合类型对象。包含与有限元素，且有无歧义的遍历顺序。</li>
+</ol>
+</li>
+<li><p>迭代器协议</p>
+<ol>
+<li>迭代器API使用next()方法在可迭代对象中遍历数据。每次成功调用next()都会返回一个包含迭代器返回的下一个值的对象。<ol>
+<li>迭代器并不知道怎么从可迭代对象中获取下一个值，也不知道可迭代对象有多大。只要迭代器到达done:true状态，后续调用next()对象就一直返回这个值了。</li>
+<li>每个迭代器都表示可迭代对象的一次性有序遍历。不同迭代器实例之间没有联系，只会独立第遍历可迭代对象。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>提前终止迭代器</p>
+<ol>
+<li>可选的return()方法用于指定迭代器关闭时执行的逻辑。</li>
+</ol>
+</li>
+</ol>
+<h1 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h1><ol>
+<li><p>生成器基础</p>
+<ol>
+<li>生成器的形式是一个函数，在函数名称前面加一个*号，例如:function *foo(){…},只要可以定义函数的地方，就可以定义生成器。</li>
+<li>调用生成器函数会生成一个生成器对象，生成器对象一开始处于暂停执行的状态。与迭代器相似，生成器对象也实现了Iterator接口，因此具有next()方法。调用这个方法会让生成器开始或回复执行。</li>
+<li>next()方法的返回值有一个done和value属性<ol>
+<li>函数体为空的函数调用一遍next()就返回done:true状态</li>
+</ol>
+</li>
+<li>生成器对象实现了Iterable接口，他们的默认迭代器是自引用的。</li>
+</ol>
+</li>
+<li><p>通过yield中断执行（重点）</p>
+<ol>
+<li><p>这是生成器最有用的地方</p>
+<ol>
+<li>生成器在遇到yield关键字之前会正常执行。遇到这个关键字后，执行会停止，函数作用域的状态会被保留。停止执行的生成器函数只能通过在生成器对象上调用next()方法来恢复执行。</li>
+<li>yield关键字只能在生成器函数内部使用，用在其他地方会抛出错误。</li>
+</ol>
+</li>
+<li><p>生成器对象作为可迭代对象</p>
+<ol>
+<li><p>如果把生成器对象当成可迭代对象，那么使用起来会很方便。也可以自定义迭代对象。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function *foo（）&#123;</span><br><span class="line">	yield 1;</span><br><span class="line">	yield 2;</span><br><span class="line">	yield 3</span><br><span class="line">&#125;</span><br><span class="line">for (const x of foo())&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//自定义迭代对象</span><br><span class="line">function *foo（n）&#123;</span><br><span class="line">	while（n--）&#123;</span><br><span class="line">		yield；</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">for (const x of foo(3))&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line">//0</span><br><span class="line">//1</span><br><span class="line">//2</span><br></pre></td></tr></table></figure></li>
+<li><p>使用yield实现输入和输出</p>
+<ol>
+<li>yield可以作为函数的中间参数使用。上一次生成器暂停的yield关键字会接收到传给next（）方法的第一个值。（第一次调用next()传入的值不会被使用，因为第一次是开始执行生成器函数）（可以同时用于输入和输出）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function *foo（）&#123;</span><br><span class="line">	return yield &quot;foo&quot;</span><br><span class="line">&#125;</span><br><span class="line">let bar = foo()</span><br><span class="line">console.log(bar.next());		//&#123;done:false, value:&#x27;foo&#x27;&#125;</span><br><span class="line">console.log(bar.next(&quot;bar&quot;))	//&#123;done:true, value:&#x27;bar&#x27;&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>产生可迭代对象</p>
+<ol>
+<li>yield的值是关联迭代器返回done:true时的value属性。对于普通迭代器来说，这个值时undefined，对于生成器函数产生的迭代器来说，这个值就是生成器函数返回的值。</li>
+<li>可以使用*增强yield的行为，让它能够迭代一个可迭代对象</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function *foo()&#123;</span><br><span class="line">	yield *[1,2]</span><br><span class="line">	yield *[3,4]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(const x of foo())&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br><span class="line">//4</span><br></pre></td></tr></table></figure></li>
+<li><p>使用yield实现递归算法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function *nTimes(n)&#123;</span><br><span class="line">	if(n&gt;0)&#123;</span><br><span class="line">		yield *nTimes(n-1)</span><br><span class="line">		yield n-1</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">for(const x of nTimes(5))&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" data-id="ckwwutjrl0001w4udfl2h4jcb" data-title="Js学习笔记06迭代器与生成器" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记05集合引用类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-12-07T01:45:58.432Z" itemprop="datePublished">2021-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记05集合引用类型Object</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><ol>
+<li><h5 id="两种创建方式"><a href="#两种创建方式" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
+<li>new Object</li>
+<li>使用对象字面量{name:’a’}</li>
+</ol>
+</li>
+<li><h5 id="关于定义对象的“-”出现的地方"><a href="#关于定义对象的“-”出现的地方" class="headerlink" title="关于定义对象的“{”出现的地方"></a>关于定义对象的“{”出现的地方</h5><ol>
+<li>出现在表达式上下文中（期待返回值的上下文中），赋值操作符表示后面要期待一个值，因此在左大括号表达一个表达式的开始。</li>
+<li>出现在语句上下文中，比如if语句的条件后面，则表示一个语句块的开始</li>
+</ol>
+</li>
+<li><h5 id="属性一般是使用点语法来存取的，例如obj-name-“pa”"><a href="#属性一般是使用点语法来存取的，例如obj-name-“pa”" class="headerlink" title="属性一般是使用点语法来存取的，例如obj.name=“pa”"></a>属性一般是使用点语法来存取的，例如obj.name=“pa”</h5><p>注意：也可以使用中括号存取，例如obj[“name”]=”pa”使用中括号的优点在于如果属性名中包含会导致语法错误的字符，只用中括号可以避免这一点。（fs优化对象值的存取）</p>
+</li>
+<li><h5 id="属性值可以是字符串或数值-数值会自动转为字符串"><a href="#属性值可以是字符串或数值-数值会自动转为字符串" class="headerlink" title="属性值可以是字符串或数值(数值会自动转为字符串)"></a>属性值可以是字符串或数值(数值会自动转为字符串)</h5></li>
+</ol>
+<h1 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h1><ol>
+<li><h5 id="两种创建方式-1"><a href="#两种创建方式-1" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
+<li>使用new Array()来创建<ol>
+<li>可以传入一个数值，然后length属性就会自动设置成这个值。配合fill函数可以创建一个全部为某一个数的数组</li>
+<li>也可以传入要保存的元素</li>
+</ol>
+</li>
+<li>使用数组字面量</li>
+</ol>
+</li>
+<li><h5 id="es6新增的创建数组的方法。"><a href="#es6新增的创建数组的方法。" class="headerlink" title="es6新增的创建数组的方法。"></a>es6新增的创建数组的方法。</h5><ol>
+<li>from()用于将类数组结构转化为数组<ol>
+<li>第一个参数但是任何可迭代结构</li>
+<li>第二个参数可以选择映射函数的参数，这个函数可以直接增强新数组的值</li>
+<li>第三个参数用于指定映射函数中this的值</li>
+</ol>
+</li>
+<li>of()用于将一组参数转换为数组实例</li>
+</ol>
+</li>
+</ol>
+<h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><ol>
+<li><h5 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li><p>使用new Map()创建一个空映射</p>
+<p>可以给这个构造函数传入一个可迭代对象。需要包含键值对数组。可迭代对象中的每一个键值对都会按照迭代顺序插入到新实例对象中</p>
+</li>
+</ol>
+</li>
+<li><h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ol>
+<li>set()添加键值对</li>
+<li>get()查找键对应的值</li>
+<li>has()查询是否有这个键</li>
+<li>delete()删除某个键值对</li>
+<li>clear()删除所有键值对</li>
+</ol>
+</li>
+<li><h5 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h5><ol>
+<li>Object只能使用数值。字符串或者符号作为键。</li>
+<li>Map可以使用任何JavaScript对象数据类型作为键</li>
+<li>在映射中作为键和值对象或其他集合类型，在自己的内容被修改时，映射关系不会改变。</li>
+</ol>
+</li>
+<li><h5 id="顺序与迭代"><a href="#顺序与迭代" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
+<li>映射（map）实例可以提供一个迭代器(Iterator)可以通过entries()方法或者Symbol.iterator属性取得这个迭代器。<ol>
+<li>for(let pair of m.entries())</li>
+<li>for(let pair of m[Symbol.iterator])</li>
+<li>键和值在迭代器遍历的时候是可以修改的，但在映射内部是不可修改的。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="Weak-Map"><a href="#Weak-Map" class="headerlink" title="Weak Map"></a>Weak Map</h1><ol>
+<li><h5 id="创建方式-1"><a href="#创建方式-1" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li>使用new WeakMap()关键字实例化一个空的弱映射</li>
+</ol>
+</li>
+<li><h5 id="弱映射中的键只能是object或者继承自object的类型，值没有限制"><a href="#弱映射中的键只能是object或者继承自object的类型，值没有限制" class="headerlink" title="弱映射中的键只能是object或者继承自object的类型，值没有限制"></a>弱映射中的键只能是object或者继承自object的类型，值没有限制</h5></li>
+<li><h5 id="操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置"><a href="#操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置" class="headerlink" title="操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置"></a>操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置</h5></li>
+<li><h5 id="使用弱映射"><a href="#使用弱映射" class="headerlink" title="使用弱映射"></a>使用弱映射</h5><ol>
+<li>私有变量<ol>
+<li>私有变量会储存在弱映射中，以对象实例为键，以私有成员的字段为值</li>
+</ol>
+</li>
+<li>DOM节点元数据<ol>
+<li>因为WeakMap实例不会妨碍垃圾回收机制，所以非常适合保存关联元数据。</li>
+<li>当节点从DOM树种被删除后，垃圾回收程序会立即释放内存。（假设没有其他地方引用这个对象）</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"><a href="#因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。" class="headerlink" title="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"></a>因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。</h5></li>
+<li><h5 id="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"><a href="#弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。" class="headerlink" title="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"></a>弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。</h5></li>
+</ol>
+<h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><ol>
+<li><h5 id="创建方式-2"><a href="#创建方式-2" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li>使用new Set()关键字实例化一个空的集合<ol>
+<li>可以传入一个可迭代对象，其中包含需要插入到集合的元素。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="基本API"><a href="#基本API" class="headerlink" title="基本API"></a>基本API</h5><ol>
+<li>add()增加一个值</li>
+<li>has()查询一个值</li>
+<li>size()取得元素数量</li>
+<li>delete()/clear()删除值</li>
+</ol>
+</li>
+<li><h5 id="Set可以包含任何JavaScript数据类型作为值"><a href="#Set可以包含任何JavaScript数据类型作为值" class="headerlink" title="Set可以包含任何JavaScript数据类型作为值"></a>Set可以包含任何JavaScript数据类型作为值</h5><ol>
+<li>用作值的对象和其他集合类型在自身改变时不会影响。</li>
+</ol>
+</li>
+<li><h5 id="顺序与迭代-1"><a href="#顺序与迭代-1" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
+<li><p>Set会维护值插入时的顺序，因此支持顺序迭代</p>
+</li>
+<li><p>set实例可以提供一个迭代器(Iterator)，能以插入顺序生成集合内容。</p>
+</li>
+<li><p>可以通过values()方法以及其别名方法keys()</p>
+<p>for(let v of s.values())</p>
+</li>
+<li><p>或者Symbol.ietrator属性，他引用values()取得这个迭代器</p>
+<p>for(let v of s[Symbol.iterator])</p>
+</li>
+<li><p>set的entires()方法返回一个迭代器，可以按照插入顺序产生包含两个元素的数组，这两个元素是集合中每个值的重复出现。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h1><ol>
+<li><h5 id="创建方式-3"><a href="#创建方式-3" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li>使用new WeakSet()关键字实例化一个空的弱集合<ol>
+<li>可以接受一个可迭代的对象，其中需要包含有效的值</li>
+<li>弱集合中的值只能是object或继承自object类型</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="基本API-1"><a href="#基本API-1" class="headerlink" title="基本API"></a>基本API</h5><ol>
+<li>add()增加一个值</li>
+<li>has()查询一个值</li>
+<li>delete()删除一个值</li>
+</ol>
+</li>
+<li><h5 id="弱集合中的值不属于正式引用，不会阻止垃圾回收"><a href="#弱集合中的值不属于正式引用，不会阻止垃圾回收" class="headerlink" title="弱集合中的值不属于正式引用，不会阻止垃圾回收"></a>弱集合中的值不属于正式引用，不会阻止垃圾回收</h5></li>
+<li><h5 id="使用弱集合"><a href="#使用弱集合" class="headerlink" title="使用弱集合"></a>使用弱集合</h5><ol>
+<li>给对象打标签<ol>
+<li>创建WeakSet实例，将需要被打上标签的值放进去，如果这个值的引用被删除了，那么weakSet中对应的值也会被回收。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>不可迭代值</p>
+<ol>
+<li>weakSet中的值可以随时销毁，因此没有必要迭代。</li>
+</ol>
+</li>
+</ol>
+<h1 id="迭代与扩展操作"><a href="#迭代与扩展操作" class="headerlink" title="迭代与扩展操作"></a>迭代与扩展操作</h1><ol>
+<li><h5 id="有4中原生集合类型定义了默认迭代器"><a href="#有4中原生集合类型定义了默认迭代器" class="headerlink" title="有4中原生集合类型定义了默认迭代器"></a>有4中原生集合类型定义了默认迭代器</h5><ol>
+<li>Array</li>
+<li>所有定型数组</li>
+<li>Map</li>
+<li>Set</li>
+</ol>
+</li>
+<li><h5 id="这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。"><a href="#这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。" class="headerlink" title="这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。"></a>这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。</h5></li>
+<li><h5 id="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"><a href="#对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。" class="headerlink" title="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"></a>对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。</h5></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" data-id="ckwwutjrg0000w4ud3czo60jk" data-title="Js学习笔记05集合引用类型Object" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记04基本引用类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-12-06T14:32:44.439Z" itemprop="datePublished">2021-12-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记03变量、作用域与内存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
+<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
+</li>
+<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
+<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
+</li>
+<li><p>模式：</p>
+<ol>
+<li>i：忽略大小写</li>
+<li>g：全局查找</li>
+<li>m：多行查找</li>
+</ol>
+</li>
+<li><p>实例方法</p>
+<ol>
+<li><p>主要方法使exec()</p>
+<ol>
+<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
+<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
+</li>
+<li><p>没找到则返回null</p>
+</li>
+<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
+</li>
+<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
+</li>
+<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
+</li>
+</ol>
+</li>
+<li><p>还有一个是text（）</p>
+<ol>
+<li>只检测是否匹配，不关心为什么。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
+<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
+</ol>
+<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
+<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
+<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
+<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
+</ol>
+<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
+<li>创建方法直接使用数值赋值即可</li>
+<li>实例方法<ol>
+<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
+<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
+<li>isInteger()用于鉴别一个数组的值是否是整数</li>
+<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
+</ol>
+</li>
+</ol>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
+<li><p>JavaScript字符</p>
+<ol>
+<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
+<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
+<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
+<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
+<li>codePointAt()方法可以突破16位码元的限制</li>
+</ol>
+</li>
+<li><p>字符串操作方法</p>
+<ol>
+<li>字符串截取<ol>
+<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
+<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
+<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>字符串位置方法</p>
+<ol>
+<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
+<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
+</ol>
+<p>都接受第二个参数表示开始搜索的位置。</p>
+</li>
+<li><p>字符串包含方法</p>
+<ol>
+<li>startWith()    开始于索引0的匹配项</li>
+<li>endWith()      结束于字符串末尾的匹配项</li>
+<li>includes()      任意位置的匹配项</li>
+</ol>
+</li>
+<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
+</li>
+<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
+</li>
+<li><p>padStart()和padEnd()</p>
+<ol>
+<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
+</ol>
+</li>
+<li><p>字符串迭代与解构，for-of迭代</p>
+</li>
+<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
+</li>
+<li><p>字符串模式匹配方法</p>
+<ol>
+<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
+<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
+</ol>
+</li>
+</ol>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" data-id="ckwwutjrn0003w4ud38xaa7h5" data-title="Js学习笔记03变量、作用域与内存" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-js学习笔记03变量、作用域与内存" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" class="article-date">
@@ -832,270 +1475,6 @@
 
 
   
-    <article id="post-Vue源码笔记04" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/" class="article-date">
-  <time class="dt-published" datetime="2021-12-05T06:54:28.242Z" itemprop="datePublished">2021-12-05</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/">Vue源码学习笔记04</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h3><p>简单来说，就是一个封装了一个或多个具体功能的组件，它与外界的联系只有简单的props，这样可以保证这个组件与其他组件的耦合度最低，可复用性强，并且不容易污染其他组件。</p>
-<h3 id="高阶函数和Mixins"><a href="#高阶函数和Mixins" class="headerlink" title="高阶函数和Mixins"></a>高阶函数和Mixins</h3><p>高阶函数不会污染外部函数，可以在其他组件中被复用。如果确定组件只用在这个项目中，他只处理非常具体的任务，那么使用mixin也是可以的。</p>
-<p>由于高阶函数与其他组件耦合度低，也使得它更好的进行测试，可以分别测试增强组件和内部组件，相反，使用Mixin时，你只能测试一个组件。</p>
-<p>然而，有时候Mixin比高阶函数更容易掌握，当你使用了太多的高阶组件时，组件的层级会变得复杂，使得难以定位错误，还有搞清楚它们的层级关系，和他们之间的影响。而且，当你多层嵌套时，你需要注意属性需要经过多层传递，嵌套多层组件也会带来一些性能开销，使用mixin的话往往能节省这些开销，所以要视情况使用。</p>
-<h3 id="高阶函数的实现"><a href="#高阶函数的实现" class="headerlink" title="高阶函数的实现"></a>高阶函数的实现</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;smart-avatar username=&quot;vuejs&quot;&gt;&lt;/smart-avatar&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    // mock API</span><br><span class="line">    function fetchURL (username, cb) &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            // hard coded, bonus: exercise: make it fetch from gravatar!</span><br><span class="line">            cb(&#x27;https://avatars3.githubusercontent.com/u/6128107?v=4&amp;s=200&#x27;)</span><br><span class="line">        &#125;, 500)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const Avatar = &#123;</span><br><span class="line">        props: [&#x27;src&#x27;],</span><br><span class="line">        template: `&lt;img :src=&quot;src&quot;&gt;`</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //高阶组件</span><br><span class="line">    function withAvatarURL (InnerComponent) &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            props: &#123;</span><br><span class="line">                username: String</span><br><span class="line">            &#125;,</span><br><span class="line">            data () &#123;</span><br><span class="line">                return &#123;</span><br><span class="line">                    url: &#x27;http://via.placeholder.com/200x200&#x27;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            created () &#123;</span><br><span class="line">                //在这里进行请求</span><br><span class="line">                fetchURL(this.username, (url) =&gt; &#123; this.url = url &#125;)</span><br><span class="line">            &#125;,</span><br><span class="line">            render (h) &#123;</span><br><span class="line">                //渲染一个image标签，第二个参数给src传值</span><br><span class="line">                return h(InnerComponent, &#123; props: &#123; src: this.url &#125; &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const SmartAvatar = withAvatarURL(Avatar)</span><br><span class="line"></span><br><span class="line">    new Vue(&#123;</span><br><span class="line">        el: &#x27;#app&#x27;,</span><br><span class="line">        components: &#123; SmartAvatar &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p> 参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-<p> 参考github：<a target="_blank" rel="noopener" href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/" data-id="ckwsw6vpk0000vkudfipshsxz" data-title="Vue源码学习笔记04" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue源码笔记03" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/" class="article-date">
-  <time class="dt-published" datetime="2021-12-04T04:32:05.151Z" itemprop="datePublished">2021-12-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/">Vue源码学习笔记03</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="Render-Function"><a href="#Render-Function" class="headerlink" title="Render Function"></a>Render Function</h3><p>渲染函数是组成完整的响应性渲染系统的另外一半，Vue的template实际上是通过渲染函数渲染出来的。</p>
-<p>在Vue上下文中，当我们第一次渲染一个Vue应用时，会将template放到渲染函数进行编译。Render函数实际上是一个返回虚拟DOM的函数，然后Vue基于虚拟DOM生成真实DOM。</p>
-<p>在后续的产生虚拟DOM的过程本质上是调用渲染函数，因为渲染函数和所有的data属性有依赖关系，在Vue中，这些data属性是具有响应性的，所有这些data属性会帮助这个组件的渲染函数收集依赖，如果这些依赖关系中的任何一个发生变化，将会再次调用渲染函数，它会返回一个新的虚拟DOM，新的虚拟DOM会和旧的虚拟DOM进行比较，最后，把最少量的更改应用到真实DOM中。</p>
-<h3 id="Render-Function-API"><a href="#Render-Function-API" class="headerlink" title="Render Function API"></a>Render Function API</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export default &#123;</span><br><span class="line">    render (h) &#123;</span><br><span class="line">        return h(&#x27;div&#x27;, &#123;&#125;, [...])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p> render函数接收一个参数h（hyper script超文本脚本），h需要三个参数，第一个参数是元素类型，第二个参数是数据对象（可选），第三个参数是一个数组表示子节点。它会返回这个虚拟DOM树的顶层元素，以便返回整个树。</p>
-<h3 id="虚拟DOM（Virtual-DOM）"><a href="#虚拟DOM（Virtual-DOM）" class="headerlink" title="虚拟DOM（Virtual DOM）"></a>虚拟DOM（Virtual DOM）</h3><p> 通常情况下，调用真实DOM的开销十分的大，因为真实DOM具有非常多的属性，并且它在底层实现也十分的复杂。所以很多时候我们会说直接修改DOM是比较缓慢的。虚拟DOM的结构十分简单，因此它的开销会比真实DOM小很多</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Virtual DOM</span><br><span class="line"></span><br><span class="line">//tag标签名；data数据对象，如果没有数据对象可以忽略</span><br><span class="line">//children可以拥有子虚拟节点，这样就构成了一个虚拟DOM树</span><br><span class="line">&#123; tag: &#x27;div&#x27;, data:&#123; attrs:&#123;&#125;, ...&#125;, children:[] &#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>虚拟DOM的本质是用轻量的Javascript数据格式来表示真实DOM在特定时间的外在表现，我们每次更新信息，先构造一个新的虚拟DOM，我们先计算差异，然后将这些更改应用到DOM上。</p>
-<h3 id="响应性和Render-Function整合"><a href="#响应性和Render-Function整合" class="headerlink" title="响应性和Render Function整合"></a>响应性和Render Function整合</h3><p><img src="https://img-blog.csdnimg.cn/82151c8e6d0d47058fd61a0cc8a9d6e0.png?x-oss-process=image/watermark,type_ZHJvaWRzYW5zZmFsbGJhY2s,shadow_50,text_Q1NETiBAam9rZXJfMjE=,size_20,color_FFFFFF,t_70,g_se,x_16" alt="img"></p>
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p> 每一个组件都有一个渲染函数，它实际上包装在我们之前实现的autorun函数（笔记1）中，当数据发生变化的时候，观察者（wathcer）通过调用data属性中的getter收集依赖项，并监听setter，将收集到的改变通知到渲染函数，渲染函数再生成一个新的虚拟DOM。只要我们依赖的渲染属性发生变化，就会不断循环上述步骤。</p>
-<p>每个组件都有自己的自动循环渲染，组件树有许多组件构成，每个组件都只负责自己的依赖。</p>
-<p>由于你可以更改数据依赖关系，你的数据可以再任何地方发生改变，但是因为么个组件都只负责自己的依赖，再整个组件树中我们确切的知道哪些组件受到哪些数据的影响，所以，它有一个精确的依赖跟踪系统，不会造成过多的组件发生不必要的重新渲染。</p>
-<p>相比于React自上而下的渲染模型，Vue可以说省去了一部分优化的工作。但是也付出了一部分将数据转换为getter和setter的开销。因此有了React上限高（优化做得好的话），下限低（优化不好），而Vue下限高（一部分优化工作自动完成），上限低（相比React开销更大一些）。但是在实际应用中，两者的差距其实很小，只有在极端情况下才会出现较大偏差。</p>
-<h3 id="动态渲染标签"><a href="#动态渲染标签" class="headerlink" title="动态渲染标签"></a>动态渲染标签</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;example :tags=&quot;[&#x27;h1&#x27;, &#x27;h2&#x27;, &#x27;h3&#x27;]&quot;&gt;&lt;/example&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">//定义一个新的Vue组件，组件就是自定义元素，</span><br><span class="line">//第一个参数为组件名，第二个参数为可选的函数部分，第三个参数为template写组件内容</span><br><span class="line">Vue.component(&#x27;example&#x27;, &#123;</span><br><span class="line">    //表示组件是纯函数式组件，只根据props计算渲染输出，本身不包含不改变仍和state</span><br><span class="line">  functional: true,</span><br><span class="line">  props: &#123;</span><br><span class="line">    tags: &#123;</span><br><span class="line">      type: Array,</span><br><span class="line">      //自定义验证函数</span><br><span class="line">      validator (arr) &#123;return !!arr.length &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  //渲染函数</span><br><span class="line">  render: (h, context) =&gt; &#123;</span><br><span class="line">    const tags = context.props.tags</span><br><span class="line">    //hyper script，接受第一个参数为tagname标签名</span><br><span class="line">    //第二个参数为数据对象（可选），第三个参数为子节点</span><br><span class="line">    return h(&#x27;div&#x27;, context.data, tags.map((tag, index) =&gt; h(tag, index)))</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">new Vue(&#123; el: &#x27;#app&#x27; &#125;)</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h3 id="更进一步，动态渲染组件"><a href="#更进一步，动态渲染组件" class="headerlink" title="更进一步，动态渲染组件"></a>更进一步，动态渲染组件</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;example :ok=&quot;ok&quot;&gt;&lt;/example&gt;</span><br><span class="line">  &lt;button @click=&quot;ok = !ok&quot;&gt;&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">const Foo = &#123;</span><br><span class="line">  functional: true,</span><br><span class="line">  render: h =&gt; h(&#x27;div&#x27;, &#x27;foo&#x27;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Bar = &#123;</span><br><span class="line">  functional: true,</span><br><span class="line">  render: h =&gt; h(&#x27;div&#x27;, &#x27;bar&#x27;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Vue.component(&#x27;example&#x27;, &#123;</span><br><span class="line">  functional: true,</span><br><span class="line">  props: &#123;</span><br><span class="line">    ok: Boolean</span><br><span class="line">  &#125;,</span><br><span class="line">    //由于函数式组件中没有this，参数需要靠context来传递;</span><br><span class="line">  render: (h, context) =&gt; h(context.props.ok ? Foo : Bar)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &#x27;#app&#x27;,</span><br><span class="line">  data: &#123;</span><br><span class="line">    ok: true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>context 参数如下:</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">props：提供所有 prop 的对象</span><br><span class="line">children: VNode 子节点的数组</span><br><span class="line">slots: 一个函数，返回了包含所有插槽的对象</span><br><span class="line">scopedSlots: (2.6.0+) 一个暴露传入的作用域插槽的对象。也以函数形式暴露普通插槽。</span><br><span class="line">data：传递给组件的整个数据对象，作为 createElement 的第二个参数传入组件</span><br><span class="line">parent：对父组件的引用</span><br><span class="line">listeners: (2.3.0+) 一个包含了所有父组件为当前组件注册的事件监听器的对象。这是data.on 的一个别名。</span><br><span class="line">injections: (2.3.0+) 如果使用了 inject 选项，则该对象包含了应当被注入的属性。</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p> 参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-<p>参考github：<a target="_blank" rel="noopener" href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/" data-id="ckwrbml4n0001zgud83jm0p1p" data-title="Vue源码学习笔记03" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue源码笔记02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/" class="article-date">
-  <time class="dt-published" datetime="2021-12-04T04:29:02.681Z" itemprop="datePublished">2021-12-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/">Vue源码学习笔记02</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h2 id="编写一个简单插件"><a href="#编写一个简单插件" class="headerlink" title="编写一个简单插件"></a>编写一个简单插件</h2><p>Vue中有一个强大的功能就是提供插件的使用:</p>
-<h3 id="Vue-use-Plugin"><a href="#Vue-use-Plugin" class="headerlink" title="Vue.use(Plugin)"></a>Vue.use(Plugin)</h3><p>通过简单的use命令就可以调用各种各样的插件，极大方便了我们的日常开发。那么如何编写一个插件呢？</p>
-<p>插件（Plugin）本质上就是一个函数，它接受一个参数是Vue构造器，另一个参数是可选的选项对象options。<br>另一个需要了解的技术是Vue.mixin:</p>
-<h3 id="Vue-mixin-options"><a href="#Vue-mixin-options" class="headerlink" title="Vue.mixin(options)"></a>Vue.mixin(options)</h3><p>mixins本质上是一段可重复利用的代码段，Vue.mixin(options)是一个全局的api，所以它可以应用到所有实例之中。注意！因为它可以混入到所有实例中，所以我们在使用它的时候要格外的小心。</p>
-<p>如果你想使用一些全局上的功能，可能会用到mixin，但是如果你需要反复调用mixin，最好的办法是将其用插件接口包装，这样插件会防止被反复应用。<br>最后一个知识点是$options:</p>
-<h3 id="options"><a href="#options" class="headerlink" title="$options"></a>$options</h3><p>$options是一个对象，他会收集包括</p>
-<p>1.全局mixins</p>
-<p>2.组件自定义的mixin</p>
-<p>3.你传递给他的选项（options）</p>
-<p>4.你添加到组件的任何自定义项<br>利用上面说到的知识，就可以编写一个简单的插件了：</p>
-<pre><code>const RulesPlugin = &#123;
-    //加载vue插件，稍后使用Vue.use注册它
-  install (Vue) &#123;
-      //全局混入，注意，它将影响之后创建的每一个vue实例！
-    Vue.mixin(&#123;
-        //在created生命周期钩子处注册函数
-      created () &#123;
-          //在data外定义的属性和方法可以用$options调用
-        if (this.$options.hasOwnProperty(&#39;rules&#39;)) &#123;
-          const rules = this.$options.rules
-          Object.keys(rules).forEach(key =&gt; &#123;
-            const rule = rules[key]
-              //监听rules对象中的每一个属性变化
-            this.$watch(key, newValue =&gt; &#123;
-              const result = rule.validate(newValue)
-              if (!result) &#123;
-                console.log(rule.message)
-              &#125;
-            &#125;)
-          &#125;)
-        &#125;
-      &#125;
-    &#125;)
-  &#125;
-&#125;
- 
-Vue.use(RulesPlugin)
-</code></pre>
-<p>这个插件的作用是监听一个Vue实例中data的属性值，当其中的属性值发生改变的时候，就会检查对应的规则，并进行校验。</p>
-<pre><code>const vm = new Vue(&#123;
-  data: &#123; foo: 10,bar :10 &#125;,
-  rules: &#123;
-    foo: &#123;
-      validate: value =&gt; value &gt; 1,
-      message: &#39;foo must be greater than one&#39;
-    &#125;,
-    bar: &#123;
-      validate: value =&gt; value &gt; 1,
-      message: &#39;gun yuan dian&#39;
-    &#125;
-  &#125;
-&#125;)
- 
-vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
-</code></pre>
-<p> 参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-<p>参考github：<a target="_blank" rel="noopener" href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/" data-id="ckwrbml4i0000zgud2oz82akt" data-title="Vue源码学习笔记02" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue源码笔记01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/" class="article-date">
-  <time class="dt-published" datetime="2021-12-04T03:39:42.030Z" itemprop="datePublished">2021-12-04</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/">Vue源码学习笔记01</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h3 id="Vue响应式原理"><a href="#Vue响应式原理" class="headerlink" title="Vue响应式原理"></a>Vue响应式原理</h3><p>从原理上来讲vue是利用了Object的defineProperty的属性，它把我们放进去的data中每一个属性都设置了getter和setter，这样当data的属性值更新后，我们就会收到通知，并可以通知那些需要更新的地方去进行更新。</p>
-<h3 id="getter-amp-amp-setter简单实现"><a href="#getter-amp-amp-setter简单实现" class="headerlink" title="getter&amp;&amp;setter简单实现"></a>getter&amp;&amp;setter简单实现</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//检查是否为对象</span><br><span class="line">    function isObject (obj)&#123;</span><br><span class="line">        return typeof obj === &#x27;object&#x27;</span><br><span class="line">        &amp;&amp; !Array.isArray(obj)</span><br><span class="line">        &amp;&amp; obj !==null</span><br><span class="line">        &amp;&amp; obj !==undefined</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    function convert (obj)&#123;</span><br><span class="line">        if(!isObject(obj))&#123;</span><br><span class="line">            throw  new TypeError()</span><br><span class="line">        &#125;</span><br><span class="line">        //为每个对象的键值对添加getter和setter</span><br><span class="line">        Object.keys(obj).forEach(key=&gt;&#123;</span><br><span class="line">            //提供变量存储键对应的值</span><br><span class="line">            let internalValue = obj[key]</span><br><span class="line">            Object.defineProperty(obj,key,&#123;</span><br><span class="line">                get()&#123;</span><br><span class="line">                    console.log(`getting key &quot;$&#123;key&#125;&quot;: $&#123;internalValue&#125;`)</span><br><span class="line">                    return internalValue</span><br><span class="line">                &#125;,</span><br><span class="line">                set(newValue)&#123;</span><br><span class="line">                    console.log(`setting key &quot;$&#123;key&#125;&quot; to: $&#123;newValue&#125;`)</span><br><span class="line">                    internalValue = newValue</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h3 id="依赖跟踪"><a href="#依赖跟踪" class="headerlink" title="依赖跟踪"></a>依赖跟踪</h3><p>使用上面的getter和setter我们模拟了对象的响应式，那么问题来了，假设我们有一个对象，其中有个属性added：233，我们在一个函数中使用了这个added做一个加法，得到了一个结果，但是我们修改了added的值，并期望函数的结果也会随之改变，这要怎么实现呢？、</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">// a class representing a dependency</span><br><span class="line">// exposing it on window is necessary for testing</span><br><span class="line">window.Dep = class Dep &#123;</span><br><span class="line">    constructor () &#123;</span><br><span class="line">        //设置一个变量存储</span><br><span class="line">      this.subscribers = new Set()</span><br><span class="line">    &#125;</span><br><span class="line">    //跟踪函数依赖，类似于在此处插眼</span><br><span class="line">    depend () &#123;</span><br><span class="line">      if (activeUpdate) &#123;</span><br><span class="line">        // register the current active update as a subscriber</span><br><span class="line">          //将跟踪的函数加入到set表中</span><br><span class="line">        this.subscribers.add(activeUpdate)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    //重新执行函数，在刚刚插眼的函数中重新执行该函数，达到更新的效果</span><br><span class="line">    notify () &#123;</span><br><span class="line">      // run all subscriber functions</span><br><span class="line">        //set列表中的每一个函数都重新执行</span><br><span class="line">      this.subscribers.forEach(subscriber =&gt; subscriber())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let activeUpdate</span><br><span class="line"></span><br><span class="line">function autorun (update) &#123;</span><br><span class="line">    //用一个全局变量储存函数（重点！）,这样可以让类实例在外部访问这个函数</span><br><span class="line">  function wrappedUpdate () &#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = null</span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>简单来讲，就是创建一个类，它提供一种类似“插眼”的功能（depend ()），我们在需要跟踪的函数中插入这个眼，当我们需要它更新时，再调用这个眼（notify ()）重新执行一遍函数，达到更新结果的目的。</p>
-<h3 id="迷你观察者"><a href="#迷你观察者" class="headerlink" title="迷你观察者"></a>迷你观察者</h3><p>我们把依赖追踪和getter&amp;&amp;setter结合起来，就可以完成我们需要的功能了。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">function isObject (obj) &#123;</span><br><span class="line">    return typeof obj === &#x27;object&#x27;</span><br><span class="line">      &amp;&amp; !Array.isArray(obj)</span><br><span class="line">      &amp;&amp; obj !== null</span><br><span class="line">      &amp;&amp; obj !== undefined</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function observe(obj) &#123;</span><br><span class="line">    if(!isObject(obj))&#123;</span><br><span class="line">        throw new TypeError()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Object.keys(obj).forEach(key=&gt;&#123;</span><br><span class="line">        let internalValue = obj[key]</span><br><span class="line">        let dep = new Dep()</span><br><span class="line">        Object.defineProperty(obj,key,&#123;</span><br><span class="line">            get () &#123;</span><br><span class="line">                //插眼</span><br><span class="line">                dep.depend()</span><br><span class="line">                return internalValue</span><br><span class="line">            &#125;,</span><br><span class="line">            set(v) &#123;</span><br><span class="line">                let ifValueChange = v !==internalValue</span><br><span class="line">                if(ifValueChange)&#123;</span><br><span class="line">                    internalValue = v</span><br><span class="line">                    //检测到数值变化重新调用该函数</span><br><span class="line">                    dep.notify()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line">window.Dep = class Dep &#123;</span><br><span class="line">  constructor () &#123;</span><br><span class="line">    this.subscribers = new Set()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  depend () &#123;</span><br><span class="line">    if (activeUpdate) &#123;</span><br><span class="line">      // register the current active update as a subscriber</span><br><span class="line">      this.subscribers.add(activeUpdate)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notify () &#123;</span><br><span class="line">    // run all subscriber functions</span><br><span class="line">    this.subscribers.forEach(subscriber =&gt; subscriber())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let activeUpdate</span><br><span class="line"></span><br><span class="line">function autorun (update) &#123;</span><br><span class="line">  function wrappedUpdate () &#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = null</span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>可以看到我们把插眼这个动作放到了getter里面，把重新调用放到了setter里面，这样我们就可以监听对象的变化，一旦它的属性值发生改变，就会触发重新调用，这样就达到了监听对象，并实时更新与他有关的值，即Vue响应式的简单原理。</p>
-<p>参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-<p>参考github：<a target="_blank" rel="noopener" href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/" data-id="ckwr9te8e00009wud6udtegpl" data-title="Vue源码学习笔记01" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
@@ -1132,23 +1511,23 @@ vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
       <ul>
         
           <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">js学习笔记07对象、类域面向对象编程</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">Js学习笔记06迭代器与生成器</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记05集合引用类型Object</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记03变量、作用域与内存</a>
+          </li>
+        
+          <li>
             <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/">Js学习笔记03变量、作用域与内存</a>
-          </li>
-        
-          <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Webpack学习笔记02</a>
-          </li>
-        
-          <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/">Js学习笔记01Html中的JavaScript</a>
-          </li>
-        
-          <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/">Js学习笔记02语言基础</a>
-          </li>
-        
-          <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/06/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B005/">Vue源码学习笔记05</a>
           </li>
         
       </ul>

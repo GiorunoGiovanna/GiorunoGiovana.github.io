@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Js学习笔记05集合引用类型Object | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Object 两种创建方式 new Object 使用对象字面量{name:’a’}   关于定义对象的“{”出现的地方 出现在表达式上下文中（期待返回值的上下文中），赋值操作符表示后面要期待一个值，因此在左大括号表达一个表达式的开始。 出现在语句上下文中，比如if语句的条件后面，则表示一个语句块的开始   属性一般是使用点语法来存取的，例如obj.name&#x3D;“pa”注意：也可以使用中括号存取，例">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Js学习笔记05集合引用类型Object">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="Object 两种创建方式 new Object 使用对象字面量{name:’a’}   关于定义对象的“{”出现的地方 出现在表达式上下文中（期待返回值的上下文中），赋值操作符表示后面要期待一个值，因此在左大括号表达一个表达式的开始。 出现在语句上下文中，比如if语句的条件后面，则表示一个语句块的开始   属性一般是使用点语法来存取的，例如obj.name&#x3D;“pa”注意：也可以使用中括号存取，例">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-07T01:45:58.432Z">
+<meta property="article:modified_time" content="2021-12-07T12:53:16.214Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/GiorunoGiovana.github.io/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/GiorunoGiovana.github.io/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/GiorunoGiovana.github.io/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/GiorunoGiovana.github.io/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/GiorunoGiovana.github.io/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/GiorunoGiovana.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/GiorunoGiovana.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/GiorunoGiovana.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://giorunogiovanna.github.io/GiorunoGiovana.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-js学习笔记05集合引用类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-12-07T01:45:58.432Z" itemprop="datePublished">2021-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      Js学习笔记05集合引用类型Object
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><ol>
+<li><h5 id="两种创建方式"><a href="#两种创建方式" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
+<li>new Object</li>
+<li>使用对象字面量{name:’a’}</li>
+</ol>
+</li>
+<li><h5 id="关于定义对象的“-”出现的地方"><a href="#关于定义对象的“-”出现的地方" class="headerlink" title="关于定义对象的“{”出现的地方"></a>关于定义对象的“{”出现的地方</h5><ol>
+<li>出现在表达式上下文中（期待返回值的上下文中），赋值操作符表示后面要期待一个值，因此在左大括号表达一个表达式的开始。</li>
+<li>出现在语句上下文中，比如if语句的条件后面，则表示一个语句块的开始</li>
+</ol>
+</li>
+<li><h5 id="属性一般是使用点语法来存取的，例如obj-name-“pa”"><a href="#属性一般是使用点语法来存取的，例如obj-name-“pa”" class="headerlink" title="属性一般是使用点语法来存取的，例如obj.name=“pa”"></a>属性一般是使用点语法来存取的，例如obj.name=“pa”</h5><p>注意：也可以使用中括号存取，例如obj[“name”]=”pa”使用中括号的优点在于如果属性名中包含会导致语法错误的字符，只用中括号可以避免这一点。（fs优化对象值的存取）</p>
+</li>
+<li><h5 id="属性值可以是字符串或数值-数值会自动转为字符串"><a href="#属性值可以是字符串或数值-数值会自动转为字符串" class="headerlink" title="属性值可以是字符串或数值(数值会自动转为字符串)"></a>属性值可以是字符串或数值(数值会自动转为字符串)</h5></li>
+</ol>
+<h1 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h1><ol>
+<li><h5 id="两种创建方式-1"><a href="#两种创建方式-1" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
+<li>使用new Array()来创建<ol>
+<li>可以传入一个数值，然后length属性就会自动设置成这个值。配合fill函数可以创建一个全部为某一个数的数组</li>
+<li>也可以传入要保存的元素</li>
+</ol>
+</li>
+<li>使用数组字面量</li>
+</ol>
+</li>
+<li><h5 id="es6新增的创建数组的方法。"><a href="#es6新增的创建数组的方法。" class="headerlink" title="es6新增的创建数组的方法。"></a>es6新增的创建数组的方法。</h5><ol>
+<li>from()用于将类数组结构转化为数组<ol>
+<li>第一个参数但是任何可迭代结构</li>
+<li>第二个参数可以选择映射函数的参数，这个函数可以直接增强新数组的值</li>
+<li>第三个参数用于指定映射函数中this的值</li>
+</ol>
+</li>
+<li>of()用于将一组参数转换为数组实例</li>
+</ol>
+</li>
+</ol>
+<h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><ol>
+<li><h5 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li><p>使用new Map()创建一个空映射</p>
+<p>可以给这个构造函数传入一个可迭代对象。需要包含键值对数组。可迭代对象中的每一个键值对都会按照迭代顺序插入到新实例对象中</p>
+</li>
+</ol>
+</li>
+<li><h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ol>
+<li>set()添加键值对</li>
+<li>get()查找键对应的值</li>
+<li>has()查询是否有这个键</li>
+<li>delete()删除某个键值对</li>
+<li>clear()删除所有键值对</li>
+</ol>
+</li>
+<li><h5 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h5><ol>
+<li>Object只能使用数值。字符串或者符号作为键。</li>
+<li>Map可以使用任何JavaScript对象数据类型作为键</li>
+<li>在映射中作为键和值对象或其他集合类型，在自己的内容被修改时，映射关系不会改变。</li>
+</ol>
+</li>
+<li><h5 id="顺序与迭代"><a href="#顺序与迭代" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
+<li>映射（map）实例可以提供一个迭代器(Iterator)可以通过entries()方法或者Symbol.iterator属性取得这个迭代器。<ol>
+<li>for(let pair of m.entries())</li>
+<li>for(let pair of m[Symbol.iterator])</li>
+<li>键和值在迭代器遍历的时候是可以修改的，但在映射内部是不可修改的。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="Weak-Map"><a href="#Weak-Map" class="headerlink" title="Weak Map"></a>Weak Map</h1><ol>
+<li><h5 id="创建方式-1"><a href="#创建方式-1" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li>使用new WeakMap()关键字实例化一个空的弱映射</li>
+</ol>
+</li>
+<li><h5 id="弱映射中的键只能是object或者继承自object的类型，值没有限制"><a href="#弱映射中的键只能是object或者继承自object的类型，值没有限制" class="headerlink" title="弱映射中的键只能是object或者继承自object的类型，值没有限制"></a>弱映射中的键只能是object或者继承自object的类型，值没有限制</h5></li>
+<li><h5 id="操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置"><a href="#操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置" class="headerlink" title="操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置"></a>操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置</h5></li>
+<li><h5 id="使用弱映射"><a href="#使用弱映射" class="headerlink" title="使用弱映射"></a>使用弱映射</h5><ol>
+<li>私有变量<ol>
+<li>私有变量会储存在弱映射中，以对象实例为键，以私有成员的字段为值</li>
+</ol>
+</li>
+<li>DOM节点元数据<ol>
+<li>因为WeakMap实例不会妨碍垃圾回收机制，所以非常适合保存关联元数据。</li>
+<li>当节点从DOM树种被删除后，垃圾回收程序会立即释放内存。（假设没有其他地方引用这个对象）</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"><a href="#因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。" class="headerlink" title="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"></a>因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。</h5></li>
+<li><h5 id="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"><a href="#弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。" class="headerlink" title="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"></a>弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。</h5></li>
+</ol>
+<h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><ol>
+<li><h5 id="创建方式-2"><a href="#创建方式-2" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li>使用new Set()关键字实例化一个空的集合<ol>
+<li>可以传入一个可迭代对象，其中包含需要插入到集合的元素。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="基本API"><a href="#基本API" class="headerlink" title="基本API"></a>基本API</h5><ol>
+<li>add()增加一个值</li>
+<li>has()查询一个值</li>
+<li>size()取得元素数量</li>
+<li>delete()/clear()删除值</li>
+</ol>
+</li>
+<li><h5 id="Set可以包含任何JavaScript数据类型作为值"><a href="#Set可以包含任何JavaScript数据类型作为值" class="headerlink" title="Set可以包含任何JavaScript数据类型作为值"></a>Set可以包含任何JavaScript数据类型作为值</h5><ol>
+<li>用作值的对象和其他集合类型在自身改变时不会影响。</li>
+</ol>
+</li>
+<li><h5 id="顺序与迭代-1"><a href="#顺序与迭代-1" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
+<li><p>Set会维护值插入时的顺序，因此支持顺序迭代</p>
+</li>
+<li><p>set实例可以提供一个迭代器(Iterator)，能以插入顺序生成集合内容。</p>
+</li>
+<li><p>可以通过values()方法以及其别名方法keys()</p>
+<p>for(let v of s.values())</p>
+</li>
+<li><p>或者Symbol.ietrator属性，他引用values()取得这个迭代器</p>
+<p>for(let v of s[Symbol.iterator])</p>
+</li>
+<li><p>set的entires()方法返回一个迭代器，可以按照插入顺序产生包含两个元素的数组，这两个元素是集合中每个值的重复出现。</p>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h1><ol>
+<li><h5 id="创建方式-3"><a href="#创建方式-3" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
+<li>使用new WeakSet()关键字实例化一个空的弱集合<ol>
+<li>可以接受一个可迭代的对象，其中需要包含有效的值</li>
+<li>弱集合中的值只能是object或继承自object类型</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="基本API-1"><a href="#基本API-1" class="headerlink" title="基本API"></a>基本API</h5><ol>
+<li>add()增加一个值</li>
+<li>has()查询一个值</li>
+<li>delete()删除一个值</li>
+</ol>
+</li>
+<li><h5 id="弱集合中的值不属于正式引用，不会阻止垃圾回收"><a href="#弱集合中的值不属于正式引用，不会阻止垃圾回收" class="headerlink" title="弱集合中的值不属于正式引用，不会阻止垃圾回收"></a>弱集合中的值不属于正式引用，不会阻止垃圾回收</h5></li>
+<li><h5 id="使用弱集合"><a href="#使用弱集合" class="headerlink" title="使用弱集合"></a>使用弱集合</h5><ol>
+<li>给对象打标签<ol>
+<li>创建WeakSet实例，将需要被打上标签的值放进去，如果这个值的引用被删除了，那么weakSet中对应的值也会被回收。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>不可迭代值</p>
+<ol>
+<li>weakSet中的值可以随时销毁，因此没有必要迭代。</li>
+</ol>
+</li>
+</ol>
+<h1 id="迭代与扩展操作"><a href="#迭代与扩展操作" class="headerlink" title="迭代与扩展操作"></a>迭代与扩展操作</h1><ol>
+<li><h5 id="有4中原生集合类型定义了默认迭代器"><a href="#有4中原生集合类型定义了默认迭代器" class="headerlink" title="有4中原生集合类型定义了默认迭代器"></a>有4中原生集合类型定义了默认迭代器</h5><ol>
+<li>Array</li>
+<li>所有定型数组</li>
+<li>Map</li>
+<li>Set</li>
+</ol>
+</li>
+<li><h5 id="这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。"><a href="#这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。" class="headerlink" title="这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。"></a>这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。</h5></li>
+<li><h5 id="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"><a href="#对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。" class="headerlink" title="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"></a>对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。</h5></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" data-id="ckwwutjrg0000w4ud3czo60jk" data-title="Js学习笔记05集合引用类型Object" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Js学习笔记06迭代器与生成器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Js学习笔记03变量、作用域与内存</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/GiorunoGiovana.github.io/archives/2021/12/">December 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">js学习笔记07对象、类域面向对象编程</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">Js学习笔记06迭代器与生成器</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记05集合引用类型Object</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记03变量、作用域与内存</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/">Js学习笔记03变量、作用域与内存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/GiorunoGiovana.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/GiorunoGiovana.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/GiorunoGiovana.github.io/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/GiorunoGiovana.github.io/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/GiorunoGiovana.github.io/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>

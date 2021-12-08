@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>js学习笔记07对象、类域面向对象编程 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="对象理解对象 属性的类型 数据属性 数据属性包含一个保存数据值的位置。值会从这个位置读取，也会写入到这个位置。 要修改属性的默认特性，就必须使用Object.defineProperty()方法。这个方法接受3个参数（要个其添加属性的对象，属性的名称和一个描述对象） 最后一个参数，即描述符对象上的属性可以包含:configurable、enumerable、wirtable和value     访">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js学习笔记07对象、类域面向对象编程">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="对象理解对象 属性的类型 数据属性 数据属性包含一个保存数据值的位置。值会从这个位置读取，也会写入到这个位置。 要修改属性的默认特性，就必须使用Object.defineProperty()方法。这个方法接受3个参数（要个其添加属性的对象，属性的名称和一个描述对象） 最后一个参数，即描述符对象上的属性可以包含:configurable、enumerable、wirtable和value     访">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-07T13:51:01.511Z">
+<meta property="article:modified_time" content="2021-12-08T01:29:44.996Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/GiorunoGiovana.github.io/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/GiorunoGiovana.github.io/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/GiorunoGiovana.github.io/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/GiorunoGiovana.github.io/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/GiorunoGiovana.github.io/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/GiorunoGiovana.github.io/">Home</a>
+        
+          <a class="main-nav-link" href="/GiorunoGiovana.github.io/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/GiorunoGiovana.github.io/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://giorunogiovanna.github.io/GiorunoGiovana.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-js学习笔记07对象、类域面向对象编程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-12-07T13:51:01.511Z" itemprop="datePublished">2021-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      js学习笔记07对象、类域面向对象编程
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><ol>
+<li><h4 id="属性的类型"><a href="#属性的类型" class="headerlink" title="属性的类型"></a>属性的类型</h4><ol>
+<li><h5 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h5><ol>
+<li>数据属性包含一个保存数据值的位置。值会从这个位置读取，也会写入到这个位置。</li>
+<li>要修改属性的默认特性，就必须使用Object.defineProperty()方法。这个方法接受3个参数（要个其添加属性的对象，属性的名称和一个描述对象）<ol>
+<li>最后一个参数，即描述符对象上的属性可以包含:configurable、enumerable、wirtable和value</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="访问器属性"><a href="#访问器属性" class="headerlink" title="访问器属性"></a>访问器属性</h5><ol>
+<li>访问器属性不包含数据值，包含一个获取(getter)函数和一个(setter)函数，不过这两个函数不是必须的。</li>
+<li>在读取访问器属性时，会调用获取函数，这个函数的责任是返回一个有效的值。再写入访问器属性时，会调用设置函数并传入新值，这个函数必须决定对数据做出什么修改。（Vue响应式原理）</li>
+</ol>
+</li>
+<li><h5 id="定义多个属性"><a href="#定义多个属性" class="headerlink" title="定义多个属性"></a>定义多个属性</h5><ol>
+<li>Object.defineProperties()可以通过多个描述符一次性定义多个属性。它接受两个参数（要为之添加或修改属性的对象和另一个描述符对象，其属性与一一对应）</li>
+</ol>
+</li>
+<li><h5 id="读取属性的特性"><a href="#读取属性的特性" class="headerlink" title="读取属性的特性"></a>读取属性的特性</h5><ol>
+<li>使用Object.getOwnPropertyDescriptor()方法可以取得指定属性的属性描述符。<ol>
+<li>这个方法接受两个参数:属性所在的对象和要去的其描述符的属性名。返回值是一个对象，包含访问器属性</li>
+</ol>
+</li>
+<li>ES7新增了Object.getOwnPropertyDescriptors()静态方法<ol>
+<li>接受一个对象，并返回这个对象每个属性的特性</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h4><ol>
+<li>使用解构，可以在一个类似对象字面量的结构中，声明多个变量，同时执行多个复制动作。可以简写<ol>
+<li>解构赋值不一定与对象属性匹配，赋值的时候可以忽略某些属性，如果引用的属性不存在，则该变量的值为undefined，也可以定义默认值，适用于属性不存在的情况。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="增强的对象语法"><a href="#增强的对象语法" class="headerlink" title="增强的对象语法"></a>增强的对象语法</h4><ol>
+<li><h5 id="属性值的简写"><a href="#属性值的简写" class="headerlink" title="属性值的简写"></a>属性值的简写</h5><ol>
+<li>简写的属性名只要使用变量名就会自动被解释为同名的属性键</li>
+</ol>
+</li>
+<li><h5 id="可计算属性"><a href="#可计算属性" class="headerlink" title="可计算属性"></a>可计算属性</h5><ol>
+<li>如果想使用变量的值作为属性，那么必须先声明对象，然后使用中括号语法来添加属性。换句话说，不能再对象字面量中直接动态命名属性<ol>
+<li>中括号包围的对象属性键告诉运行时将其作为JavaScript表达式而不是字符串来求值。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="简写方法名"><a href="#简写方法名" class="headerlink" title="简写方法名"></a>简写方法名</h5><ol>
+<li><p>再给对象定义方法时，通常要写一个方法名、冒号，然后再引用一个匿名函数表达式。</p>
+<ol>
+<li>新的简写方法可以直接声明函数，例如sayName(){…}，与可计算属性键相互兼容</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const methodKey = &quot;foo&quot;</span><br><span class="line">let person = &#123;</span><br><span class="line">	[methodKey](name)&#123;</span><br><span class="line">		alert(&quot;aaa &quot;+name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.sayName(&quot;john&quot;)		//aaa john</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="对象标识及相等判定"><a href="#对象标识及相等判定" class="headerlink" title="对象标识及相等判定"></a>对象标识及相等判定</h4><ol>
+<li>ES6新增了Object.assign()方法用于合并对象。接受一个目标对象和一个多源对象作为参数，然后将每个源对象中可枚举和自由属性赋值到目标函数。<ol>
+<li>这是一种浅拷贝，如果多个源对象有相同的属性，则使用最后一个。此外，从源对象访问器属性中取得的值，比如获取函数，会作为一个静态值赋值给目标对象。如果赋值期间出错，则操作会终止并退出，同时抛出错误。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>前提：使用Object构造函数创建多个有相同接口的对象会比较麻烦。ES6开始正式支持类和继承。</p>
+<h2 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h2><p>简单来说，就是把创建Object对象的过程封装到函数中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	let 0 = new Object</span><br><span class="line">	o.name = name</span><br><span class="line">	o.age = age</span><br><span class="line">	o.job = job</span><br><span class="line">	o.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">	return o</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h3><ol>
+<li><h5 id="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"><a href="#跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。" class="headerlink" title="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"></a>跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。</h5><ol>
+<li>没有显示地创建对象</li>
+<li>属性和方法直接赋值给this</li>
+<li>没有return</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	this.name = name</span><br><span class="line">	this.age = age</span><br><span class="line">	this.job = job</span><br><span class="line">	this.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"><a href="#按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的" class="headerlink" title="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"></a>按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的</h5></li>
+<li><h5 id="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"><a href="#要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作" class="headerlink" title="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"></a>要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作</h5><ol>
+<li>在内存中创建一个新对象</li>
+<li>在这个新对象的内部的[[Prototype]]特性被赋值为构造函数的prototype属性</li>
+<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
+<li>执行构造函数内部的代码（给新对象添加属性）</li>
+<li>如果构造函数返回非空对象，则返回该对象；否则返回创建的新对象</li>
+</ol>
+</li>
+<li><h5 id="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"><a href="#构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数" class="headerlink" title="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"></a>构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数</h5></li>
+<li><h5 id="如果不想传参数，那么new的时候后面的括号可以不加。"><a href="#如果不想传参数，那么new的时候后面的括号可以不加。" class="headerlink" title="如果不想传参数，那么new的时候后面的括号可以不加。"></a>如果不想传参数，那么new的时候后面的括号可以不加。</h5></li>
+<li><h5 id="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"><a href="#构造函数也是函数，和普通函数的唯一区别是调用方式的不同。" class="headerlink" title="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"></a>构造函数也是函数，和普通函数的唯一区别是调用方式的不同。</h5><ol>
+<li>使用new操作符调用就是构造函数，不使用new操作符调用就是普通函数</li>
+</ol>
+</li>
+<li><h5 id="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"><a href="#构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。" class="headerlink" title="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"></a>构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。</h5><ol>
+<li>要解决这个问题，可以把函数定义转移到构造函数外面。</li>
+</ol>
+</li>
+</ol>
+<h2 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h2><ol>
+<li><h4 id="理解原型"><a href="#理解原型" class="headerlink" title="理解原型"></a>理解原型</h4><ol>
+<li>可以看成JavaScript版的继承</li>
+<li>只要创建函数，就会为其创建一个prototype属性（指向原型对象）</li>
+<li>默认情况下，所有原型对象自动获得一个名为constructor的属性，只会函数本身。</li>
+</ol>
+</li>
+<li><h4 id="原型层级"><a href="#原型层级" class="headerlink" title="原型层级"></a>原型层级</h4><ol>
+<li>再通过对象访问属性是，会按照这个属性的名称开始搜索。顺着原型链一直向上查找，直到object’原型，也就是null。</li>
+<li>这就是原型用于多个对象实例间共享属性和方法的原理。</li>
+<li>虽然可以通过实例读取原型对象的值，但是不可以通过实例重写这些值。</li>
+<li>如果在实例上添加一个与原型对象中同名的属性，那就会再实例上创建这个属性，这个属性会遮住原型对象上的对应属性。（优先级比原型链上的同名属性高）<ol>
+<li>即时实例上的属性设置为null，依然会屏蔽，但是使用delete操作符删除属性可以回复。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="原型和in操作符"><a href="#原型和in操作符" class="headerlink" title="原型和in操作符"></a>原型和in操作符</h4><ol>
+<li>有两种方式使用in操作符<ol>
+<li>使用for。。。in循环</li>
+<li>单独使用<ol>
+<li>in操作符会在可以通过对象访问到指定属性时候返回true（包括原型链上的同名属性）</li>
+</ol>
+</li>
+<li>如果想列出所有实例属性，无论是否可以枚举，都可以使用Object.getOwnPropertyNames()</li>
+<li>使用Object.keys()可以获取实例上的属性</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="属性枚举顺序"><a href="#属性枚举顺序" class="headerlink" title="属性枚举顺序"></a>属性枚举顺序</h4><ol>
+<li>for-in循环和Object,keys()枚举顺序是不确定的。</li>
+<li>Object.getOwnPropertyNames(), Object.getOwnPropertySymbols和Object.assign()的枚举顺序是确定的。</li>
+</ol>
+</li>
+<li><p>每个函数都会创建一个prototype属性，包含应该有特定应用类型的实例共享的属性和方法。实际上这个对象就是通过调用构造函数创建对象的原型。</p>
+<ol>
+<li>使用原型对象的好处是，再它上面定义的属性和方法可以被对象实例共享。原来再构造函数中直接赋给对象实例的值，可以直接赋值给他们的原型。</li>
+</ol>
+</li>
+<li><p>与构造函数模式不同，使用这种原型模式定义的属性和方法是有所有实例共享的。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" data-id="ckwwutjrm0002w4udhsl06qb3" data-title="js学习笔记07对象、类域面向对象编程" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Js学习笔记06迭代器与生成器</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/GiorunoGiovana.github.io/archives/2021/12/">December 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">js学习笔记07对象、类域面向对象编程</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">Js学习笔记06迭代器与生成器</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记05集合引用类型Object</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记03变量、作用域与内存</a>
+          </li>
+        
+          <li>
+            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/">Js学习笔记03变量、作用域与内存</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/GiorunoGiovana.github.io/" class="mobile-nav-link">Home</a>
+  
+    <a href="/GiorunoGiovana.github.io/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/GiorunoGiovana.github.io/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/GiorunoGiovana.github.io/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/GiorunoGiovana.github.io/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
