@@ -71,6 +71,834 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js学习笔记14网络请求" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" class="article-date">
+  <time class="dt-published" datetime="2021-12-23T02:15:20.601Z" itemprop="datePublished">2021-12-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">js学习笔记14网络请求</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><h2 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a>Fetch API</h2><p>Fetch API能够执行XHR对象的所有任务，但更容易使用，接口也更现代化，能够在Web工作线程等陷害Web工具中使用。不同之处在于XHR可以选择同步或异步，但是Fetch API只能选择异步。</p>
+<ul>
+<li><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>fetch()方法是暴露在全局作用域中的</li>
+</ul>
+</li>
+<li><h4 id="分派请求"><a href="#分派请求" class="headerlink" title="分派请求"></a>分派请求</h4><ul>
+<li>fetch()只有一个必须参数input，作为请求URL，这个方法返回一个promise，这个对象是API的封装，可以通过他获取响应的资源。<ul>
+<li>在只有一个参数的情况下，默认执行get方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="读取响应"><a href="#读取响应" class="headerlink" title="读取响应"></a>读取响应</h4><ul>
+<li>读取响应内容的最简单方式是取得纯文本格式的内容，这要用到text()方法。这个方法返回一个promise，会决议为取得资源的完整内容。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/mock/data/getMsg&#x27;</span>).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="处理状态码和请求失败"><a href="#处理状态码和请求失败" class="headerlink" title="处理状态码和请求失败"></a>处理状态码和请求失败</h4><ul>
+<li>Fetch API支持通过Response的状态码和状态文本属性检查响应状态。<ul>
+<li>由于无论返回的响应式多少，只要返回了响应，那么promise都会决议为resolved状态，这在逻辑上是合理的，所以我们还要在已决议的promise中再去判断状态码，从而执行不同的操作。</li>
+<li>注意，如果服务器未响应导致浏览器超时，不符合的跨域请求都会导致fetch（）失败，从而导致promise决议为rejected。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h4><ol>
+<li>body<ul>
+<li>用于指定使用请求体的内容</li>
+</ul>
+</li>
+<li>credentials<ul>
+<li>用于指定在外发请求中包含cookie</li>
+</ul>
+</li>
+<li>method<ul>
+<li>用于指定HTTP请求方法</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><h4 id="Request对象"><a href="#Request对象" class="headerlink" title="Request对象"></a>Request对象</h4><ul>
+<li>顾名思义，Request对象就是获取资源请求接口</li>
+<li>创建Request对象<ol>
+<li>可以通过构造函数初始化Requset对象，为此需要传入一个input，一般是URL</li>
+<li>已接受第二个参数，和fetch()一样</li>
+<li>复制request对象，使用clone方法复制，这样不会请求标记为已使用。</li>
+<li>在fetch()中使用Request对象，在调用fetch()时，可以传入一创建好的Request实例。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><h4 id="Headers对象"><a href="#Headers对象" class="headerlink" title="Headers对象"></a>Headers对象</h4><ul>
+<li>headers对象时所有外法请求和入栈响应头部的容器。每个外发的Request实例都包含一个空的Header实例，可以通过Request.prototype.headers访问，每一个入栈的Respone实例也一样。</li>
+<li>Headers对象与Map的相似之处<ul>
+<li>都有get，set，has和delete</li>
+</ul>
+</li>
+<li>Headers的独特之处<ul>
+<li>可以使用键值对的形式初始化Headers对象，Map不行。</li>
+</ul>
+</li>
+<li>头部护卫<ul>
+<li>不是所有头部都可以被客户端修改</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="常见的Fetch请求模式"><a href="#常见的Fetch请求模式" class="headerlink" title="常见的Fetch请求模式"></a>常见的Fetch请求模式</h4><ul>
+<li><p>发送JSON数据</p>
+</li>
+<li><p>在请求体中发送参数</p>
+<ul>
+<li>因为请求体支持任意字符串值，所以可以通过它发送请求参数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> param = <span class="string">&#x27;username=admin&amp;pwd=admin&amp;deviceId=1&amp;deviceName=1&#x27;</span></span><br><span class="line"><span class="keyword">let</span> paramHearders = <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">		<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span></span><br><span class="line">	&#125;)</span><br><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/user/username/login&#x27;</span>,&#123;</span><br><span class="line">	<span class="attr">method</span>:<span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">	<span class="attr">body</span>:param,</span><br><span class="line">	<span class="attr">headers</span>:paramHearders</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p>发送文件</p>
+<ul>
+<li>因为请求体支持FormData实现，所以fetch()也可以序列化并发送文件字段中的文字件。</li>
+</ul>
+</li>
+<li><p>加载blob文件（重点！！）</p>
+<ul>
+<li>Fetch API也能提供Blob类型的响应，而blob又可以兼容多种浏览器API</li>
+</ul>
+</li>
+<li><p>发送跨域请求</p>
+<ul>
+<li>从不同的源请求资源，响应要包含CORS头部才能保证浏览器收到响应。没有这些头部，跨域请求会失败。</li>
+</ul>
+</li>
+<li><p>中断请求</p>
+<ul>
+<li>调用AbortController.abort()会中断所有网络传输。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h2><ul>
+<li><p>Web Socket的目标是通过一个长时间链接实现与服务器全双工、双向的通信（持久化推送消息）。在JavaScript中创建WebSocket时，一个HTTP请求会发送到服务器以初始化链接。服务器响应后，链接使用HTTP的Upgrade头部从HTTP协议切换到web Socket协议。这意味着web Socket不能通过标准的HTTP服务器实现，而必须使用支持该协议的服务器。</p>
+</li>
+<li><p>因为WebSocket使用自定义协议，所以URL方案稍有变化：不能再使用http://或者https://,而要使用ws://或wss://。前者是不安全链接，后者是安全链接</p>
+</li>
+<li><p>发送和接收数据，使用send（）方法并传入一个字符串、ArrayBuffer或Blob</p>
+</li>
+<li><p>API</p>
+<ul>
+<li>要创建一个新的Web Socket，就要实例化一个WebSocket对象并传入提供链接的URL</li>
+<li>注意：必须个WebSocket构造函数传入一个绝对URL。同源策略不适用于Web Socket。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>定义web socket协议的时间比定义JavaScript API时间药厂。Web Socket得到了所有主流浏览器的支持。</li>
+</ul>
+</li>
+<li><p>优点</p>
+<ul>
+<li>使用自定义协议而非HTTP协议的好处是，客户端与服务器之间可以发送十分少量的数据，不会对HTTP造成负担。</li>
+<li>非常适合带宽和延迟比较明显的移动端。</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" data-id="ckxidngjk000700udamiagzab" data-title="js学习笔记14网络请求" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记13JSON" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/" class="article-date">
+  <time class="dt-published" datetime="2021-12-11T01:54:13.594Z" itemprop="datePublished">2021-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/">js学习笔记13JSON</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h1><ol>
+<li>理解JSON最关键的一点就是要把它当成一种数据格式而不是编程语言</li>
+<li>语法<ol>
+<li>JSON语法支持三种类型的值<ul>
+<li>简单值（字符串，数值，布尔值，null，都可以在JSON中出现，undefined不可以）</li>
+<li>对象</li>
+<li>数组</li>
+</ul>
+</li>
+<li>JSON没有变量、函数或对象实例的概念。JSON的所有记号都只为标识结构化数据，虽然它借用了JavaScript的语法。</li>
+</ol>
+</li>
+<li>解析与序列化<ul>
+<li>JSON可以直接被解析为可用的JavaScript对象，与解析为DOM文档的XML相比，这个优势非常明显。为此，JavaScript开发者可以非常方便第使用JSON数据。</li>
+</ul>
+</li>
+<li>序列化选项<ul>
+<li>stringify()<ul>
+<li>过滤结果<ul>
+<li>如果第二个参数是一个数组，那么JSON.stringify()返回的结果只会包含该数组中列出的对象属性</li>
+<li>如果第二个参数是一个函数，提供的函数接受两个参数：属性名(key)和属性值(value)，可以根据这个key决定要对应属性做什么。<ul>
+<li>函数过滤器会应用到要序列化对象所包含的全部对象。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>字符串缩进<ul>
+<li>第三个参数可以控制缩进和空格<ul>
+<li>是数值是，表示缩进空格数</li>
+<li>是字符串时，表示要填充到每一行开头的字符串</li>
+<li>无论时那种，最大不超过10个</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>简单值<ul>
+<li>JavaScript字符串与JSON字符串的主要区别就是JSON字符串必须使用双引号（单引号会导致语法错误）</li>
+</ul>
+</li>
+<li>对象<ul>
+<li>有两处不同<ul>
+<li>JSON没有变量声明（JSON没有变量）</li>
+<li>最后没有分号（不需要，因为不是JavaScript语句）</li>
+</ul>
+</li>
+<li>同样，用引号将属性名包围起来才是有效的JSON。</li>
+</ul>
+</li>
+<li>数组<ul>
+<li>和对象差不多</li>
+</ul>
+</li>
+<li>JSON对象<ol>
+<li>因为JSON时JavaScript语法的子集，所以eval()可以解析、解释并将其作为JavaScript对象和数组返回。</li>
+<li>JSON对象<ul>
+<li>Stringify()<ul>
+<li>将JavaScript序列化为JSON字符串</li>
+</ul>
+</li>
+<li>parse()<ul>
+<li>将JSON解析为原生JavaScript值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>扩展<ul>
+<li>JSON.Stringify(JSON.parse(str))可以实现深复制对象。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/" data-id="ckxidngji000600ud7owz0nbr" data-title="js学习笔记13JSON" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记12异步编程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time class="dt-published" datetime="2021-12-11T00:12:54.203Z" itemprop="datePublished">2021-12-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">js学习笔记12异步编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Promise-期约"><a href="#Promise-期约" class="headerlink" title="Promise(期约)"></a>Promise(期约)</h1><ol>
+<li><h4 id="promise基础"><a href="#promise基础" class="headerlink" title="promise基础"></a>promise基础</h4><ul>
+<li>可以通过new 操作符来实例化一个promise对象。创建新期约的时候需要传入执行器（executor）函数作为参数。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">() =&gt;</span> &#123;&#125;)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p)	<span class="comment">//Promise&lt;pending&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><h4 id="期约状态机"><a href="#期约状态机" class="headerlink" title="期约状态机"></a>期约状态机</h4><ol>
+<li>Peomise是一个有状态的对象，可能处于三种状态<ul>
+<li>待定（pedding）</li>
+<li>兑现（fulfilled），有时也叫解决，（resolved）</li>
+<li>拒绝（rejected）</li>
+</ul>
+</li>
+<li>待定（pending）是promise的初始状态，可以转换为另外两种状态，并且一旦转换就不可逆。</li>
+<li>另外，promise的状态也不能不被外部的JavaScript代码修改，也不能被外界读取（私有）。</li>
+</ol>
+</li>
+<li><h4 id="解决值、拒绝理由及期约用例"><a href="#解决值、拒绝理由及期约用例" class="headerlink" title="解决值、拒绝理由及期约用例"></a>解决值、拒绝理由及期约用例</h4><ul>
+<li>promise的用途是，抽象的标识一个异步操作，并且通知这个操作是否完成</li>
+<li>一些情况下，promise封装的异步操作会实际生成某个值，而程序期待promise状态改变的时候可以访问这个值。例如，如果请求范围为200-299的状态码，让promise状态转化为resolved，并且内部可以接受到一个JSON字符串。拒绝同理，只是接受的变成一个拒绝理由。</li>
+<li>为了支持这种用例，promise每次转换状态，就会有一个私有的内部值或理由。二者都是可选的，并且默认为undefined。</li>
+</ul>
+</li>
+<li><h4 id="同步-异步执行的二元性"><a href="#同步-异步执行的二元性" class="headerlink" title="同步/异步执行的二元性"></a>同步/异步执行的二元性</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;foo&#x27;</span>)</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e)	<span class="comment">//Error:foo</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;bar&#x27;</span>))</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Uncaught (in Promise) Error:bar</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上面的例子报错的原因是：try。。。catch捕获的是哦同步执行时抛出的错误，因此第一个错误可以捕获，但是第二个Promise中抛出的异常是以异步模式进行的，因此没有捕获。</li>
+<li>这个例子中可以看出promise的真正异步特性:他们时同步对象（在同步中执行使用），但是也是异步执行的媒介</li>
+<li>代码一旦开始以异步模式执行，则唯一与之交互的方式就是使用异步结构——更具体的说，就是promise方法。</li>
+</ul>
+</li>
+<li><h4 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve()"></a>Promise.resolve()</h4><ul>
+<li>通过调用一个Promise.resolve()方法，可以实例化一个已处于解决状态的promise。</li>
+<li>使用这个方法实际上可以把任何值转化为一个promise</li>
+<li>这是一个幂等的方法，即嵌套调用多少次结果都一样</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="built_in">Promise</span>.resolve(<span class="number">7</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p===<span class="built_in">Promise</span>.resolve(<span class="built_in">Promise</span>.resolve(p)))		<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意，这样会把抛出的错误都包装到已解决的promise中。</li>
+</ul>
+</li>
+<li><h4 id="Promise-rejected"><a href="#Promise-rejected" class="headerlink" title="Promise.rejected()"></a>Promise.rejected()</h4><ul>
+<li>和resolved类似，但是不是幂等的，给他传入一个resolve会把这个promise包装成拒绝理由。</li>
+</ul>
+</li>
+<li><h4 id="通过执行函数控制promise状态"><a href="#通过执行函数控制promise状态" class="headerlink" title="通过执行函数控制promise状态"></a>通过执行函数控制promise状态</h4><ul>
+<li>由于promise状态是私有的，所以只能在内部进行操作。内部操作在promise的执行器函数中完成。</li>
+<li>执行器的两个职责<ul>
+<li>初始化promise的异步行为</li>
+<li>控制状态的最终转换<ul>
+<li>转换是通过调用它的两个函数参数实现的<ul>
+<li>reslove()</li>
+<li>reject()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>执行器函数是同步执行的。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">() =&gt;</span> <span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,<span class="string">&#x27;executor&#x27;</span>));</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,<span class="string">&#x27;promise initialized&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//executor</span></span><br><span class="line"><span class="comment">//promise initialized</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加setTimeout可以推迟切换状态：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve,<span class="number">1000</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次强调，promise的状态只能改变一次，且不可逆。任何在状态改变后视图再次改变状态的操作都会无效。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" data-id="ckxidngje000500ud9vh6gafz" data-title="js学习笔记12异步编程" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记11函数" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/" class="article-date">
+  <time class="dt-published" datetime="2021-12-10T02:16:50.234Z" itemprop="datePublished">2021-12-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/">js学习笔记11函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ol>
+<li>因为函数是对象，所以函数名就是指向函数对象的指针，而且不一定余函数本身紧密绑定</li>
+<li>创建函数的方式和区别<ul>
+<li>函数表达式 var foo = function() {…}<ul>
+<li>只有在JavaScript语句执行到这句话的之后才会创建函数。在这之前调用函数会报错。（没有提升）</li>
+</ul>
+</li>
+<li>函数声明 function foo() {…}<ul>
+<li>在JavaScript编译的时候函数声明会被提前，也就是说可以先调用函数再在下面声明函数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>箭头函数<ul>
+<li>箭头函数是使用胖箭头(=&gt;)语法定义函数表达式的能力。</li>
+<li>标准写法是 let a = (x) =&gt; {…}</li>
+<li>如果函数只有一条语句的话，可以不要大括号，但是函数会默认将这一句话当成返回值；只有一个参数的时候也可以没有前一个括号</li>
+</ul>
+</li>
+</ol>
+<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><ol>
+<li><p>闭包是指哪些引用了另一个函数作用域中变量的函数，通常是在嵌套函数中实现的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createComparison</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">obj1,obj2</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">let</span> val1 = obj1[name]</span><br><span class="line">		<span class="keyword">let</span> val2 = obj2[name]</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(val1&gt;val2)&#123;</span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(val1&lt;val2)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> compare  = createComparison(<span class="string">&quot;name&quot;</span>)</span><br><span class="line"><span class="keyword">let</span> result = compare(&#123;<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span>&#125;,&#123;<span class="attr">name</span>:<span class="string">&quot;pa&quot;</span>&#125;)	<span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这个例子中的val1和val2引用了来自函数外的变量，在这个内部的匿名函数被返回并在其他的地方使用后，它仍然引用着那个变量。这是因为内部函数的作用域包含createComparison()函数的作用域。</li>
+</ul>
+</li>
+<li><p>在调用一个函数的时候，会为这个函数创建一个执行上下文，并创建一个作用域链。然后用arguments和其他命名参数来初始化这个函数的活动独享。外部函数的活动对象是内部函数作用域链上的第二个对象。这个作用域一直向外串起了所有包含函数的活动对象，直到全局上下文才终止。</p>
+</li>
+<li><p>函数执行的时候，每个执行上下文都会有一个包含其中变量的对象。全局上下文中的叫变量对象，他会在代码执行期间始终存在。而函数局部上下文中的叫活动对象，指在函数执行期间存在。</p>
+<ul>
+<li>函数内部的代码在访问变量时，就会使用给定的名称从作用域中查找变量。函数执行完毕后，局部活动对象会被摧毁。只剩下全局作用域。但是在闭包中就不一样了。</li>
+</ul>
+</li>
+<li><p>注意：因为闭包会保留他们包含的函数作用域，因此会比其他函数更占用内存，所以要谨慎使用。</p>
+</li>
+<li><p>在一个函数内部定义的函数会把其包含函数的活动对象添加到子自己的作用域链中。导致在外部函数被销毁时外部函数的活动对象由于仍然被引用，所以不能销毁。就产生了闭包。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/" data-id="ckxidngj7000400ud7ep38sg8" data-title="js学习笔记11函数" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记10代理与反射" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/" class="article-date">
+  <time class="dt-published" datetime="2021-12-10T01:54:38.318Z" itemprop="datePublished">2021-12-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/">js学习笔记10代理与反射</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="代理与反射"><a href="#代理与反射" class="headerlink" title="代理与反射"></a>代理与反射</h1><ol>
+<li><h4 id="代理基础"><a href="#代理基础" class="headerlink" title="代理基础"></a>代理基础</h4><ul>
+<li>代理是目标对象的抽象。目标对象既可以直接被操作，也可以通过代理来操作。但是直接操作会绕过代理施予的行为。</li>
+</ul>
+</li>
+<li><h4 id="创建空代理"><a href="#创建空代理" class="headerlink" title="创建空代理"></a>创建空代理</h4><ul>
+<li>在代理对象上执行的任何操作实际上都会应用到目标对象。唯一可感知的不同就是代码中操作的是代理对象。</li>
+</ul>
+</li>
+<li><h4 id="定义捕获器"><a href="#定义捕获器" class="headerlink" title="定义捕获器"></a>定义捕获器</h4><ul>
+<li>使用代理的主要原因是可以定义捕获器。每个处理程序对象都可以包含多个捕获器，每个捕获器对应一种基本操作，可以直接或间接在代理对象上调用。</li>
+<li>每次在代理对象上调用这些基本操作时，代理可以在这些操作传播到目标对象之前像调用捕获器函数，从而实现拦截并修改相应的行为。</li>
+<li>例如，可以定一一个get()捕获器，JavaScript操作以某种形式调用get()时触发。所有这些操作只要发生在代理对象上，就会触发get()捕获器</li>
+<li>注意，只有在代理对象上，就会触发。</li>
+</ul>
+</li>
+<li><h4 id="捕获器参数和反射API"><a href="#捕获器参数和反射API" class="headerlink" title="捕获器参数和反射API"></a>捕获器参数和反射API</h4><ul>
+<li>所有捕获器都可以访问响应的参数面积与这些参数可以重建被捕获的方法的原始行为。</li>
+<li>通过调用全局Reflect对象上（封装了原始行为）的同名方法来轻松重建。</li>
+</ul>
+</li>
+<li><h4 id="代理捕获器与反射方法"><a href="#代理捕获器与反射方法" class="headerlink" title="代理捕获器与反射方法"></a>代理捕获器与反射方法</h4><ul>
+<li>代理可以捕获13种不同的基本操作</li>
+</ul>
+</li>
+<li><h4 id="代理的问题和不足"><a href="#代理的问题和不足" class="headerlink" title="代理的问题和不足"></a>代理的问题和不足</h4></li>
+<li><h4 id="使用反射API"><a href="#使用反射API" class="headerlink" title="使用反射API"></a>使用反射API</h4><ul>
+<li>某些情况下应该优先使用反射API，这些是有一些理由的。</li>
+<li>反射API与对象API<ul>
+<li>反射API并不限于捕获处理程序</li>
+<li>大多数反射API方法在Object类型上对应的方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="可撤销代理"><a href="#可撤销代理" class="headerlink" title="可撤销代理"></a>可撤销代理</h4><ul>
+<li>有时候可能需要中断代理对象与目标对象的联系。对于使用new Proxy()创建的普通代理来说，这种联系会在代理对象的生命周期内一致存在。</li>
+<li>Proxy也暴露了revocable()方法，这个方法支持撤销代理对象与目标对象的关联。撤销代理的操作是不可逆的。而且，撤销函数是幂等的，调用多少次结构都是一样的。</li>
+</ul>
+</li>
+<li><h4 id="捕获器不变式"><a href="#捕获器不变式" class="headerlink" title="捕获器不变式"></a>捕获器不变式</h4><ul>
+<li>目标对象有一个不可配置且不可写的数据属性，那么在捕获器返回一个与该属性不同的值时会报错。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/" data-id="ckxidngj6000300ud0r0cfqg7" data-title="js学习笔记10代理与反射" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记09类" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/" class="article-date">
+  <time class="dt-published" datetime="2021-12-09T06:32:57.283Z" itemprop="datePublished">2021-12-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/">js学习笔记09类</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ol>
+<li><h5 id="ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"><a href="#ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）" class="headerlink" title="ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"></a>ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus();</span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Bus);	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Vehicle);	<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承普通构造函数	</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">Person</span> ()</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">e</span> </span>= <span class="keyword">new</span> Engineer ()</span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Engineer)	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Person)	<span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li><h5 id="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："><a href="#派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：" class="headerlink" title="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："></a>派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="title">identifyPrototype</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="title">identifyClass</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> v = <span class="keyword">new</span> Vehicle()</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus()</span><br><span class="line"></span><br><span class="line">b.identifyPrototype(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">v.identifyPrototype(<span class="string">&#x27;vehicle&#x27;</span>)</span><br><span class="line"></span><br><span class="line">Bus.identifyClass(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">Vehicle. identifyClass(<span class="string">&#x27;vehicle&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><ol>
+<li><h5 id="定义类有两种方式"><a href="#定义类有两种方式" class="headerlink" title="定义类有两种方式"></a>定义类有两种方式</h5><ol>
+<li>类声明<ul>
+<li>class Person {} 类声明不能提升</li>
+</ul>
+</li>
+<li>类表达式<ul>
+<li>const a = class {}</li>
+</ul>
+</li>
+<li>函数收到作用域限制，类收到块作用域限制。</li>
+</ol>
+</li>
+<li><h5 id="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"><a href="#JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）" class="headerlink" title="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"></a>JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）</h5><ul>
+<li>ES6引入了class关键字具有正式定义类的能力。类（class）是ES6中新的基础性语法糖结构。虽然这个类表面上支持正式的面向对象编程，但实际上它背后使用的仍然是原型和构造函数的概念。</li>
+</ul>
+</li>
+<li><h5 id="类的构成"><a href="#类的构成" class="headerlink" title="类的构成"></a>类的构成</h5><ul>
+<li>类可以包含构造函数方法、实例方法、获取函数、设置函数、静态类的方法。但是不是必须的，空类也是有效的。</li>
+<li>类表达式的名称是可选的。在把类表达式赋值给变量之后，可以通过name属性访问类表达式的名称字符串。但是不能在类表达式作用域外部访问这个标识符。</li>
+</ul>
+</li>
+</ol>
+<h1 id="类构造函数"><a href="#类构造函数" class="headerlink" title="类构造函数"></a>类构造函数</h1><p>constructor关键字用于在类定义块内部创建类的构造函数。构造函数的定义不是必须的。</p>
+<ol>
+<li><h5 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h5><ul>
+<li>使用new操作符实例化Person的操作等于使用new调用其构造函数。唯一可感知的不同之处就是，JavaScript解释器知道使用new和类意味着应该使用constructor函数进行实例化。</li>
+<li>使用new调用类的构造函数会执行如下操作。(类实例化时传入的参数会用作构造函数的参数，如过不需要参数，则类名后面的括号也是可选的)<ol>
+<li>在内存中创建一个新对象</li>
+<li>这个新对象的内部[[prototypr]]指针被赋值为constructor构造函数的prototypr属性。</li>
+<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
+<li>执行构造函数内部的代码（给新对象添加属性）</li>
+<li>如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。</li>
+</ol>
+</li>
+<li>默认情况下，类构造函数会在执行之后返回this对象。构造函数返回的对象会被用作实例化对象，如果没有什么引用新创建的对象，那么这个对象就会被销毁。不过，如果返回的不是this对象，而是其他对象，那么这个对象不会通过instanceof操作符检测出跟类有关联，因为这个对象的原型指针没有被修改。</li>
+<li>类构造函数与构造函数的主要区别是，调用类构造函数必须使用new操作符，否则会报错。普通构造函数直接调用，则会以全局对象作为this。</li>
+</ul>
+</li>
+<li><h5 id="把类当成特殊函数"><a href="#把类当成特殊函数" class="headerlink" title="把类当成特殊函数"></a>把类当成特殊函数</h5><ol>
+<li>ECMAScript中没有正式的类这个类型，从各个方面来看，类就是一种特殊的函数</li>
+<li>在类上下文中，类本身在使用new调用时就会被当作构造函数。重点在于，类定义中的constructor方法不会被当成构造函数，在对他使用instanceof操作符时会返回false。但是，如果在创建实例时直接将类构造函数方程普通构造函数来使用，那么instanceof操作符的返回值会反转。</li>
+<li>可以向其他对象或者函数引用一样把类作为参数传递，也可以立即实例化。</li>
+</ol>
+</li>
+</ol>
+<h1 id="实例、原型和类成员"><a href="#实例、原型和类成员" class="headerlink" title="实例、原型和类成员"></a>实例、原型和类成员</h1><ol>
+<li><h5 id="实例成员"><a href="#实例成员" class="headerlink" title="实例成员"></a>实例成员</h5><ol>
+<li>每次通过new调用类识别符，都会执行类构造函数。在这个函数内部，可以为新创建的实例（this）添加自有属性。至于添加怎么样的属性，没有限制。另外，在构造函数执行完毕之后，仍然可以给实例添加新的成员。</li>
+<li>所有成员都不会在原型上共享</li>
+</ol>
+</li>
+<li><h5 id="原型方法与访问器"><a href="#原型方法与访问器" class="headerlink" title="原型方法与访问器"></a>原型方法与访问器</h5><ol>
+<li>为了在实例间共享方法，类定义语法把类块中定义的方法作为原型方法。</li>
+<li>可以把方法定义在类构造函数中或者类块中，但是不能在类块中给原型添加原始值或对象作为成员数据。</li>
+<li>类方法等同于对象属性，因此可以使用字符串、符号或计算的值作为键。</li>
+<li>类定义也支持获取和设置访问器。语法与行为跟普通对象一样。</li>
+</ol>
+</li>
+<li><h5 id="迭代器与生成器方法"><a href="#迭代器与生成器方法" class="headerlink" title="迭代器与生成器方法"></a>迭代器与生成器方法</h5><ol>
+<li>类定义语法支持在原型和类本身上定义生成器的方法</li>
+<li>因为支持生成器方法，所以可以通过添加一个默认的迭代器，八十例变成可迭代对象。</li>
+<li>也可以只返回迭代器实例。</li>
+</ol>
+</li>
+<li><h5 id="非函数原型和类成员"><a href="#非函数原型和类成员" class="headerlink" title="非函数原型和类成员"></a>非函数原型和类成员</h5><ul>
+<li>虽然类定义不显示支持在原型或类上添加成员数据，但在类定义外部，可以手动添加。</li>
+</ul>
+</li>
+<li><h5 id="静态类方法"><a href="#静态类方法" class="headerlink" title="静态类方法"></a>静态类方法</h5><ol>
+<li>可以在类上定义静态方法。这些方法通常用于执行不特定与实例的操作，也不要求存在类的实例。</li>
+<li>类静态成员每一个类上只能有一个</li>
+<li>静态类成员在类定义中使用static关键字作为前缀。在静态成员中，this引用类自身。其他所有约定和原型成员一样。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/" data-id="ckxidngix000000ud85i3f2yu" data-title="js学习笔记09类" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-js学习笔记08继承" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/" class="article-date">
+  <time class="dt-published" datetime="2021-12-09T02:15:42.993Z" itemprop="datePublished">2021-12-09</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/">js学习笔记08继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>很多面向对象语言都支持两种继承：接口继承和实现继承。JavaScript只支持实现继承，而且是通过原型链方式继承的。这里介绍JavaScript中实现继承的6中方式。</p>
+<h2 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h2><p>原型链继承的基本思想是通过原型继承多个引用类型的属性和方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.far=<span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">this</span>.far</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.child=<span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型继承father实例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.getFar())	<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>本质：</p>
+<ul>
+<li>通过重写子类型的原型对象实现继承</li>
+<li>注：原型对象中包含constructor属性一般指回子类型函数本身，重写子类型的原型对象会导致constructor属性丢失。</li>
+<li>最终原型链为：a-&gt;child-&gt;father-&gt;Object（所有函数的默认原型）</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>父级的实例属性会被子级共享</li>
+<li>子级不能向父级传递参数</li>
+</ul>
+</li>
+<li><p>原型与继承的关系</p>
+<ol>
+<li><p>使用instanceof操作符确定</p>
+<ul>
+<li><p>如果一个实例的原型链中出现过相应的构造函数，则instanceof返回true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">instance <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>使用isPrototypeOf()方法。</p>
+<ul>
+<li><p>只要原型链包含这个原型，就会返回true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.isPrototypeOf(instance)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>原型链的问题</p>
+<ol>
+<li>原型中包含的引用值会在所有实例间共享。在使用原型实现继承时，原型实际上变成了另一个类型实例。</li>
+<li>重写子类型对象后，constructor属性会丢失。</li>
+</ol>
+</li>
+<li><p>关于方法</p>
+<ol>
+<li>子类有些时候需要覆盖父类的方法，或者增设父类没有的方法。为此，有些方法必须在原型复制后再添加到原型上。</li>
+<li>如果以对象字面量的方式创建原型会破坏原型链，因为这相当于重写了原型链。</li>
+</ol>
+</li>
+</ol>
+<h2 id="借用构造函数继承（经典继承）"><a href="#借用构造函数继承（经典继承）" class="headerlink" title="借用构造函数继承（经典继承）"></a>借用构造函数继承（经典继承）</h2><p>为了解决原型链继承中共享的问题，基本思路是：在子类构造函数中调用父类构造函数。因为函数就是特定上下文中执行代码的简单对象，所以可以使用apply()和call()方法以新建的对象为上下文执行构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过call/apply方法，在子类型构造函数内部调用超类型构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">child</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;aa&quot;</span></span><br><span class="line">	<span class="comment">//打印来自子级的参数</span></span><br><span class="line">	<span class="built_in">console</span>.log(child.name)	<span class="comment">//jojo</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	father.apply(<span class="built_in">this</span>,[&#123;<span class="attr">name</span>:<span class="string">&quot;jojo&quot;</span>&#125;])	<span class="comment">//继承，可以传参</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.name)		<span class="comment">//aa</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>优点：<ul>
+<li>解决了原型链继承中所有属性都会暴露和子级不能向父级传参的问题。</li>
+<li>可以在子类构造函数中向父级构造函数传参</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>必须在构造函数中定义方法，因此函数不能复用</li>
+<li>父级的方法对于子级不可见</li>
+</ul>
+</li>
+</ol>
+<h1 id="组合继承-伪经典继承"><a href="#组合继承-伪经典继承" class="headerlink" title="组合继承(伪经典继承)"></a>组合继承(伪经典继承)</h1><p>JavaScript中最常见的继承模式，使用instanceof操作符和isPrototype()方法可用于识别基于组合继承的对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//借用构造函数继承实例属性，原型链继承来继承原型上的方法和属性。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line">funciton <span class="function"><span class="title">child</span>(<span class="params"></span>)</span>&#123;		<span class="comment">//借用构造函数继承属性</span></span><br><span class="line">	father.call(<span class="built_in">this</span>)</span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型链继承，注意！重写原型导致constructors属性丢失</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">a.sayName()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质：<ul>
+<li>使用原型链继承来继承原型上的属性和方法，用组合继承来继承实例属性。这样既可以把方法定义在原型上实现复用，又可以让每个实例都有自己的属性。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>综合了原型链和借用构造继承的优点</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>必会调用两次超类型构造函数，一次在创建子类型的原型时，另一次在子类型构造函数内部。</li>
+</ul>
+</li>
+</ol>
+<h2 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//两种实现方法</span></span><br><span class="line"><span class="comment">//1.自定义函数实现</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ob</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">	f.prototype.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> ob()</span><br><span class="line"><span class="built_in">console</span>.log(a.name)	<span class="comment">//jianhuo</span></span><br><span class="line"><span class="comment">//2.使用Object.create方法</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(person,&#123;</span><br><span class="line">	<span class="attr">name</span>:&#123;</span><br><span class="line">		<span class="attr">value</span>:<span class="string">&quot;gun&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line">alert(a.name)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质：<ul>
+<li>ob()式对传入的对象执行了一次浅复制。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>原型式继承非常适合不需要单独创建构造函数，但是任然需要在对象间共享信息的场合。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>和原型链继承一样，属性中包含的引用值会始终在相关的对象间共享。</li>
+</ul>
+</li>
+</ol>
+<h2 id="寄生式继承"><a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> clone = <span class="built_in">Object</span>.create(name)</span><br><span class="line">	clone.sayGood=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		alert(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> clone</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> wiw = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span>,</span><br><span class="line">	<span class="attr">act</span>:<span class="string">&quot;pa&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> final = father(wiw)	<span class="comment">//hello world</span></span><br><span class="line"></span><br><span class="line">final.sayGood()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质:<ul>
+<li>创建一个实现继承的函数，以某种方式增强对象，然后返回这个对象。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>寄生式继承同样适合主要关注对象，而不在乎类型和构造函数的场景。</li>
+</ul>
+</li>
+<li>缺点:<ul>
+<li>通过寄生式继承给对象添加函数会导致函数难以重用。</li>
+</ul>
+</li>
+</ol>
+<h2 id="寄生式组合继承"><a href="#寄生式组合继承" class="headerlink" title="寄生式组合继承"></a>寄生式组合继承</h2><p>可以算是应用类型继承的最佳模式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = name</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	father.call(<span class="built_in">this</span>,name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(father.prototype)</span><br><span class="line">a.constructor = child	<span class="comment">//重新赋值constructor</span></span><br><span class="line">child.prototype = a</span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> child(<span class="string">&quot;jianhuo&quot;</span>)</span><br><span class="line">b.sayName()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>本质：</p>
+<ul>
+<li><p>这个函数实现了接受两个参数：子类构造函数和父类构造函数。</p>
+<ul>
+<li>在这个函数内部，第一步是创建父类原型的一个副本。然后，给返回的prototype对象设置constructor属性，解决由于重写原型导致的默认constructor丢失问题。最后将新创建的对象赋值给子类型原型。</li>
+</ul>
+</li>
+<li><p>寄生式组合继承通过借用构造函数继承属性，但是用混合式原型链继承方法。基本思路就是不通过调用父类构造函数给子类函数原型赋值，而是取得一个父类的副本。</p>
+<ul>
+<li>说到底就是使用寄生式继承来继承父类原型，然后将返回的新对象赋值给子类原型。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/" data-id="ckxidngj5000200uddxbr4k2s" data-title="js学习笔记08继承" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
     <article id="post-Vue源码笔记06" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/GiorunoGiovana.github.io/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/" class="article-date">
@@ -119,9 +947,9 @@
 
 
   
-    <article id="post-js学习笔记07对象、类域面向对象编程" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+    <article id="post-js学习笔记07对象" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" class="article-date">
+    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/" class="article-date">
   <time class="dt-published" datetime="2021-12-07T13:51:01.511Z" itemprop="datePublished">2021-12-07</time>
 </a>
     
@@ -133,7 +961,7 @@
         
   
     <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">js学习笔记07对象、类域面向对象编程</a>
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/">js学习笔记07对象</a>
     </h1>
   
 
@@ -335,7 +1163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" data-id="ckwwutjrm0002w4udhsl06qb3" data-title="js学习笔记07对象、类域面向对象编程" class="article-share-link">Share</a>
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/" data-id="ckxidngj4000100uda5cd317u" data-title="js学习笔记07对象" class="article-share-link">Share</a>
       
       
       
@@ -457,1077 +1285,11 @@
 
 
   
-    <article id="post-js学习笔记05集合引用类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="article-date">
-  <time class="dt-published" datetime="2021-12-07T01:45:58.432Z" itemprop="datePublished">2021-12-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记05集合引用类型Object</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><ol>
-<li><h5 id="两种创建方式"><a href="#两种创建方式" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
-<li>new Object</li>
-<li>使用对象字面量{name:’a’}</li>
-</ol>
-</li>
-<li><h5 id="关于定义对象的“-”出现的地方"><a href="#关于定义对象的“-”出现的地方" class="headerlink" title="关于定义对象的“{”出现的地方"></a>关于定义对象的“{”出现的地方</h5><ol>
-<li>出现在表达式上下文中（期待返回值的上下文中），赋值操作符表示后面要期待一个值，因此在左大括号表达一个表达式的开始。</li>
-<li>出现在语句上下文中，比如if语句的条件后面，则表示一个语句块的开始</li>
-</ol>
-</li>
-<li><h5 id="属性一般是使用点语法来存取的，例如obj-name-“pa”"><a href="#属性一般是使用点语法来存取的，例如obj-name-“pa”" class="headerlink" title="属性一般是使用点语法来存取的，例如obj.name=“pa”"></a>属性一般是使用点语法来存取的，例如obj.name=“pa”</h5><p>注意：也可以使用中括号存取，例如obj[“name”]=”pa”使用中括号的优点在于如果属性名中包含会导致语法错误的字符，只用中括号可以避免这一点。（fs优化对象值的存取）</p>
-</li>
-<li><h5 id="属性值可以是字符串或数值-数值会自动转为字符串"><a href="#属性值可以是字符串或数值-数值会自动转为字符串" class="headerlink" title="属性值可以是字符串或数值(数值会自动转为字符串)"></a>属性值可以是字符串或数值(数值会自动转为字符串)</h5></li>
-</ol>
-<h1 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h1><ol>
-<li><h5 id="两种创建方式-1"><a href="#两种创建方式-1" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
-<li>使用new Array()来创建<ol>
-<li>可以传入一个数值，然后length属性就会自动设置成这个值。配合fill函数可以创建一个全部为某一个数的数组</li>
-<li>也可以传入要保存的元素</li>
-</ol>
-</li>
-<li>使用数组字面量</li>
-</ol>
-</li>
-<li><h5 id="es6新增的创建数组的方法。"><a href="#es6新增的创建数组的方法。" class="headerlink" title="es6新增的创建数组的方法。"></a>es6新增的创建数组的方法。</h5><ol>
-<li>from()用于将类数组结构转化为数组<ol>
-<li>第一个参数但是任何可迭代结构</li>
-<li>第二个参数可以选择映射函数的参数，这个函数可以直接增强新数组的值</li>
-<li>第三个参数用于指定映射函数中this的值</li>
-</ol>
-</li>
-<li>of()用于将一组参数转换为数组实例</li>
-</ol>
-</li>
-</ol>
-<h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><ol>
-<li><h5 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li><p>使用new Map()创建一个空映射</p>
-<p>可以给这个构造函数传入一个可迭代对象。需要包含键值对数组。可迭代对象中的每一个键值对都会按照迭代顺序插入到新实例对象中</p>
-</li>
-</ol>
-</li>
-<li><h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ol>
-<li>set()添加键值对</li>
-<li>get()查找键对应的值</li>
-<li>has()查询是否有这个键</li>
-<li>delete()删除某个键值对</li>
-<li>clear()删除所有键值对</li>
-</ol>
-</li>
-<li><h5 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h5><ol>
-<li>Object只能使用数值。字符串或者符号作为键。</li>
-<li>Map可以使用任何JavaScript对象数据类型作为键</li>
-<li>在映射中作为键和值对象或其他集合类型，在自己的内容被修改时，映射关系不会改变。</li>
-</ol>
-</li>
-<li><h5 id="顺序与迭代"><a href="#顺序与迭代" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
-<li>映射（map）实例可以提供一个迭代器(Iterator)可以通过entries()方法或者Symbol.iterator属性取得这个迭代器。<ol>
-<li>for(let pair of m.entries())</li>
-<li>for(let pair of m[Symbol.iterator])</li>
-<li>键和值在迭代器遍历的时候是可以修改的，但在映射内部是不可修改的。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="Weak-Map"><a href="#Weak-Map" class="headerlink" title="Weak Map"></a>Weak Map</h1><ol>
-<li><h5 id="创建方式-1"><a href="#创建方式-1" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li>使用new WeakMap()关键字实例化一个空的弱映射</li>
-</ol>
-</li>
-<li><h5 id="弱映射中的键只能是object或者继承自object的类型，值没有限制"><a href="#弱映射中的键只能是object或者继承自object的类型，值没有限制" class="headerlink" title="弱映射中的键只能是object或者继承自object的类型，值没有限制"></a>弱映射中的键只能是object或者继承自object的类型，值没有限制</h5></li>
-<li><h5 id="操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置"><a href="#操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置" class="headerlink" title="操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置"></a>操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置</h5></li>
-<li><h5 id="使用弱映射"><a href="#使用弱映射" class="headerlink" title="使用弱映射"></a>使用弱映射</h5><ol>
-<li>私有变量<ol>
-<li>私有变量会储存在弱映射中，以对象实例为键，以私有成员的字段为值</li>
-</ol>
-</li>
-<li>DOM节点元数据<ol>
-<li>因为WeakMap实例不会妨碍垃圾回收机制，所以非常适合保存关联元数据。</li>
-<li>当节点从DOM树种被删除后，垃圾回收程序会立即释放内存。（假设没有其他地方引用这个对象）</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"><a href="#因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。" class="headerlink" title="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"></a>因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。</h5></li>
-<li><h5 id="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"><a href="#弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。" class="headerlink" title="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"></a>弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。</h5></li>
-</ol>
-<h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><ol>
-<li><h5 id="创建方式-2"><a href="#创建方式-2" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li>使用new Set()关键字实例化一个空的集合<ol>
-<li>可以传入一个可迭代对象，其中包含需要插入到集合的元素。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="基本API"><a href="#基本API" class="headerlink" title="基本API"></a>基本API</h5><ol>
-<li>add()增加一个值</li>
-<li>has()查询一个值</li>
-<li>size()取得元素数量</li>
-<li>delete()/clear()删除值</li>
-</ol>
-</li>
-<li><h5 id="Set可以包含任何JavaScript数据类型作为值"><a href="#Set可以包含任何JavaScript数据类型作为值" class="headerlink" title="Set可以包含任何JavaScript数据类型作为值"></a>Set可以包含任何JavaScript数据类型作为值</h5><ol>
-<li>用作值的对象和其他集合类型在自身改变时不会影响。</li>
-</ol>
-</li>
-<li><h5 id="顺序与迭代-1"><a href="#顺序与迭代-1" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
-<li><p>Set会维护值插入时的顺序，因此支持顺序迭代</p>
-</li>
-<li><p>set实例可以提供一个迭代器(Iterator)，能以插入顺序生成集合内容。</p>
-</li>
-<li><p>可以通过values()方法以及其别名方法keys()</p>
-<p>for(let v of s.values())</p>
-</li>
-<li><p>或者Symbol.ietrator属性，他引用values()取得这个迭代器</p>
-<p>for(let v of s[Symbol.iterator])</p>
-</li>
-<li><p>set的entires()方法返回一个迭代器，可以按照插入顺序产生包含两个元素的数组，这两个元素是集合中每个值的重复出现。</p>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h1><ol>
-<li><h5 id="创建方式-3"><a href="#创建方式-3" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li>使用new WeakSet()关键字实例化一个空的弱集合<ol>
-<li>可以接受一个可迭代的对象，其中需要包含有效的值</li>
-<li>弱集合中的值只能是object或继承自object类型</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="基本API-1"><a href="#基本API-1" class="headerlink" title="基本API"></a>基本API</h5><ol>
-<li>add()增加一个值</li>
-<li>has()查询一个值</li>
-<li>delete()删除一个值</li>
-</ol>
-</li>
-<li><h5 id="弱集合中的值不属于正式引用，不会阻止垃圾回收"><a href="#弱集合中的值不属于正式引用，不会阻止垃圾回收" class="headerlink" title="弱集合中的值不属于正式引用，不会阻止垃圾回收"></a>弱集合中的值不属于正式引用，不会阻止垃圾回收</h5></li>
-<li><h5 id="使用弱集合"><a href="#使用弱集合" class="headerlink" title="使用弱集合"></a>使用弱集合</h5><ol>
-<li>给对象打标签<ol>
-<li>创建WeakSet实例，将需要被打上标签的值放进去，如果这个值的引用被删除了，那么weakSet中对应的值也会被回收。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>不可迭代值</p>
-<ol>
-<li>weakSet中的值可以随时销毁，因此没有必要迭代。</li>
-</ol>
-</li>
-</ol>
-<h1 id="迭代与扩展操作"><a href="#迭代与扩展操作" class="headerlink" title="迭代与扩展操作"></a>迭代与扩展操作</h1><ol>
-<li><h5 id="有4中原生集合类型定义了默认迭代器"><a href="#有4中原生集合类型定义了默认迭代器" class="headerlink" title="有4中原生集合类型定义了默认迭代器"></a>有4中原生集合类型定义了默认迭代器</h5><ol>
-<li>Array</li>
-<li>所有定型数组</li>
-<li>Map</li>
-<li>Set</li>
-</ol>
-</li>
-<li><h5 id="这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。"><a href="#这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。" class="headerlink" title="这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。"></a>这四种类型都支持顺序迭代，都可以传入for-of循环。都兼容扩展操作符。</h5></li>
-<li><h5 id="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"><a href="#对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。" class="headerlink" title="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"></a>对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。</h5></li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" data-id="ckwwutjrg0000w4ud3czo60jk" data-title="Js学习笔记05集合引用类型Object" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-js学习笔记04基本引用类型" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="article-date">
-  <time class="dt-published" datetime="2021-12-06T14:32:44.439Z" itemprop="datePublished">2021-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记03变量、作用域与内存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
-<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
-</li>
-<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
-<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
-</li>
-<li><p>模式：</p>
-<ol>
-<li>i：忽略大小写</li>
-<li>g：全局查找</li>
-<li>m：多行查找</li>
-</ol>
-</li>
-<li><p>实例方法</p>
-<ol>
-<li><p>主要方法使exec()</p>
-<ol>
-<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
-<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
-</li>
-<li><p>没找到则返回null</p>
-</li>
-<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
-</li>
-<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
-</li>
-<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
-</li>
-</ol>
-</li>
-<li><p>还有一个是text（）</p>
-<ol>
-<li>只检测是否匹配，不关心为什么。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
-<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
-</ol>
-<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
-<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
-<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
-<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
-</ol>
-<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
-<li>创建方法直接使用数值赋值即可</li>
-<li>实例方法<ol>
-<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
-<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
-<li>isInteger()用于鉴别一个数组的值是否是整数</li>
-<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
-</ol>
-</li>
-</ol>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
-<li><p>JavaScript字符</p>
-<ol>
-<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
-<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
-<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
-<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
-<li>codePointAt()方法可以突破16位码元的限制</li>
-</ol>
-</li>
-<li><p>字符串操作方法</p>
-<ol>
-<li>字符串截取<ol>
-<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
-<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
-<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>字符串位置方法</p>
-<ol>
-<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
-<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
-</ol>
-<p>都接受第二个参数表示开始搜索的位置。</p>
-</li>
-<li><p>字符串包含方法</p>
-<ol>
-<li>startWith()    开始于索引0的匹配项</li>
-<li>endWith()      结束于字符串末尾的匹配项</li>
-<li>includes()      任意位置的匹配项</li>
-</ol>
-</li>
-<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
-</li>
-<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
-</li>
-<li><p>padStart()和padEnd()</p>
-<ol>
-<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
-</ol>
-</li>
-<li><p>字符串迭代与解构，for-of迭代</p>
-</li>
-<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
-</li>
-<li><p>字符串模式匹配方法</p>
-<ol>
-<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
-<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
-</ol>
-</li>
-</ol>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" data-id="ckwwutjrn0003w4ud38xaa7h5" data-title="Js学习笔记03变量、作用域与内存" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-js学习笔记03变量、作用域与内存" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" class="article-date">
-  <time class="dt-published" datetime="2021-12-06T13:36:53.076Z" itemprop="datePublished">2021-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/">Js学习笔记03变量、作用域与内存</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="原始值与引用值"><a href="#原始值与引用值" class="headerlink" title="原始值与引用值"></a>原始值与引用值</h1><ol>
-<li>原始值：最简单的数据</li>
-<li>引用值：由多个值构成的对象</li>
-<li>JavaScript不允许直接访问内存的位置，在操作对象的时候实际操作的时对该对象的引用，为此，保存引用值的变量是按引用访问的</li>
-</ol>
-<h2 id="动态属性"><a href="#动态属性" class="headerlink" title="动态属性"></a>动态属性</h2><ol>
-<li>原始值：原始值不能拥有属性，但尝试给它添加属性不会报错</li>
-<li>引用值：引用值可以动态添加属性</li>
-<li>原始值的初始化：<ol>
-<li>只使用原始字面量形式，如var a = 1</li>
-<li>使用new初始化，这会创建一个object类型的实例，但是行为上类似于原始值</li>
-</ol>
-</li>
-</ol>
-<h2 id="复制值"><a href="#复制值" class="headerlink" title="复制值"></a>复制值</h2><ol>
-<li><p>原始值：复制原始值得到的是一个相互独立的副本</p>
-</li>
-<li><p>引用值：引用值持有的其实是对堆内存中实际值的一个引用，复制引用值实际上是复制了指向堆内存的指针，所以原始引用值和复制的引用值是会互相影响的。（浅复制）</p>
-</li>
-<li><p>深复制：复制一份独立的副本。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//借用JSON方法：stringify和parse实现深复制</span><br><span class="line">function deepClone(obj)&#123;</span><br><span class="line">    let _obj = JSON.stringify(obj),</span><br><span class="line">        objClone = JSON.parse(_obj);</span><br><span class="line">    return objClone</span><br><span class="line">&#125;    </span><br><span class="line">let a=[0,1,[2,3],4],</span><br><span class="line">    b=deepClone(a);</span><br><span class="line">a[0]=1;</span><br><span class="line">a[2][0]=1;</span><br><span class="line">console.log(a,b);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><ol>
-<li>ECMAScript中所有函数都是按值传递的。</li>
-<li>原始值：和复制值行为一样</li>
-<li>引用值：注意！传递参数的时候不是按引用传递，而是按值传递。<ol>
-<li>区别在于，如果你在函数内重新定义传入的参数，修改它的属性。</li>
-<li>如果是按引用传递，在函数外查看参数的属性应该是会变的。</li>
-<li>但是按值传递，函数外的对象属性不会发生变化，对对象的引用没有发生改变。</li>
-</ol>
-</li>
-</ol>
-<h2 id="如何确定类型"><a href="#如何确定类型" class="headerlink" title="如何确定类型"></a>如何确定类型</h2><ol>
-<li>原始值用typeof确定类型比较好</li>
-<li>引用值使用instanceof操作符确定类型，例如：person instanceof Object</li>
-</ol>
-<h2 id="表示符查找"><a href="#表示符查找" class="headerlink" title="表示符查找"></a>表示符查找</h2><p>当在特定上下文中为读取或写入而引用一个标识符的时候，必须通过搜索确定这个标识符表示什么。搜索从作用域顶端开始，一直查找到全局上下文对象。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" data-id="ckwuqs1t80000xkud92i9a5go" data-title="Js学习笔记03变量、作用域与内存" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Webpack学习笔记2" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" class="article-date">
-  <time class="dt-published" datetime="2021-12-06T09:04:42.891Z" itemprop="datePublished">2021-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">Webpack学习笔记02</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Css文件优化操作"><a href="#Css文件优化操作" class="headerlink" title="Css文件优化操作"></a>Css文件优化操作</h1><h2 id="提取css文件"><a href="#提取css文件" class="headerlink" title="提取css文件"></a>提取css文件</h2><ol>
-<li><p>默认情况下webpack打包会把css文件压缩到目的js文件中</p>
-</li>
-<li><p>如果要提取出js中的文件需要加载插件mini-css-extract-plugin</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">npm i mini-css-extract-plugin -D	//加载依赖</span><br><span class="line"></span><br><span class="line">const MiniCssExtractPlugin = require(&#x27;mini-css-extract-plugin&#x27;)</span><br><span class="line"></span><br><span class="line">	module:&#123;</span><br><span class="line">		rules:[</span><br><span class="line">			&#123;</span><br><span class="line">				test:/\.css$/,</span><br><span class="line">				use:[</span><br><span class="line">					//创建style标签，将样式放入</span><br><span class="line">					// &#x27;style-loader&#x27;,</span><br><span class="line">					//取代&#x27;style-loader&#x27;。作用，提取被打包js中的css代码成为单独的文件</span><br><span class="line">					MiniCssExtractPlugin.loader,</span><br><span class="line">					//将css文件整合到js文件中</span><br><span class="line">					&#x27;css-loader&#x27;</span><br><span class="line">				]</span><br><span class="line">			&#125;</span><br><span class="line">		]</span><br><span class="line">	&#125;,</span><br><span class="line">	plugins:[</span><br><span class="line">		new MiniCssExtractPlugin(&#123;</span><br><span class="line">			//对输出的css文件重命名</span><br><span class="line">			filename:&#x27;css/built.css&#x27;</span><br><span class="line">		&#125;)</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="压缩css文件"><a href="#压缩css文件" class="headerlink" title="压缩css文件"></a>压缩css文件</h2><ol>
-<li>使用插件提取出来的css文件是按照正常格式输出的，这样的文件比较大，需要压缩</li>
-<li>使用optimize-css-assets-webpack-plugin插件进行压缩</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm i optimize-css-assets-webpack-plugin -D	//加载依赖</span><br><span class="line"></span><br><span class="line">const OptimizeCssAssetsWebpackPlugin = require(&#x27;optimize-css-assets-webpack-plugin&#x27;)</span><br><span class="line"></span><br><span class="line">	plugins:[</span><br><span class="line">		//压缩css</span><br><span class="line">		new OptimizeCssAssetsWebpackPlugin()</span><br><span class="line">	],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="css兼容性处理"><a href="#css兼容性处理" class="headerlink" title="css兼容性处理"></a>css兼容性处理</h2><p>1.在开发环境中对兼容性的要求很高，因为不同的浏览器之间css实现方式可能不同，可能会有冲突。这个时候就需要兼容性处理</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">npm i postcss-preset-env -D	//加载依赖</span><br><span class="line"></span><br><span class="line">// 设置nodejs环境变量</span><br><span class="line">process.env.NODE_ENV = &#x27;development&#x27;;</span><br><span class="line"></span><br><span class="line">module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [</span><br><span class="line">          MiniCssExtractPlugin.loader,</span><br><span class="line">          &#x27;css-loader&#x27;,</span><br><span class="line">          /*</span><br><span class="line">            css兼容性处理：postcss --&gt; postcss-loader postcss-preset-env</span><br><span class="line"></span><br><span class="line">            帮postcss找到package.json中browserslist里面的配置，通过配置加载指定的css兼容性样式</span><br><span class="line"></span><br><span class="line">            &quot;browserslist&quot;: &#123;</span><br><span class="line">              // 开发环境 --&gt; 设置node环境变量：process.env.NODE_ENV = development</span><br><span class="line">              &quot;development&quot;: [</span><br><span class="line">                &quot;last 1 chrome version&quot;,</span><br><span class="line">                &quot;last 1 firefox version&quot;,</span><br><span class="line">                &quot;last 1 safari version&quot;</span><br><span class="line">              ],</span><br><span class="line">              // 生产环境：默认是看生产环境</span><br><span class="line">              &quot;production&quot;: [</span><br><span class="line">                &quot;&gt;0.2%&quot;,</span><br><span class="line">                &quot;not dead&quot;,</span><br><span class="line">                &quot;not op_mini all&quot;</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          */</span><br><span class="line">          // 使用loader的默认配置</span><br><span class="line">          // &#x27;postcss-loader&#x27;,</span><br><span class="line">          // 修改loader的配置</span><br><span class="line">          &#123;</span><br><span class="line">            loader: &#x27;postcss-loader&#x27;,</span><br><span class="line">            options: &#123;</span><br><span class="line">              ident: &#x27;postcss&#x27;,</span><br><span class="line">              plugins: () =&gt; [</span><br><span class="line">                // postcss的插件</span><br><span class="line">                require(&#x27;postcss-preset-env&#x27;)()</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" data-id="ckwuji22p0000acud4e1ab2f0" data-title="Webpack学习笔记02" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-js学习笔记01Html中的JavaScript" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/" class="article-date">
-  <time class="dt-published" datetime="2021-12-06T04:29:21.248Z" itemprop="datePublished">2021-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/">Js学习笔记01Html中的JavaScript</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="script元素"><a href="#script元素" class="headerlink" title="script元素"></a>script元素</h1><p>script元素是用于引入JavaScript的html元素。</p>
-<p>1.可选属性有：</p>
-<p>async：</p>
-<p>​    表示应该立即下载脚本，但不能阻止其他页面动作，比如下载资源或等待其他脚本加载。只对外部脚本文件有效（不保证顺序执行）</p>
-<p>defer：</p>
-<p>​    表示脚本可以延迟到文档完全被解析后再执行。只对外部脚本有效。</p>
-<p>2.scrpit标签中引用外部脚本的时候不受浏览器同源策略限制，就是可以跨域（jsonp方案的原理）</p>
-<p>3.在script元素中的代码被计算完成之前，在这段代码之后的页面的其余内容不会被加载，也不会被显示。</p>
-<p>4.不该在已经引用了外部脚本的script标签中包含JavaScript代码，会被忽略。</p>
-<h3 id="标签位置"><a href="#标签位置" class="headerlink" title="标签位置"></a>标签位置</h3><p>1.放在head标签内</p>
-<p>意味着必须把所有JavaScript代码都下载，解析和解释完成后才能渲染画面。（可能导致白屏幕时间过长）</p>
-<p>2.放在body标签中页面内容的后面（通常做法）</p>
-<p>会优先加载内容页面，再加载脚本。（白屏时间短，用户体验好）</p>
-<h3 id="行内代码与外部文件"><a href="#行内代码与外部文件" class="headerlink" title="行内代码与外部文件"></a>行内代码与外部文件</h3><p>1.推荐将js代码放在外部文件，然后按需引入</p>
-<p>​    理由：1.可维护性强，js代码过于分散维护难度会非常高，放到统一的文件下可维护性更高。</p>
-<p>​                2.缓存性能，如果多个页面用到同一个脚本，只加载一次就够了。</p>
-<p>​                3.外部脚本语法在HTML和XHTML中是一致的。</p>
-<h3 id="动态加载脚本"><a href="#动态加载脚本" class="headerlink" title="动态加载脚本"></a>动态加载脚本</h3><p>使用DOM API（不太支持，就不展开了，红宝书P15）</p>
-<h3 id="noscript元素"><a href="#noscript元素" class="headerlink" title="noscript元素"></a>noscript元素</h3><p>用于指定在浏览器不支持脚本时候显示的内容。如果浏览器支持js脚本，则此元素内的任何内容都不会被渲染。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/" data-id="ckwu6cm6m0000j4udh8oj746m" data-title="Js学习笔记01Html中的JavaScript" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-js学习笔记02语言基础" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" class="article-date">
-  <time class="dt-published" datetime="2021-12-06T03:17:02.114Z" itemprop="datePublished">2021-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/">Js学习笔记02语言基础</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><ol>
-<li><h6 id="JavaScript中的一切都区分大小写"><a href="#JavaScript中的一切都区分大小写" class="headerlink" title="JavaScript中的一切都区分大小写"></a>JavaScript中的一切都区分大小写</h6></li>
-<li><h6 id="变量标识符"><a href="#变量标识符" class="headerlink" title="变量标识符"></a>变量标识符</h6><ol>
-<li>第一个字符必须是字母、下划线或美元符号</li>
-<li>后面的字符必须是字母、下划线、美元符号或者数字</li>
-<li>惯例上按照驼峰命名法</li>
-</ol>
-</li>
-<li><h6 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h6><ol>
-<li>单行注释使用    //</li>
-<li>多行注释使用/*    */</li>
-</ol>
-</li>
-<li><h6 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h6><ol>
-<li>代码块{}</li>
-<li>最好在控制语句中使用代码块</li>
-</ol>
-</li>
-</ol>
-<h1 id="Var关键字"><a href="#Var关键字" class="headerlink" title="Var关键字"></a>Var关键字</h1><ol>
-<li><h6 id="var声明提升"><a href="#var声明提升" class="headerlink" title="var声明提升"></a>var声明提升</h6><ol>
-<li>使用var声明变量还会自动提升到函数作用域顶部</li>
-<li>也就是说可以先使用变量再声明它</li>
-</ol>
-</li>
-<li><h6 id="var声明作用域"><a href="#var声明作用域" class="headerlink" title="var声明作用域"></a>var声明作用域</h6><ol>
-<li>在函数内定义var变量，会成为函数中的局部变量</li>
-<li>使用var声明，变量会自动被添加到最近的上下文</li>
-<li>在函数内省略var关键字，如name=“gyp”。会创建全局变量（不推荐）</li>
-</ol>
-</li>
-</ol>
-<h1 id="Let关键字"><a href="#Let关键字" class="headerlink" title="Let关键字"></a>Let关键字</h1><ol>
-<li><h6 id="和var的区别"><a href="#和var的区别" class="headerlink" title="和var的区别"></a>和var的区别</h6><ol>
-<li>使用let在全局作用域中声明变量不会成为window对象的属性，而var会</li>
-<li>var声明的是函数作用域，let声明的是块作用域</li>
-<li>let声明不会提升，如果在定义let之前使用它会出现临时性死区</li>
-<li>let在同一作用域下不能被声明两次</li>
-</ol>
-</li>
-<li><h6 id="for循环中的let声明"><a href="#for循环中的let声明" class="headerlink" title="for循环中的let声明"></a>for循环中的let声明</h6><ol>
-<li>在let之前，使用var定义for循环的迭代变量会渗透到循环体外。</li>
-<li>使用let做for循环的迭代变量不会泄露，因为是块级作用域。</li>
-<li>之前使用var，在循环中var变量中始终都是头一个变量，所以在循环体内访问var变量始终都是同一个值</li>
-<li>使用let，每个循环都会创建新的迭代变量，所以在循环体内访问let变量是不同的。</li>
-</ol>
-</li>
-</ol>
-<h1 id="const关键字"><a href="#const关键字" class="headerlink" title="const关键字"></a>const关键字</h1><ol>
-<li>与let基本一致，唯一一个重要区别是const必须在命名变量时赋值，且在后续使用中无法修改其值（定义常量）。</li>
-<li>只应用到顶级原语或者对象，如果为const初始化一个对象，那么虽然无法改变const的引用值，但是对象内的键值是可以更改的</li>
-</ol>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="typeof操作符"><a href="#typeof操作符" class="headerlink" title="typeof操作符"></a>typeof操作符</h2><ol>
-<li>对一个值使用typeof返回值</li>
-<li>undefined，尚未初始化的变量——undefined</li>
-<li>boolean——boolean</li>
-<li>string——string</li>
-<li>number——number</li>
-<li>object，array，null——object</li>
-<li>function——function</li>
-<li>symbol——symbol</li>
-</ol>
-<h2 id="undefined（假值）"><a href="#undefined（假值）" class="headerlink" title="undefined（假值）"></a>undefined（假值）</h2><ol>
-<li>默认情况下，任何未经初始化的变量都会取得undefined</li>
-<li>undefined和未定义是有区别的，但是用typeof调用的话，得到的值都是undefined</li>
-</ol>
-<h2 id="null"><a href="#null" class="headerlink" title="null"></a>null</h2><ol>
-<li>从逻辑上讲，null表示一个空对象指针，这也是给typeof传一个null会返回“object”的原因</li>
-<li>undefined是由null派生而来的，所以null==undefined为true</li>
-<li>如果确定一个变量将来要保存对象，但是现在没有对象可以保存，最好用null填充它，这样以后查看它是否保存了对象，只要看他是不是null就行了</li>
-</ol>
-<h2 id="boolean"><a href="#boolean" class="headerlink" title="boolean"></a>boolean</h2><ol>
-<li><p>布尔值只有两个字面值，true和false（区分大小写）</p>
-</li>
-<li><p>不同类型转换为布尔值转换规则</p>
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>转换为true的值</th>
-<th>转换为false的值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>String</td>
-<td>非空字符串</td>
-<td>“”（空字符串）</td>
-</tr>
-<tr>
-<td>number</td>
-<td>非零数值</td>
-<td>0，NaN</td>
-</tr>
-<tr>
-<td>object</td>
-<td>任意对象</td>
-<td>null</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>无</td>
-<td>undefined</td>
-</tr>
-</tbody></table>
-</li>
-</ol>
-<h2 id="Number（使用IEEE754格式）"><a href="#Number（使用IEEE754格式）" class="headerlink" title="Number（使用IEEE754格式）"></a>Number（使用IEEE754格式）</h2><ol>
-<li><h6 id="进制"><a href="#进制" class="headerlink" title="进制"></a>进制</h6><ol>
-<li>默认为十进制</li>
-<li>以0开头会被认为是八进制，但不能超出表示范围，否则会被认为是十进制（例如0175被承认为八进制，089不被承认为八进制）</li>
-<li>以Ox（区分大小写）开头会被认为是16进制</li>
-<li>在数学操作中都被视为十进制</li>
-</ol>
-</li>
-<li><h6 id="浮点值"><a href="#浮点值" class="headerlink" title="浮点值"></a>浮点值</h6><ol>
-<li>要定义浮点值，数值必须包含小数点，小数点至少一位数字</li>
-<li>浮点值空间是整数值两倍</li>
-<li>浮点值精度为17位小数，但是不如整数精确（IEEE754格式导致的问题）</li>
-</ol>
-</li>
-<li><h6 id="数值转换"><a href="#数值转换" class="headerlink" title="数值转换"></a>数值转换</h6><ol>
-<li>number（）<ol>
-<li>布尔值，true为1，false为0</li>
-<li>数值，直接返回</li>
-<li>null，返回0</li>
-<li>undefined，返回NaN</li>
-<li>字符串<ol>
-<li>如果字符串只包含数值字符，包括前面+-符号，转换为十进制数。（忽略前导0，即不能转换八进制）</li>
-<li>如果字符串包含有效浮点格式如“1.1”，转换为对应浮点数</li>
-<li>如果字符串包含有效十六进制格式，则会转换为相应的十六进制的十进制格式。</li>
-<li>其余情况，返回NaN</li>
-</ol>
-</li>
-<li>对象，调用valueOf（）方法，并按照上述规则转换返回的值。如果转换结果是NaN，则调用toString（）方法，再按字符串规则转换。</li>
-</ol>
-</li>
-<li>parseInt（）在需要得到整数时优先使用<ol>
-<li>从第一个非空格字符开始转换。如果第一个字符不是数值，+，-符号，则立即返回NaN。所以空字符串也返回NaN。接下来会持续检测，返回一个整数。</li>
-<li>可以识别不同的进制格式，包括十六进制，八进制。</li>
-<li>可以接受第二个参数，作为底数，进制数，如parseInt（“AF”，16）//175</li>
-</ol>
-</li>
-<li>parseFloat（）<ol>
-<li>跟parseInt（）类似，不过会识别浮点数，并且不能识别十进制以外的进制。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h6 id="NaN"><a href="#NaN" class="headerlink" title="NaN"></a>NaN</h6><ol>
-<li>表示本来要返回数值的操作失败了</li>
-<li>任何涉及NaN操作始终返回NaN</li>
-<li>NaN不等于任何值，包括它本身</li>
-</ol>
-</li>
-</ol>
-<h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><ol>
-<li><h6 id="字符字面量"><a href="#字符字面量" class="headerlink" title="字符字面量"></a>字符字面量</h6><table>
-<thead>
-<tr>
-<th>\n</th>
-<th>换行</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>\t</td>
-<td>制表</td>
-</tr>
-<tr>
-<td>\b</td>
-<td>退格</td>
-</tr>
-<tr>
-<td>\r</td>
-<td>回车</td>
-</tr>
-<tr>
-<td>\f</td>
-<td>换页</td>
-</tr>
-<tr>
-<td>\</td>
-<td>反斜杠</td>
-</tr>
-<tr>
-<td>\‘</td>
-<td>单引号</td>
-</tr>
-<tr>
-<td>\“</td>
-<td>双引号</td>
-</tr>
-<tr>
-<td>\xnn</td>
-<td>以十六进制表示的字符</td>
-</tr>
-<tr>
-<td>\unnn</td>
-<td>以十六进制表示的Unicode字符</td>
-</tr>
-</tbody></table>
-</li>
-<li><h6 id="模板字面量"><a href="#模板字面量" class="headerlink" title="模板字面量"></a>模板字面量</h6><ol>
-<li>模板字面量会保持反引号内的空格</li>
-</ol>
-</li>
-<li><h6 id="字符串插值"><a href="#字符串插值" class="headerlink" title="字符串插值"></a>字符串插值</h6><ol>
-<li>从技术上来讲，模板字面量不是字符串，是一种特殊的JavaScript语法</li>
-<li>通过在${}中使用js表达式实现</li>
-</ol>
-</li>
-<li><h6 id="转换为字符串"><a href="#转换为字符串" class="headerlink" title="转换为字符串"></a>转换为字符串</h6><ol>
-<li>toString（）<ol>
-<li>可用于数组、布尔值、对象和字符串值；null和undefined没有toString方法</li>
-<li>当转换为数值类型时，可以接受一个参数作为底数，就是作为几进制输出</li>
-</ol>
-</li>
-<li>String（）<ol>
-<li>当传入参数为null或undefined时，返回“null”或“undefined”</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><ol>
-<li>对象其实就是一组数据和功能的集合</li>
-<li>几个重要的属性和方法<ol>
-<li>constrictor:用于创建当前对象的函数。</li>
-<li>hasOwnProperty(propertyName):用于判断当前对象实例（不是原型）上是否存在给定属性。</li>
-<li>defineProperty(obj，key，{…}):用于给对象的属性添加方法，Vue响应性原理。</li>
-<li>valueOf():返回对象对应的数值，字符串，或布尔值</li>
-</ol>
-</li>
-</ol>
-<h1 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h1><h2 id="一元操作符"><a href="#一元操作符" class="headerlink" title="一元操作符"></a>一元操作符</h2><ol>
-<li><h6 id=""><a href="#" class="headerlink" title="++"></a>++</h6><ol>
-<li>在变量前如++a，在语句求值之前改变，+1</li>
-<li>在变量后如a++，在语句求值之后改变，+1</li>
-</ol>
-</li>
-<li><h6 id="–（同上）"><a href="#–（同上）" class="headerlink" title="–（同上）"></a>–（同上）</h6></li>
-<li><h6 id="一元加和减"><a href="#一元加和减" class="headerlink" title="一元加和减"></a>一元加和减</h6><ol>
-<li>和数学上用途一致</li>
-<li>隐式转换加到不同类型中会试图将他们转换为数值类型，如+a</li>
-</ol>
-</li>
-</ol>
-<h2 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h2><ol>
-<li>按位非（~）作用是返回数值的一补数，最终结果时对数值取反再减一</li>
-<li>按位与（&amp;）本质上是两个数的每一位对齐</li>
-<li>按位或（|）有一则一，没一则零</li>
-<li>有符号右移（&gt;&gt;&gt;）所有数值向右移指定位数，符号位也移动</li>
-<li>有符号左移（&lt;&lt;&lt;）所有数值向左移指定位数，符号位不变</li>
-<li>左移（&lt;&lt;）所有数值向左移指定位数，符号位不变</li>
-</ol>
-<h2 id="布尔操作符"><a href="#布尔操作符" class="headerlink" title="布尔操作符"></a>布尔操作符</h2><ol>
-<li><h6 id="逻辑非（-）"><a href="#逻辑非（-）" class="headerlink" title="逻辑非（!）"></a>逻辑非（!）</h6></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>操作数</th>
-<th>返回值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>对象</td>
-<td>false</td>
-</tr>
-<tr>
-<td>空字符串</td>
-<td>true</td>
-</tr>
-<tr>
-<td>非空字符串</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>true</td>
-</tr>
-<tr>
-<td>非0数值</td>
-<td>false</td>
-</tr>
-<tr>
-<td>null</td>
-<td>true</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>true</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>true</td>
-</tr>
-</tbody></table>
-<p>双非！！，可以求出变量真正对应的布尔值</p>
-<h6 id="2-逻辑与（-amp-amp-）"><a href="#2-逻辑与（-amp-amp-）" class="headerlink" title="2.逻辑与（&amp;&amp;）"></a>2.逻辑与（&amp;&amp;）</h6><table>
-<thead>
-<tr>
-<th>第一个操作数</th>
-<th>第二个操作数</th>
-<th>结果</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>对象</td>
-<td>任意</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>布尔值为true</td>
-<td>对象</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>对象</td>
-<td>对象</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>null</td>
-<td>——</td>
-<td>null</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>——</td>
-<td>NaN</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>——</td>
-<td>undefined</td>
-</tr>
-</tbody></table>
-<p>短路操作符，第一个操作数为false，则第二个操作数被忽略</p>
-<h6 id="3-逻辑或（-）"><a href="#3-逻辑或（-）" class="headerlink" title="3.逻辑或（||）"></a>3.逻辑或（||）</h6><table>
-<thead>
-<tr>
-<th>第一个操作数</th>
-<th>第二个操作数</th>
-<th>结果</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>对象</td>
-<td>任意</td>
-<td>返回第一个操作数</td>
-</tr>
-<tr>
-<td>布尔值为false</td>
-<td>对象</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>对象</td>
-<td>对象</td>
-<td>返回第一个操作数</td>
-</tr>
-<tr>
-<td>null</td>
-<td>——</td>
-<td>null</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>——</td>
-<td>NaN</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>——</td>
-<td>undefined</td>
-</tr>
-</tbody></table>
-<p>短路操作符，第一个操作数为true，则第二个操作数被忽略。</p>
-<h2 id="乘性操作符"><a href="#乘性操作符" class="headerlink" title="乘性操作符"></a>乘性操作符</h2><p>乘法（*），除法（/），取模（%）</p>
-<h2 id="指数操作符"><a href="#指数操作符" class="headerlink" title="指数操作符"></a>指数操作符</h2><ol>
-<li>3**2等价于3的平方</li>
-<li>a**等价于a的平方</li>
-</ol>
-<h2 id="加性操作符"><a href="#加性操作符" class="headerlink" title="加性操作符"></a>加性操作符</h2><ol>
-<li><h6 id="加法操作符"><a href="#加法操作符" class="headerlink" title="加法操作符"></a>加法操作符</h6><ol>
-<li><p>优先级最高：<br>如果有任意一个操作数为字符串，则将所有操作数转换为字符串再拼接。</p>
-<p>Infinity加-Infinity=NaN</p>
-</li>
-</ol>
-</li>
-<li><h6 id="减法操作符"><a href="#减法操作符" class="headerlink" title="减法操作符"></a>减法操作符</h6></li>
-</ol>
-<h2 id="比较操作符-gt-lt-lt-gt"><a href="#比较操作符-gt-lt-lt-gt" class="headerlink" title="比较操作符(&gt;,&lt;,&lt;=,&gt;=)"></a>比较操作符(&gt;,&lt;,&lt;=,&gt;=)</h2><ol>
-<li>非数值转换为数值比较</li>
-<li>都是字符串，则逐个比较字符串对应字符编码</li>
-</ol>
-<h2 id="相等操作符"><a href="#相等操作符" class="headerlink" title="相等操作符"></a>相等操作符</h2><ol>
-<li>等于和不等于(==/!==)<ol>
-<li>两个操作数会先进行强制类型转换</li>
-<li>null==undefined(true)</li>
-</ol>
-</li>
-<li>全等和不全等(===/!==)<ol>
-<li>不进行强制类型转换，比较值和类型</li>
-<li>null===undefined（false）</li>
-</ol>
-</li>
-</ol>
-<h2 id="其他操作符"><a href="#其他操作符" class="headerlink" title="其他操作符"></a>其他操作符</h2><ol>
-<li><h6 id="条件操作符"><a href="#条件操作符" class="headerlink" title="条件操作符"></a>条件操作符</h6><ol>
-<li>格式如a?b:c，a为真则执行b，为假则执行c</li>
-<li>可以嵌套如:a?(b?c:d):e</li>
-<li>方式简洁优雅，但是不便于阅读</li>
-</ol>
-</li>
-<li><h6 id="赋值操作符"><a href="#赋值操作符" class="headerlink" title="赋值操作符(=)"></a>赋值操作符(=)</h6><ol>
-<li>将右边的值赋值给左边</li>
-<li>乘后赋值（*=）<br>除后赋值（/=）<br>取模后赋值（%=）<br>加后赋值（+=）<br>减后赋值（-=）<br>左移后赋值（&lt;&lt;=）</li>
-</ol>
-</li>
-<li><h6 id="逗号操作符"><a href="#逗号操作符" class="headerlink" title="逗号操作符"></a>逗号操作符</h6><ol>
-<li>可以用来在一条语句中执行多个操作，如:let num = 1，num1 = 2</li>
-</ol>
-</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" data-id="ckwu3rs28000180ud2239hpqr" data-title="Js学习笔记02语言基础" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
-    <article id="post-Vue源码笔记05" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/GiorunoGiovana.github.io/2021/12/06/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B005/" class="article-date">
-  <time class="dt-published" datetime="2021-12-06T01:04:47.178Z" itemprop="datePublished">2021-12-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/06/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B005/">Vue源码学习笔记05</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h1><p>在以前，前端没有状态管理的概念。人们试图把MVC这个概念引入到前端中，把状态叫做模型。在很多场景下，这是一中很好的抽象。但是主要问题是我们缺乏一种以声明的方式将模型与渲染结合。</p>
-<p>在Vue等前端框架中，优势是状态已经透明到链接的Vue中，当然这也有问题，因为它太容易将状态传播到任何地方，并在任何地方进行修改。随着项目规模的增大，跟踪储存状态的位置立即改变状态的位置会变得越来越困难。</p>
-<p>总体而言，很多问题实际上是查明问题的来源并且没有适当的模式让你管理和状态有关的代码。这会导致你的应用变得越来越不可预测。因此，状态管理只是前端开发人员试图找出一种科学方法解决代码如何存放和状态如何管理的问题。从而当问题出现的时候可以更轻松地查明问题。</p>
-<p>Flux就是第一个关于单向数据流的想法。</p>
-<p>在Vue中一切都很直接，只需要将状态放入组件中即可。实际上，很多简单场景已经够用。状态管理库或状态管理模式不一定在每种情况下都需要。</p>
-<h1 id="VueX——Vue的状态管理模式"><a href="#VueX——Vue的状态管理模式" class="headerlink" title="VueX——Vue的状态管理模式"></a>VueX——Vue的状态管理模式</h1><p>如果有多个组件需要访问同一个状态，问题会变得复杂。如果数据是应用中多个组件共享的，那么数据应该提取出来集中管理，而不是放到某个组件中。所以这就提出了使用库或者是一个模式的必要性。</p>
-<p>VueX的本质就是Vue的生态系统，当然，历经多次迭代，处理基础概念，他还带来了其他工具，例如模块系统，插件系统。</p>
-<h1 id="Props传递"><a href="#Props传递" class="headerlink" title="Props传递"></a>Props传递</h1><p>最基本的状态管理，将数据和视图分离，counter本身只负责接受一些属性和渲染它。这些实例都有共同的父组件。在很多情况下，最坏的情况下你可能需要管理所有状态。在根节点中，并通过Props传递下去。当组件树结构越来越大，这样的弊端会逐渐显现出来，就是需要手动地将props一层层传递下去。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;counter :count=&quot;count&quot;&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter :count=&quot;count&quot;&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter :count=&quot;count&quot;&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;button @click=&quot;count++&quot;&gt;increment&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// requirement: a counter component rendered 3 times</span><br><span class="line">// the component takes the current count via props</span><br><span class="line">// and a button that increments all 3 counters at once</span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &#x27;#app&#x27;,</span><br><span class="line">  //状态</span><br><span class="line">  data: &#123;</span><br><span class="line">    count: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    Counter: &#123;</span><br><span class="line">      props: &#123;</span><br><span class="line">        count: Number</span><br><span class="line">      &#125;,</span><br><span class="line">	  //视图</span><br><span class="line">      template: `&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h1><p>我们可以将一个对象独立出来作为共享对象作为我们的状态，这样就避免了参数在组件中的传递。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;button @click=&quot;inc&quot;&gt;increment&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// create a counter component (that doesn&#x27;t take any props)</span><br><span class="line">// all instances of it should share the same count state</span><br><span class="line">// and a button that increments all counters at the same time</span><br><span class="line"></span><br><span class="line">//定义一个独立状态</span><br><span class="line">const state = &#123;</span><br><span class="line">  count: 0,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const Counter = &#123;</span><br><span class="line">  // Convert state into reactive object</span><br><span class="line">    //用data返回这个状态，这样Vue就可以给他加上响应式</span><br><span class="line">  data () &#123;</span><br><span class="line">    return state</span><br><span class="line">  &#125;,</span><br><span class="line">    //渲染函数</span><br><span class="line">  render (h) &#123;</span><br><span class="line">    // Proxy the object</span><br><span class="line">    return h(&#x27;div&#x27;, this.count)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//注册组件</span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &#x27;#app&#x27;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    Counter</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    inc () &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="共享实例"><a href="#共享实例" class="headerlink" title="共享实例"></a>共享实例</h1><p>上一个思路是共享对象，那么我们能不能更近一步，使用实例进行状态共享。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;button @click=&quot;inc&quot;&gt;increment&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">// copy and modify the first exercise to use a Vue instance as</span><br><span class="line">// a shared store instead.</span><br><span class="line">//把数据和方法直接在vue中定义，这样他们就会带上响应式</span><br><span class="line">const state = new Vue(&#123;</span><br><span class="line">  data: &#123;</span><br><span class="line">    count: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    inc () &#123;</span><br><span class="line">      this.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">//渲染组件</span><br><span class="line">const Counter = &#123;</span><br><span class="line">  render: h =&gt; h(&#x27;div&#x27;, state.count)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//注册组件和方法</span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &#x27;#app&#x27;,</span><br><span class="line">  components: &#123;</span><br><span class="line">    Counter</span><br><span class="line">  &#125;,</span><br><span class="line">  //这里有点绕，用这个函数包装state的函数，使得数据交换被隐藏了起来,会更为安全</span><br><span class="line">  methods: &#123;</span><br><span class="line">    inc () &#123;</span><br><span class="line">      state.inc()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h1><p>在上一个例子中我们成功将实例抽象出来进行共享。那么使用Vue实例去封装一些使用方法，最后导出不同的API又该怎么实现呢？</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;counter&gt;&lt;/counter&gt;</span><br><span class="line">  &lt;button @click=&quot;inc&quot;&gt;increment&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//定义一个函数，它返回Vue实例</span><br><span class="line">function createStore (&#123; state, mutations &#125;) &#123;</span><br><span class="line">  return new Vue(&#123;</span><br><span class="line">    data: &#123;</span><br><span class="line">	  //使其具有响应性</span><br><span class="line">      state</span><br><span class="line">    &#125;,</span><br><span class="line">    methods: &#123;</span><br><span class="line">      commit (mutation) &#123;</span><br><span class="line">        if (!mutations.hasOwnProperty(mutation)) &#123;</span><br><span class="line">          throw new Error(&#x27;Unknown mutation&#x27;)</span><br><span class="line">        &#125;</span><br><span class="line">		//解构mutations获取内部所有方法，给他们赋予状态</span><br><span class="line">        mutations[mutation](state)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const store = createStore(&#123;</span><br><span class="line">  state: &#123; count: 0 &#125;,</span><br><span class="line">  mutations: &#123;</span><br><span class="line">    inc (state) &#123;</span><br><span class="line">      state.count++</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">const Counter = &#123;</span><br><span class="line">  render (h) &#123;</span><br><span class="line">    return h(&#x27;div&#x27;, store.state.count)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">  el: &#x27;#app&#x27;,</span><br><span class="line">  components: &#123; Counter &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    inc () &#123;</span><br><span class="line">      store.commit(&#x27;inc&#x27;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="最后一步，模拟VueX"><a href="#最后一步，模拟VueX" class="headerlink" title="最后一步，模拟VueX"></a>最后一步，模拟VueX</h1><p>当完成了前面的练习时，模拟VueX已经呼之欲出了，通过封装一个app函数，在函数内实现挂载节点，共享状态，视图和数据。之后只需要调用这个函数，传入必要参数就可以模拟VueX的行为了。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//Vuex简单模拟</span><br><span class="line">//el:Vue实例挂载的元素节点，model共享的数据，view视图，action动作函数</span><br><span class="line">function app (&#123; el, model, view, actions &#125;) &#123;</span><br><span class="line">  const wrappedActions = &#123;&#125;</span><br><span class="line"></span><br><span class="line">  //给动作函数中的所有函数传入实例的响应式数据，直接传入函数的话，函数内部的值将不具有响应式</span><br><span class="line">  Object.keys(actions).forEach(key =&gt; &#123;</span><br><span class="line">    const originalAction = actions[key]</span><br><span class="line">    wrappedActions[key] = () =&gt; &#123;</span><br><span class="line">      vm.model = originalAction(vm.model)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line"></span><br><span class="line">  //创建vue实例对象</span><br><span class="line">  const vm = new Vue(&#123;</span><br><span class="line">	//挂载节点</span><br><span class="line">    el,</span><br><span class="line">	//数据</span><br><span class="line">    data: &#123;</span><br><span class="line">	  //给它带上响应式</span><br><span class="line">      model</span><br><span class="line">    &#125;,</span><br><span class="line">	//渲染函数（视图）</span><br><span class="line">    render (h) &#123;</span><br><span class="line">      return view(h, this.model, wrappedActions)</span><br><span class="line">    &#125;,</span><br><span class="line">	//动作函数</span><br><span class="line">    methods: actions</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// voila</span><br><span class="line">//这里就可以进行类似Vue创建实例的方法了</span><br><span class="line">app(&#123;</span><br><span class="line">  el: &#x27;#app&#x27;,</span><br><span class="line">  model: &#123;</span><br><span class="line">    count: 0</span><br><span class="line">  &#125;,</span><br><span class="line">  actions: &#123;</span><br><span class="line">    inc: (&#123; count &#125;) =&gt; (&#123; count: count + 1 &#125;),</span><br><span class="line">    dec: (&#123; count &#125;) =&gt; (&#123; count: count - 1 &#125;)</span><br><span class="line">  &#125;,</span><br><span class="line">  view: (h, model, actions) =&gt; h(&#x27;div&#x27;, &#123; attrs: &#123; id: &#x27;app&#x27; &#125;&#125;, [</span><br><span class="line">    model.count, &#x27; &#x27;,</span><br><span class="line">    h(&#x27;button&#x27;, &#123; on: &#123; click: actions.inc &#125;&#125;, &#x27;+&#x27;),</span><br><span class="line">    h(&#x27;button&#x27;, &#123; on: &#123; click: actions.dec &#125;&#125;, &#x27;-&#x27;)</span><br><span class="line">  ])</span><br><span class="line">&#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>上面的这些例子只是非常简单的vue实例，只是为了演示VueX的实现方式。事实上VueX具有更多的功能。例如VueX有action，getter，模块等概念。当然VueX的核心仍然是基于Vue实例实现响应性。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B005/" data-id="ckwtz34s80000hcudfkqlhq6g" data-title="Vue源码学习笔记05" class="article-share-link">Share</a>
-      
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-
-  
 
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/GiorunoGiovana.github.io/page/2/">2</a><a class="extend next" rel="next" href="/GiorunoGiovana.github.io/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/GiorunoGiovana.github.io/page/2/">2</a><a class="page-number" href="/GiorunoGiovana.github.io/page/3/">3</a><a class="extend next" rel="next" href="/GiorunoGiovana.github.io/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -1559,23 +1321,23 @@
       <ul>
         
           <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/">Vue源码学习笔记06</a>
+            <a href="/GiorunoGiovana.github.io/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">js学习笔记14网络请求</a>
           </li>
         
           <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1%E3%80%81%E7%B1%BB%E5%9F%9F%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">js学习笔记07对象、类域面向对象编程</a>
+            <a href="/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/">js学习笔记13JSON</a>
           </li>
         
           <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">Js学习笔记06迭代器与生成器</a>
+            <a href="/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">js学习笔记12异步编程</a>
           </li>
         
           <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记05集合引用类型Object</a>
+            <a href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/">js学习笔记11函数</a>
           </li>
         
           <li>
-            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">Js学习笔记03变量、作用域与内存</a>
+            <a href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/">js学习笔记10代理与反射</a>
           </li>
         
       </ul>

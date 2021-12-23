@@ -4,23 +4,15 @@
   <meta charset="utf-8">
   
   
-  <title>Vue源码学习笔记01 | Hexo</title>
+  <title>Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="Vue响应式原理从原理上来讲vue是利用了Object的defineProperty的属性，它把我们放进去的data中每一个属性都设置了getter和setter，这样当data的属性值更新后，我们就会收到通知，并可以通知那些需要更新的地方去进行更新。 getter&amp;&amp;setter简单实现12345678910111213141516171819202122232425262728">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Vue源码学习笔记01">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/page/3/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Vue响应式原理从原理上来讲vue是利用了Object的defineProperty的属性，它把我们放进去的data中每一个属性都设置了getter和setter，这样当data的属性值更新后，我们就会收到通知，并可以通知那些需要更新的地方去进行更新。 getter&amp;&amp;setter简单实现12345678910111213141516171819202122232425262728">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==">
-<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==">
-<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==">
-<meta property="article:published_time" content="2021-12-04T03:39:42.030Z">
-<meta property="article:modified_time" content="2021-12-04T03:42:49.219Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==">
   
     <link rel="alternate" href="/GiorunoGiovana.github.io/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -77,7 +69,104 @@
 </header>
 
       <div class="outer">
-        <section id="main"><article id="post-Vue源码笔记01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main">
+  
+    <article id="post-Vue源码笔记02" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/" class="article-date">
+  <time class="dt-published" datetime="2021-12-04T04:29:02.681Z" itemprop="datePublished">2021-12-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/">Vue源码学习笔记02</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="编写一个简单插件"><a href="#编写一个简单插件" class="headerlink" title="编写一个简单插件"></a>编写一个简单插件</h2><p>Vue中有一个强大的功能就是提供插件的使用:</p>
+<h3 id="Vue-use-Plugin"><a href="#Vue-use-Plugin" class="headerlink" title="Vue.use(Plugin)"></a>Vue.use(Plugin)</h3><p>通过简单的use命令就可以调用各种各样的插件，极大方便了我们的日常开发。那么如何编写一个插件呢？</p>
+<p>插件（Plugin）本质上就是一个函数，它接受一个参数是Vue构造器，另一个参数是可选的选项对象options。<br>另一个需要了解的技术是Vue.mixin:</p>
+<h3 id="Vue-mixin-options"><a href="#Vue-mixin-options" class="headerlink" title="Vue.mixin(options)"></a>Vue.mixin(options)</h3><p>mixins本质上是一段可重复利用的代码段，Vue.mixin(options)是一个全局的api，所以它可以应用到所有实例之中。注意！因为它可以混入到所有实例中，所以我们在使用它的时候要格外的小心。</p>
+<p>如果你想使用一些全局上的功能，可能会用到mixin，但是如果你需要反复调用mixin，最好的办法是将其用插件接口包装，这样插件会防止被反复应用。<br>最后一个知识点是$options:</p>
+<h3 id="options"><a href="#options" class="headerlink" title="$options"></a>$options</h3><p>$options是一个对象，他会收集包括</p>
+<p>1.全局mixins</p>
+<p>2.组件自定义的mixin</p>
+<p>3.你传递给他的选项（options）</p>
+<p>4.你添加到组件的任何自定义项<br>利用上面说到的知识，就可以编写一个简单的插件了：</p>
+<pre><code>const RulesPlugin = &#123;
+    //加载vue插件，稍后使用Vue.use注册它
+  install (Vue) &#123;
+      //全局混入，注意，它将影响之后创建的每一个vue实例！
+    Vue.mixin(&#123;
+        //在created生命周期钩子处注册函数
+      created () &#123;
+          //在data外定义的属性和方法可以用$options调用
+        if (this.$options.hasOwnProperty(&#39;rules&#39;)) &#123;
+          const rules = this.$options.rules
+          Object.keys(rules).forEach(key =&gt; &#123;
+            const rule = rules[key]
+              //监听rules对象中的每一个属性变化
+            this.$watch(key, newValue =&gt; &#123;
+              const result = rule.validate(newValue)
+              if (!result) &#123;
+                console.log(rule.message)
+              &#125;
+            &#125;)
+          &#125;)
+        &#125;
+      &#125;
+    &#125;)
+  &#125;
+&#125;
+ 
+Vue.use(RulesPlugin)
+</code></pre>
+<p>这个插件的作用是监听一个Vue实例中data的属性值，当其中的属性值发生改变的时候，就会检查对应的规则，并进行校验。</p>
+<pre><code>const vm = new Vue(&#123;
+  data: &#123; foo: 10,bar :10 &#125;,
+  rules: &#123;
+    foo: &#123;
+      validate: value =&gt; value &gt; 1,
+      message: &#39;foo must be greater than one&#39;
+    &#125;,
+    bar: &#123;
+      validate: value =&gt; value &gt; 1,
+      message: &#39;gun yuan dian&#39;
+    &#125;
+  &#125;
+&#125;)
+ 
+vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
+</code></pre>
+<p> 参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
+<p>参考github：<a target="_blank" rel="noopener" href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/" data-id="ckwrbml4i0000zgud2oz82akt" data-title="Vue源码学习笔记02" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-Vue源码笔记01" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/" class="article-date">
   <time class="dt-published" datetime="2021-12-04T03:39:42.030Z" itemprop="datePublished">2021-12-04</time>
@@ -90,8 +179,8 @@
       <header class="article-header">
         
   
-    <h1 class="p-name article-title" itemprop="headline name">
-      Vue源码学习笔记01
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/">Vue源码学习笔记01</a>
     </h1>
   
 
@@ -126,29 +215,87 @@
     </footer>
   </div>
   
-    
-<nav id="article-nav">
-  
-    <a href="/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          Vue源码学习笔记02
-        
-      </div>
-    </a>
-  
-  
-    <a href="/GiorunoGiovana.github.io/2021/12/04/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">第一篇博客</div>
-    </a>
-  
-</nav>
+</article>
 
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/GiorunoGiovana.github.io/2021/12/04/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2021-12-04T01:40:22.650Z" itemprop="datePublished">2021-12-04</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/GiorunoGiovana.github.io/2021/12/04/hello-world/">第一篇博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h2 id="博客搭建指南"><a href="#博客搭建指南" class="headerlink" title="博客搭建指南"></a>博客搭建指南</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>安装环境</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nodejs</span><br></pre></td></tr></table></figure>
+
+<p>安装软件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git</span><br></pre></td></tr></table></figure>
+
+<p>准备一个github账号</p>
+<h3 id="第一步：绑定github（2021-8-14之后github取消了账号密码登录，只能使用shh登录了"><a href="#第一步：绑定github（2021-8-14之后github取消了账号密码登录，只能使用shh登录了" class="headerlink" title="第一步：绑定github（2021/8/14之后github取消了账号密码登录，只能使用shh登录了)"></a>第一步：绑定github（2021/8/14之后github取消了账号密码登录，只能使用shh登录了)</h3><h3 id="第二步：安装hexo"><a href="#第二步：安装hexo" class="headerlink" title="第二步：安装hexo"></a>第二步：安装hexo</h3><p>首先在D盘建立一个文件夹 Blog，点开 Blog 文件夹，鼠标右键打开 Git Bush Here，输入npm命令安装Hexo：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g hexo-cli</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后，输入 hexo init 命令初始化博客；</p>
+<p>然后输入 hexo g 静态部署；</p>
+<p>这时网页已经部署完成，输入 hexo s 命令可以查看；</p>
+<h3 id="第三步：将Hexo部署到GitHub"><a href="#第三步：将Hexo部署到GitHub" class="headerlink" title="第三步：将Hexo部署到GitHub"></a>第三步：将Hexo部署到GitHub</h3><p>现在回到我们的 Blog 文件夹，用笔记本打开 _config.yml 文件，在最后输入如下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">  <span class="built_in">type</span>: git</span><br><span class="line">  repository: git@github.com:GiorunoGiovanna/GiorunoGiovana.github.io.git  <span class="comment">#你的仓库地址(注意，由于GitHub登录规则的改变，最好使用git地址而不是http)</span></span><br><span class="line">  branch: master	<span class="comment">#要和你项目的分支名称一致</span></span><br></pre></td></tr></table></figure>
+
+<p>然后回到 Blog 文件夹中，打开 Git Bash，安装Git部署插件</p>
+<p>输入命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure>
+
+<p>然后分别输入以下三条命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo clean   #清除缓存文件 db.json 和已生成的静态文件</span><br><span class="line">hexo g       #生成网站静态文件到默认设置的 public 文件夹(hexo generate 的缩写)</span><br><span class="line">hexo d       #自动生成网站静态文件，并部署到设定的仓库(hexo deploy 的缩写)</span><br></pre></td></tr></table></figure>
+
+<p>完成以后就可以访问你的博客啦！</p>
+<p>踩坑：</p>
+<h4 id="1-不知道是不是因为登录方式的改变，我一开始在deploy中rep地址使用的是http地址，一直报错说部署失败。"><a href="#1-不知道是不是因为登录方式的改变，我一开始在deploy中rep地址使用的是http地址，一直报错说部署失败。" class="headerlink" title="1.不知道是不是因为登录方式的改变，我一开始在deploy中rep地址使用的是http地址，一直报错说部署失败。"></a>1.不知道是不是因为登录方式的改变，我一开始在deploy中rep地址使用的是http地址，一直报错说部署失败。</h4><h5 id="把http地址改成shh的地址之后就可以正常部署了。"><a href="#把http地址改成shh的地址之后就可以正常部署了。" class="headerlink" title="把http地址改成shh的地址之后就可以正常部署了。"></a>把http地址改成shh的地址之后就可以正常部署了。</h5><h4 id="2-部署到github上面之后开心地打开后发现没有样式，我直接？"><a href="#2-部署到github上面之后开心地打开后发现没有样式，我直接？" class="headerlink" title="2.部署到github上面之后开心地打开后发现没有样式，我直接？"></a>2.部署到github上面之后开心地打开后发现没有样式，我直接？</h4><h5 id="上网查找后发现在deploy中把url：那一行改一下就行了"><a href="#上网查找后发现在deploy中把url：那一行改一下就行了" class="headerlink" title="上网查找后发现在deploy中把url：那一行改一下就行了"></a>上网查找后发现在deploy中把url：那一行改一下就行了</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">url: https://giorunogiovanna.github.io/GiorunoGiovana.github.io	#你的博客网址</span><br><span class="line">root: /GiorunoGiovana.github.io/	#你的博客网址最后一段后缀</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p>本博客只是用于学习笔记和踩坑记录，具体操作可以看大神的<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/102592286">https://zhuanlan.zhihu.com/p/102592286</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/hello-world/" data-id="ckwr6lskd0000ykudc2r0af1v" data-title="第一篇博客" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
   
 </article>
 
+
+
+  
+
+
+  <nav id="page-nav">
+    
+    <a class="extend prev" rel="prev" href="/GiorunoGiovana.github.io/page/2/">&laquo; Prev</a><a class="page-number" href="/GiorunoGiovana.github.io/">1</a><a class="page-number" href="/GiorunoGiovana.github.io/page/2/">2</a><span class="page-number current">3</span>
+  </nav>
 
 </section>
         
