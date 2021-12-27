@@ -186,6 +186,88 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
+      <meta itemprop="name" content="Joker">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joker's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/GiorunoGiovana.github.io/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/" class="post-title-link" itemprop="url">Vue源码学习笔记04</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-05 14:54:28" itemprop="dateCreated datePublished" datetime="2021-12-05T14:54:28+08:00">2021-12-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:37:40" itemprop="dateModified" datetime="2021-12-25T14:37:40+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/GiorunoGiovana.github.io/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h3><p>简单来说，就是一个封装了一个或多个具体功能的组件，它与外界的联系只有简单的props，这样可以保证这个组件与其他组件的耦合度最低，可复用性强，并且不容易污染其他组件。</p>
+<h3 id="高阶函数和Mixins"><a href="#高阶函数和Mixins" class="headerlink" title="高阶函数和Mixins"></a>高阶函数和Mixins</h3><p>高阶函数不会污染外部函数，可以在其他组件中被复用。如果确定组件只用在这个项目中，他只处理非常具体的任务，那么使用mixin也是可以的。</p>
+<p>由于高阶函数与其他组件耦合度低，也使得它更好的进行测试，可以分别测试增强组件和内部组件，相反，使用Mixin时，你只能测试一个组件。</p>
+<p>然而，有时候Mixin比高阶函数更容易掌握，当你使用了太多的高阶组件时，组件的层级会变得复杂，使得难以定位错误，还有搞清楚它们的层级关系，和他们之间的影响。而且，当你多层嵌套时，你需要注意属性需要经过多层传递，嵌套多层组件也会带来一些性能开销，使用mixin的话往往能节省这些开销，所以要视情况使用。</p>
+<h3 id="高阶函数的实现"><a href="#高阶函数的实现" class="headerlink" title="高阶函数的实现"></a>高阶函数的实现</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;app&quot;&gt;</span><br><span class="line">  &lt;smart-avatar username=&quot;vuejs&quot;&gt;&lt;/smart-avatar&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    // mock API</span><br><span class="line">    function fetchURL (username, cb) &#123;</span><br><span class="line">        setTimeout(() =&gt; &#123;</span><br><span class="line">            // hard coded, bonus: exercise: make it fetch from gravatar!</span><br><span class="line">            cb(&#x27;https://avatars3.githubusercontent.com/u/6128107?v=4&amp;s=200&#x27;)</span><br><span class="line">        &#125;, 500)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const Avatar = &#123;</span><br><span class="line">        props: [&#x27;src&#x27;],</span><br><span class="line">        template: `&lt;img :src=&quot;src&quot;&gt;`</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    //高阶组件</span><br><span class="line">    function withAvatarURL (InnerComponent) &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">            props: &#123;</span><br><span class="line">                username: String</span><br><span class="line">            &#125;,</span><br><span class="line">            data () &#123;</span><br><span class="line">                return &#123;</span><br><span class="line">                    url: &#x27;http://via.placeholder.com/200x200&#x27;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,</span><br><span class="line">            created () &#123;</span><br><span class="line">                //在这里进行请求</span><br><span class="line">                fetchURL(this.username, (url) =&gt; &#123; this.url = url &#125;)</span><br><span class="line">            &#125;,</span><br><span class="line">            render (h) &#123;</span><br><span class="line">                //渲染一个image标签，第二个参数给src传值</span><br><span class="line">                return h(InnerComponent, &#123; props: &#123; src: this.url &#125; &#125;)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const SmartAvatar = withAvatarURL(Avatar)</span><br><span class="line"></span><br><span class="line">    new Vue(&#123;</span><br><span class="line">        el: &#x27;#app&#x27;,</span><br><span class="line">        components: &#123; SmartAvatar &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p> 参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
+<p> 参考github：<a target="_blank" rel="noopener" href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -665,7 +747,7 @@ vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
       <div class="site-state-item site-state-posts">
           <a href="/GiorunoGiovana.github.io/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -678,7 +760,7 @@ vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
       <div class="site-state-item site-state-tags">
             <a href="/GiorunoGiovana.github.io/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">1</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

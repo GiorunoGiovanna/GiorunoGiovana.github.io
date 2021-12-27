@@ -2110,7 +2110,54 @@ vm.foo = 1 // should log: &quot;foo must be greater than one&quot;
         <category>CSS</category>
       </categories>
       <tags>
-        <tag>-学习笔记</tag>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>css学习笔记02样式</title>
+    <url>/GiorunoGiovana.github.io/2021/12/26/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%A0%B7%E5%BC%8F/</url>
+    <content><![CDATA[<h1 id="美化网页元素"><a href="#美化网页元素" class="headerlink" title="美化网页元素"></a>美化网页元素</h1><ol>
+<li><p>为什么要美化网页</p>
+<ol>
+<li>有效传递页面信息</li>
+<li>美化网页、页面漂亮、才能吸引用户</li>
+<li>凸显页面的主题</li>
+<li>提高用户体验</li>
+</ol>
+</li>
+<li><p>span</p>
+<p>约定俗成的标记重点语句用的标签</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">	<span class="selector-tag">span</span>&#123;</span></span><br><span class="line"><span class="css">		<span class="attribute">color</span>: <span class="number">#FF0000</span>;</span></span><br><span class="line"><span class="css">		<span class="attribute">font-size</span>: <span class="number">30px</span>;</span></span><br><span class="line"><span class="css">	&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>word!<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>字体样式</p>
+<ul>
+<li>font-family:”Arial Black”(字体)</li>
+<li>font-size（字体大小）</li>
+<li>font-weight:bolder(字体粗细)</li>
+</ul>
+</li>
+<li><p>文本样式</p>
+<ol>
+<li>颜色    color    rgb    rgba</li>
+<li>文本对齐方式   text-align = center</li>
+<li>首行缩进 text-indent:2em</li>
+<li>下划线（装饰） text-decoration</li>
+<li>行高 line-height</li>
+<li>文本图片水平对齐 vertical-align:middle</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">		<span class="selector-tag">h1</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="attribute">color</span>: red;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 居中 */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">		<span class="selector-class">.p1</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 首行缩进 */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">text-indent</span>: <span class="number">2em</span>;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">		<span class="selector-class">.p2</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="attribute">background-color</span>: yellow;</span></span><br><span class="line"><span class="css">			<span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 行高，可以用于上下居中 */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">line-height</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 划线（上下中） */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">text-decoration</span>: line-through;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">		<span class="comment">/* 水平对齐	参照物	a,b */</span></span></span><br><span class="line"><span class="css">		<span class="selector-tag">img</span>,<span class="selector-tag">span</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="attribute">vertical-align</span>: middle;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">	</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">h1</span>&gt;</span>故事简介<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;p1&quot;</span>&gt;</span></span><br><span class="line">		从故事中可看出，JOJO每一代故事发生的背景舞台是不同的。</span><br><span class="line">		<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;p2&quot;</span>&gt;</span></span><br><span class="line">			作为主角的新一代JOJO，拥有诸多“萌点”。因帽子上的手型标志被网友指为平行世界的空条承太郎。赤身裸体从地底爬出的出场方式也十分“惊艳”。以异于常人的生理特点而被人称为“四蛋男”。现名为“东方定助”，事实上是吉良吉影与空条仗世文的融合。</span><br><span class="line">		<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;image.png&quot;</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">span</span>&gt;</span>jojo<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>超链接伪类</p>
+<p>一般情况下，使用:hover或:active足够了</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">&lt;!DOCTYPE <span class="selector-tag">html</span>&gt;</span><br><span class="line">&lt;<span class="selector-tag">html</span>&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;meta charset=&quot;utf-<span class="number">8</span>&quot;&gt;</span><br><span class="line">		&lt;title&gt;&lt;/title&gt;</span><br><span class="line">	&lt;/head&gt;</span><br><span class="line">	&lt;style&gt;</span><br><span class="line">		<span class="comment">/* 默认颜色 */</span></span><br><span class="line">		<span class="selector-tag">a</span>&#123;</span><br><span class="line">			<span class="attribute">text-decoration</span>: none;</span><br><span class="line">			<span class="attribute">color</span>: <span class="number">#000000</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 鼠标悬停 */</span></span><br><span class="line">		<span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>&#123;</span><br><span class="line">			<span class="attribute">color</span>: <span class="number">#7FFF00</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 鼠标点击 */</span></span><br><span class="line">		<span class="selector-tag">a</span><span class="selector-pseudo">:active</span>&#123;</span><br><span class="line">			<span class="attribute">color</span>: <span class="number">#FF0000</span>;</span><br><span class="line">			<span class="attribute">font-size</span>: <span class="number">50px</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="selector-id">#price</span>&#123;</span><br><span class="line">			<span class="attribute">text-shadow</span>: <span class="number">#7FFF00</span> <span class="number">5px</span> <span class="number">5px</span> <span class="number">3px</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;/style&gt;</span><br><span class="line">	&lt;<span class="selector-tag">body</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">a</span>&gt;</span><br><span class="line">			&lt;<span class="selector-tag">img</span> <span class="attribute">src</span>=&quot;image<span class="selector-class">.png</span>&quot; /&gt;</span><br><span class="line">		&lt;/<span class="selector-tag">a</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">p</span>&gt;</span><br><span class="line">			&lt;<span class="selector-tag">a</span> href=&quot;#&quot;&gt;ex&lt;/<span class="selector-tag">a</span>&gt;</span><br><span class="line">		&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">p</span>&gt;</span><br><span class="line">			&lt;<span class="selector-tag">a</span> href=&quot;#&quot;&gt;yue&lt;/<span class="selector-tag">a</span>&gt;</span><br><span class="line">		&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">p</span> id=&quot;price&quot;&gt;</span><br><span class="line">			￥<span class="number">99</span></span><br><span class="line">		&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">	&lt;/<span class="selector-tag">body</span>&gt;</span><br><span class="line">&lt;/<span class="selector-tag">html</span>&gt;</span><br></pre></td></tr></table></figure></li>
+<li><p>背景</p>
+<p>1. </p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>CSS</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
       </tags>
   </entry>
 </search>
