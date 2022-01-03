@@ -186,6 +186,209 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
+      <meta itemprop="name" content="Joker">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joker's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/" class="post-title-link" itemprop="url">js学习笔记08继承</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 10:15:42" itemprop="dateCreated datePublished" datetime="2021-12-09T10:15:42+08:00">2021-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:36:40" itemprop="dateModified" datetime="2021-12-25T14:36:40+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/GiorunoGiovana.github.io/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>很多面向对象语言都支持两种继承：接口继承和实现继承。JavaScript只支持实现继承，而且是通过原型链方式继承的。这里介绍JavaScript中实现继承的6中方式。</p>
+<h2 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h2><p>原型链继承的基本思想是通过原型继承多个引用类型的属性和方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.far=<span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">this</span>.far</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.child=<span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型继承father实例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.getFar())	<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>本质：</p>
+<ul>
+<li>通过重写子类型的原型对象实现继承</li>
+<li>注：原型对象中包含constructor属性一般指回子类型函数本身，重写子类型的原型对象会导致constructor属性丢失。</li>
+<li>最终原型链为：a-&gt;child-&gt;father-&gt;Object（所有函数的默认原型）</li>
+</ul>
+</li>
+<li><p>缺点：</p>
+<ul>
+<li>父级的实例属性会被子级共享</li>
+<li>子级不能向父级传递参数</li>
+</ul>
+</li>
+<li><p>原型与继承的关系</p>
+<ol>
+<li><p>使用instanceof操作符确定</p>
+<ul>
+<li><p>如果一个实例的原型链中出现过相应的构造函数，则instanceof返回true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">instance <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>使用isPrototypeOf()方法。</p>
+<ul>
+<li><p>只要原型链包含这个原型，就会返回true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.isPrototypeOf(instance)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+</li>
+<li><p>原型链的问题</p>
+<ol>
+<li>原型中包含的引用值会在所有实例间共享。在使用原型实现继承时，原型实际上变成了另一个类型实例。</li>
+<li>重写子类型对象后，constructor属性会丢失。</li>
+</ol>
+</li>
+<li><p>关于方法</p>
+<ol>
+<li>子类有些时候需要覆盖父类的方法，或者增设父类没有的方法。为此，有些方法必须在原型复制后再添加到原型上。</li>
+<li>如果以对象字面量的方式创建原型会破坏原型链，因为这相当于重写了原型链。</li>
+</ol>
+</li>
+</ol>
+<h2 id="借用构造函数继承（经典继承）"><a href="#借用构造函数继承（经典继承）" class="headerlink" title="借用构造函数继承（经典继承）"></a>借用构造函数继承（经典继承）</h2><p>为了解决原型链继承中共享的问题，基本思路是：在子类构造函数中调用父类构造函数。因为函数就是特定上下文中执行代码的简单对象，所以可以使用apply()和call()方法以新建的对象为上下文执行构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过call/apply方法，在子类型构造函数内部调用超类型构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">child</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;aa&quot;</span></span><br><span class="line">	<span class="comment">//打印来自子级的参数</span></span><br><span class="line">	<span class="built_in">console</span>.log(child.name)	<span class="comment">//jojo</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	father.apply(<span class="built_in">this</span>,[&#123;<span class="attr">name</span>:<span class="string">&quot;jojo&quot;</span>&#125;])	<span class="comment">//继承，可以传参</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.name)		<span class="comment">//aa</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>优点：<ul>
+<li>解决了原型链继承中所有属性都会暴露和子级不能向父级传参的问题。</li>
+<li>可以在子类构造函数中向父级构造函数传参</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>必须在构造函数中定义方法，因此函数不能复用</li>
+<li>父级的方法对于子级不可见</li>
+</ul>
+</li>
+</ol>
+<h1 id="组合继承-伪经典继承"><a href="#组合继承-伪经典继承" class="headerlink" title="组合继承(伪经典继承)"></a>组合继承(伪经典继承)</h1><p>JavaScript中最常见的继承模式，使用instanceof操作符和isPrototype()方法可用于识别基于组合继承的对象。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//借用构造函数继承实例属性，原型链继承来继承原型上的方法和属性。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line">funciton <span class="function"><span class="title">child</span>(<span class="params"></span>)</span>&#123;		<span class="comment">//借用构造函数继承属性</span></span><br><span class="line">	father.call(<span class="built_in">this</span>)</span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型链继承，注意！重写原型导致constructors属性丢失</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">a.sayName()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质：<ul>
+<li>使用原型链继承来继承原型上的属性和方法，用组合继承来继承实例属性。这样既可以把方法定义在原型上实现复用，又可以让每个实例都有自己的属性。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>综合了原型链和借用构造继承的优点</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>必会调用两次超类型构造函数，一次在创建子类型的原型时，另一次在子类型构造函数内部。</li>
+</ul>
+</li>
+</ol>
+<h2 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//两种实现方法</span></span><br><span class="line"><span class="comment">//1.自定义函数实现</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ob</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">	f.prototype.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> ob()</span><br><span class="line"><span class="built_in">console</span>.log(a.name)	<span class="comment">//jianhuo</span></span><br><span class="line"><span class="comment">//2.使用Object.create方法</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(person,&#123;</span><br><span class="line">	<span class="attr">name</span>:&#123;</span><br><span class="line">		<span class="attr">value</span>:<span class="string">&quot;gun&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line">alert(a.name)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质：<ul>
+<li>ob()式对传入的对象执行了一次浅复制。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>原型式继承非常适合不需要单独创建构造函数，但是任然需要在对象间共享信息的场合。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>和原型链继承一样，属性中包含的引用值会始终在相关的对象间共享。</li>
+</ul>
+</li>
+</ol>
+<h2 id="寄生式继承"><a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> clone = <span class="built_in">Object</span>.create(name)</span><br><span class="line">	clone.sayGood=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		alert(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> clone</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> wiw = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span>,</span><br><span class="line">	<span class="attr">act</span>:<span class="string">&quot;pa&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> final = father(wiw)	<span class="comment">//hello world</span></span><br><span class="line"></span><br><span class="line">final.sayGood()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质:<ul>
+<li>创建一个实现继承的函数，以某种方式增强对象，然后返回这个对象。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>寄生式继承同样适合主要关注对象，而不在乎类型和构造函数的场景。</li>
+</ul>
+</li>
+<li>缺点:<ul>
+<li>通过寄生式继承给对象添加函数会导致函数难以重用。</li>
+</ul>
+</li>
+</ol>
+<h2 id="寄生式组合继承"><a href="#寄生式组合继承" class="headerlink" title="寄生式组合继承"></a>寄生式组合继承</h2><p>可以算是应用类型继承的最佳模式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = name</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	father.call(<span class="built_in">this</span>,name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(father.prototype)</span><br><span class="line">a.constructor = child	<span class="comment">//重新赋值constructor</span></span><br><span class="line">child.prototype = a</span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> child(<span class="string">&quot;jianhuo&quot;</span>)</span><br><span class="line">b.sayName()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>本质：</p>
+<ul>
+<li><p>这个函数实现了接受两个参数：子类构造函数和父类构造函数。</p>
+<ul>
+<li>在这个函数内部，第一步是创建父类原型的一个副本。然后，给返回的prototype对象设置constructor属性，解决由于重写原型导致的默认constructor丢失问题。最后将新创建的对象赋值给子类型原型。</li>
+</ul>
+</li>
+<li><p>寄生式组合继承通过借用构造函数继承属性，但是用混合式原型链继承方法。基本思路就是不通过调用父类构造函数给子类函数原型赋值，而是取得一个父类的副本。</p>
+<ul>
+<li>说到底就是使用寄生式继承来继承父类原型，然后将返回的新对象赋值给子类原型。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1883,107 +2086,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B005/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
-      <meta itemprop="name" content="Joker">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joker's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/GiorunoGiovana.github.io/2021/12/06/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B005/" class="post-title-link" itemprop="url">Vue源码学习笔记05</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 09:04:47" itemprop="dateCreated datePublished" datetime="2021-12-06T09:04:47+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-03 15:11:55" itemprop="dateModified" datetime="2022-01-03T15:11:55+08:00">2022-01-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/GiorunoGiovana.github.io/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h1><p>在以前，前端没有状态管理的概念。人们试图把MVC这个概念引入到前端中，把状态叫做模型。在很多场景下，这是一中很好的抽象。但是主要问题是我们缺乏一种以声明的方式将模型与渲染结合。</p>
-<p>在Vue等前端框架中，优势是状态已经透明到链接的Vue中，当然这也有问题，因为它太容易将状态传播到任何地方，并在任何地方进行修改。随着项目规模的增大，跟踪储存状态的位置立即改变状态的位置会变得越来越困难。</p>
-<p>总体而言，很多问题实际上是查明问题的来源并且没有适当的模式让你管理和状态有关的代码。这会导致你的应用变得越来越不可预测。因此，状态管理只是前端开发人员试图找出一种科学方法解决代码如何存放和状态如何管理的问题。从而当问题出现的时候可以更轻松地查明问题。</p>
-<p>Flux就是第一个关于单向数据流的想法。</p>
-<p>在Vue中一切都很直接，只需要将状态放入组件中即可。实际上，很多简单场景已经够用。状态管理库或状态管理模式不一定在每种情况下都需要。</p>
-<h1 id="VueX——Vue的状态管理模式"><a href="#VueX——Vue的状态管理模式" class="headerlink" title="VueX——Vue的状态管理模式"></a>VueX——Vue的状态管理模式</h1><p>如果有多个组件需要访问同一个状态，问题会变得复杂。如果数据是应用中多个组件共享的，那么数据应该提取出来集中管理，而不是放到某个组件中。所以这就提出了使用库或者是一个模式的必要性。</p>
-<p>VueX的本质就是Vue的生态系统，当然，历经多次迭代，处理基础概念，他还带来了其他工具，例如模块系统，插件系统。</p>
-<h1 id="Props传递"><a href="#Props传递" class="headerlink" title="Props传递"></a>Props传递</h1><p>最基本的状态管理，将数据和视图分离，counter本身只负责接受一些属性和渲染它。这些实例都有共同的父组件。在很多情况下，最坏的情况下你可能需要管理所有状态。在根节点中，并通过Props传递下去。当组件树结构越来越大，这样的弊端会逐渐显现出来，就是需要手动地将props一层层传递下去。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span> <span class="attr">:count</span>=<span class="string">&quot;count&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span> <span class="attr">:count</span>=<span class="string">&quot;count&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span> <span class="attr">:count</span>=<span class="string">&quot;count&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;count++&quot;</span>&gt;</span>increment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// requirement: a counter component rendered 3 times</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// the component takes the current count via props</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// and a button that increments all 3 counters at once</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="comment">//状态</span></span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">count</span>: <span class="number">0</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">Counter</span>: &#123;</span></span><br><span class="line"><span class="javascript">      <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">count</span>: <span class="built_in">Number</span></span></span><br><span class="line"><span class="javascript">      &#125;,</span></span><br><span class="line"><span class="javascript">	  <span class="comment">//视图</span></span></span><br><span class="line"><span class="javascript">      <span class="attr">template</span>: <span class="string">`&lt;div&gt;&#123;&#123; count &#125;&#125;&lt;/div&gt;`</span></span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="对象共享"><a href="#对象共享" class="headerlink" title="对象共享"></a>对象共享</h1><p>我们可以将一个对象独立出来作为共享对象作为我们的状态，这样就避免了参数在组件中的传递。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;inc&quot;</span>&gt;</span>increment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// create a counter component (that doesn&#x27;t take any props)</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// all instances of it should share the same count state</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// and a button that increments all counters at the same time</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//定义一个独立状态</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> state = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">count</span>: <span class="number">0</span>,</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Counter = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// Convert state into reactive object</span></span></span><br><span class="line"><span class="javascript">    <span class="comment">//用data返回这个状态，这样Vue就可以给他加上响应式</span></span></span><br><span class="line"><span class="javascript">  data () &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> state</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">    <span class="comment">//渲染函数</span></span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">// Proxy the object</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, <span class="built_in">this</span>.count)</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//注册组件</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123;</span></span><br><span class="line"><span class="javascript">    Counter</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    inc () &#123;</span></span><br><span class="line"><span class="javascript">      state.count++</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="共享实例"><a href="#共享实例" class="headerlink" title="共享实例"></a>共享实例</h1><p>上一个思路是共享对象，那么我们能不能更近一步，使用实例进行状态共享。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;inc&quot;</span>&gt;</span>increment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// copy and modify the first exercise to use a Vue instance as</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// a shared store instead.</span></span></span><br><span class="line"><span class="javascript"><span class="comment">//把数据和方法直接在vue中定义，这样他们就会带上响应式</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> state = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">count</span>: <span class="number">0</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    inc () &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">this</span>.count++</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//渲染组件</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Counter = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">render</span>: <span class="function"><span class="params">h</span> =&gt;</span> h(<span class="string">&#x27;div&#x27;</span>, state.count)</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//注册组件和方法</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123;</span></span><br><span class="line"><span class="javascript">    Counter</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="comment">//这里有点绕，用这个函数包装state的函数，使得数据交换被隐藏了起来,会更为安全</span></span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    inc () &#123;</span></span><br><span class="line"><span class="javascript">      state.inc()</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="Mutation"><a href="#Mutation" class="headerlink" title="Mutation"></a>Mutation</h1><p>在上一个例子中我们成功将实例抽象出来进行共享。那么使用Vue实例去封装一些使用方法，最后导出不同的API又该怎么实现呢？</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">counter</span>&gt;</span><span class="tag">&lt;/<span class="name">counter</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> @<span class="attr">click</span>=<span class="string">&quot;inc&quot;</span>&gt;</span>increment<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//定义一个函数，它返回Vue实例</span></span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">createStore</span> (<span class="params">&#123; state, mutations &#125;</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">return</span> <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">	  <span class="comment">//使其具有响应性</span></span></span><br><span class="line"><span class="javascript">      state</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">      commit (mutation) &#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">if</span> (!mutations.hasOwnProperty(mutation)) &#123;</span></span><br><span class="line"><span class="javascript">          <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;Unknown mutation&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">		<span class="comment">//解构mutations获取内部所有方法，给他们赋予状态</span></span></span><br><span class="line"><span class="javascript">        mutations[mutation](state)</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;)</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> store = createStore(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">state</span>: &#123; <span class="attr">count</span>: <span class="number">0</span> &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">mutations</span>: &#123;</span></span><br><span class="line"><span class="javascript">    inc (state) &#123;</span></span><br><span class="line"><span class="javascript">      state.count++</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Counter = &#123;</span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, store.state.count)</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123; Counter &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    inc () &#123;</span></span><br><span class="line"><span class="javascript">      store.commit(<span class="string">&#x27;inc&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="最后一步，模拟VueX"><a href="#最后一步，模拟VueX" class="headerlink" title="最后一步，模拟VueX"></a>最后一步，模拟VueX</h1><p>当完成了前面的练习时，模拟VueX已经呼之欲出了，通过封装一个app函数，在函数内实现挂载节点，共享状态，视图和数据。之后只需要调用这个函数，传入必要参数就可以模拟VueX的行为了。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//Vuex简单模拟</span></span></span><br><span class="line"><span class="javascript"><span class="comment">//el:Vue实例挂载的元素节点，model共享的数据，view视图，action动作函数</span></span></span><br><span class="line"><span class="javascript"><span class="function"><span class="keyword">function</span> <span class="title">app</span> (<span class="params">&#123; el, model, view, actions &#125;</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> wrappedActions = &#123;&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="comment">//给动作函数中的所有函数传入实例的响应式数据，直接传入函数的话，函数内部的值将不具有响应式</span></span></span><br><span class="line"><span class="javascript">  <span class="built_in">Object</span>.keys(actions).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> originalAction = actions[key]</span></span><br><span class="line"><span class="javascript">    wrappedActions[key] = <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      vm.model = originalAction(vm.model)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">  <span class="comment">//创建vue实例对象</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> vm = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">	<span class="comment">//挂载节点</span></span></span><br><span class="line"><span class="javascript">    el,</span></span><br><span class="line"><span class="javascript">	<span class="comment">//数据</span></span></span><br><span class="line"><span class="javascript">    <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">	  <span class="comment">//给它带上响应式</span></span></span><br><span class="line"><span class="javascript">      model</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">	<span class="comment">//渲染函数（视图）</span></span></span><br><span class="line"><span class="javascript">    render (h) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span> view(h, <span class="built_in">this</span>.model, wrappedActions)</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">	<span class="comment">//动作函数</span></span></span><br><span class="line"><span class="javascript">    <span class="attr">methods</span>: actions</span></span><br><span class="line"><span class="javascript">  &#125;)</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// voila</span></span></span><br><span class="line"><span class="javascript"><span class="comment">//这里就可以进行类似Vue创建实例的方法了</span></span></span><br><span class="line"><span class="javascript">app(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">model</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">count</span>: <span class="number">0</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">actions</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">inc</span>: <span class="function">(<span class="params">&#123; count &#125;</span>) =&gt;</span> (&#123; <span class="attr">count</span>: count + <span class="number">1</span> &#125;),</span></span><br><span class="line"><span class="javascript">    <span class="attr">dec</span>: <span class="function">(<span class="params">&#123; count &#125;</span>) =&gt;</span> (&#123; <span class="attr">count</span>: count - <span class="number">1</span> &#125;)</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">view</span>: <span class="function">(<span class="params">h, model, actions</span>) =&gt;</span> h(<span class="string">&#x27;div&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">id</span>: <span class="string">&#x27;app&#x27;</span> &#125;&#125;, [</span></span><br><span class="line"><span class="javascript">    model.count, <span class="string">&#x27; &#x27;</span>,</span></span><br><span class="line"><span class="javascript">    h(<span class="string">&#x27;button&#x27;</span>, &#123; <span class="attr">on</span>: &#123; <span class="attr">click</span>: actions.inc &#125;&#125;, <span class="string">&#x27;+&#x27;</span>),</span></span><br><span class="line"><span class="javascript">    h(<span class="string">&#x27;button&#x27;</span>, &#123; <span class="attr">on</span>: &#123; <span class="attr">click</span>: actions.dec &#125;&#125;, <span class="string">&#x27;-&#x27;</span>)</span></span><br><span class="line"><span class="javascript">  ])</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>上面的这些例子只是非常简单的vue实例，只是为了演示VueX的实现方式。事实上VueX具有更多的功能。例如VueX有action，getter，模块等概念。当然VueX的核心仍然是基于Vue实例实现响应性。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2055,20 +2157,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/GiorunoGiovana.github.io/archives/">
         
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/GiorunoGiovana.github.io/categories/">
           
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/GiorunoGiovana.github.io/tags/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

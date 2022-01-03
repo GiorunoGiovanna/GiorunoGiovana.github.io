@@ -20,20 +20,20 @@
     var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/GiorunoGiovana.github.io/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="RegExp正则 支持直接使用let patten &#x3D; &#x2F;a&#x2F;g的方式定义正则表达式  支持使用构造函数let patten &#x3D; new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。 注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。  模式：  i：忽略大小写 g">
+  <meta name="description" content="搭建前提 找陆哥分配一个团队子账号，后续用这个子账号在团队账号中进行开发。 对微搭平台搭建项目过程有一定了解  需求分析 通过微信扫码进入小程序或web端，同时能够获取对应的产品信息显示在页面上。 初步想法分为Web端搭建和小程序搭建 Web端：优势是可以直接请求跳转对应的页面，同时携带请求信息。 小程序端。    Web端搭建过程技术前提： 微信扫码的机制是，如果扫描出来的是一个网址，则会自动跳">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Js学习笔记03变量、作用域与内存">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:title" content="微搭低代码搭建简易扫码系统">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/index.html">
 <meta property="og:site_name" content="Joker&#39;s Blog">
-<meta property="og:description" content="RegExp正则 支持直接使用let patten &#x3D; &#x2F;a&#x2F;g的方式定义正则表达式  支持使用构造函数let patten &#x3D; new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。 注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。  模式：  i：忽略大小写 g">
+<meta property="og:description" content="搭建前提 找陆哥分配一个团队子账号，后续用这个子账号在团队账号中进行开发。 对微搭平台搭建项目过程有一定了解  需求分析 通过微信扫码进入小程序或web端，同时能够获取对应的产品信息显示在页面上。 初步想法分为Web端搭建和小程序搭建 Web端：优势是可以直接请求跳转对应的页面，同时携带请求信息。 小程序端。    Web端搭建过程技术前提： 微信扫码的机制是，如果扫描出来的是一个网址，则会自动跳">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-12-06T14:32:44.439Z">
-<meta property="article:modified_time" content="2021-12-25T06:35:42.944Z">
+<meta property="article:published_time" content="2022-01-03T08:16:14.000Z">
+<meta property="article:modified_time" content="2022-01-03T08:18:37.692Z">
 <meta property="article:author" content="Joker">
-<meta property="article:tag" content="学习笔记">
+<meta property="article:tag" content="团队工作">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/">
 
 
 <script id="page-configurations">
@@ -46,7 +46,7 @@
   };
 </script>
 
-  <title>Js学习笔记03变量、作用域与内存 | Joker's Blog</title>
+  <title>微搭低代码搭建简易扫码系统 | Joker's Blog</title>
   
 
 
@@ -190,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
@@ -203,7 +203,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Js学习笔记03变量、作用域与内存
+          微搭低代码搭建简易扫码系统
         </h1>
 
         <div class="post-meta">
@@ -212,23 +212,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-12-06 22:32:44" itemprop="dateCreated datePublished" datetime="2021-12-06T22:32:44+08:00">2021-12-06</time>
+              <time title="创建时间：2022-01-03 16:16:14 / 修改时间：16:18:37" itemprop="dateCreated datePublished" datetime="2022-01-03T16:16:14+08:00">2022-01-03</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:35:42" itemprop="dateModified" datetime="2021-12-25T14:35:42+08:00">2021-12-25</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/GiorunoGiovana.github.io/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                  <a href="/GiorunoGiovana.github.io/categories/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">微搭低代码</span></a>
                 </span>
             </span>
 
@@ -243,117 +237,133 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
-<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
+        <h2 id="搭建前提"><a href="#搭建前提" class="headerlink" title="搭建前提"></a>搭建前提</h2><ol>
+<li>找陆哥分配一个团队子账号，后续用这个子账号在团队账号中进行开发。</li>
+<li>对微搭平台搭建项目过程有一定了解</li>
+</ol>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ol>
+<li>通过微信扫码进入小程序或web端，同时能够获取对应的产品信息显示在页面上。</li>
+<li>初步想法分为Web端搭建和小程序搭建<ul>
+<li>Web端：优势是可以直接请求跳转对应的页面，同时携带请求信息。</li>
+<li>小程序端。</li>
+</ul>
 </li>
-<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
-<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
+</ol>
+<h3 id="Web端搭建过程"><a href="#Web端搭建过程" class="headerlink" title="Web端搭建过程"></a>Web端搭建过程</h3><h5 id="技术前提："><a href="#技术前提：" class="headerlink" title="技术前提："></a>技术前提：</h5><ol>
+<li>微信扫码的机制是，如果扫描出来的是一个网址，则会自动跳转到该网址</li>
+<li>经过测试，扫码出来的url自带后缀如?id=xxx形式不影响跳转结果，同时会保留后缀</li>
+</ol>
+<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
+<li>将二维码设置为网址+id的url形式如<a target="_blank" rel="noopener" href="http://www.abc.com/?id=1">http://www.abc.com?id=1</a></li>
+<li>扫码后在网址的生命周期内获取url并解析id，请求后台数据并进行显示</li>
+</ol>
+<h6 id="展示页面"><a href="#展示页面" class="headerlink" title="展示页面"></a>展示页面</h6><ol>
+<li><p>创建空白应用</p>
+<p>![image-20220103100613298](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103100613298.png)</p>
 </li>
-<li><p>模式：</p>
+<li><p>搭建静态页面（根据具体需求进行搭建，这里仅展示本项目需求）</p>
 <ol>
-<li>i：忽略大小写</li>
-<li>g：全局查找</li>
-<li>m：多行查找</li>
-</ol>
+<li><p>在变量-变量管理中可以设置好需要绑定的变量，后面需要用到就自行设置</p>
+<p>![image-20220103101743365](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103101743365.png)</p>
 </li>
-<li><p>实例方法</p>
+<li><p>轮播图搭建</p>
 <ol>
-<li><p>主要方法使exec()</p>
+<li><p>在组件中选择轮播图组件</p>
+<p>![image-20220103101142993](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103101142993.png)</p>
+</li>
+<li><p>在大纲树中选择轮播图组件，在右侧栏中为每一个图片空位添加绑定的数据</p>
+<p>![image-20220103101232512](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103101232512.png)</p>
+<p>![image-20220103101340165](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103101340165.png)</p>
+</li>
+</ol>
+</li>
+<li><p>列表项搭建</p>
 <ol>
-<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
-<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
+<li><p>在组件中选择列表项添加到项目中</p>
 </li>
-<li><p>没找到则返回null</p>
+<li><p>为列表项绑定对应数据</p>
+<p>![image-20220103102301713](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103102301713.png)</p>
 </li>
-<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
-</li>
-<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
-</li>
-<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
+<li><p>设置列表项样式，最简单的方式就是两个宽度为50%，向左向右浮动</p>
+<p>![image-20220103102009355](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103102009355.png)</p>
 </li>
 </ol>
 </li>
-<li><p>还有一个是text（）</p>
+<li><p>展示卡搭建</p>
 <ol>
-<li>只检测是否匹配，不关心为什么。</li>
+<li>![image-20220103102423465](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103102423465.png)</li>
+<li>其他步骤同上</li>
 </ol>
 </li>
 </ol>
 </li>
-</ol>
-<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
-<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
-</ol>
-<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
-<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
-<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
-<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
-</ol>
-<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
-<li>创建方法直接使用数值赋值即可</li>
-<li>实例方法<ol>
-<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
-<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
-<li>isInteger()用于鉴别一个数组的值是否是整数</li>
-<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
-</ol>
+<li><p>（核心）在首页页面的声明周期钩子onPageLoad/onPageShow处解析url，获取id</p>
+<p>![image-20220103103039110](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103103039110.png)</p>
+</li>
+<li><p>通过id请求数据并绑定对应数据显示在页面中</p>
+<p>这里采用微搭自带数据源搭建方案，详情参考后面后端搭建部分</p>
+</li>
+<li><p>创建返回首页按钮</p>
 </li>
 </ol>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
-<li><p>JavaScript字符</p>
+<h6 id="首页"><a href="#首页" class="headerlink" title="首页"></a>首页</h6><ol>
+<li><p>创建新的空白页</p>
+</li>
+<li><p>可以选择区块模板快速搭建</p>
+</li>
+<li><p>设置输入框输入id查询</p>
 <ol>
-<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
-<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
-<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
-<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
-<li>codePointAt()方法可以突破16位码元的限制</li>
+<li><p>一种实现方法</p>
+<p>为输入框绑定一个变量，同时给他添加输入改变事件，执行变量赋值绑定变量</p>
+<p>![image-20220103103441767](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103103441767.png)</p>
+<p>![image-20220103103426252](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103103426252.png)</p>
+</li>
+<li><p>为下面的按钮绑定自定义事件，让他进行url+前面输入的id跳转</p>
+<p>![image-20220103103752393](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103103752393.png)</p>
+</li>
 </ol>
 </li>
-<li><p>字符串操作方法</p>
+<li><p>设置扫码按钮启用微信浏览器扫码功能</p>
 <ol>
-<li>字符串截取<ol>
-<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
-<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
-<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
-</ol>
+<li><p>设置按钮绑定启用扫码功能，关闭自动处理</p>
+<p>![image-20220103104128747](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103104128747.png)</p>
+</li>
+<li><p>为扫码成功绑定自定义事件实现跳转</p>
+<p>![image-20220103104154753](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103104154753.png)</p>
+</li>
+<li><p>扫码成功后绑定的方法中会自动在event参数中注入扫码信息，具体自己分析</p>
 </li>
 </ol>
 </li>
-<li><p>字符串位置方法</p>
-<ol>
-<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
-<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
 </ol>
-<p>都接受第二个参数表示开始搜索的位置。</p>
+<h4 id="后端搭建"><a href="#后端搭建" class="headerlink" title="后端搭建"></a>后端搭建</h4><ol>
+<li><p>在微搭控制台-数据源-新建自建数据源</p>
+<p>![image-20220103104754591](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103104754591.png)</p>
 </li>
-<li><p>字符串包含方法</p>
-<ol>
-<li>startWith()    开始于索引0的匹配项</li>
-<li>endWith()      结束于字符串末尾的匹配项</li>
-<li>includes()      任意位置的匹配项</li>
-</ol>
+<li><p>在数据源字段添加对应数据（自建数据源有数个自带的字段无法删改，不过影响不大，可以忽略）</p>
+<p>![image-20220103104951906](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103104951906.png)</p>
 </li>
-<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
-</li>
-<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
-</li>
-<li><p>padStart()和padEnd()</p>
-<ol>
-<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
-</ol>
-</li>
-<li><p>字符串迭代与解构，for-of迭代</p>
-</li>
-<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
-</li>
-<li><p>字符串模式匹配方法</p>
-<ol>
-<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
-<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
-</ol>
+<li><p>在方法模块中可以通过云函数操作数据库，本项目中自带的方法已经足够了，就不演示了</p>
+<p>![image-20220103105153870](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103105153870.png)</p>
 </li>
 </ol>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>
+<h4 id="前后端联调"><a href="#前后端联调" class="headerlink" title="前后端联调"></a>前后端联调</h4><ol>
+<li><p>在前端中需要调用后端的地方调用数据源</p>
+<p>![image-20220103110405307](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103110405307.png)</p>
+</li>
+<li><p>获取结果之后绑定到之前为前端页面绑定的数据</p>
+<p>![image-20220103110626633](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103110626633.png)</p>
+</li>
+</ol>
+<p>最终结果（使用微信扫描）：</p>
+<p>![image-20220103110750766](<a target="_blank" rel="noopener" href="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing">https://gitee.com/zhou-keer/drawing-bed/raw/master/drawing</a> bed/image-20220103110750766.png)</p>
+<p>记录一些细节问题：</p>
+<ul>
+<li>微搭自带扫码方法自动处理是会自动跳转的，但是如果跳转的目标页面有报错则会终止跳转，这个报错似乎是无法避免的，类似于React版本兼容性问题，这就造成了在模拟中能成功跳转，但是发布后无法成功跳转。所以后面采用自定义方法跳转的办法。</li>
+<li>由于输入框绑定的值是在表单提交（submit）中生效的数据，对于只有一个输入框的表单来说有点麻烦，所以采用输入值改变绑定值的方法实现，理论上性能不如表单提交，但是更方便。</li>
+<li>低代码编辑器中想要使用异步，必须要在生命周期钩子前加asyn异步</li>
+</ul>
+
     </div>
 
     
@@ -362,7 +372,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/GiorunoGiovana.github.io/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+              <a href="/GiorunoGiovana.github.io/tags/%E5%9B%A2%E9%98%9F%E5%B7%A5%E4%BD%9C/" rel="tag"># 团队工作</a>
           </div>
 
         
@@ -371,13 +381,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" rel="prev" title="Js学习笔记03变量、作用域与内存">
-      <i class="fa fa-chevron-left"></i> Js学习笔记03变量、作用域与内存
+    <a href="/GiorunoGiovana.github.io/2022/01/02/%E6%89%8B%E5%86%99promise/" rel="prev" title="手写promise">
+      <i class="fa fa-chevron-left"></i> 手写promise
     </a></div>
-      <div class="post-nav-item">
-    <a href="/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" rel="next" title="Js学习笔记05集合引用类型Object">
-      Js学习笔记05集合引用类型Object <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -436,7 +443,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RegExp%E6%AD%A3%E5%88%99"><span class="nav-number">1.</span> <span class="nav-text">RegExp正则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%A7%8B%E5%8C%85%E8%A3%85%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.1.</span> <span class="nav-text">原始包装类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Boolean"><span class="nav-number">1.2.</span> <span class="nav-text">Boolean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Number"><span class="nav-number">1.3.</span> <span class="nav-text">Number</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#String"><span class="nav-number">1.4.</span> <span class="nav-text">String</span></a></li><li class="nav-item nav-level-2"><a class="nav-link"><span class="nav-number">1.5.</span> <span class="nav-text"></span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text">搭建前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9C%80%E6%B1%82%E5%88%86%E6%9E%90"><span class="nav-number">2.</span> <span class="nav-text">需求分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Web%E7%AB%AF%E6%90%AD%E5%BB%BA%E8%BF%87%E7%A8%8B"><span class="nav-number">2.1.</span> <span class="nav-text">Web端搭建过程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E5%89%8D%E6%8F%90%EF%BC%9A"><span class="nav-number">2.1.0.1.</span> <span class="nav-text">技术前提：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF%EF%BC%9A"><span class="nav-number">2.1.0.2.</span> <span class="nav-text">思路：</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B1%95%E7%A4%BA%E9%A1%B5%E9%9D%A2"><span class="nav-number">2.1.0.2.1.</span> <span class="nav-text">展示页面</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A6%96%E9%A1%B5"><span class="nav-number">2.1.0.2.2.</span> <span class="nav-text">首页</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF%E6%90%AD%E5%BB%BA"><span class="nav-number">2.1.1.</span> <span class="nav-text">后端搭建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8D%E5%90%8E%E7%AB%AF%E8%81%94%E8%B0%83"><span class="nav-number">2.1.2.</span> <span class="nav-text">前后端联调</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
