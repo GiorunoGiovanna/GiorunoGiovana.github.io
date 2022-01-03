@@ -20,20 +20,23 @@
     var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/GiorunoGiovana.github.io/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="函数 因为函数是对象，所以函数名就是指向函数对象的指针，而且不一定余函数本身紧密绑定 创建函数的方式和区别 函数表达式 var foo &#x3D; function() {…} 只有在JavaScript语句执行到这句话的之后才会创建函数。在这之前调用函数会报错。（没有提升）   函数声明 function foo() {…} 在JavaScript编译的时候函数声明会被提前，也就是说可以先调用函数再在下">
+  <meta name="description" content="手写Promise.all()分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。 1234567891011let promise &#x3D; new Promise((r">
 <meta property="og:type" content="article">
-<meta property="og:title" content="js学习笔记11函数">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:title" content="手写Promise.all、Promise.Race">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/index.html">
 <meta property="og:site_name" content="Joker&#39;s Blog">
-<meta property="og:description" content="函数 因为函数是对象，所以函数名就是指向函数对象的指针，而且不一定余函数本身紧密绑定 创建函数的方式和区别 函数表达式 var foo &#x3D; function() {…} 只有在JavaScript语句执行到这句话的之后才会创建函数。在这之前调用函数会报错。（没有提升）   函数声明 function foo() {…} 在JavaScript编译的时候函数声明会被提前，也就是说可以先调用函数再在下">
+<meta property="og:description" content="手写Promise.all()分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。 1234567891011let promise &#x3D; new Promise((r">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-12-10T02:16:50.234Z">
-<meta property="article:modified_time" content="2021-12-25T06:36:52.441Z">
+<meta property="og:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103213459296.png">
+<meta property="og:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103214542617.png">
+<meta property="article:published_time" content="2022-01-03T13:17:35.000Z">
+<meta property="article:modified_time" content="2022-01-03T13:49:54.087Z">
 <meta property="article:author" content="Joker">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103213459296.png">
 
-<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/">
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/">
 
 
 <script id="page-configurations">
@@ -46,7 +49,7 @@
   };
 </script>
 
-  <title>js学习笔记11函数 | Joker's Blog</title>
+  <title>手写Promise.all、Promise.Race | Joker's Blog</title>
   
 
 
@@ -190,7 +193,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
@@ -203,7 +206,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          js学习笔记11函数
+          手写Promise.all、Promise.Race
         </h1>
 
         <div class="post-meta">
@@ -212,23 +215,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2021-12-10 10:16:50" itemprop="dateCreated datePublished" datetime="2021-12-10T10:16:50+08:00">2021-12-10</time>
+              <time title="创建时间：2022-01-03 21:17:35 / 修改时间：21:49:54" itemprop="dateCreated datePublished" datetime="2022-01-03T21:17:35+08:00">2022-01-03</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:52" itemprop="dateModified" datetime="2021-12-25T14:36:52+08:00">2021-12-25</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/GiorunoGiovana.github.io/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                  <a href="/GiorunoGiovana.github.io/categories/Promise/" itemprop="url" rel="index"><span itemprop="name">Promise</span></a>
                 </span>
             </span>
 
@@ -243,46 +240,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ol>
-<li>因为函数是对象，所以函数名就是指向函数对象的指针，而且不一定余函数本身紧密绑定</li>
-<li>创建函数的方式和区别<ul>
-<li>函数表达式 var foo = function() {…}<ul>
-<li>只有在JavaScript语句执行到这句话的之后才会创建函数。在这之前调用函数会报错。（没有提升）</li>
-</ul>
-</li>
-<li>函数声明 function foo() {…}<ul>
-<li>在JavaScript编译的时候函数声明会被提前，也就是说可以先调用函数再在下面声明函数</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>箭头函数<ul>
-<li>箭头函数是使用胖箭头(=&gt;)语法定义函数表达式的能力。</li>
-<li>标准写法是 let a = (x) =&gt; {…}</li>
-<li>如果函数只有一条语句的话，可以不要大括号，但是函数会默认将这一句话当成返回值；只有一个参数的时候也可以没有前一个括号</li>
-</ul>
-</li>
-</ol>
-<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><ol>
-<li><p>闭包是指哪些引用了另一个函数作用域中变量的函数，通常是在嵌套函数中实现的。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createComparison</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">obj1,obj2</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">let</span> val1 = obj1[name]</span><br><span class="line">		<span class="keyword">let</span> val2 = obj2[name]</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(val1&gt;val2)&#123;</span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(val1&lt;val2)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> compare  = createComparison(<span class="string">&quot;name&quot;</span>)</span><br><span class="line"><span class="keyword">let</span> result = compare(&#123;<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span>&#125;,&#123;<span class="attr">name</span>:<span class="string">&quot;pa&quot;</span>&#125;)	<span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+        <h1 id="手写Promise-all"><a href="#手写Promise-all" class="headerlink" title="手写Promise.all()"></a>手写Promise.all()</h1><p>分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
 
-<ul>
-<li>这个例子中的val1和val2引用了来自函数外的变量，在这个内部的匿名函数被返回并在其他的地方使用后，它仍然引用着那个变量。这是因为内部函数的作用域包含createComparison()函数的作用域。</li>
-</ul>
-</li>
-<li><p>在调用一个函数的时候，会为这个函数创建一个执行上下文，并创建一个作用域链。然后用arguments和其他命名参数来初始化这个函数的活动独享。外部函数的活动对象是内部函数作用域链上的第二个对象。这个作用域一直向外串起了所有包含函数的活动对象，直到全局上下文才终止。</p>
-</li>
-<li><p>函数执行的时候，每个执行上下文都会有一个包含其中变量的对象。全局上下文中的叫变量对象，他会在代码执行期间始终存在。而函数局部上下文中的叫活动对象，指在函数执行期间存在。</p>
-<ul>
-<li>函数内部的代码在访问变量时，就会使用给定的名称从作用域中查找变量。函数执行完毕后，局部活动对象会被摧毁。只剩下全局作用域。但是在闭包中就不一样了。</li>
-</ul>
-</li>
-<li><p>注意：因为闭包会保留他们包含的函数作用域，因此会比其他函数更占用内存，所以要谨慎使用。</p>
-</li>
-<li><p>在一个函数内部定义的函数会把其包含函数的活动对象添加到子自己的作用域链中。导致在外部函数被销毁时外部函数的活动对象由于仍然被引用，所以不能销毁。就产生了闭包。</p>
-</li>
-</ol>
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103213459296.png" alt="image-20220103213459296"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//resolve(&#x27;1&#x27;)</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;错了&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103214542617.png" alt="image-20220103214542617"></p>
+<p>思路：获取所有的Promise，都执行then，把结果放到数组，一起返回</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.all = <span class="function"><span class="keyword">function</span>(<span class="params">promises</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> arr = [];</span><br><span class="line">  <span class="keyword">let</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">processData</span>(<span class="params">index,data</span>)</span>&#123;</span><br><span class="line">    arr[index] = data;</span><br><span class="line">    i++;</span><br><span class="line">    <span class="keyword">if</span>(i == promises.length)&#123;</span><br><span class="line">      resolve(arr);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;promises.length;i++)&#123;</span><br><span class="line">      promises[i].then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">        processData(i,data);</span><br><span class="line">      &#125;,reject);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="手写Promsie-race"><a href="#手写Promsie-race" class="headerlink" title="手写Promsie.race"></a>手写Promsie.race</h1><p>分析：race和all差不多，不过一个是获取所有结果，race是获取最早执行的结果</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.race = <span class="function"><span class="keyword">function</span>(<span class="params">promises</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;promises.length;i++)&#123;</span><br><span class="line">      promises[i].then(resolve,reject)</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -301,13 +273,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/" rel="prev" title="js学习笔记10代理与反射">
-      <i class="fa fa-chevron-left"></i> js学习笔记10代理与反射
+    <a href="/GiorunoGiovana.github.io/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/" rel="prev" title="微搭低代码搭建简易扫码系统">
+      <i class="fa fa-chevron-left"></i> 微搭低代码搭建简易扫码系统
     </a></div>
-      <div class="post-nav-item">
-    <a href="/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" rel="next" title="js学习笔记12异步编程">
-      js学习笔记12异步编程 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -366,7 +335,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">1.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%97%AD%E5%8C%85"><span class="nav-number">2.</span> <span class="nav-text">闭包</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8B%E5%86%99Promise-all"><span class="nav-number">1.</span> <span class="nav-text">手写Promise.all()</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8B%E5%86%99Promsie-race"><span class="nav-number">2.</span> <span class="nav-text">手写Promsie.race</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

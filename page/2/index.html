@@ -186,6 +186,159 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
+      <meta itemprop="name" content="Joker">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joker's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/" class="post-title-link" itemprop="url">js学习笔记09类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 14:32:57" itemprop="dateCreated datePublished" datetime="2021-12-09T14:32:57+08:00">2021-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:36:43" itemprop="dateModified" datetime="2021-12-25T14:36:43+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/GiorunoGiovana.github.io/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ol>
+<li><h5 id="ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"><a href="#ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）" class="headerlink" title="ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"></a>ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus();</span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Bus);	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Vehicle);	<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承普通构造函数	</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">Person</span> ()</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">e</span> </span>= <span class="keyword">new</span> Engineer ()</span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Engineer)	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Person)	<span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li><h5 id="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："><a href="#派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：" class="headerlink" title="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："></a>派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="title">identifyPrototype</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="title">identifyClass</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> v = <span class="keyword">new</span> Vehicle()</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus()</span><br><span class="line"></span><br><span class="line">b.identifyPrototype(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">v.identifyPrototype(<span class="string">&#x27;vehicle&#x27;</span>)</span><br><span class="line"></span><br><span class="line">Bus.identifyClass(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">Vehicle. identifyClass(<span class="string">&#x27;vehicle&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><ol>
+<li><h5 id="定义类有两种方式"><a href="#定义类有两种方式" class="headerlink" title="定义类有两种方式"></a>定义类有两种方式</h5><ol>
+<li>类声明<ul>
+<li>class Person {} 类声明不能提升</li>
+</ul>
+</li>
+<li>类表达式<ul>
+<li>const a = class {}</li>
+</ul>
+</li>
+<li>函数收到作用域限制，类收到块作用域限制。</li>
+</ol>
+</li>
+<li><h5 id="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"><a href="#JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）" class="headerlink" title="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"></a>JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）</h5><ul>
+<li>ES6引入了class关键字具有正式定义类的能力。类（class）是ES6中新的基础性语法糖结构。虽然这个类表面上支持正式的面向对象编程，但实际上它背后使用的仍然是原型和构造函数的概念。</li>
+</ul>
+</li>
+<li><h5 id="类的构成"><a href="#类的构成" class="headerlink" title="类的构成"></a>类的构成</h5><ul>
+<li>类可以包含构造函数方法、实例方法、获取函数、设置函数、静态类的方法。但是不是必须的，空类也是有效的。</li>
+<li>类表达式的名称是可选的。在把类表达式赋值给变量之后，可以通过name属性访问类表达式的名称字符串。但是不能在类表达式作用域外部访问这个标识符。</li>
+</ul>
+</li>
+</ol>
+<h1 id="类构造函数"><a href="#类构造函数" class="headerlink" title="类构造函数"></a>类构造函数</h1><p>constructor关键字用于在类定义块内部创建类的构造函数。构造函数的定义不是必须的。</p>
+<ol>
+<li><h5 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h5><ul>
+<li>使用new操作符实例化Person的操作等于使用new调用其构造函数。唯一可感知的不同之处就是，JavaScript解释器知道使用new和类意味着应该使用constructor函数进行实例化。</li>
+<li>使用new调用类的构造函数会执行如下操作。(类实例化时传入的参数会用作构造函数的参数，如过不需要参数，则类名后面的括号也是可选的)<ol>
+<li>在内存中创建一个新对象</li>
+<li>这个新对象的内部[[prototypr]]指针被赋值为constructor构造函数的prototypr属性。</li>
+<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
+<li>执行构造函数内部的代码（给新对象添加属性）</li>
+<li>如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。</li>
+</ol>
+</li>
+<li>默认情况下，类构造函数会在执行之后返回this对象。构造函数返回的对象会被用作实例化对象，如果没有什么引用新创建的对象，那么这个对象就会被销毁。不过，如果返回的不是this对象，而是其他对象，那么这个对象不会通过instanceof操作符检测出跟类有关联，因为这个对象的原型指针没有被修改。</li>
+<li>类构造函数与构造函数的主要区别是，调用类构造函数必须使用new操作符，否则会报错。普通构造函数直接调用，则会以全局对象作为this。</li>
+</ul>
+</li>
+<li><h5 id="把类当成特殊函数"><a href="#把类当成特殊函数" class="headerlink" title="把类当成特殊函数"></a>把类当成特殊函数</h5><ol>
+<li>ECMAScript中没有正式的类这个类型，从各个方面来看，类就是一种特殊的函数</li>
+<li>在类上下文中，类本身在使用new调用时就会被当作构造函数。重点在于，类定义中的constructor方法不会被当成构造函数，在对他使用instanceof操作符时会返回false。但是，如果在创建实例时直接将类构造函数方程普通构造函数来使用，那么instanceof操作符的返回值会反转。</li>
+<li>可以向其他对象或者函数引用一样把类作为参数传递，也可以立即实例化。</li>
+</ol>
+</li>
+</ol>
+<h1 id="实例、原型和类成员"><a href="#实例、原型和类成员" class="headerlink" title="实例、原型和类成员"></a>实例、原型和类成员</h1><ol>
+<li><h5 id="实例成员"><a href="#实例成员" class="headerlink" title="实例成员"></a>实例成员</h5><ol>
+<li>每次通过new调用类识别符，都会执行类构造函数。在这个函数内部，可以为新创建的实例（this）添加自有属性。至于添加怎么样的属性，没有限制。另外，在构造函数执行完毕之后，仍然可以给实例添加新的成员。</li>
+<li>所有成员都不会在原型上共享</li>
+</ol>
+</li>
+<li><h5 id="原型方法与访问器"><a href="#原型方法与访问器" class="headerlink" title="原型方法与访问器"></a>原型方法与访问器</h5><ol>
+<li>为了在实例间共享方法，类定义语法把类块中定义的方法作为原型方法。</li>
+<li>可以把方法定义在类构造函数中或者类块中，但是不能在类块中给原型添加原始值或对象作为成员数据。</li>
+<li>类方法等同于对象属性，因此可以使用字符串、符号或计算的值作为键。</li>
+<li>类定义也支持获取和设置访问器。语法与行为跟普通对象一样。</li>
+</ol>
+</li>
+<li><h5 id="迭代器与生成器方法"><a href="#迭代器与生成器方法" class="headerlink" title="迭代器与生成器方法"></a>迭代器与生成器方法</h5><ol>
+<li>类定义语法支持在原型和类本身上定义生成器的方法</li>
+<li>因为支持生成器方法，所以可以通过添加一个默认的迭代器，八十例变成可迭代对象。</li>
+<li>也可以只返回迭代器实例。</li>
+</ol>
+</li>
+<li><h5 id="非函数原型和类成员"><a href="#非函数原型和类成员" class="headerlink" title="非函数原型和类成员"></a>非函数原型和类成员</h5><ul>
+<li>虽然类定义不显示支持在原型或类上添加成员数据，但在类定义外部，可以手动添加。</li>
+</ul>
+</li>
+<li><h5 id="静态类方法"><a href="#静态类方法" class="headerlink" title="静态类方法"></a>静态类方法</h5><ol>
+<li>可以在类上定义静态方法。这些方法通常用于执行不特定与实例的操作，也不要求存在类的实例。</li>
+<li>类静态成员每一个类上只能有一个</li>
+<li>静态类成员在类定义中使用static关键字作为前缀。在静态成员中，this引用类自身。其他所有约定和原型成员一样。</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1588,504 +1741,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
-      <meta itemprop="name" content="Joker">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joker's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">Js学习笔记02语言基础</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 11:17:02" itemprop="dateCreated datePublished" datetime="2021-12-06T11:17:02+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:02" itemprop="dateModified" datetime="2021-12-25T14:36:02+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/GiorunoGiovana.github.io/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><ol>
-<li><h6 id="JavaScript中的一切都区分大小写"><a href="#JavaScript中的一切都区分大小写" class="headerlink" title="JavaScript中的一切都区分大小写"></a>JavaScript中的一切都区分大小写</h6></li>
-<li><h6 id="变量标识符"><a href="#变量标识符" class="headerlink" title="变量标识符"></a>变量标识符</h6><ol>
-<li>第一个字符必须是字母、下划线或美元符号</li>
-<li>后面的字符必须是字母、下划线、美元符号或者数字</li>
-<li>惯例上按照驼峰命名法</li>
-</ol>
-</li>
-<li><h6 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h6><ol>
-<li>单行注释使用    //</li>
-<li>多行注释使用/*    */</li>
-</ol>
-</li>
-<li><h6 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h6><ol>
-<li>代码块{}</li>
-<li>最好在控制语句中使用代码块</li>
-</ol>
-</li>
-</ol>
-<h1 id="Var关键字"><a href="#Var关键字" class="headerlink" title="Var关键字"></a>Var关键字</h1><ol>
-<li><h6 id="var声明提升"><a href="#var声明提升" class="headerlink" title="var声明提升"></a>var声明提升</h6><ol>
-<li>使用var声明变量还会自动提升到函数作用域顶部</li>
-<li>也就是说可以先使用变量再声明它</li>
-</ol>
-</li>
-<li><h6 id="var声明作用域"><a href="#var声明作用域" class="headerlink" title="var声明作用域"></a>var声明作用域</h6><ol>
-<li>在函数内定义var变量，会成为函数中的局部变量</li>
-<li>使用var声明，变量会自动被添加到最近的上下文</li>
-<li>在函数内省略var关键字，如name=“gyp”。会创建全局变量（不推荐）</li>
-</ol>
-</li>
-</ol>
-<h1 id="Let关键字"><a href="#Let关键字" class="headerlink" title="Let关键字"></a>Let关键字</h1><ol>
-<li><h6 id="和var的区别"><a href="#和var的区别" class="headerlink" title="和var的区别"></a>和var的区别</h6><ol>
-<li>使用let在全局作用域中声明变量不会成为window对象的属性，而var会</li>
-<li>var声明的是函数作用域，let声明的是块作用域</li>
-<li>let声明不会提升，如果在定义let之前使用它会出现临时性死区</li>
-<li>let在同一作用域下不能被声明两次</li>
-</ol>
-</li>
-<li><h6 id="for循环中的let声明"><a href="#for循环中的let声明" class="headerlink" title="for循环中的let声明"></a>for循环中的let声明</h6><ol>
-<li>在let之前，使用var定义for循环的迭代变量会渗透到循环体外。</li>
-<li>使用let做for循环的迭代变量不会泄露，因为是块级作用域。</li>
-<li>之前使用var，在循环中var变量中始终都是头一个变量，所以在循环体内访问var变量始终都是同一个值</li>
-<li>使用let，每个循环都会创建新的迭代变量，所以在循环体内访问let变量是不同的。</li>
-</ol>
-</li>
-</ol>
-<h1 id="const关键字"><a href="#const关键字" class="headerlink" title="const关键字"></a>const关键字</h1><ol>
-<li>与let基本一致，唯一一个重要区别是const必须在命名变量时赋值，且在后续使用中无法修改其值（定义常量）。</li>
-<li>只应用到顶级原语或者对象，如果为const初始化一个对象，那么虽然无法改变const的引用值，但是对象内的键值是可以更改的</li>
-</ol>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="typeof操作符"><a href="#typeof操作符" class="headerlink" title="typeof操作符"></a>typeof操作符</h2><ol>
-<li>对一个值使用typeof返回值</li>
-<li>undefined，尚未初始化的变量——undefined</li>
-<li>boolean——boolean</li>
-<li>string——string</li>
-<li>number——number</li>
-<li>object，array，null——object</li>
-<li>function——function</li>
-<li>symbol——symbol</li>
-</ol>
-<h2 id="undefined（假值）"><a href="#undefined（假值）" class="headerlink" title="undefined（假值）"></a>undefined（假值）</h2><ol>
-<li>默认情况下，任何未经初始化的变量都会取得undefined</li>
-<li>undefined和未定义是有区别的，但是用typeof调用的话，得到的值都是undefined</li>
-</ol>
-<h2 id="null"><a href="#null" class="headerlink" title="null"></a>null</h2><ol>
-<li>从逻辑上讲，null表示一个空对象指针，这也是给typeof传一个null会返回“object”的原因</li>
-<li>undefined是由null派生而来的，所以null==undefined为true</li>
-<li>如果确定一个变量将来要保存对象，但是现在没有对象可以保存，最好用null填充它，这样以后查看它是否保存了对象，只要看他是不是null就行了</li>
-</ol>
-<h2 id="boolean"><a href="#boolean" class="headerlink" title="boolean"></a>boolean</h2><ol>
-<li><p>布尔值只有两个字面值，true和false（区分大小写）</p>
-</li>
-<li><p>不同类型转换为布尔值转换规则</p>
-<table>
-<thead>
-<tr>
-<th>数据类型</th>
-<th>转换为true的值</th>
-<th>转换为false的值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>String</td>
-<td>非空字符串</td>
-<td>“”（空字符串）</td>
-</tr>
-<tr>
-<td>number</td>
-<td>非零数值</td>
-<td>0，NaN</td>
-</tr>
-<tr>
-<td>object</td>
-<td>任意对象</td>
-<td>null</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>无</td>
-<td>undefined</td>
-</tr>
-</tbody></table>
-</li>
-</ol>
-<h2 id="Number（使用IEEE754格式）"><a href="#Number（使用IEEE754格式）" class="headerlink" title="Number（使用IEEE754格式）"></a>Number（使用IEEE754格式）</h2><ol>
-<li><h6 id="进制"><a href="#进制" class="headerlink" title="进制"></a>进制</h6><ol>
-<li>默认为十进制</li>
-<li>以0开头会被认为是八进制，但不能超出表示范围，否则会被认为是十进制（例如0175被承认为八进制，089不被承认为八进制）</li>
-<li>以Ox（区分大小写）开头会被认为是16进制</li>
-<li>在数学操作中都被视为十进制</li>
-</ol>
-</li>
-<li><h6 id="浮点值"><a href="#浮点值" class="headerlink" title="浮点值"></a>浮点值</h6><ol>
-<li>要定义浮点值，数值必须包含小数点，小数点至少一位数字</li>
-<li>浮点值空间是整数值两倍</li>
-<li>浮点值精度为17位小数，但是不如整数精确（IEEE754格式导致的问题）</li>
-</ol>
-</li>
-<li><h6 id="数值转换"><a href="#数值转换" class="headerlink" title="数值转换"></a>数值转换</h6><ol>
-<li>number（）<ol>
-<li>布尔值，true为1，false为0</li>
-<li>数值，直接返回</li>
-<li>null，返回0</li>
-<li>undefined，返回NaN</li>
-<li>字符串<ol>
-<li>如果字符串只包含数值字符，包括前面+-符号，转换为十进制数。（忽略前导0，即不能转换八进制）</li>
-<li>如果字符串包含有效浮点格式如“1.1”，转换为对应浮点数</li>
-<li>如果字符串包含有效十六进制格式，则会转换为相应的十六进制的十进制格式。</li>
-<li>其余情况，返回NaN</li>
-</ol>
-</li>
-<li>对象，调用valueOf（）方法，并按照上述规则转换返回的值。如果转换结果是NaN，则调用toString（）方法，再按字符串规则转换。</li>
-</ol>
-</li>
-<li>parseInt（）在需要得到整数时优先使用<ol>
-<li>从第一个非空格字符开始转换。如果第一个字符不是数值，+，-符号，则立即返回NaN。所以空字符串也返回NaN。接下来会持续检测，返回一个整数。</li>
-<li>可以识别不同的进制格式，包括十六进制，八进制。</li>
-<li>可以接受第二个参数，作为底数，进制数，如parseInt（“AF”，16）//175</li>
-</ol>
-</li>
-<li>parseFloat（）<ol>
-<li>跟parseInt（）类似，不过会识别浮点数，并且不能识别十进制以外的进制。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h6 id="NaN"><a href="#NaN" class="headerlink" title="NaN"></a>NaN</h6><ol>
-<li>表示本来要返回数值的操作失败了</li>
-<li>任何涉及NaN操作始终返回NaN</li>
-<li>NaN不等于任何值，包括它本身</li>
-</ol>
-</li>
-</ol>
-<h2 id="string"><a href="#string" class="headerlink" title="string"></a>string</h2><ol>
-<li><h6 id="字符字面量"><a href="#字符字面量" class="headerlink" title="字符字面量"></a>字符字面量</h6><table>
-<thead>
-<tr>
-<th>\n</th>
-<th>换行</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>\t</td>
-<td>制表</td>
-</tr>
-<tr>
-<td>\b</td>
-<td>退格</td>
-</tr>
-<tr>
-<td>\r</td>
-<td>回车</td>
-</tr>
-<tr>
-<td>\f</td>
-<td>换页</td>
-</tr>
-<tr>
-<td>\</td>
-<td>反斜杠</td>
-</tr>
-<tr>
-<td>\‘</td>
-<td>单引号</td>
-</tr>
-<tr>
-<td>\“</td>
-<td>双引号</td>
-</tr>
-<tr>
-<td>\xnn</td>
-<td>以十六进制表示的字符</td>
-</tr>
-<tr>
-<td>\unnn</td>
-<td>以十六进制表示的Unicode字符</td>
-</tr>
-</tbody></table>
-</li>
-<li><h6 id="模板字面量"><a href="#模板字面量" class="headerlink" title="模板字面量"></a>模板字面量</h6><ol>
-<li>模板字面量会保持反引号内的空格</li>
-</ol>
-</li>
-<li><h6 id="字符串插值"><a href="#字符串插值" class="headerlink" title="字符串插值"></a>字符串插值</h6><ol>
-<li>从技术上来讲，模板字面量不是字符串，是一种特殊的JavaScript语法</li>
-<li>通过在${}中使用js表达式实现</li>
-</ol>
-</li>
-<li><h6 id="转换为字符串"><a href="#转换为字符串" class="headerlink" title="转换为字符串"></a>转换为字符串</h6><ol>
-<li>toString（）<ol>
-<li>可用于数组、布尔值、对象和字符串值；null和undefined没有toString方法</li>
-<li>当转换为数值类型时，可以接受一个参数作为底数，就是作为几进制输出</li>
-</ol>
-</li>
-<li>String（）<ol>
-<li>当传入参数为null或undefined时，返回“null”或“undefined”</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><ol>
-<li>对象其实就是一组数据和功能的集合</li>
-<li>几个重要的属性和方法<ol>
-<li>constrictor:用于创建当前对象的函数。</li>
-<li>hasOwnProperty(propertyName):用于判断当前对象实例（不是原型）上是否存在给定属性。</li>
-<li>defineProperty(obj，key，{…}):用于给对象的属性添加方法，Vue响应性原理。</li>
-<li>valueOf():返回对象对应的数值，字符串，或布尔值</li>
-</ol>
-</li>
-</ol>
-<h1 id="操作符"><a href="#操作符" class="headerlink" title="操作符"></a>操作符</h1><h2 id="一元操作符"><a href="#一元操作符" class="headerlink" title="一元操作符"></a>一元操作符</h2><ol>
-<li><h6 id=""><a href="#" class="headerlink" title="++"></a>++</h6><ol>
-<li>在变量前如++a，在语句求值之前改变，+1</li>
-<li>在变量后如a++，在语句求值之后改变，+1</li>
-</ol>
-</li>
-<li><h6 id="–（同上）"><a href="#–（同上）" class="headerlink" title="–（同上）"></a>–（同上）</h6></li>
-<li><h6 id="一元加和减"><a href="#一元加和减" class="headerlink" title="一元加和减"></a>一元加和减</h6><ol>
-<li>和数学上用途一致</li>
-<li>隐式转换加到不同类型中会试图将他们转换为数值类型，如+a</li>
-</ol>
-</li>
-</ol>
-<h2 id="位操作符"><a href="#位操作符" class="headerlink" title="位操作符"></a>位操作符</h2><ol>
-<li>按位非（~）作用是返回数值的一补数，最终结果时对数值取反再减一</li>
-<li>按位与（&amp;）本质上是两个数的每一位对齐</li>
-<li>按位或（|）有一则一，没一则零</li>
-<li>有符号右移（&gt;&gt;&gt;）所有数值向右移指定位数，符号位也移动</li>
-<li>有符号左移（&lt;&lt;&lt;）所有数值向左移指定位数，符号位不变</li>
-<li>左移（&lt;&lt;）所有数值向左移指定位数，符号位不变</li>
-</ol>
-<h2 id="布尔操作符"><a href="#布尔操作符" class="headerlink" title="布尔操作符"></a>布尔操作符</h2><ol>
-<li><h6 id="逻辑非（-）"><a href="#逻辑非（-）" class="headerlink" title="逻辑非（!）"></a>逻辑非（!）</h6></li>
-</ol>
-<table>
-<thead>
-<tr>
-<th>操作数</th>
-<th>返回值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>对象</td>
-<td>false</td>
-</tr>
-<tr>
-<td>空字符串</td>
-<td>true</td>
-</tr>
-<tr>
-<td>非空字符串</td>
-<td>false</td>
-</tr>
-<tr>
-<td>0</td>
-<td>true</td>
-</tr>
-<tr>
-<td>非0数值</td>
-<td>false</td>
-</tr>
-<tr>
-<td>null</td>
-<td>true</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>true</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>true</td>
-</tr>
-</tbody></table>
-<p>双非！！，可以求出变量真正对应的布尔值</p>
-<h6 id="2-逻辑与（-amp-amp-）"><a href="#2-逻辑与（-amp-amp-）" class="headerlink" title="2.逻辑与（&amp;&amp;）"></a>2.逻辑与（&amp;&amp;）</h6><table>
-<thead>
-<tr>
-<th>第一个操作数</th>
-<th>第二个操作数</th>
-<th>结果</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>对象</td>
-<td>任意</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>布尔值为true</td>
-<td>对象</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>对象</td>
-<td>对象</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>null</td>
-<td>——</td>
-<td>null</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>——</td>
-<td>NaN</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>——</td>
-<td>undefined</td>
-</tr>
-</tbody></table>
-<p>短路操作符，第一个操作数为false，则第二个操作数被忽略</p>
-<h6 id="3-逻辑或（-）"><a href="#3-逻辑或（-）" class="headerlink" title="3.逻辑或（||）"></a>3.逻辑或（||）</h6><table>
-<thead>
-<tr>
-<th>第一个操作数</th>
-<th>第二个操作数</th>
-<th>结果</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>对象</td>
-<td>任意</td>
-<td>返回第一个操作数</td>
-</tr>
-<tr>
-<td>布尔值为false</td>
-<td>对象</td>
-<td>返回第二个操作数</td>
-</tr>
-<tr>
-<td>对象</td>
-<td>对象</td>
-<td>返回第一个操作数</td>
-</tr>
-<tr>
-<td>null</td>
-<td>——</td>
-<td>null</td>
-</tr>
-<tr>
-<td>NaN</td>
-<td>——</td>
-<td>NaN</td>
-</tr>
-<tr>
-<td>undefined</td>
-<td>——</td>
-<td>undefined</td>
-</tr>
-</tbody></table>
-<p>短路操作符，第一个操作数为true，则第二个操作数被忽略。</p>
-<h2 id="乘性操作符"><a href="#乘性操作符" class="headerlink" title="乘性操作符"></a>乘性操作符</h2><p>乘法（*），除法（/），取模（%）</p>
-<h2 id="指数操作符"><a href="#指数操作符" class="headerlink" title="指数操作符"></a>指数操作符</h2><ol>
-<li>3**2等价于3的平方</li>
-<li>a**等价于a的平方</li>
-</ol>
-<h2 id="加性操作符"><a href="#加性操作符" class="headerlink" title="加性操作符"></a>加性操作符</h2><ol>
-<li><h6 id="加法操作符"><a href="#加法操作符" class="headerlink" title="加法操作符"></a>加法操作符</h6><ol>
-<li><p>优先级最高：<br>如果有任意一个操作数为字符串，则将所有操作数转换为字符串再拼接。</p>
-<p>Infinity加-Infinity=NaN</p>
-</li>
-</ol>
-</li>
-<li><h6 id="减法操作符"><a href="#减法操作符" class="headerlink" title="减法操作符"></a>减法操作符</h6></li>
-</ol>
-<h2 id="比较操作符-gt-lt-lt-gt"><a href="#比较操作符-gt-lt-lt-gt" class="headerlink" title="比较操作符(&gt;,&lt;,&lt;=,&gt;=)"></a>比较操作符(&gt;,&lt;,&lt;=,&gt;=)</h2><ol>
-<li>非数值转换为数值比较</li>
-<li>都是字符串，则逐个比较字符串对应字符编码</li>
-</ol>
-<h2 id="相等操作符"><a href="#相等操作符" class="headerlink" title="相等操作符"></a>相等操作符</h2><ol>
-<li>等于和不等于(==/!==)<ol>
-<li>两个操作数会先进行强制类型转换</li>
-<li>null==undefined(true)</li>
-</ol>
-</li>
-<li>全等和不全等(===/!==)<ol>
-<li>不进行强制类型转换，比较值和类型</li>
-<li>null===undefined（false）</li>
-</ol>
-</li>
-</ol>
-<h2 id="其他操作符"><a href="#其他操作符" class="headerlink" title="其他操作符"></a>其他操作符</h2><ol>
-<li><h6 id="条件操作符"><a href="#条件操作符" class="headerlink" title="条件操作符"></a>条件操作符</h6><ol>
-<li>格式如a?b:c，a为真则执行b，为假则执行c</li>
-<li>可以嵌套如:a?(b?c:d):e</li>
-<li>方式简洁优雅，但是不便于阅读</li>
-</ol>
-</li>
-<li><h6 id="赋值操作符"><a href="#赋值操作符" class="headerlink" title="赋值操作符(=)"></a>赋值操作符(=)</h6><ol>
-<li>将右边的值赋值给左边</li>
-<li>乘后赋值（*=）<br>除后赋值（/=）<br>取模后赋值（%=）<br>加后赋值（+=）<br>减后赋值（-=）<br>左移后赋值（&lt;&lt;=）</li>
-</ol>
-</li>
-<li><h6 id="逗号操作符"><a href="#逗号操作符" class="headerlink" title="逗号操作符"></a>逗号操作符</h6><ol>
-<li>可以用来在一条语句中执行多个操作，如:let num = 1，num1 = 2</li>
-</ol>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -2157,7 +1812,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/GiorunoGiovana.github.io/archives/">
         
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">28</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
