@@ -2193,6 +2193,7 @@
       </categories>
       <tags>
         <tag>学习笔记</tag>
+        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
@@ -2343,12 +2344,12 @@
 
 <p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103214542617.png" alt="image-20220103214542617"></p>
 <p>思路：获取所有的Promise，都执行then，把结果放到数组，一起返回</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.all = <span class="function"><span class="keyword">function</span>(<span class="params">promises</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">let</span> arr = [];</span><br><span class="line">  <span class="keyword">let</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">processData</span>(<span class="params">index,data</span>)</span>&#123;</span><br><span class="line">    arr[index] = data;</span><br><span class="line">    i++;</span><br><span class="line">    <span class="keyword">if</span>(i == promises.length)&#123;</span><br><span class="line">      resolve(arr);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;promises.length;i++)&#123;</span><br><span class="line">      promises[i].then(<span class="function"><span class="params">data</span>=&gt;</span>&#123;</span><br><span class="line">        processData(i,data);</span><br><span class="line">      &#125;,reject);</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.all = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [],PromiseCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>;i&lt; promises.length;i++) &#123; <span class="comment">// 使用let保证promise顺序执行</span></span><br><span class="line">            <span class="built_in">Promise</span>.resolve(promises[i]).then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                    arr[i] = res</span><br><span class="line">                    PromiseCount++</span><br><span class="line">                    <span class="keyword">if</span>(PromiseCount == promises.length)&#123;</span><br><span class="line">                        <span class="keyword">return</span> resolve(arr)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 <h1 id="手写Promsie-race"><a href="#手写Promsie-race" class="headerlink" title="手写Promsie.race"></a>手写Promsie.race</h1><p>分析：race和all差不多，不过一个是获取所有结果，race是获取最早执行的结果</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.race = <span class="function"><span class="keyword">function</span>(<span class="params">promises</span>)</span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;promises.length;i++)&#123;</span><br><span class="line">      promises[i].then(resolve,reject)</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.race = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">Promise</span>.resolve(promises.forEach(</span><br><span class="line">            <span class="function"><span class="params">func</span> =&gt;</span> func.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;<span class="keyword">return</span> res&#125;,</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> &#123;<span class="keyword">return</span> err&#125;</span><br><span class="line">            )</span><br><span class="line">        ))</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
@@ -2356,6 +2357,39 @@
       </categories>
       <tags>
         <tag>学习笔记</tag>
+        <tag>手写系列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写reduce、用reduce实现map</title>
+    <url>/GiorunoGiovana.github.io/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/</url>
+    <content><![CDATA[<h1 id="手写reduce"><a href="#手写reduce" class="headerlink" title="手写reduce"></a>手写reduce</h1><p>reduce是JavaScript原生的数组操作方法，功能强大</p>
+<p><strong>reducer</strong> 函数接收4个参数:</p>
+<ol>
+<li>Accumulator (acc) (累计器)</li>
+<li>Current Value (cur) (当前值)</li>
+<li>Current Index (idx) (当前索引)</li>
+<li>Source Array (src) (源数组)</li>
+</ol>
+<p>您的 <strong>reducer</strong> 函数的返回值分配给累计器，该返回值在数组的每个迭代中被记住，并最后成为最终的单个结果值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//reduce用法</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"><span class="built_in">console</span>.log(arr.reduce(<span class="function">(<span class="params">acc,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> acc+cur</span><br><span class="line">&#125;,<span class="number">1</span>))</span><br><span class="line"><span class="comment">//22</span></span><br></pre></td></tr></table></figure>
+
+<p>原生实现</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = init?<span class="number">0</span>:<span class="number">1</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">        total = func(total, arr[i], i, arr)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用map实现reduce</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    arr.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">        i!=init?total = func(total, v, i, arr):<span class="number">0</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用reduce实现map</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//用reduce实现map</span></span><br><span class="line"><span class="built_in">Array</span>.prototype._map = <span class="function"><span class="keyword">function</span>(<span class="params">func,thisArg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = []</span><br><span class="line">    <span class="built_in">this</span>.reduce(<span class="function">(<span class="params">total,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">        result[idx] = func.call(thisArg,cur,idx,arr);</span><br><span class="line">    &#125;, <span class="literal">null</span>)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _mapArr = arr._map(<span class="function"><span class="keyword">function</span>(<span class="params">v, i</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> v+i+<span class="built_in">this</span>.length;</span><br><span class="line">&#125;, arr2)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(_mapArr);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>数组操作</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>手写系列</tag>
       </tags>
   </entry>
 </search>

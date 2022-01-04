@@ -186,6 +186,124 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
+      <meta itemprop="name" content="Joker">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Joker's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">js学习笔记10代理与反射</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-10 09:54:38" itemprop="dateCreated datePublished" datetime="2021-12-10T09:54:38+08:00">2021-12-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:36:47" itemprop="dateModified" datetime="2021-12-25T14:36:47+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/GiorunoGiovana.github.io/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="代理与反射"><a href="#代理与反射" class="headerlink" title="代理与反射"></a>代理与反射</h1><ol>
+<li><h4 id="代理基础"><a href="#代理基础" class="headerlink" title="代理基础"></a>代理基础</h4><ul>
+<li>代理是目标对象的抽象。目标对象既可以直接被操作，也可以通过代理来操作。但是直接操作会绕过代理施予的行为。</li>
+</ul>
+</li>
+<li><h4 id="创建空代理"><a href="#创建空代理" class="headerlink" title="创建空代理"></a>创建空代理</h4><ul>
+<li>在代理对象上执行的任何操作实际上都会应用到目标对象。唯一可感知的不同就是代码中操作的是代理对象。</li>
+</ul>
+</li>
+<li><h4 id="定义捕获器"><a href="#定义捕获器" class="headerlink" title="定义捕获器"></a>定义捕获器</h4><ul>
+<li>使用代理的主要原因是可以定义捕获器。每个处理程序对象都可以包含多个捕获器，每个捕获器对应一种基本操作，可以直接或间接在代理对象上调用。</li>
+<li>每次在代理对象上调用这些基本操作时，代理可以在这些操作传播到目标对象之前像调用捕获器函数，从而实现拦截并修改相应的行为。</li>
+<li>例如，可以定一一个get()捕获器，JavaScript操作以某种形式调用get()时触发。所有这些操作只要发生在代理对象上，就会触发get()捕获器</li>
+<li>注意，只有在代理对象上，就会触发。</li>
+</ul>
+</li>
+<li><h4 id="捕获器参数和反射API"><a href="#捕获器参数和反射API" class="headerlink" title="捕获器参数和反射API"></a>捕获器参数和反射API</h4><ul>
+<li>所有捕获器都可以访问响应的参数面积与这些参数可以重建被捕获的方法的原始行为。</li>
+<li>通过调用全局Reflect对象上（封装了原始行为）的同名方法来轻松重建。</li>
+</ul>
+</li>
+<li><h4 id="代理捕获器与反射方法"><a href="#代理捕获器与反射方法" class="headerlink" title="代理捕获器与反射方法"></a>代理捕获器与反射方法</h4><ul>
+<li>代理可以捕获13种不同的基本操作</li>
+</ul>
+</li>
+<li><h4 id="代理的问题和不足"><a href="#代理的问题和不足" class="headerlink" title="代理的问题和不足"></a>代理的问题和不足</h4></li>
+<li><h4 id="使用反射API"><a href="#使用反射API" class="headerlink" title="使用反射API"></a>使用反射API</h4><ul>
+<li>某些情况下应该优先使用反射API，这些是有一些理由的。</li>
+<li>反射API与对象API<ul>
+<li>反射API并不限于捕获处理程序</li>
+<li>大多数反射API方法在Object类型上对应的方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="可撤销代理"><a href="#可撤销代理" class="headerlink" title="可撤销代理"></a>可撤销代理</h4><ul>
+<li>有时候可能需要中断代理对象与目标对象的联系。对于使用new Proxy()创建的普通代理来说，这种联系会在代理对象的生命周期内一致存在。</li>
+<li>Proxy也暴露了revocable()方法，这个方法支持撤销代理对象与目标对象的关联。撤销代理的操作是不可逆的。而且，撤销函数是幂等的，调用多少次结构都是一样的。</li>
+</ul>
+</li>
+<li><h4 id="捕获器不变式"><a href="#捕获器不变式" class="headerlink" title="捕获器不变式"></a>捕获器不变式</h4><ul>
+<li>目标对象有一个不可配置且不可写的数据属性，那么在捕获器返回一个与该属性不同的值时会报错。</li>
+</ul>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1649,98 +1767,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/GiorunoGiovana.github.io/images/avatar.jpeg">
-      <meta itemprop="name" content="Joker">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Joker's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/" class="post-title-link" itemprop="url">Js学习笔记01Html中的JavaScript</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 12:29:21" itemprop="dateCreated datePublished" datetime="2021-12-06T12:29:21+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:06" itemprop="dateModified" datetime="2021-12-25T14:36:06+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/GiorunoGiovana.github.io/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="script元素"><a href="#script元素" class="headerlink" title="script元素"></a>script元素</h1><p>script元素是用于引入JavaScript的html元素。</p>
-<p>1.可选属性有：</p>
-<p>async：</p>
-<p>​    表示应该立即下载脚本，但不能阻止其他页面动作，比如下载资源或等待其他脚本加载。只对外部脚本文件有效（不保证顺序执行）</p>
-<p>defer：</p>
-<p>​    表示脚本可以延迟到文档完全被解析后再执行。只对外部脚本有效。</p>
-<p>2.scrpit标签中引用外部脚本的时候不受浏览器同源策略限制，就是可以跨域（jsonp方案的原理）</p>
-<p>3.在script元素中的代码被计算完成之前，在这段代码之后的页面的其余内容不会被加载，也不会被显示。</p>
-<p>4.不该在已经引用了外部脚本的script标签中包含JavaScript代码，会被忽略。</p>
-<h3 id="标签位置"><a href="#标签位置" class="headerlink" title="标签位置"></a>标签位置</h3><p>1.放在head标签内</p>
-<p>意味着必须把所有JavaScript代码都下载，解析和解释完成后才能渲染画面。（可能导致白屏幕时间过长）</p>
-<p>2.放在body标签中页面内容的后面（通常做法）</p>
-<p>会优先加载内容页面，再加载脚本。（白屏时间短，用户体验好）</p>
-<h3 id="行内代码与外部文件"><a href="#行内代码与外部文件" class="headerlink" title="行内代码与外部文件"></a>行内代码与外部文件</h3><p>1.推荐将js代码放在外部文件，然后按需引入</p>
-<p>​    理由：1.可维护性强，js代码过于分散维护难度会非常高，放到统一的文件下可维护性更高。</p>
-<p>​                2.缓存性能，如果多个页面用到同一个脚本，只加载一次就够了。</p>
-<p>​                3.外部脚本语法在HTML和XHTML中是一致的。</p>
-<h3 id="动态加载脚本"><a href="#动态加载脚本" class="headerlink" title="动态加载脚本"></a>动态加载脚本</h3><p>使用DOM API（不太支持，就不展开了，红宝书P15）</p>
-<h3 id="noscript元素"><a href="#noscript元素" class="headerlink" title="noscript元素"></a>noscript元素</h3><p>用于指定在浏览器不支持脚本时候显示的内容。如果浏览器支持js脚本，则此元素内的任何内容都不会被渲染。</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1812,20 +1838,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/GiorunoGiovana.github.io/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/GiorunoGiovana.github.io/categories/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/GiorunoGiovana.github.io/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">3</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
