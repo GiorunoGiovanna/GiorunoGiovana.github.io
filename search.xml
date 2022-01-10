@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Vue源码学习笔记01</title>
+    <url>/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/</url>
+    <content><![CDATA[<h3 id="Vue响应式原理"><a href="#Vue响应式原理" class="headerlink" title="Vue响应式原理"></a>Vue响应式原理</h3><p>从原理上来讲vue是利用了Object的defineProperty的属性，它把我们放进去的data中每一个属性都设置了getter和setter，这样当data的属性值更新后，我们就会收到通知，并可以通知那些需要更新的地方去进行更新。</p>
+<h3 id="getter-amp-amp-setter简单实现"><a href="#getter-amp-amp-setter简单实现" class="headerlink" title="getter&amp;&amp;setter简单实现"></a>getter&amp;&amp;setter简单实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//检查是否为对象</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">        &amp;&amp; obj !==<span class="literal">null</span></span><br><span class="line">        &amp;&amp; obj !==<span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">convert</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">            <span class="keyword">throw</span>  <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//为每个对象的键值对添加getter和setter</span></span><br><span class="line">        <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//提供变量存储键对应的值</span></span><br><span class="line">            <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">            <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">                <span class="function"><span class="title">get</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`getting key &quot;<span class="subst">$&#123;key&#125;</span>&quot;: <span class="subst">$&#123;internalValue&#125;</span>`</span>)</span><br><span class="line">                    <span class="keyword">return</span> internalValue</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="function"><span class="title">set</span>(<span class="params">newValue</span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`setting key &quot;<span class="subst">$&#123;key&#125;</span>&quot; to: <span class="subst">$&#123;newValue&#125;</span>`</span>)</span><br><span class="line">                    internalValue = newValue</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h3 id="依赖跟踪"><a href="#依赖跟踪" class="headerlink" title="依赖跟踪"></a>依赖跟踪</h3><p>使用上面的getter和setter我们模拟了对象的响应式，那么问题来了，假设我们有一个对象，其中有个属性added：233，我们在一个函数中使用了这个added做一个加法，得到了一个结果，但是我们修改了added的值，并期望函数的结果也会随之改变，这要怎么实现呢？、</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a class representing a dependency</span></span><br><span class="line"><span class="comment">// exposing it on window is necessary for testing</span></span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">    <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">//设置一个变量存储</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//跟踪函数依赖，类似于在此处插眼</span></span><br><span class="line">    depend () &#123;</span><br><span class="line">      <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">        <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">          <span class="comment">//将跟踪的函数加入到set表中</span></span><br><span class="line">        <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//重新执行函数，在刚刚插眼的函数中重新执行该函数，达到更新的效果</span></span><br><span class="line">    notify () &#123;</span><br><span class="line">      <span class="comment">// run all subscriber functions</span></span><br><span class="line">        <span class="comment">//set列表中的每一个函数都重新执行</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//用一个全局变量储存函数（重点！）,这样可以让类实例在外部访问这个函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>简单来讲，就是创建一个类，它提供一种类似“插眼”的功能（depend ()），我们在需要跟踪的函数中插入这个眼，当我们需要它更新时，再调用这个眼（notify ()）重新执行一遍函数，达到更新结果的目的。</p>
+<h3 id="迷你观察者"><a href="#迷你观察者" class="headerlink" title="迷你观察者"></a>迷你观察者</h3><p>我们把依赖追踪和getter&amp;&amp;setter结合起来，就可以完成我们需要的功能了。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">      &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">      &amp;&amp; obj !== <span class="literal">null</span></span><br><span class="line">      &amp;&amp; obj !== <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">        <span class="keyword">let</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line">        <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">            get () &#123;</span><br><span class="line">                <span class="comment">//插眼</span></span><br><span class="line">                dep.depend()</span><br><span class="line">                <span class="keyword">return</span> internalValue</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="function"><span class="title">set</span>(<span class="params">v</span>)</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> ifValueChange = v !==internalValue</span><br><span class="line">                <span class="keyword">if</span>(ifValueChange)&#123;</span><br><span class="line">                    internalValue = v</span><br><span class="line">                    <span class="comment">//检测到数值变化重新调用该函数</span></span><br><span class="line">                    dep.notify()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  depend () &#123;</span><br><span class="line">    <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">      <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notify () &#123;</span><br><span class="line">    <span class="comment">// run all subscriber functions</span></span><br><span class="line">    <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>可以看到我们把插眼这个动作放到了getter里面，把重新调用放到了setter里面，这样我们就可以监听对象的变化，一旦它的属性值发生改变，就会触发重新调用，这样就达到了监听对象，并实时更新与他有关的值，即Vue响应式的简单原理。</p>
+<p>参考视频：<a href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
+<p>参考github：<a href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
+]]></content>
+      <categories>
+        <category>Vue源码</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vue源码学习笔记02</title>
     <url>/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/</url>
     <content><![CDATA[<h2 id="编写一个简单插件"><a href="#编写一个简单插件" class="headerlink" title="编写一个简单插件"></a>编写一个简单插件</h2><p>Vue中有一个强大的功能就是提供插件的使用:</p>
@@ -60,33 +87,6 @@
 
 <p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
 <p> 参考视频：<a href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-<p>参考github：<a href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
-]]></content>
-      <categories>
-        <category>Vue源码</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Vue源码学习笔记01</title>
-    <url>/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/</url>
-    <content><![CDATA[<h3 id="Vue响应式原理"><a href="#Vue响应式原理" class="headerlink" title="Vue响应式原理"></a>Vue响应式原理</h3><p>从原理上来讲vue是利用了Object的defineProperty的属性，它把我们放进去的data中每一个属性都设置了getter和setter，这样当data的属性值更新后，我们就会收到通知，并可以通知那些需要更新的地方去进行更新。</p>
-<h3 id="getter-amp-amp-setter简单实现"><a href="#getter-amp-amp-setter简单实现" class="headerlink" title="getter&amp;&amp;setter简单实现"></a>getter&amp;&amp;setter简单实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//检查是否为对象</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">        &amp;&amp; obj !==<span class="literal">null</span></span><br><span class="line">        &amp;&amp; obj !==<span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">convert</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">            <span class="keyword">throw</span>  <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//为每个对象的键值对添加getter和setter</span></span><br><span class="line">        <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//提供变量存储键对应的值</span></span><br><span class="line">            <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">            <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">                <span class="function"><span class="title">get</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`getting key &quot;<span class="subst">$&#123;key&#125;</span>&quot;: <span class="subst">$&#123;internalValue&#125;</span>`</span>)</span><br><span class="line">                    <span class="keyword">return</span> internalValue</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="function"><span class="title">set</span>(<span class="params">newValue</span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`setting key &quot;<span class="subst">$&#123;key&#125;</span>&quot; to: <span class="subst">$&#123;newValue&#125;</span>`</span>)</span><br><span class="line">                    internalValue = newValue</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h3 id="依赖跟踪"><a href="#依赖跟踪" class="headerlink" title="依赖跟踪"></a>依赖跟踪</h3><p>使用上面的getter和setter我们模拟了对象的响应式，那么问题来了，假设我们有一个对象，其中有个属性added：233，我们在一个函数中使用了这个added做一个加法，得到了一个结果，但是我们修改了added的值，并期望函数的结果也会随之改变，这要怎么实现呢？、</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a class representing a dependency</span></span><br><span class="line"><span class="comment">// exposing it on window is necessary for testing</span></span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">    <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">//设置一个变量存储</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//跟踪函数依赖，类似于在此处插眼</span></span><br><span class="line">    depend () &#123;</span><br><span class="line">      <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">        <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">          <span class="comment">//将跟踪的函数加入到set表中</span></span><br><span class="line">        <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//重新执行函数，在刚刚插眼的函数中重新执行该函数，达到更新的效果</span></span><br><span class="line">    notify () &#123;</span><br><span class="line">      <span class="comment">// run all subscriber functions</span></span><br><span class="line">        <span class="comment">//set列表中的每一个函数都重新执行</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//用一个全局变量储存函数（重点！）,这样可以让类实例在外部访问这个函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>简单来讲，就是创建一个类，它提供一种类似“插眼”的功能（depend ()），我们在需要跟踪的函数中插入这个眼，当我们需要它更新时，再调用这个眼（notify ()）重新执行一遍函数，达到更新结果的目的。</p>
-<h3 id="迷你观察者"><a href="#迷你观察者" class="headerlink" title="迷你观察者"></a>迷你观察者</h3><p>我们把依赖追踪和getter&amp;&amp;setter结合起来，就可以完成我们需要的功能了。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">      &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">      &amp;&amp; obj !== <span class="literal">null</span></span><br><span class="line">      &amp;&amp; obj !== <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">        <span class="keyword">let</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line">        <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">            get () &#123;</span><br><span class="line">                <span class="comment">//插眼</span></span><br><span class="line">                dep.depend()</span><br><span class="line">                <span class="keyword">return</span> internalValue</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="function"><span class="title">set</span>(<span class="params">v</span>)</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> ifValueChange = v !==internalValue</span><br><span class="line">                <span class="keyword">if</span>(ifValueChange)&#123;</span><br><span class="line">                    internalValue = v</span><br><span class="line">                    <span class="comment">//检测到数值变化重新调用该函数</span></span><br><span class="line">                    dep.notify()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  depend () &#123;</span><br><span class="line">    <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">      <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notify () &#123;</span><br><span class="line">    <span class="comment">// run all subscriber functions</span></span><br><span class="line">    <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>可以看到我们把插眼这个动作放到了getter里面，把重新调用放到了setter里面，这样我们就可以监听对象的变化，一旦它的属性值发生改变，就会触发重新调用，这样就达到了监听对象，并实时更新与他有关的值，即Vue响应式的简单原理。</p>
-<p>参考视频：<a href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
 <p>参考github：<a href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
 ]]></content>
       <categories>
@@ -298,36 +298,6 @@
 ]]></content>
       <categories>
         <category>CSS</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Js学习笔记01Html中的JavaScript</title>
-    <url>/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/</url>
-    <content><![CDATA[<h1 id="script元素"><a href="#script元素" class="headerlink" title="script元素"></a>script元素</h1><p>script元素是用于引入JavaScript的html元素。</p>
-<p>1.可选属性有：</p>
-<p>async：</p>
-<p>​    表示应该立即下载脚本，但不能阻止其他页面动作，比如下载资源或等待其他脚本加载。只对外部脚本文件有效（不保证顺序执行）</p>
-<p>defer：</p>
-<p>​    表示脚本可以延迟到文档完全被解析后再执行。只对外部脚本有效。</p>
-<p>2.scrpit标签中引用外部脚本的时候不受浏览器同源策略限制，就是可以跨域（jsonp方案的原理）</p>
-<p>3.在script元素中的代码被计算完成之前，在这段代码之后的页面的其余内容不会被加载，也不会被显示。</p>
-<p>4.不该在已经引用了外部脚本的script标签中包含JavaScript代码，会被忽略。</p>
-<h3 id="标签位置"><a href="#标签位置" class="headerlink" title="标签位置"></a>标签位置</h3><p>1.放在head标签内</p>
-<p>意味着必须把所有JavaScript代码都下载，解析和解释完成后才能渲染画面。（可能导致白屏幕时间过长）</p>
-<p>2.放在body标签中页面内容的后面（通常做法）</p>
-<p>会优先加载内容页面，再加载脚本。（白屏时间短，用户体验好）</p>
-<h3 id="行内代码与外部文件"><a href="#行内代码与外部文件" class="headerlink" title="行内代码与外部文件"></a>行内代码与外部文件</h3><p>1.推荐将js代码放在外部文件，然后按需引入</p>
-<p>​    理由：1.可维护性强，js代码过于分散维护难度会非常高，放到统一的文件下可维护性更高。</p>
-<p>​                2.缓存性能，如果多个页面用到同一个脚本，只加载一次就够了。</p>
-<p>​                3.外部脚本语法在HTML和XHTML中是一致的。</p>
-<h3 id="动态加载脚本"><a href="#动态加载脚本" class="headerlink" title="动态加载脚本"></a>动态加载脚本</h3><p>使用DOM API（不太支持，就不展开了，红宝书P15）</p>
-<h3 id="noscript元素"><a href="#noscript元素" class="headerlink" title="noscript元素"></a>noscript元素</h3><p>用于指定在浏览器不支持脚本时候显示的内容。如果浏览器支持js脚本，则此元素内的任何内容都不会被渲染。</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
@@ -854,6 +824,36 @@
       </tags>
   </entry>
   <entry>
+    <title>Js学习笔记01Html中的JavaScript</title>
+    <url>/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/</url>
+    <content><![CDATA[<h1 id="script元素"><a href="#script元素" class="headerlink" title="script元素"></a>script元素</h1><p>script元素是用于引入JavaScript的html元素。</p>
+<p>1.可选属性有：</p>
+<p>async：</p>
+<p>​    表示应该立即下载脚本，但不能阻止其他页面动作，比如下载资源或等待其他脚本加载。只对外部脚本文件有效（不保证顺序执行）</p>
+<p>defer：</p>
+<p>​    表示脚本可以延迟到文档完全被解析后再执行。只对外部脚本有效。</p>
+<p>2.scrpit标签中引用外部脚本的时候不受浏览器同源策略限制，就是可以跨域（jsonp方案的原理）</p>
+<p>3.在script元素中的代码被计算完成之前，在这段代码之后的页面的其余内容不会被加载，也不会被显示。</p>
+<p>4.不该在已经引用了外部脚本的script标签中包含JavaScript代码，会被忽略。</p>
+<h3 id="标签位置"><a href="#标签位置" class="headerlink" title="标签位置"></a>标签位置</h3><p>1.放在head标签内</p>
+<p>意味着必须把所有JavaScript代码都下载，解析和解释完成后才能渲染画面。（可能导致白屏幕时间过长）</p>
+<p>2.放在body标签中页面内容的后面（通常做法）</p>
+<p>会优先加载内容页面，再加载脚本。（白屏时间短，用户体验好）</p>
+<h3 id="行内代码与外部文件"><a href="#行内代码与外部文件" class="headerlink" title="行内代码与外部文件"></a>行内代码与外部文件</h3><p>1.推荐将js代码放在外部文件，然后按需引入</p>
+<p>​    理由：1.可维护性强，js代码过于分散维护难度会非常高，放到统一的文件下可维护性更高。</p>
+<p>​                2.缓存性能，如果多个页面用到同一个脚本，只加载一次就够了。</p>
+<p>​                3.外部脚本语法在HTML和XHTML中是一致的。</p>
+<h3 id="动态加载脚本"><a href="#动态加载脚本" class="headerlink" title="动态加载脚本"></a>动态加载脚本</h3><p>使用DOM API（不太支持，就不展开了，红宝书P15）</p>
+<h3 id="noscript元素"><a href="#noscript元素" class="headerlink" title="noscript元素"></a>noscript元素</h3><p>用于指定在浏览器不支持脚本时候显示的内容。如果浏览器支持js脚本，则此元素内的任何内容都不会被渲染。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Js学习笔记03变量、作用域与内存</title>
     <url>/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/</url>
     <content><![CDATA[<h1 id="原始值与引用值"><a href="#原始值与引用值" class="headerlink" title="原始值与引用值"></a>原始值与引用值</h1><ol>
@@ -894,127 +894,6 @@
 </ol>
 <h2 id="表示符查找"><a href="#表示符查找" class="headerlink" title="表示符查找"></a>表示符查找</h2><p>当在特定上下文中为读取或写入而引用一个标识符的时候，必须通过搜索确定这个标识符表示什么。搜索从作用域顶端开始，一直查找到全局上下文对象。</p>
 ]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Js学习笔记03变量、作用域与内存</title>
-    <url>/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
-<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
-</li>
-<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
-<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
-</li>
-<li><p>模式：</p>
-<ol>
-<li>i：忽略大小写</li>
-<li>g：全局查找</li>
-<li>m：多行查找</li>
-</ol>
-</li>
-<li><p>实例方法</p>
-<ol>
-<li><p>主要方法使exec()</p>
-<ol>
-<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
-<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
-</li>
-<li><p>没找到则返回null</p>
-</li>
-<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
-</li>
-<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
-</li>
-<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
-</li>
-</ol>
-</li>
-<li><p>还有一个是text（）</p>
-<ol>
-<li>只检测是否匹配，不关心为什么。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
-<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
-</ol>
-<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
-<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
-<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
-<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
-</ol>
-<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
-<li>创建方法直接使用数值赋值即可</li>
-<li>实例方法<ol>
-<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
-<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
-<li>isInteger()用于鉴别一个数组的值是否是整数</li>
-<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
-</ol>
-</li>
-</ol>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
-<li><p>JavaScript字符</p>
-<ol>
-<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
-<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
-<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
-<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
-<li>codePointAt()方法可以突破16位码元的限制</li>
-</ol>
-</li>
-<li><p>字符串操作方法</p>
-<ol>
-<li>字符串截取<ol>
-<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
-<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
-<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>字符串位置方法</p>
-<ol>
-<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
-<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
-</ol>
-<p>都接受第二个参数表示开始搜索的位置。</p>
-</li>
-<li><p>字符串包含方法</p>
-<ol>
-<li>startWith()    开始于索引0的匹配项</li>
-<li>endWith()      结束于字符串末尾的匹配项</li>
-<li>includes()      任意位置的匹配项</li>
-</ol>
-</li>
-<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
-</li>
-<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
-</li>
-<li><p>padStart()和padEnd()</p>
-<ol>
-<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
-</ol>
-</li>
-<li><p>字符串迭代与解构，for-of迭代</p>
-</li>
-<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
-</li>
-<li><p>字符串模式匹配方法</p>
-<ol>
-<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
-<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
-</ol>
-</li>
-</ol>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
       <categories>
         <category>JavaScript</category>
       </categories>
@@ -1190,6 +1069,127 @@
 <li><h5 id="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"><a href="#对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。" class="headerlink" title="对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。"></a>对于期待可迭代对象的构造函数，只要传入一个可迭代对象就可以实现赋值。</h5></li>
 </ol>
 ]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Js学习笔记03变量、作用域与内存</title>
+    <url>/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
+<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
+</li>
+<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
+<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
+</li>
+<li><p>模式：</p>
+<ol>
+<li>i：忽略大小写</li>
+<li>g：全局查找</li>
+<li>m：多行查找</li>
+</ol>
+</li>
+<li><p>实例方法</p>
+<ol>
+<li><p>主要方法使exec()</p>
+<ol>
+<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
+<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
+</li>
+<li><p>没找到则返回null</p>
+</li>
+<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
+</li>
+<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
+</li>
+<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
+</li>
+</ol>
+</li>
+<li><p>还有一个是text（）</p>
+<ol>
+<li>只检测是否匹配，不关心为什么。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
+<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
+</ol>
+<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
+<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
+<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
+<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
+</ol>
+<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
+<li>创建方法直接使用数值赋值即可</li>
+<li>实例方法<ol>
+<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
+<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
+<li>isInteger()用于鉴别一个数组的值是否是整数</li>
+<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
+</ol>
+</li>
+</ol>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
+<li><p>JavaScript字符</p>
+<ol>
+<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
+<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
+<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
+<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
+<li>codePointAt()方法可以突破16位码元的限制</li>
+</ol>
+</li>
+<li><p>字符串操作方法</p>
+<ol>
+<li>字符串截取<ol>
+<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
+<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
+<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>字符串位置方法</p>
+<ol>
+<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
+<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
+</ol>
+<p>都接受第二个参数表示开始搜索的位置。</p>
+</li>
+<li><p>字符串包含方法</p>
+<ol>
+<li>startWith()    开始于索引0的匹配项</li>
+<li>endWith()      结束于字符串末尾的匹配项</li>
+<li>includes()      任意位置的匹配项</li>
+</ol>
+</li>
+<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
+</li>
+<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
+</li>
+<li><p>padStart()和padEnd()</p>
+<ol>
+<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
+</ol>
+</li>
+<li><p>字符串迭代与解构，for-of迭代</p>
+</li>
+<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
+</li>
+<li><p>字符串模式匹配方法</p>
+<ol>
+<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
+<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
+</ol>
+</li>
+</ol>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
       <categories>
         <category>JavaScript</category>
       </categories>
@@ -1623,6 +1623,97 @@
       </tags>
   </entry>
   <entry>
+    <title>js学习笔记09类</title>
+    <url>/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ol>
+<li><h5 id="ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"><a href="#ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）" class="headerlink" title="ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"></a>ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus();</span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Bus);	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Vehicle);	<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承普通构造函数	</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">Person</span> ()</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">e</span> </span>= <span class="keyword">new</span> Engineer ()</span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Engineer)	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Person)	<span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li><h5 id="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："><a href="#派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：" class="headerlink" title="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："></a>派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="title">identifyPrototype</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="title">identifyClass</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> v = <span class="keyword">new</span> Vehicle()</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus()</span><br><span class="line"></span><br><span class="line">b.identifyPrototype(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">v.identifyPrototype(<span class="string">&#x27;vehicle&#x27;</span>)</span><br><span class="line"></span><br><span class="line">Bus.identifyClass(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">Vehicle. identifyClass(<span class="string">&#x27;vehicle&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><ol>
+<li><h5 id="定义类有两种方式"><a href="#定义类有两种方式" class="headerlink" title="定义类有两种方式"></a>定义类有两种方式</h5><ol>
+<li>类声明<ul>
+<li>class Person {} 类声明不能提升</li>
+</ul>
+</li>
+<li>类表达式<ul>
+<li>const a = class {}</li>
+</ul>
+</li>
+<li>函数收到作用域限制，类收到块作用域限制。</li>
+</ol>
+</li>
+<li><h5 id="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"><a href="#JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）" class="headerlink" title="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"></a>JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）</h5><ul>
+<li>ES6引入了class关键字具有正式定义类的能力。类（class）是ES6中新的基础性语法糖结构。虽然这个类表面上支持正式的面向对象编程，但实际上它背后使用的仍然是原型和构造函数的概念。</li>
+</ul>
+</li>
+<li><h5 id="类的构成"><a href="#类的构成" class="headerlink" title="类的构成"></a>类的构成</h5><ul>
+<li>类可以包含构造函数方法、实例方法、获取函数、设置函数、静态类的方法。但是不是必须的，空类也是有效的。</li>
+<li>类表达式的名称是可选的。在把类表达式赋值给变量之后，可以通过name属性访问类表达式的名称字符串。但是不能在类表达式作用域外部访问这个标识符。</li>
+</ul>
+</li>
+</ol>
+<h1 id="类构造函数"><a href="#类构造函数" class="headerlink" title="类构造函数"></a>类构造函数</h1><p>constructor关键字用于在类定义块内部创建类的构造函数。构造函数的定义不是必须的。</p>
+<ol>
+<li><h5 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h5><ul>
+<li>使用new操作符实例化Person的操作等于使用new调用其构造函数。唯一可感知的不同之处就是，JavaScript解释器知道使用new和类意味着应该使用constructor函数进行实例化。</li>
+<li>使用new调用类的构造函数会执行如下操作。(类实例化时传入的参数会用作构造函数的参数，如过不需要参数，则类名后面的括号也是可选的)<ol>
+<li>在内存中创建一个新对象</li>
+<li>这个新对象的内部[[prototypr]]指针被赋值为constructor构造函数的prototypr属性。</li>
+<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
+<li>执行构造函数内部的代码（给新对象添加属性）</li>
+<li>如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。</li>
+</ol>
+</li>
+<li>默认情况下，类构造函数会在执行之后返回this对象。构造函数返回的对象会被用作实例化对象，如果没有什么引用新创建的对象，那么这个对象就会被销毁。不过，如果返回的不是this对象，而是其他对象，那么这个对象不会通过instanceof操作符检测出跟类有关联，因为这个对象的原型指针没有被修改。</li>
+<li>类构造函数与构造函数的主要区别是，调用类构造函数必须使用new操作符，否则会报错。普通构造函数直接调用，则会以全局对象作为this。</li>
+</ul>
+</li>
+<li><h5 id="把类当成特殊函数"><a href="#把类当成特殊函数" class="headerlink" title="把类当成特殊函数"></a>把类当成特殊函数</h5><ol>
+<li>ECMAScript中没有正式的类这个类型，从各个方面来看，类就是一种特殊的函数</li>
+<li>在类上下文中，类本身在使用new调用时就会被当作构造函数。重点在于，类定义中的constructor方法不会被当成构造函数，在对他使用instanceof操作符时会返回false。但是，如果在创建实例时直接将类构造函数方程普通构造函数来使用，那么instanceof操作符的返回值会反转。</li>
+<li>可以向其他对象或者函数引用一样把类作为参数传递，也可以立即实例化。</li>
+</ol>
+</li>
+</ol>
+<h1 id="实例、原型和类成员"><a href="#实例、原型和类成员" class="headerlink" title="实例、原型和类成员"></a>实例、原型和类成员</h1><ol>
+<li><h5 id="实例成员"><a href="#实例成员" class="headerlink" title="实例成员"></a>实例成员</h5><ol>
+<li>每次通过new调用类识别符，都会执行类构造函数。在这个函数内部，可以为新创建的实例（this）添加自有属性。至于添加怎么样的属性，没有限制。另外，在构造函数执行完毕之后，仍然可以给实例添加新的成员。</li>
+<li>所有成员都不会在原型上共享</li>
+</ol>
+</li>
+<li><h5 id="原型方法与访问器"><a href="#原型方法与访问器" class="headerlink" title="原型方法与访问器"></a>原型方法与访问器</h5><ol>
+<li>为了在实例间共享方法，类定义语法把类块中定义的方法作为原型方法。</li>
+<li>可以把方法定义在类构造函数中或者类块中，但是不能在类块中给原型添加原始值或对象作为成员数据。</li>
+<li>类方法等同于对象属性，因此可以使用字符串、符号或计算的值作为键。</li>
+<li>类定义也支持获取和设置访问器。语法与行为跟普通对象一样。</li>
+</ol>
+</li>
+<li><h5 id="迭代器与生成器方法"><a href="#迭代器与生成器方法" class="headerlink" title="迭代器与生成器方法"></a>迭代器与生成器方法</h5><ol>
+<li>类定义语法支持在原型和类本身上定义生成器的方法</li>
+<li>因为支持生成器方法，所以可以通过添加一个默认的迭代器，八十例变成可迭代对象。</li>
+<li>也可以只返回迭代器实例。</li>
+</ol>
+</li>
+<li><h5 id="非函数原型和类成员"><a href="#非函数原型和类成员" class="headerlink" title="非函数原型和类成员"></a>非函数原型和类成员</h5><ul>
+<li>虽然类定义不显示支持在原型或类上添加成员数据，但在类定义外部，可以手动添加。</li>
+</ul>
+</li>
+<li><h5 id="静态类方法"><a href="#静态类方法" class="headerlink" title="静态类方法"></a>静态类方法</h5><ol>
+<li>可以在类上定义静态方法。这些方法通常用于执行不特定与实例的操作，也不要求存在类的实例。</li>
+<li>类静态成员每一个类上只能有一个</li>
+<li>静态类成员在类定义中使用static关键字作为前缀。在静态成员中，this引用类自身。其他所有约定和原型成员一样。</li>
+</ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>js学习笔记10代理与反射</title>
     <url>/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/</url>
     <content><![CDATA[<h1 id="代理与反射"><a href="#代理与反射" class="headerlink" title="代理与反射"></a>代理与反射</h1><ol>
@@ -1730,85 +1821,81 @@
       </tags>
   </entry>
   <entry>
-    <title>js学习笔记09类</title>
-    <url>/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/</url>
-    <content><![CDATA[<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ol>
-<li><h5 id="ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"><a href="#ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）" class="headerlink" title="ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"></a>ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus();</span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Bus);	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Vehicle);	<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承普通构造函数	</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">Person</span> ()</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">e</span> </span>= <span class="keyword">new</span> Engineer ()</span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Engineer)	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Person)	<span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
-<li><h5 id="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："><a href="#派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：" class="headerlink" title="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："></a>派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="title">identifyPrototype</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="title">identifyClass</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> v = <span class="keyword">new</span> Vehicle()</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus()</span><br><span class="line"></span><br><span class="line">b.identifyPrototype(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">v.identifyPrototype(<span class="string">&#x27;vehicle&#x27;</span>)</span><br><span class="line"></span><br><span class="line">Bus.identifyClass(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">Vehicle. identifyClass(<span class="string">&#x27;vehicle&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><ol>
-<li><h5 id="定义类有两种方式"><a href="#定义类有两种方式" class="headerlink" title="定义类有两种方式"></a>定义类有两种方式</h5><ol>
-<li>类声明<ul>
-<li>class Person {} 类声明不能提升</li>
+    <title>js学习笔记13JSON</title>
+    <url>/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/</url>
+    <content><![CDATA[<h1 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h1><ol>
+<li>理解JSON最关键的一点就是要把它当成一种数据格式而不是编程语言</li>
+<li>语法<ol>
+<li>JSON语法支持三种类型的值<ul>
+<li>简单值（字符串，数值，布尔值，null，都可以在JSON中出现，undefined不可以）</li>
+<li>对象</li>
+<li>数组</li>
 </ul>
 </li>
-<li>类表达式<ul>
-<li>const a = class {}</li>
+<li>JSON没有变量、函数或对象实例的概念。JSON的所有记号都只为标识结构化数据，虽然它借用了JavaScript的语法。</li>
+</ol>
+</li>
+<li>解析与序列化<ul>
+<li>JSON可以直接被解析为可用的JavaScript对象，与解析为DOM文档的XML相比，这个优势非常明显。为此，JavaScript开发者可以非常方便第使用JSON数据。</li>
 </ul>
 </li>
-<li>函数收到作用域限制，类收到块作用域限制。</li>
-</ol>
-</li>
-<li><h5 id="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"><a href="#JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）" class="headerlink" title="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"></a>JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）</h5><ul>
-<li>ES6引入了class关键字具有正式定义类的能力。类（class）是ES6中新的基础性语法糖结构。虽然这个类表面上支持正式的面向对象编程，但实际上它背后使用的仍然是原型和构造函数的概念。</li>
+<li>序列化选项<ul>
+<li>stringify()<ul>
+<li>过滤结果<ul>
+<li>如果第二个参数是一个数组，那么JSON.stringify()返回的结果只会包含该数组中列出的对象属性</li>
+<li>如果第二个参数是一个函数，提供的函数接受两个参数：属性名(key)和属性值(value)，可以根据这个key决定要对应属性做什么。<ul>
+<li>函数过滤器会应用到要序列化对象所包含的全部对象。</li>
 </ul>
 </li>
-<li><h5 id="类的构成"><a href="#类的构成" class="headerlink" title="类的构成"></a>类的构成</h5><ul>
-<li>类可以包含构造函数方法、实例方法、获取函数、设置函数、静态类的方法。但是不是必须的，空类也是有效的。</li>
-<li>类表达式的名称是可选的。在把类表达式赋值给变量之后，可以通过name属性访问类表达式的名称字符串。但是不能在类表达式作用域外部访问这个标识符。</li>
 </ul>
 </li>
-</ol>
-<h1 id="类构造函数"><a href="#类构造函数" class="headerlink" title="类构造函数"></a>类构造函数</h1><p>constructor关键字用于在类定义块内部创建类的构造函数。构造函数的定义不是必须的。</p>
-<ol>
-<li><h5 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h5><ul>
-<li>使用new操作符实例化Person的操作等于使用new调用其构造函数。唯一可感知的不同之处就是，JavaScript解释器知道使用new和类意味着应该使用constructor函数进行实例化。</li>
-<li>使用new调用类的构造函数会执行如下操作。(类实例化时传入的参数会用作构造函数的参数，如过不需要参数，则类名后面的括号也是可选的)<ol>
-<li>在内存中创建一个新对象</li>
-<li>这个新对象的内部[[prototypr]]指针被赋值为constructor构造函数的prototypr属性。</li>
-<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
-<li>执行构造函数内部的代码（给新对象添加属性）</li>
-<li>如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。</li>
-</ol>
-</li>
-<li>默认情况下，类构造函数会在执行之后返回this对象。构造函数返回的对象会被用作实例化对象，如果没有什么引用新创建的对象，那么这个对象就会被销毁。不过，如果返回的不是this对象，而是其他对象，那么这个对象不会通过instanceof操作符检测出跟类有关联，因为这个对象的原型指针没有被修改。</li>
-<li>类构造函数与构造函数的主要区别是，调用类构造函数必须使用new操作符，否则会报错。普通构造函数直接调用，则会以全局对象作为this。</li>
+<li>字符串缩进<ul>
+<li>第三个参数可以控制缩进和空格<ul>
+<li>是数值是，表示缩进空格数</li>
+<li>是字符串时，表示要填充到每一行开头的字符串</li>
+<li>无论时那种，最大不超过10个</li>
 </ul>
 </li>
-<li><h5 id="把类当成特殊函数"><a href="#把类当成特殊函数" class="headerlink" title="把类当成特殊函数"></a>把类当成特殊函数</h5><ol>
-<li>ECMAScript中没有正式的类这个类型，从各个方面来看，类就是一种特殊的函数</li>
-<li>在类上下文中，类本身在使用new调用时就会被当作构造函数。重点在于，类定义中的constructor方法不会被当成构造函数，在对他使用instanceof操作符时会返回false。但是，如果在创建实例时直接将类构造函数方程普通构造函数来使用，那么instanceof操作符的返回值会反转。</li>
-<li>可以向其他对象或者函数引用一样把类作为参数传递，也可以立即实例化。</li>
-</ol>
-</li>
-</ol>
-<h1 id="实例、原型和类成员"><a href="#实例、原型和类成员" class="headerlink" title="实例、原型和类成员"></a>实例、原型和类成员</h1><ol>
-<li><h5 id="实例成员"><a href="#实例成员" class="headerlink" title="实例成员"></a>实例成员</h5><ol>
-<li>每次通过new调用类识别符，都会执行类构造函数。在这个函数内部，可以为新创建的实例（this）添加自有属性。至于添加怎么样的属性，没有限制。另外，在构造函数执行完毕之后，仍然可以给实例添加新的成员。</li>
-<li>所有成员都不会在原型上共享</li>
-</ol>
-</li>
-<li><h5 id="原型方法与访问器"><a href="#原型方法与访问器" class="headerlink" title="原型方法与访问器"></a>原型方法与访问器</h5><ol>
-<li>为了在实例间共享方法，类定义语法把类块中定义的方法作为原型方法。</li>
-<li>可以把方法定义在类构造函数中或者类块中，但是不能在类块中给原型添加原始值或对象作为成员数据。</li>
-<li>类方法等同于对象属性，因此可以使用字符串、符号或计算的值作为键。</li>
-<li>类定义也支持获取和设置访问器。语法与行为跟普通对象一样。</li>
-</ol>
-</li>
-<li><h5 id="迭代器与生成器方法"><a href="#迭代器与生成器方法" class="headerlink" title="迭代器与生成器方法"></a>迭代器与生成器方法</h5><ol>
-<li>类定义语法支持在原型和类本身上定义生成器的方法</li>
-<li>因为支持生成器方法，所以可以通过添加一个默认的迭代器，八十例变成可迭代对象。</li>
-<li>也可以只返回迭代器实例。</li>
-</ol>
-</li>
-<li><h5 id="非函数原型和类成员"><a href="#非函数原型和类成员" class="headerlink" title="非函数原型和类成员"></a>非函数原型和类成员</h5><ul>
-<li>虽然类定义不显示支持在原型或类上添加成员数据，但在类定义外部，可以手动添加。</li>
 </ul>
 </li>
-<li><h5 id="静态类方法"><a href="#静态类方法" class="headerlink" title="静态类方法"></a>静态类方法</h5><ol>
-<li>可以在类上定义静态方法。这些方法通常用于执行不特定与实例的操作，也不要求存在类的实例。</li>
-<li>类静态成员每一个类上只能有一个</li>
-<li>静态类成员在类定义中使用static关键字作为前缀。在静态成员中，this引用类自身。其他所有约定和原型成员一样。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>简单值<ul>
+<li>JavaScript字符串与JSON字符串的主要区别就是JSON字符串必须使用双引号（单引号会导致语法错误）</li>
+</ul>
+</li>
+<li>对象<ul>
+<li>有两处不同<ul>
+<li>JSON没有变量声明（JSON没有变量）</li>
+<li>最后没有分号（不需要，因为不是JavaScript语句）</li>
+</ul>
+</li>
+<li>同样，用引号将属性名包围起来才是有效的JSON。</li>
+</ul>
+</li>
+<li>数组<ul>
+<li>和对象差不多</li>
+</ul>
+</li>
+<li>JSON对象<ol>
+<li>因为JSON时JavaScript语法的子集，所以eval()可以解析、解释并将其作为JavaScript对象和数组返回。</li>
+<li>JSON对象<ul>
+<li>Stringify()<ul>
+<li>将JavaScript序列化为JSON字符串</li>
+</ul>
+</li>
+<li>parse()<ul>
+<li>将JSON解析为原生JavaScript值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>扩展<ul>
+<li>JSON.Stringify(JSON.parse(str))可以实现深复制对象。</li>
+</ul>
+</li>
 </ol>
 </li>
 </ol>
@@ -2034,228 +2121,6 @@
       </tags>
   </entry>
   <entry>
-    <title>js学习笔记13JSON</title>
-    <url>/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/</url>
-    <content><![CDATA[<h1 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h1><ol>
-<li>理解JSON最关键的一点就是要把它当成一种数据格式而不是编程语言</li>
-<li>语法<ol>
-<li>JSON语法支持三种类型的值<ul>
-<li>简单值（字符串，数值，布尔值，null，都可以在JSON中出现，undefined不可以）</li>
-<li>对象</li>
-<li>数组</li>
-</ul>
-</li>
-<li>JSON没有变量、函数或对象实例的概念。JSON的所有记号都只为标识结构化数据，虽然它借用了JavaScript的语法。</li>
-</ol>
-</li>
-<li>解析与序列化<ul>
-<li>JSON可以直接被解析为可用的JavaScript对象，与解析为DOM文档的XML相比，这个优势非常明显。为此，JavaScript开发者可以非常方便第使用JSON数据。</li>
-</ul>
-</li>
-<li>序列化选项<ul>
-<li>stringify()<ul>
-<li>过滤结果<ul>
-<li>如果第二个参数是一个数组，那么JSON.stringify()返回的结果只会包含该数组中列出的对象属性</li>
-<li>如果第二个参数是一个函数，提供的函数接受两个参数：属性名(key)和属性值(value)，可以根据这个key决定要对应属性做什么。<ul>
-<li>函数过滤器会应用到要序列化对象所包含的全部对象。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>字符串缩进<ul>
-<li>第三个参数可以控制缩进和空格<ul>
-<li>是数值是，表示缩进空格数</li>
-<li>是字符串时，表示要填充到每一行开头的字符串</li>
-<li>无论时那种，最大不超过10个</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>简单值<ul>
-<li>JavaScript字符串与JSON字符串的主要区别就是JSON字符串必须使用双引号（单引号会导致语法错误）</li>
-</ul>
-</li>
-<li>对象<ul>
-<li>有两处不同<ul>
-<li>JSON没有变量声明（JSON没有变量）</li>
-<li>最后没有分号（不需要，因为不是JavaScript语句）</li>
-</ul>
-</li>
-<li>同样，用引号将属性名包围起来才是有效的JSON。</li>
-</ul>
-</li>
-<li>数组<ul>
-<li>和对象差不多</li>
-</ul>
-</li>
-<li>JSON对象<ol>
-<li>因为JSON时JavaScript语法的子集，所以eval()可以解析、解释并将其作为JavaScript对象和数组返回。</li>
-<li>JSON对象<ul>
-<li>Stringify()<ul>
-<li>将JavaScript序列化为JSON字符串</li>
-</ul>
-</li>
-<li>parse()<ul>
-<li>将JSON解析为原生JavaScript值</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>扩展<ul>
-<li>JSON.Stringify(JSON.parse(str))可以实现深复制对象。</li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手写promise</title>
-    <url>/GiorunoGiovana.github.io/2022/01/02/%E6%89%8B%E5%86%99promise/</url>
-    <content><![CDATA[<h1 id="手写Promise"><a href="#手写Promise" class="headerlink" title="手写Promise"></a>手写Promise</h1><p>promise是ES6中非常重要的内容，可以说，promise终结了回调地狱的难题，在面试中经常会考Promise的相关原理，因此掌握Promise的底层原理十分重要。</p>
-<h2 id="初始结构"><a href="#初始结构" class="headerlink" title="初始结构"></a>初始结构</h2><ol>
-<li><p>正常情况下是通过new Promise方法来创建新的promise，因此手写Promise时可以使用class。</p>
-</li>
-<li><p>一个Promise接收一个参数，这个参数是一个函数</p>
-</li>
-<li><p>在这个函数内接收两个参数resolve，reject</p>
-</li>
-<li><p>状态转换</p>
-<p>promise有三种状态，pending，fulfilled，rejected</p>
-<ul>
-<li>其中默认初始状态为pending</li>
-<li>fulfilled和rejected只能通过pending转换过来，且不可逆</li>
-</ul>
-</li>
-<li><p>结果参数</p>
-<ul>
-<li>当Promise完成执行函数后，会产生一个结果参数，我们需要根据这个结果参数来确定Promise接下来转换的状态</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//promise的基本结构</span></span><br><span class="line"><span class="comment">//原生的promise一般会用new来创建实例，所以这里采用class的方式模拟promise</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myPromise</span> </span>&#123;</span><br><span class="line">    <span class="comment">//创建静态属性</span></span><br><span class="line">    <span class="keyword">static</span> PENDING = <span class="string">&#x27;待定&#x27;</span>; <span class="keyword">static</span> FULFILLED = <span class="string">&#x27;成功&#x27;</span>; <span class="keyword">static</span> REJECTED = <span class="string">&#x27;拒绝&#x27;</span>;</span><br><span class="line">    <span class="comment">//new Promise对象是需要传入一个参数，这个参数是一个函数,所以需要在constructor接收一个函数参数并自动执行它。</span></span><br><span class="line">    <span class="comment">//接收的函数内也可以传入两个参数，resolve和reject</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">func</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//默认的状态为pending</span></span><br><span class="line">        <span class="built_in">this</span>.status = myPromise.PENDING</span><br><span class="line">        <span class="comment">//默认结果传参</span></span><br><span class="line">        <span class="built_in">this</span>.result = <span class="literal">null</span></span><br><span class="line">        <span class="comment">//注意由于在执行构造函数中的this在类函数中会丢失，需要重新指定this</span></span><br><span class="line">        func(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//由于在类内resolve和reject两个参数还没有定义，需要创造两个参数</span></span><br><span class="line">    <span class="function"><span class="title">resolve</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.FULFILLED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">reject</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.REJECTED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="this指向"><a href="#this指向" class="headerlink" title="this指向"></a>this指向</h2><p>在将结果参数传入给resolve和reject时，会发现this指向异常（调用this.status的时候并没有调用this.constructor里面的this.status）</p>
-<p>原因：</p>
-<ul>
-<li>在创建新实例的时候确实创建了新的this.status</li>
-<li>但是目前我们是在新实例被创建后再在外部环境下执行resolve方法，此时this就会丢失</li>
-</ul>
-<p>解决方法：</p>
-<ul>
-<li>在执行resolve，reject前为其绑定this</li>
-</ul>
-<h2 id="then"><a href="#then" class="headerlink" title="then"></a>then</h2><p>Promise.then是Promise中一个非常重要的功能，第一参数执行resolve方法，第二个参数执行reject方法。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">        onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">        onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="执行异常"><a href="#执行异常" class="headerlink" title="执行异常"></a>执行异常</h2><p>在Promise中报错是不会被直接抛出的，如果在执行过程中出现报错，则会直接转换状态为rejected并且在结果参数中输出报错。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">this</span>.result = <span class="literal">null</span></span><br><span class="line"><span class="comment">//执行前判断生成的实例有没有报错，有就直接reject</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">//注意由于在执行构造函数中的this在类函数中会丢失，需要重新指定this</span></span><br><span class="line">    func(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="built_in">Error</span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.reject(<span class="built_in">Error</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在Promise.then中如果传入的参数不是函数是会被静默忽略掉的。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//判断参数类型，非函数参数转换为函数</span></span><br><span class="line">    onFULFILLED = <span class="keyword">typeof</span> onFULFILLED === <span class="string">&#x27;function&#x27;</span> ? onFULFILLED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">    onREJECTED = <span class="keyword">typeof</span> onREJECTED === <span class="string">&#x27;function&#x27;</span> ? onREJECTED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">        onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">        onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>Promise中的回调函数是异步执行的，并且执行顺序是同步&gt;微内核任务（Promsie）&gt;宏内核任务（SetTimeout）</p>
-<p>在这里使用setTimeout模拟异步</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="comment">//异步执行，注意Promise中的回调是异步执行的，并且是微内核，即执行顺序为同步&gt;Promise&gt;setTimeout</span></span><br><span class="line"><span class="comment">//then内部的函数应该使用一个数组保存起来，直到Promise完成响应之后再执行，否则then检测到此时状态为peding则会不执行</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断参数类型，非函数参数转换为函数</span></span><br><span class="line">        onFULFILLED = <span class="keyword">typeof</span> onFULFILLED === <span class="string">&#x27;function&#x27;</span> ? onFULFILLED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        onREJECTED = <span class="keyword">typeof</span> onREJECTED === <span class="string">&#x27;function&#x27;</span> ? onREJECTED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="回调保存"><a href="#回调保存" class="headerlink" title="回调保存"></a>回调保存</h2><p>Promise在执行异步任务的时候由于then不是异步的，所以需要先用数组保存then中的函数，等待Promise决议完成之后再执行对应的函数</p>
-<h2 id="链式调用"><a href="#链式调用" class="headerlink" title="链式调用"></a>链式调用</h2><p>我们常常在Promise中使用Promise.then().then()，这就是链式调用，这是解决回调地狱的关键。</p>
-<ol>
-<li><p>通常来说，调用.then()返回的是一个新的Promise，对于这个返回值，有</p>
-<ul>
-<li>将这个新Promise传递到下一个then中</li>
-<li>如果返回一个普通的值，则将这个普通的值传递到下一个then中</li>
-</ul>
-</li>
-<li><p>当我们在第一个then()中return了一个参数（参数未知，需要判断）。这个return出来的新的promsie就是onFulfilled（）或者onRejected（）的值</p>
-</li>
-<li><p>为了满足上述的要求，就需要一个额外的函数用来判断返回值，并做出响应</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolvePromise</span>(<span class="params">promise2, x, resolve, reject</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//禁止循环引用，会导致死循环</span></span><br><span class="line">    <span class="keyword">if</span>(x === promise2)&#123;</span><br><span class="line">        <span class="comment">//出现循环则直接抛出错误</span></span><br><span class="line">        <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;Chaining cycle detected for promise&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> called;</span><br><span class="line">    <span class="comment">//x为普通值，则直接返回解决；若x为对象或者函数且不为null，则判断是否仍然是promise</span></span><br><span class="line">    <span class="keyword">if</span> (x != <span class="literal">null</span> &amp;&amp; (<span class="keyword">typeof</span> x === <span class="string">&#x27;object&#x27;</span> || <span class="keyword">typeof</span> x === <span class="string">&#x27;function&#x27;</span>)) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//取得函数的下一个then</span></span><br><span class="line">            <span class="keyword">let</span> then = x.then;</span><br><span class="line">            <span class="comment">//如果下一个then仍然是函数，则说明还有下一层，默认为Promise</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> then === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">                then.call(x, <span class="function"><span class="params">y</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//由于结果依旧是promise,继续向下解析</span></span><br><span class="line">                    resolvePromise(promise2, y, resolve, reject);</span><br><span class="line">                &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//拒绝之后后续的所有Promise都会被拒绝</span></span><br><span class="line">                    reject(err);</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resolve(x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">            called = <span class="literal">true</span>;</span><br><span class="line">            reject(e); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resolve(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="完整的仿写Promise"><a href="#完整的仿写Promise" class="headerlink" title="完整的仿写Promise"></a>完整的仿写Promise</h2><p>功能：resolve，reject，then，异步执行，链式调用</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//promise的基本结构</span></span><br><span class="line"><span class="comment">//原生的promise一般会用new来创建实例，所以这里采用class的方式模拟promise</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myPromise</span> </span>&#123;</span><br><span class="line">    <span class="comment">//创建静态属性</span></span><br><span class="line">    <span class="keyword">static</span> PENDING = <span class="string">&#x27;待定&#x27;</span>; <span class="keyword">static</span> FULFILLED = <span class="string">&#x27;成功&#x27;</span>; <span class="keyword">static</span> REJECTED = <span class="string">&#x27;拒绝&#x27;</span>;</span><br><span class="line"><span class="comment">//new Promise对象是需要传入一个参数，这个参数是一个函数,所以需要在constructor接收一个函数参数并自动执行它。</span></span><br><span class="line"><span class="comment">//接收的函数内也可以传入两个参数，resolve和reject</span></span><br><span class="line"><span class="function"><span class="title">constructor</span>(<span class="params">func</span>)</span> &#123;</span><br><span class="line">    <span class="comment">//默认的状态为pending</span></span><br><span class="line">    <span class="built_in">this</span>.status = myPromise.PENDING</span><br><span class="line">    <span class="comment">//默认结果传参</span></span><br><span class="line">    <span class="built_in">this</span>.result = <span class="literal">null</span></span><br><span class="line">    <span class="comment">//创建临时数组用于在Promise还没有决议前保存then中的待执行函数</span></span><br><span class="line">    <span class="built_in">this</span>.resolveCallbacks = []</span><br><span class="line">    <span class="built_in">this</span>.rejectCallbacks = []</span><br><span class="line">    <span class="comment">//执行前判断生成的实例有没有报错，有就直接reject</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//注意由于在执行构造函数中的this在类函数中会丢失，需要重新指定this</span></span><br><span class="line">        func(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="built_in">Error</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.reject(<span class="built_in">Error</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//由于在类内resolve和reject两个参数还没有定义，需要创造两个参数</span></span><br><span class="line"><span class="function"><span class="title">resolve</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.FULFILLED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">            <span class="comment">//执行待执行的函数</span></span><br><span class="line">            <span class="built_in">this</span>.resolveCallbacks.forEach(<span class="function"><span class="params">callback</span> =&gt;</span> &#123;</span><br><span class="line">                callback(result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">reject</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.REJECTED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">            <span class="comment">//执行待执行的函数</span></span><br><span class="line">            <span class="built_in">this</span>.rejectCallbacks.forEach(<span class="function"><span class="params">callback</span> =&gt;</span> &#123;</span><br><span class="line">                callback(result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="comment">//异步执行，注意Promise中的回调是异步执行的，并且是微内核，即执行顺序为同步&gt;Promise&gt;setTimeout</span></span><br><span class="line"><span class="comment">//then内部的函数应该使用一个数组保存起来，直到Promise完成响应之后再执行，否则then检测到此时状态为peding则会不执行</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> promise2 = <span class="keyword">new</span> myPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断参数类型，非函数参数转换为函数</span></span><br><span class="line">        onFULFILLED = <span class="keyword">typeof</span> onFULFILLED === <span class="string">&#x27;function&#x27;</span> ? onFULFILLED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        onREJECTED = <span class="keyword">typeof</span> onREJECTED === <span class="string">&#x27;function&#x27;</span> ? onREJECTED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING)&#123;</span><br><span class="line">            <span class="built_in">this</span>.resolveCallbacks.push(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="comment">//获取解决的结果</span></span><br><span class="line">                <span class="keyword">let</span> x = onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">                <span class="comment">//在这个函数中判断返回的值，并作不同处理</span></span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="built_in">this</span>.rejectCallbacks.push(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> x = onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> x = onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> x = onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> promise2</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolvePromise</span>(<span class="params">promise2, x, resolve, reject</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//禁止循环引用，会导致死循环</span></span><br><span class="line">    <span class="keyword">if</span>(x === promise2)&#123;</span><br><span class="line">        <span class="comment">//出现循环则直接抛出错误</span></span><br><span class="line">        <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;Chaining cycle detected for promise&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> called;</span><br><span class="line">    <span class="comment">//x为普通值，则直接返回解决；若x为对象或者函数且不为null，则判断是否仍然是promise</span></span><br><span class="line">    <span class="keyword">if</span> (x != <span class="literal">null</span> &amp;&amp; (<span class="keyword">typeof</span> x === <span class="string">&#x27;object&#x27;</span> || <span class="keyword">typeof</span> x === <span class="string">&#x27;function&#x27;</span>)) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//取得函数的下一个then</span></span><br><span class="line">            <span class="keyword">let</span> then = x.then;</span><br><span class="line">            <span class="comment">//如果下一个then仍然是函数，则说明还有下一层，默认为Promise</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> then === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">                then.call(x, <span class="function"><span class="params">y</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//由于结果依旧是promise,继续向下解析</span></span><br><span class="line">                    resolvePromise(promise2, y, resolve, reject);</span><br><span class="line">                &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//拒绝之后后续的所有Promise都会被拒绝</span></span><br><span class="line">                    reject(err);</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resolve(x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">            called = <span class="literal">true</span>;</span><br><span class="line">            reject(e); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resolve(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第一步&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> myPromise(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;第二步&#x27;</span>)</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;第五步&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    resolve(<span class="string">&#x27;第四步&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">promise.then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result)),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result.message))</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第三步&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码（原生Promise）</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第一步&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> promise1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;第二步&#x27;</span>)</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;第五步&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    resolve(<span class="string">&#x27;第四步&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">promise1.then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result)),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result.message))</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第三步&#x27;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>从测试代码中可以发现，异步调用中的微内核任务没有实现。同时还有Promise.all(),Promise.race(),Promise值穿透等等功能待实现，Promise是一个复杂但是十分有用的技术，多阅读源码可以有效提高自己的代码水平。</p>
-]]></content>
-      <categories>
-        <category>Promise</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>手写系列</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手写Promise.all、Promise.Race</title>
-    <url>/GiorunoGiovana.github.io/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/</url>
-    <content><![CDATA[<h1 id="手写Promise-all"><a href="#手写Promise-all" class="headerlink" title="手写Promise.all()"></a>手写Promise.all()</h1><p>分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103213459296.png" alt="image-20220103213459296"></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//resolve(&#x27;1&#x27;)</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;错了&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103214542617.png" alt="image-20220103214542617"></p>
-<p>思路：获取所有的Promise，都执行then，把结果放到数组，一起返回</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.all = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [],PromiseCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>;i&lt; promises.length;i++) &#123; <span class="comment">// 使用let保证promise顺序执行</span></span><br><span class="line">            <span class="built_in">Promise</span>.resolve(promises[i]).then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                    arr[i] = res</span><br><span class="line">                    PromiseCount++</span><br><span class="line">                    <span class="keyword">if</span>(PromiseCount == promises.length)&#123;</span><br><span class="line">                        <span class="keyword">return</span> resolve(arr)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="手写Promsie-race"><a href="#手写Promsie-race" class="headerlink" title="手写Promsie.race"></a>手写Promsie.race</h1><p>分析：race和all差不多，不过一个是获取所有结果，race是获取最早执行的结果</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.race = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">Promise</span>.resolve(promises.forEach(</span><br><span class="line">            <span class="function"><span class="params">func</span> =&gt;</span> func.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;<span class="keyword">return</span> res&#125;,</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> &#123;<span class="keyword">return</span> err&#125;</span><br><span class="line">            )</span><br><span class="line">        ))</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Promise</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>手写系列</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手写reduce、用reduce实现map</title>
-    <url>/GiorunoGiovana.github.io/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/</url>
-    <content><![CDATA[<h1 id="手写reduce"><a href="#手写reduce" class="headerlink" title="手写reduce"></a>手写reduce</h1><p>reduce是JavaScript原生的数组操作方法，功能强大</p>
-<p><strong>reducer</strong> 函数接收4个参数:</p>
-<ol>
-<li>Accumulator (acc) (累计器)</li>
-<li>Current Value (cur) (当前值)</li>
-<li>Current Index (idx) (当前索引)</li>
-<li>Source Array (src) (源数组)</li>
-</ol>
-<p>您的 <strong>reducer</strong> 函数的返回值分配给累计器，该返回值在数组的每个迭代中被记住，并最后成为最终的单个结果值。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//reduce用法</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"><span class="built_in">console</span>.log(arr.reduce(<span class="function">(<span class="params">acc,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> acc+cur</span><br><span class="line">&#125;,<span class="number">1</span>))</span><br><span class="line"><span class="comment">//22</span></span><br></pre></td></tr></table></figure>
-
-<p>原生实现</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = init?<span class="number">0</span>:<span class="number">1</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">        total = func(total, arr[i], i, arr)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用map实现reduce</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    arr.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">        i!=init?total = func(total, v, i, arr):<span class="number">0</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用reduce实现map</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//用reduce实现map</span></span><br><span class="line"><span class="built_in">Array</span>.prototype._map = <span class="function"><span class="keyword">function</span>(<span class="params">func,thisArg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = []</span><br><span class="line">    <span class="built_in">this</span>.reduce(<span class="function">(<span class="params">total,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">        result[idx] = func.call(thisArg,cur,idx,arr);</span><br><span class="line">    &#125;, <span class="literal">null</span>)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _mapArr = arr._map(<span class="function"><span class="keyword">function</span>(<span class="params">v, i</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> v+i+<span class="built_in">this</span>.length;</span><br><span class="line">&#125;, arr2)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(_mapArr);</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>数组操作</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>手写系列</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>微搭低代码搭建简易扫码系统</title>
     <url>/GiorunoGiovana.github.io/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<h2 id="搭建前提"><a href="#搭建前提" class="headerlink" title="搭建前提"></a>搭建前提</h2><ol>
@@ -2390,6 +2255,141 @@
       </categories>
       <tags>
         <tag>团队工作</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写Promise.all、Promise.Race</title>
+    <url>/GiorunoGiovana.github.io/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/</url>
+    <content><![CDATA[<h1 id="手写Promise-all"><a href="#手写Promise-all" class="headerlink" title="手写Promise.all()"></a>手写Promise.all()</h1><p>分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103213459296.png" alt="image-20220103213459296"></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//resolve(&#x27;1&#x27;)</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;错了&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103214542617.png" alt="image-20220103214542617"></p>
+<p>思路：获取所有的Promise，都执行then，把结果放到数组，一起返回</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.all = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [],PromiseCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i=<span class="number">0</span>;i&lt; promises.length;i++) &#123; <span class="comment">// 使用let保证promise顺序执行</span></span><br><span class="line">            <span class="built_in">Promise</span>.resolve(promises[i]).then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                    arr[i] = res</span><br><span class="line">                    PromiseCount++</span><br><span class="line">                    <span class="keyword">if</span>(PromiseCount == promises.length)&#123;</span><br><span class="line">                        <span class="keyword">return</span> resolve(arr)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,<span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="手写Promsie-race"><a href="#手写Promsie-race" class="headerlink" title="手写Promsie.race"></a>手写Promsie.race</h1><p>分析：race和all差不多，不过一个是获取所有结果，race是获取最早执行的结果</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.prototype.race = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">Promise</span>.resolve(promises.forEach(</span><br><span class="line">            <span class="function"><span class="params">func</span> =&gt;</span> func.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;<span class="keyword">return</span> res&#125;,</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> &#123;<span class="keyword">return</span> err&#125;</span><br><span class="line">            )</span><br><span class="line">        ))</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Promise</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>手写系列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写reduce、用reduce实现map</title>
+    <url>/GiorunoGiovana.github.io/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/</url>
+    <content><![CDATA[<h1 id="手写reduce"><a href="#手写reduce" class="headerlink" title="手写reduce"></a>手写reduce</h1><p>reduce是JavaScript原生的数组操作方法，功能强大</p>
+<p><strong>reducer</strong> 函数接收4个参数:</p>
+<ol>
+<li>Accumulator (acc) (累计器)</li>
+<li>Current Value (cur) (当前值)</li>
+<li>Current Index (idx) (当前索引)</li>
+<li>Source Array (src) (源数组)</li>
+</ol>
+<p>您的 <strong>reducer</strong> 函数的返回值分配给累计器，该返回值在数组的每个迭代中被记住，并最后成为最终的单个结果值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//reduce用法</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"><span class="built_in">console</span>.log(arr.reduce(<span class="function">(<span class="params">acc,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> acc+cur</span><br><span class="line">&#125;,<span class="number">1</span>))</span><br><span class="line"><span class="comment">//22</span></span><br></pre></td></tr></table></figure>
+
+<p>原生实现</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = init?<span class="number">0</span>:<span class="number">1</span>;i&lt;arr.length;i++)&#123;</span><br><span class="line">        total = func(total, arr[i], i, arr)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用map实现reduce</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    arr.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">        i!=init?total = func(total, v, i, arr):<span class="number">0</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用reduce实现map</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//用reduce实现map</span></span><br><span class="line"><span class="built_in">Array</span>.prototype._map = <span class="function"><span class="keyword">function</span>(<span class="params">func,thisArg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = []</span><br><span class="line">    <span class="built_in">this</span>.reduce(<span class="function">(<span class="params">total,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">        result[idx] = func.call(thisArg,cur,idx,arr);</span><br><span class="line">    &#125;, <span class="literal">null</span>)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _mapArr = arr._map(<span class="function"><span class="keyword">function</span>(<span class="params">v, i</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> v+i+<span class="built_in">this</span>.length;</span><br><span class="line">&#125;, arr2)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(_mapArr);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>数组操作</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>手写系列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写promise</title>
+    <url>/GiorunoGiovana.github.io/2022/01/02/%E6%89%8B%E5%86%99promise/</url>
+    <content><![CDATA[<h1 id="手写Promise"><a href="#手写Promise" class="headerlink" title="手写Promise"></a>手写Promise</h1><p>promise是ES6中非常重要的内容，可以说，promise终结了回调地狱的难题，在面试中经常会考Promise的相关原理，因此掌握Promise的底层原理十分重要。</p>
+<h2 id="初始结构"><a href="#初始结构" class="headerlink" title="初始结构"></a>初始结构</h2><ol>
+<li><p>正常情况下是通过new Promise方法来创建新的promise，因此手写Promise时可以使用class。</p>
+</li>
+<li><p>一个Promise接收一个参数，这个参数是一个函数</p>
+</li>
+<li><p>在这个函数内接收两个参数resolve，reject</p>
+</li>
+<li><p>状态转换</p>
+<p>promise有三种状态，pending，fulfilled，rejected</p>
+<ul>
+<li>其中默认初始状态为pending</li>
+<li>fulfilled和rejected只能通过pending转换过来，且不可逆</li>
+</ul>
+</li>
+<li><p>结果参数</p>
+<ul>
+<li>当Promise完成执行函数后，会产生一个结果参数，我们需要根据这个结果参数来确定Promise接下来转换的状态</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//promise的基本结构</span></span><br><span class="line"><span class="comment">//原生的promise一般会用new来创建实例，所以这里采用class的方式模拟promise</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myPromise</span> </span>&#123;</span><br><span class="line">    <span class="comment">//创建静态属性</span></span><br><span class="line">    <span class="keyword">static</span> PENDING = <span class="string">&#x27;待定&#x27;</span>; <span class="keyword">static</span> FULFILLED = <span class="string">&#x27;成功&#x27;</span>; <span class="keyword">static</span> REJECTED = <span class="string">&#x27;拒绝&#x27;</span>;</span><br><span class="line">    <span class="comment">//new Promise对象是需要传入一个参数，这个参数是一个函数,所以需要在constructor接收一个函数参数并自动执行它。</span></span><br><span class="line">    <span class="comment">//接收的函数内也可以传入两个参数，resolve和reject</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">func</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//默认的状态为pending</span></span><br><span class="line">        <span class="built_in">this</span>.status = myPromise.PENDING</span><br><span class="line">        <span class="comment">//默认结果传参</span></span><br><span class="line">        <span class="built_in">this</span>.result = <span class="literal">null</span></span><br><span class="line">        <span class="comment">//注意由于在执行构造函数中的this在类函数中会丢失，需要重新指定this</span></span><br><span class="line">        func(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//由于在类内resolve和reject两个参数还没有定义，需要创造两个参数</span></span><br><span class="line">    <span class="function"><span class="title">resolve</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.FULFILLED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">reject</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.REJECTED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="this指向"><a href="#this指向" class="headerlink" title="this指向"></a>this指向</h2><p>在将结果参数传入给resolve和reject时，会发现this指向异常（调用this.status的时候并没有调用this.constructor里面的this.status）</p>
+<p>原因：</p>
+<ul>
+<li>在创建新实例的时候确实创建了新的this.status</li>
+<li>但是目前我们是在新实例被创建后再在外部环境下执行resolve方法，此时this就会丢失</li>
+</ul>
+<p>解决方法：</p>
+<ul>
+<li>在执行resolve，reject前为其绑定this</li>
+</ul>
+<h2 id="then"><a href="#then" class="headerlink" title="then"></a>then</h2><p>Promise.then是Promise中一个非常重要的功能，第一参数执行resolve方法，第二个参数执行reject方法。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">        onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">        onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="执行异常"><a href="#执行异常" class="headerlink" title="执行异常"></a>执行异常</h2><p>在Promise中报错是不会被直接抛出的，如果在执行过程中出现报错，则会直接转换状态为rejected并且在结果参数中输出报错。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">this</span>.result = <span class="literal">null</span></span><br><span class="line"><span class="comment">//执行前判断生成的实例有没有报错，有就直接reject</span></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="comment">//注意由于在执行构造函数中的this在类函数中会丢失，需要重新指定this</span></span><br><span class="line">    func(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>));</span><br><span class="line">&#125; <span class="keyword">catch</span> (<span class="built_in">Error</span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.reject(<span class="built_in">Error</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在Promise.then中如果传入的参数不是函数是会被静默忽略掉的。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//判断参数类型，非函数参数转换为函数</span></span><br><span class="line">    onFULFILLED = <span class="keyword">typeof</span> onFULFILLED === <span class="string">&#x27;function&#x27;</span> ? onFULFILLED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">    onREJECTED = <span class="keyword">typeof</span> onREJECTED === <span class="string">&#x27;function&#x27;</span> ? onREJECTED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">        onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">        onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>Promise中的回调函数是异步执行的，并且执行顺序是同步&gt;微内核任务（Promsie）&gt;宏内核任务（SetTimeout）</p>
+<p>在这里使用setTimeout模拟异步</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="comment">//异步执行，注意Promise中的回调是异步执行的，并且是微内核，即执行顺序为同步&gt;Promise&gt;setTimeout</span></span><br><span class="line"><span class="comment">//then内部的函数应该使用一个数组保存起来，直到Promise完成响应之后再执行，否则then检测到此时状态为peding则会不执行</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> myPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断参数类型，非函数参数转换为函数</span></span><br><span class="line">        onFULFILLED = <span class="keyword">typeof</span> onFULFILLED === <span class="string">&#x27;function&#x27;</span> ? onFULFILLED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        onREJECTED = <span class="keyword">typeof</span> onREJECTED === <span class="string">&#x27;function&#x27;</span> ? onREJECTED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="回调保存"><a href="#回调保存" class="headerlink" title="回调保存"></a>回调保存</h2><p>Promise在执行异步任务的时候由于then不是异步的，所以需要先用数组保存then中的函数，等待Promise决议完成之后再执行对应的函数</p>
+<h2 id="链式调用"><a href="#链式调用" class="headerlink" title="链式调用"></a>链式调用</h2><p>我们常常在Promise中使用Promise.then().then()，这就是链式调用，这是解决回调地狱的关键。</p>
+<ol>
+<li><p>通常来说，调用.then()返回的是一个新的Promise，对于这个返回值，有</p>
+<ul>
+<li>将这个新Promise传递到下一个then中</li>
+<li>如果返回一个普通的值，则将这个普通的值传递到下一个then中</li>
+</ul>
+</li>
+<li><p>当我们在第一个then()中return了一个参数（参数未知，需要判断）。这个return出来的新的promsie就是onFulfilled（）或者onRejected（）的值</p>
+</li>
+<li><p>为了满足上述的要求，就需要一个额外的函数用来判断返回值，并做出响应</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolvePromise</span>(<span class="params">promise2, x, resolve, reject</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//禁止循环引用，会导致死循环</span></span><br><span class="line">    <span class="keyword">if</span>(x === promise2)&#123;</span><br><span class="line">        <span class="comment">//出现循环则直接抛出错误</span></span><br><span class="line">        <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;Chaining cycle detected for promise&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> called;</span><br><span class="line">    <span class="comment">//x为普通值，则直接返回解决；若x为对象或者函数且不为null，则判断是否仍然是promise</span></span><br><span class="line">    <span class="keyword">if</span> (x != <span class="literal">null</span> &amp;&amp; (<span class="keyword">typeof</span> x === <span class="string">&#x27;object&#x27;</span> || <span class="keyword">typeof</span> x === <span class="string">&#x27;function&#x27;</span>)) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//取得函数的下一个then</span></span><br><span class="line">            <span class="keyword">let</span> then = x.then;</span><br><span class="line">            <span class="comment">//如果下一个then仍然是函数，则说明还有下一层，默认为Promise</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> then === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">                then.call(x, <span class="function"><span class="params">y</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//由于结果依旧是promise,继续向下解析</span></span><br><span class="line">                    resolvePromise(promise2, y, resolve, reject);</span><br><span class="line">                &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//拒绝之后后续的所有Promise都会被拒绝</span></span><br><span class="line">                    reject(err);</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resolve(x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">            called = <span class="literal">true</span>;</span><br><span class="line">            reject(e); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resolve(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="完整的仿写Promise"><a href="#完整的仿写Promise" class="headerlink" title="完整的仿写Promise"></a>完整的仿写Promise</h2><p>功能：resolve，reject，then，异步执行，链式调用</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//promise的基本结构</span></span><br><span class="line"><span class="comment">//原生的promise一般会用new来创建实例，所以这里采用class的方式模拟promise</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myPromise</span> </span>&#123;</span><br><span class="line">    <span class="comment">//创建静态属性</span></span><br><span class="line">    <span class="keyword">static</span> PENDING = <span class="string">&#x27;待定&#x27;</span>; <span class="keyword">static</span> FULFILLED = <span class="string">&#x27;成功&#x27;</span>; <span class="keyword">static</span> REJECTED = <span class="string">&#x27;拒绝&#x27;</span>;</span><br><span class="line"><span class="comment">//new Promise对象是需要传入一个参数，这个参数是一个函数,所以需要在constructor接收一个函数参数并自动执行它。</span></span><br><span class="line"><span class="comment">//接收的函数内也可以传入两个参数，resolve和reject</span></span><br><span class="line"><span class="function"><span class="title">constructor</span>(<span class="params">func</span>)</span> &#123;</span><br><span class="line">    <span class="comment">//默认的状态为pending</span></span><br><span class="line">    <span class="built_in">this</span>.status = myPromise.PENDING</span><br><span class="line">    <span class="comment">//默认结果传参</span></span><br><span class="line">    <span class="built_in">this</span>.result = <span class="literal">null</span></span><br><span class="line">    <span class="comment">//创建临时数组用于在Promise还没有决议前保存then中的待执行函数</span></span><br><span class="line">    <span class="built_in">this</span>.resolveCallbacks = []</span><br><span class="line">    <span class="built_in">this</span>.rejectCallbacks = []</span><br><span class="line">    <span class="comment">//执行前判断生成的实例有没有报错，有就直接reject</span></span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="comment">//注意由于在执行构造函数中的this在类函数中会丢失，需要重新指定this</span></span><br><span class="line">        func(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>));</span><br><span class="line">    &#125; <span class="keyword">catch</span> (<span class="built_in">Error</span>) &#123;</span><br><span class="line">        <span class="built_in">this</span>.reject(<span class="built_in">Error</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//由于在类内resolve和reject两个参数还没有定义，需要创造两个参数</span></span><br><span class="line"><span class="function"><span class="title">resolve</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.FULFILLED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">            <span class="comment">//执行待执行的函数</span></span><br><span class="line">            <span class="built_in">this</span>.resolveCallbacks.forEach(<span class="function"><span class="params">callback</span> =&gt;</span> &#123;</span><br><span class="line">                callback(result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="title">reject</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.REJECTED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">            <span class="comment">//执行待执行的函数</span></span><br><span class="line">            <span class="built_in">this</span>.rejectCallbacks.forEach(<span class="function"><span class="params">callback</span> =&gt;</span> &#123;</span><br><span class="line">                callback(result)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//then函数</span></span><br><span class="line"><span class="comment">//异步执行，注意Promise中的回调是异步执行的，并且是微内核，即执行顺序为同步&gt;Promise&gt;setTimeout</span></span><br><span class="line"><span class="comment">//then内部的函数应该使用一个数组保存起来，直到Promise完成响应之后再执行，否则then检测到此时状态为peding则会不执行</span></span><br><span class="line"><span class="function"><span class="title">then</span>(<span class="params">onFULFILLED,onREJECTED</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> promise2 = <span class="keyword">new</span> myPromise(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="comment">//判断参数类型，非函数参数转换为函数</span></span><br><span class="line">        onFULFILLED = <span class="keyword">typeof</span> onFULFILLED === <span class="string">&#x27;function&#x27;</span> ? onFULFILLED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        onREJECTED = <span class="keyword">typeof</span> onREJECTED === <span class="string">&#x27;function&#x27;</span> ? onREJECTED : <span class="function">() =&gt;</span> &#123;&#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING)&#123;</span><br><span class="line">            <span class="built_in">this</span>.resolveCallbacks.push(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="comment">//获取解决的结果</span></span><br><span class="line">                <span class="keyword">let</span> x = onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">                <span class="comment">//在这个函数中判断返回的值，并作不同处理</span></span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">            <span class="built_in">this</span>.rejectCallbacks.push(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> x = onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.FULFILLED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> x = onFULFILLED(<span class="built_in">this</span>.result)</span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.REJECTED)&#123;</span><br><span class="line">            <span class="comment">//异步执行</span></span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> x = onREJECTED(<span class="built_in">this</span>.result)</span><br><span class="line">                resolvePromise(promise2, x, resolve, reject)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> promise2</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">resolvePromise</span>(<span class="params">promise2, x, resolve, reject</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//禁止循环引用，会导致死循环</span></span><br><span class="line">    <span class="keyword">if</span>(x === promise2)&#123;</span><br><span class="line">        <span class="comment">//出现循环则直接抛出错误</span></span><br><span class="line">        <span class="keyword">return</span> reject(<span class="keyword">new</span> <span class="built_in">TypeError</span>(<span class="string">&#x27;Chaining cycle detected for promise&#x27;</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> called;</span><br><span class="line">    <span class="comment">//x为普通值，则直接返回解决；若x为对象或者函数且不为null，则判断是否仍然是promise</span></span><br><span class="line">    <span class="keyword">if</span> (x != <span class="literal">null</span> &amp;&amp; (<span class="keyword">typeof</span> x === <span class="string">&#x27;object&#x27;</span> || <span class="keyword">typeof</span> x === <span class="string">&#x27;function&#x27;</span>)) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">//取得函数的下一个then</span></span><br><span class="line">            <span class="keyword">let</span> then = x.then;</span><br><span class="line">            <span class="comment">//如果下一个then仍然是函数，则说明还有下一层，默认为Promise</span></span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">typeof</span> then === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">                then.call(x, <span class="function"><span class="params">y</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//由于结果依旧是promise,继续向下解析</span></span><br><span class="line">                    resolvePromise(promise2, y, resolve, reject);</span><br><span class="line">                &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//状态转换只有一次，且不能逆转</span></span><br><span class="line">                    <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">                    called = <span class="literal">true</span>;</span><br><span class="line">                    <span class="comment">//拒绝之后后续的所有Promise都会被拒绝</span></span><br><span class="line">                    reject(err);</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                resolve(x);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">            <span class="keyword">if</span>(called)<span class="keyword">return</span>;</span><br><span class="line">            called = <span class="literal">true</span>;</span><br><span class="line">            reject(e); </span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        resolve(x);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第一步&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> myPromise(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;第二步&#x27;</span>)</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;第五步&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    resolve(<span class="string">&#x27;第四步&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">promise.then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result)),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result.message))</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第三步&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码（原生Promise）</span></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第一步&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> promise1 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;第二步&#x27;</span>)</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;第五步&#x27;</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">    resolve(<span class="string">&#x27;第四步&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line">promise1.then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result)),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> (<span class="built_in">console</span>.log(result.message))</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;第三步&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>从测试代码中可以发现，异步调用中的微内核任务没有实现。同时还有Promise.all(),Promise.race(),Promise值穿透等等功能待实现，Promise是一个复杂但是十分有用的技术，多阅读源码可以有效提高自己的代码水平。</p>
+]]></content>
+      <categories>
+        <category>Promise</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>手写系列</tag>
       </tags>
   </entry>
 </search>
