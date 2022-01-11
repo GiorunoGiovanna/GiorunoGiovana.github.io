@@ -20,21 +20,21 @@
     var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="手写reducereduce是JavaScript原生的数组操作方法，功能强大 reducer 函数接收4个参数:  Accumulator (acc) (累计器) Current Value (cur) (当前值) Current Index (idx) (当前索引) Source Array (src) (源数组)  您的 reducer 函数的返回值分配给累计器，该返回值在数组的每个迭代中被">
+  <meta name="description" content="手写newnew是什么在JavaScript中，new操作符用于创建一个给定构造函数的实例对象 12345678910function Person(name, age)&amp;#123;    this.name &#x3D; name;    this.age &#x3D; age;&amp;#125;Person.prototype.sayName &#x3D; function () &amp;#123;    console.log(th">
 <meta property="og:type" content="article">
-<meta property="og:title" content="手写reduce、用reduce实现map">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/index.html">
+<meta property="og:title" content="手写new">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/11/%E6%89%8B%E5%86%99new/index.html">
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
-<meta property="og:description" content="手写reducereduce是JavaScript原生的数组操作方法，功能强大 reducer 函数接收4个参数:  Accumulator (acc) (累计器) Current Value (cur) (当前值) Current Index (idx) (当前索引) Source Array (src) (源数组)  您的 reducer 函数的返回值分配给累计器，该返回值在数组的每个迭代中被">
+<meta property="og:description" content="手写newnew是什么在JavaScript中，new操作符用于创建一个给定构造函数的实例对象 12345678910function Person(name, age)&amp;#123;    this.name &#x3D; name;    this.age &#x3D; age;&amp;#125;Person.prototype.sayName &#x3D; function () &amp;#123;    console.log(th">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-01-04T02:46:01.000Z">
-<meta property="article:modified_time" content="2022-01-10T23:56:17.288Z">
+<meta property="article:published_time" content="2022-01-10T23:38:46.000Z">
+<meta property="article:modified_time" content="2022-01-10T23:54:30.142Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta property="article:tag" content="手写系列">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/">
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/11/%E6%89%8B%E5%86%99new/">
 
 
 <script id="page-configurations">
@@ -47,7 +47,7 @@
   };
 </script>
 
-  <title>手写reduce、用reduce实现map | StoneOcean's Blog</title>
+  <title>手写new | StoneOcean's Blog</title>
   
 
 
@@ -191,7 +191,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/11/%E6%89%8B%E5%86%99new/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -204,7 +204,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          手写reduce、用reduce实现map
+          手写new
         </h1>
 
         <div class="post-meta">
@@ -213,23 +213,17 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
+              
 
-              <time title="创建时间：2022-01-04 10:46:01" itemprop="dateCreated datePublished" datetime="2022-01-04T10:46:01+08:00">2022-01-04</time>
+              <time title="创建时间：2022-01-11 07:38:46 / 修改时间：07:54:30" itemprop="dateCreated datePublished" datetime="2022-01-11T07:38:46+08:00">2022-01-11</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-11 07:56:17" itemprop="dateModified" datetime="2022-01-11T07:56:17+08:00">2022-01-11</time>
-              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%95%B0%E7%BB%84%E6%93%8D%E4%BD%9C/" itemprop="url" rel="index"><span itemprop="name">数组操作</span></a>
+                  <a href="/categories/new/" itemprop="url" rel="index"><span itemprop="name">new</span></a>
                 </span>
             </span>
 
@@ -242,8 +236,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/01/11/%E6%89%8B%E5%86%99new/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/11/%E6%89%8B%E5%86%99new/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -258,25 +252,33 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="手写reduce"><a href="#手写reduce" class="headerlink" title="手写reduce"></a>手写reduce</h1><p>reduce是JavaScript原生的数组操作方法，功能强大</p>
-<p><strong>reducer</strong> 函数接收4个参数:</p>
-<ol>
-<li>Accumulator (acc) (累计器)</li>
-<li>Current Value (cur) (当前值)</li>
-<li>Current Index (idx) (当前索引)</li>
-<li>Source Array (src) (源数组)</li>
-</ol>
-<p>您的 <strong>reducer</strong> 函数的返回值分配给累计器，该返回值在数组的每个迭代中被记住，并最后成为最终的单个结果值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//reduce用法</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"><span class="built_in">console</span>.log(arr.reduce(<span class="function">(<span class="params">acc,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> acc+cur</span><br><span class="line">&#125;,<span class="number">1</span>))</span><br><span class="line"><span class="comment">//22</span></span><br></pre></td></tr></table></figure>
+        <h1 id="手写new"><a href="#手写new" class="headerlink" title="手写new"></a>手写new</h1><h3 id="new是什么"><a href="#new是什么" class="headerlink" title="new是什么"></a>new是什么</h3><p>在JavaScript中，new操作符用于创建一个给定构造函数的实例对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> person1 = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>, <span class="number">20</span>)</span><br><span class="line"><span class="built_in">console</span>.log(person1)  <span class="comment">// Person &#123;name: &quot;Tom&quot;, age: 20&#125;</span></span><br><span class="line">t.sayName() <span class="comment">// &#x27;Tom&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>原生实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init!=<span class="literal">null</span>?init:arr[<span class="number">0</span>]</span><br><span class="line">    <span class="comment">//这里要注意如果没有指定初始值和指定初始值为0是不同的</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = (init!=<span class="literal">null</span>?<span class="number">0</span>:<span class="number">1</span>);i&lt;arr.length;i++)&#123;</span><br><span class="line">        total = func(total, arr[i], i, arr)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面可以看出</p>
+<ul>
+<li>new通过构造函数Person创建出来的实例可以访问到构造函数中的属性</li>
+<li>new通过构造函数Person创建出来的实例可以访问到构造函数原型链中的属性（即实例于构造函数通过原型链连接了起来）</li>
+</ul>
+<p>现在在构建函数中显示加上返回值，并且这个返回值是一个原始类型</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> t = <span class="keyword">new</span> Test(<span class="string">&#x27;xxx&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(t.name) <span class="comment">// &#x27;xxx&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>使用map实现reduce</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    arr.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">        i!=init?total = func(total, v, i, arr):<span class="number">0</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可以发现，构造函数中返回一个原始值，然而这个返回值并没有作用</p>
+<p>下面在构造函数中返回一个对象</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">// Test &#123; name: &#x27;xxx&#x27; &#125;</span></span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">age</span>: <span class="number">26</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> t = <span class="keyword">new</span> Test(<span class="string">&#x27;xxx&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(t) <span class="comment">// &#123; age: 26 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(t.name) <span class="comment">// &#x27;undefined&#x27;</span></span><br></pre></td></tr></table></figure>
 
-<p>使用reduce实现map</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用reduce实现map</span></span><br><span class="line"><span class="built_in">Array</span>.prototype._map = <span class="function"><span class="keyword">function</span>(<span class="params">func,thisArg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> result = []</span><br><span class="line">    <span class="built_in">this</span>.reduce(<span class="function">(<span class="params">total,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">        result[idx] = func.call(thisArg,cur,idx,arr);\</span><br><span class="line">        <span class="comment">//这里并不关心累加器的值，但是为了让reduce从第一个元素开始遍历，为累加器赋初始值0</span></span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//测试代码</span></span><br><span class="line"><span class="keyword">const</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>]</span><br><span class="line"><span class="keyword">const</span> arr2 = [<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> _mapArr = arr._map(<span class="function"><span class="keyword">function</span>(<span class="params">v, i</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> v+i+<span class="built_in">this</span>.length;</span><br><span class="line">&#125;, arr2)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(_mapArr);</span><br></pre></td></tr></table></figure>
+<p>从上面可以发现，构造函数如果返回值为一个对象，那么这个返回值会被正常使用</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>从上面的演示中，我们可以看到new关键字主要做了一下工作：</p>
+<ul>
+<li>创建一个新的对象obj</li>
+<li>将对象与构建函数中通过原型链连接起来</li>
+<li>将构造函数中的this绑定到新建的对象obj上</li>
+<li>根据构造函数返回值的类型做判断，如果是原始值则会忽略，如果是对象，则正常处理</li>
+</ul>
+<h3 id="手写new操作符"><a href="#手写new操作符" class="headerlink" title="手写new操作符"></a>手写new操作符</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mynew</span>(<span class="params">Func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建一个新对象</span></span><br><span class="line">    <span class="keyword">const</span> obj = &#123;&#125;</span><br><span class="line">    <span class="comment">// 2.新对象原型指向构造函数原型对象</span></span><br><span class="line">    obj.__proto__ = Func.prototype</span><br><span class="line">    <span class="comment">// 3.将构建函数的this指向新对象</span></span><br><span class="line">    <span class="keyword">let</span> result = Func.apply(obj, args)</span><br><span class="line">    <span class="comment">// 4.根据返回值判断</span></span><br><span class="line">    <span class="keyword">return</span> result <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? result : obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试一下</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mynew</span>(<span class="params">func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> obj = &#123;&#125;</span><br><span class="line">    obj.__proto__ = func.prototype</span><br><span class="line">    <span class="keyword">let</span> result = func.apply(obj, args)</span><br><span class="line">    <span class="keyword">return</span> result <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? result : obj</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> p = mynew(Person, <span class="string">&quot;huihui&quot;</span>, <span class="number">123</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p) <span class="comment">// Person &#123;name: &quot;huihui&quot;, age: 123&#125;</span></span><br><span class="line">p.say() <span class="comment">// huihui</span></span><br></pre></td></tr></table></figure>
 
 
     </div>
@@ -297,13 +299,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/" rel="prev" title="手写Promise.all、Promise.Race">
-      <i class="fa fa-chevron-left"></i> 手写Promise.all、Promise.Race
+    <a href="/2022/01/10/%E6%89%8B%E5%86%99%E6%B7%B1%E5%A4%8D%E5%88%B6/" rel="prev" title="手写深复制">
+      <i class="fa fa-chevron-left"></i> 手写深复制
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/01/10/%E6%89%8B%E5%86%99%E6%B7%B1%E5%A4%8D%E5%88%B6/" rel="next" title="手写深复制">
-      手写深复制 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -363,7 +362,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8B%E5%86%99reduce"><span class="nav-number">1.</span> <span class="nav-text">手写reduce</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%89%8B%E5%86%99new"><span class="nav-number">1.</span> <span class="nav-text">手写new</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#new%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.0.1.</span> <span class="nav-text">new是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B"><span class="nav-number">1.0.2.</span> <span class="nav-text">流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E5%86%99new%E6%93%8D%E4%BD%9C%E7%AC%A6"><span class="nav-number">1.0.3.</span> <span class="nav-text">手写new操作符</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

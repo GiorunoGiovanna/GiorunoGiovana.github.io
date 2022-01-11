@@ -1,6 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Vue源码学习笔记01</title>
+    <url>/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/</url>
+    <content><![CDATA[<h3 id="Vue响应式原理"><a href="#Vue响应式原理" class="headerlink" title="Vue响应式原理"></a>Vue响应式原理</h3><p>从原理上来讲vue是利用了Object的defineProperty的属性，它把我们放进去的data中每一个属性都设置了getter和setter，这样当data的属性值更新后，我们就会收到通知，并可以通知那些需要更新的地方去进行更新。</p>
+<h3 id="getter-amp-amp-setter简单实现"><a href="#getter-amp-amp-setter简单实现" class="headerlink" title="getter&amp;&amp;setter简单实现"></a>getter&amp;&amp;setter简单实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//检查是否为对象</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">        &amp;&amp; obj !==<span class="literal">null</span></span><br><span class="line">        &amp;&amp; obj !==<span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">convert</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">            <span class="keyword">throw</span>  <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//为每个对象的键值对添加getter和setter</span></span><br><span class="line">        <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//提供变量存储键对应的值</span></span><br><span class="line">            <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">            <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">                <span class="function"><span class="title">get</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`getting key &quot;<span class="subst">$&#123;key&#125;</span>&quot;: <span class="subst">$&#123;internalValue&#125;</span>`</span>)</span><br><span class="line">                    <span class="keyword">return</span> internalValue</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="function"><span class="title">set</span>(<span class="params">newValue</span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`setting key &quot;<span class="subst">$&#123;key&#125;</span>&quot; to: <span class="subst">$&#123;newValue&#125;</span>`</span>)</span><br><span class="line">                    internalValue = newValue</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h3 id="依赖跟踪"><a href="#依赖跟踪" class="headerlink" title="依赖跟踪"></a>依赖跟踪</h3><p>使用上面的getter和setter我们模拟了对象的响应式，那么问题来了，假设我们有一个对象，其中有个属性added：233，我们在一个函数中使用了这个added做一个加法，得到了一个结果，但是我们修改了added的值，并期望函数的结果也会随之改变，这要怎么实现呢？、</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a class representing a dependency</span></span><br><span class="line"><span class="comment">// exposing it on window is necessary for testing</span></span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">    <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">//设置一个变量存储</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//跟踪函数依赖，类似于在此处插眼</span></span><br><span class="line">    depend () &#123;</span><br><span class="line">      <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">        <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">          <span class="comment">//将跟踪的函数加入到set表中</span></span><br><span class="line">        <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//重新执行函数，在刚刚插眼的函数中重新执行该函数，达到更新的效果</span></span><br><span class="line">    notify () &#123;</span><br><span class="line">      <span class="comment">// run all subscriber functions</span></span><br><span class="line">        <span class="comment">//set列表中的每一个函数都重新执行</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//用一个全局变量储存函数（重点！）,这样可以让类实例在外部访问这个函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>简单来讲，就是创建一个类，它提供一种类似“插眼”的功能（depend ()），我们在需要跟踪的函数中插入这个眼，当我们需要它更新时，再调用这个眼（notify ()）重新执行一遍函数，达到更新结果的目的。</p>
+<h3 id="迷你观察者"><a href="#迷你观察者" class="headerlink" title="迷你观察者"></a>迷你观察者</h3><p>我们把依赖追踪和getter&amp;&amp;setter结合起来，就可以完成我们需要的功能了。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">      &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">      &amp;&amp; obj !== <span class="literal">null</span></span><br><span class="line">      &amp;&amp; obj !== <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">        <span class="keyword">let</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line">        <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">            get () &#123;</span><br><span class="line">                <span class="comment">//插眼</span></span><br><span class="line">                dep.depend()</span><br><span class="line">                <span class="keyword">return</span> internalValue</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="function"><span class="title">set</span>(<span class="params">v</span>)</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> ifValueChange = v !==internalValue</span><br><span class="line">                <span class="keyword">if</span>(ifValueChange)&#123;</span><br><span class="line">                    internalValue = v</span><br><span class="line">                    <span class="comment">//检测到数值变化重新调用该函数</span></span><br><span class="line">                    dep.notify()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  depend () &#123;</span><br><span class="line">    <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">      <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notify () &#123;</span><br><span class="line">    <span class="comment">// run all subscriber functions</span></span><br><span class="line">    <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<p>可以看到我们把插眼这个动作放到了getter里面，把重新调用放到了setter里面，这样我们就可以监听对象的变化，一旦它的属性值发生改变，就会触发重新调用，这样就达到了监听对象，并实时更新与他有关的值，即Vue响应式的简单原理。</p>
+<p>参考视频：<a href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
+<p>参考github：<a href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
+]]></content>
+      <categories>
+        <category>Vue源码</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vue源码学习笔记02</title>
     <url>/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/</url>
     <content><![CDATA[<h2 id="编写一个简单插件"><a href="#编写一个简单插件" class="headerlink" title="编写一个简单插件"></a>编写一个简单插件</h2><p>Vue中有一个强大的功能就是提供插件的使用:</p>
@@ -29,24 +56,17 @@
       </tags>
   </entry>
   <entry>
-    <title>Vue源码学习笔记01</title>
-    <url>/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B001/</url>
-    <content><![CDATA[<h3 id="Vue响应式原理"><a href="#Vue响应式原理" class="headerlink" title="Vue响应式原理"></a>Vue响应式原理</h3><p>从原理上来讲vue是利用了Object的defineProperty的属性，它把我们放进去的data中每一个属性都设置了getter和setter，这样当data的属性值更新后，我们就会收到通知，并可以通知那些需要更新的地方去进行更新。</p>
-<h3 id="getter-amp-amp-setter简单实现"><a href="#getter-amp-amp-setter简单实现" class="headerlink" title="getter&amp;&amp;setter简单实现"></a>getter&amp;&amp;setter简单实现</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//检查是否为对象</span></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">        &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">        &amp;&amp; obj !==<span class="literal">null</span></span><br><span class="line">        &amp;&amp; obj !==<span class="literal">undefined</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">convert</span> (<span class="params">obj</span>)</span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">            <span class="keyword">throw</span>  <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//为每个对象的键值对添加getter和setter</span></span><br><span class="line">        <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="comment">//提供变量存储键对应的值</span></span><br><span class="line">            <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">            <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">                <span class="function"><span class="title">get</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`getting key &quot;<span class="subst">$&#123;key&#125;</span>&quot;: <span class="subst">$&#123;internalValue&#125;</span>`</span>)</span><br><span class="line">                    <span class="keyword">return</span> internalValue</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="function"><span class="title">set</span>(<span class="params">newValue</span>)</span>&#123;</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">`setting key &quot;<span class="subst">$&#123;key&#125;</span>&quot; to: <span class="subst">$&#123;newValue&#125;</span>`</span>)</span><br><span class="line">                    internalValue = newValue</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+    <title>Vue源码学习笔记04</title>
+    <url>/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/</url>
+    <content><![CDATA[<h3 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h3><p>简单来说，就是一个封装了一个或多个具体功能的组件，它与外界的联系只有简单的props，这样可以保证这个组件与其他组件的耦合度最低，可复用性强，并且不容易污染其他组件。</p>
+<h3 id="高阶函数和Mixins"><a href="#高阶函数和Mixins" class="headerlink" title="高阶函数和Mixins"></a>高阶函数和Mixins</h3><p>高阶函数不会污染外部函数，可以在其他组件中被复用。如果确定组件只用在这个项目中，他只处理非常具体的任务，那么使用mixin也是可以的。</p>
+<p>由于高阶函数与其他组件耦合度低，也使得它更好的进行测试，可以分别测试增强组件和内部组件，相反，使用Mixin时，你只能测试一个组件。</p>
+<p>然而，有时候Mixin比高阶函数更容易掌握，当你使用了太多的高阶组件时，组件的层级会变得复杂，使得难以定位错误，还有搞清楚它们的层级关系，和他们之间的影响。而且，当你多层嵌套时，你需要注意属性需要经过多层传递，嵌套多层组件也会带来一些性能开销，使用mixin的话往往能节省这些开销，所以要视情况使用。</p>
+<h3 id="高阶函数的实现"><a href="#高阶函数的实现" class="headerlink" title="高阶函数的实现"></a>高阶函数的实现</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">smart-avatar</span> <span class="attr">username</span>=<span class="string">&quot;vuejs&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">smart-avatar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="comment">// mock API</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">fetchURL</span> (<span class="params">username, cb</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// hard coded, bonus: exercise: make it fetch from gravatar!</span></span></span><br><span class="line"><span class="javascript">            cb(<span class="string">&#x27;https://avatars3.githubusercontent.com/u/6128107?v=4&amp;s=200&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        &#125;, <span class="number">500</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> Avatar = &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">props</span>: [<span class="string">&#x27;src&#x27;</span>],</span></span><br><span class="line"><span class="javascript">        <span class="attr">template</span>: <span class="string">`&lt;img :src=&quot;src&quot;&gt;`</span></span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="comment">//高阶组件</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">withAvatarURL</span> (<span class="params">InnerComponent</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="javascript">                <span class="attr">username</span>: <span class="built_in">String</span></span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            data () &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">                    <span class="attr">url</span>: <span class="string">&#x27;http://via.placeholder.com/200x200&#x27;</span></span></span><br><span class="line"><span class="javascript">                &#125;</span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            created () &#123;</span></span><br><span class="line"><span class="javascript">                <span class="comment">//在这里进行请求</span></span></span><br><span class="line"><span class="javascript">                fetchURL(<span class="built_in">this</span>.username, <span class="function">(<span class="params">url</span>) =&gt;</span> &#123; <span class="built_in">this</span>.url = url &#125;)</span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            render (h) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="comment">//渲染一个image标签，第二个参数给src传值</span></span></span><br><span class="line"><span class="javascript">                <span class="keyword">return</span> h(InnerComponent, &#123; <span class="attr">props</span>: &#123; <span class="attr">src</span>: <span class="built_in">this</span>.url &#125; &#125;)</span></span><br><span class="line"><span class="javascript">            &#125;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> SmartAvatar = withAvatarURL(Avatar)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">components</span>: &#123; SmartAvatar &#125;</span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h3 id="依赖跟踪"><a href="#依赖跟踪" class="headerlink" title="依赖跟踪"></a>依赖跟踪</h3><p>使用上面的getter和setter我们模拟了对象的响应式，那么问题来了，假设我们有一个对象，其中有个属性added：233，我们在一个函数中使用了这个added做一个加法，得到了一个结果，但是我们修改了added的值，并期望函数的结果也会随之改变，这要怎么实现呢？、</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// a class representing a dependency</span></span><br><span class="line"><span class="comment">// exposing it on window is necessary for testing</span></span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">    <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">//设置一个变量存储</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//跟踪函数依赖，类似于在此处插眼</span></span><br><span class="line">    depend () &#123;</span><br><span class="line">      <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">        <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">          <span class="comment">//将跟踪的函数加入到set表中</span></span><br><span class="line">        <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//重新执行函数，在刚刚插眼的函数中重新执行该函数，达到更新的效果</span></span><br><span class="line">    notify () &#123;</span><br><span class="line">      <span class="comment">// run all subscriber functions</span></span><br><span class="line">        <span class="comment">//set列表中的每一个函数都重新执行</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//用一个全局变量储存函数（重点！）,这样可以让类实例在外部访问这个函数</span></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>简单来讲，就是创建一个类，它提供一种类似“插眼”的功能（depend ()），我们在需要跟踪的函数中插入这个眼，当我们需要它更新时，再调用这个眼（notify ()）重新执行一遍函数，达到更新结果的目的。</p>
-<h3 id="迷你观察者"><a href="#迷你观察者" class="headerlink" title="迷你观察者"></a>迷你观察者</h3><p>我们把依赖追踪和getter&amp;&amp;setter结合起来，就可以完成我们需要的功能了。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span> (<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">typeof</span> obj === <span class="string">&#x27;object&#x27;</span></span><br><span class="line">      &amp;&amp; !<span class="built_in">Array</span>.isArray(obj)</span><br><span class="line">      &amp;&amp; obj !== <span class="literal">null</span></span><br><span class="line">      &amp;&amp; obj !== <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">observe</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(!isObject(obj))&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">TypeError</span>()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">Object</span>.keys(obj).forEach(<span class="function"><span class="params">key</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">let</span> internalValue = obj[key]</span><br><span class="line">        <span class="keyword">let</span> dep = <span class="keyword">new</span> Dep()</span><br><span class="line">        <span class="built_in">Object</span>.defineProperty(obj,key,&#123;</span><br><span class="line">            get () &#123;</span><br><span class="line">                <span class="comment">//插眼</span></span><br><span class="line">                dep.depend()</span><br><span class="line">                <span class="keyword">return</span> internalValue</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="function"><span class="title">set</span>(<span class="params">v</span>)</span> &#123;</span><br><span class="line">                <span class="keyword">let</span> ifValueChange = v !==internalValue</span><br><span class="line">                <span class="keyword">if</span>(ifValueChange)&#123;</span><br><span class="line">                    internalValue = v</span><br><span class="line">                    <span class="comment">//检测到数值变化重新调用该函数</span></span><br><span class="line">                    dep.notify()</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">window</span>.Dep = <span class="class"><span class="keyword">class</span> <span class="title">Dep</span> </span>&#123;</span><br><span class="line">  <span class="title">constructor</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>.subscribers = <span class="keyword">new</span> <span class="built_in">Set</span>()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  depend () &#123;</span><br><span class="line">    <span class="keyword">if</span> (activeUpdate) &#123;</span><br><span class="line">      <span class="comment">// register the current active update as a subscriber</span></span><br><span class="line">      <span class="built_in">this</span>.subscribers.add(activeUpdate)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  notify () &#123;</span><br><span class="line">    <span class="comment">// run all subscriber functions</span></span><br><span class="line">    <span class="built_in">this</span>.subscribers.forEach(<span class="function"><span class="params">subscriber</span> =&gt;</span> subscriber())</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> activeUpdate</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">autorun</span> (<span class="params">update</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">wrappedUpdate</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    activeUpdate = wrappedUpdate</span><br><span class="line">    update()</span><br><span class="line">    activeUpdate = <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  wrappedUpdate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>可以看到我们把插眼这个动作放到了getter里面，把重新调用放到了setter里面，这样我们就可以监听对象的变化，一旦它的属性值发生改变，就会触发重新调用，这样就达到了监听对象，并实时更新与他有关的值，即Vue响应式的简单原理。</p>
-<p>参考视频：<a href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-<p>参考github：<a href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
+<p> 参考视频：<a href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
+<p> 参考github：<a href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
 ]]></content>
       <categories>
         <category>Vue源码</category>
@@ -97,6 +117,27 @@
       </tags>
   </entry>
   <entry>
+    <title>Vue源码学习笔记06</title>
+    <url>/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/</url>
+    <content><![CDATA[<h1 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h1><p>vue-router是Vue框架的另一个强大工具。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌。</p>
+<h1 id="哈希路由"><a href="#哈希路由" class="headerlink" title="哈希路由"></a>哈希路由</h1><p>单页应用路由，我们有一些url，想把他们映射到组件。即使组件和这些url有一一对应的关系，并能够实现跳转。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;url&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#foo&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#bar&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="comment">//一个基于哈希的路由解决方案</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">/*</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		浏览器有两种方式进行路由，可以使用哈希，也可以使用HTML5 History API。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		从某种意义上说，Html5 History APi更好，它支持弹出状态，你的URL看起来会更好，但是他需要某种服务器配置</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		为了更方便的展示，这里使用哈希方式访问。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">	*/</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">foo</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">bar</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    routeTo (route) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.location.hash = route</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h1 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h1><p>完成了基础路由跳转的实现，那么我们能不能把基础路由和组件的对应关系维护起来，形成一张表，这样当我们需要跳转的时候查询路由表再跳转对应组件就好了。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;matchedComponent&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/foo&#x27; -&gt; Foo</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/bar&#x27; -&gt; Bar</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/404&#x27; -&gt; NotFound</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> NotFound = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;not found!&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//路由表，维护组件和路径的对应关系</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> routeTable = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">foo</span>: Foo,</span></span><br><span class="line"><span class="javascript">  <span class="attr">bar</span>: Bar</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="comment">//两种视图实现方式,render渲染函数和html模板</span></span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">	  <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, [</span></span><br><span class="line"><span class="javascript">		  h(routeTable[<span class="built_in">this</span>.url] || NotFound),</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#foo&#x27;</span>&#125;&#125;, <span class="string">&#x27;foo&#x27;</span>),</span></span><br><span class="line"><span class="javascript">		  <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#bar&#x27;</span>&#125;&#125;, <span class="string">&#x27;bar&#x27;</span>)</span></span><br><span class="line"><span class="javascript">	  ])</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// computed: &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   matchedComponent () &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//     return routeTable[this.url] || NotFound</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   &#125;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h2 id="正则匹配动态路由"><a href="#正则匹配动态路由" class="headerlink" title="正则匹配动态路由"></a>正则匹配动态路由</h2><h3 id="正则匹配"><a href="#正则匹配" class="headerlink" title="正则匹配"></a>正则匹配</h3><p>使用path-to-regexp工具库中的pathToRegexp函数处理url中的地址和参数</p>
+<h3 id="动态路由的匹配"><a href="#动态路由的匹配" class="headerlink" title="动态路由的匹配"></a>动态路由的匹配</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/foo/123&#x27; -&gt; foo with id: 123</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/bar&#x27; -&gt; Bar</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/404&#x27; -&gt; NotFound</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// path-to-regexp usage:</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// const regex = pathToRegexp(pattern)</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// const match = regex.exec(path)</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//根据路由展现的组件</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Foo = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">props</span>: [<span class="string">&#x27;id&#x27;</span>],</span></span><br><span class="line"><span class="javascript">  <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo with id: &#123;&#123; id &#125;&#125;&lt;/div&gt;`</span></span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> NotFound = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;not found!&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//正则捕获的路由表</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> routeTable = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="string">&#x27;/foo/:id&#x27;</span>: Foo,</span></span><br><span class="line"><span class="javascript">  <span class="string">&#x27;/bar&#x27;</span>: Bar</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//编译完成后的数组，就是经过正则匹配后的数组</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> compiledRoutes = []</span></span><br><span class="line"><span class="javascript"><span class="comment">//取出路由表中的所有匹配规则</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">Object</span>.keys(routeTable).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> dynamicSegments = []</span></span><br><span class="line"><span class="javascript">  <span class="comment">//工具库函数pathToRegexp，用于处理url中的地址和参数</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> regex = pathToRegexp(key, dynamicSegments)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> component = routeTable[key]</span></span><br><span class="line"><span class="javascript">  compiledRoutes.push(&#123;</span></span><br><span class="line"><span class="javascript">	<span class="comment">//对应规则映射组件</span></span></span><br><span class="line"><span class="javascript">    component,</span></span><br><span class="line"><span class="javascript">	<span class="comment">//匹配规则</span></span></span><br><span class="line"><span class="javascript">    regex,</span></span><br><span class="line"><span class="javascript">	<span class="comment">//解析动态匹配部分</span></span></span><br><span class="line"><span class="javascript">    dynamicSegments</span></span><br><span class="line"><span class="javascript">  &#125;)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> path = <span class="string">&#x27;/&#x27;</span> + <span class="built_in">this</span>.url</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> componentToRender</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> props = &#123;&#125;</span></span><br><span class="line"><span class="javascript">	<span class="comment">//检查是否有匹配上的路由</span></span></span><br><span class="line"><span class="javascript">    compiledRoutes.some(<span class="function"><span class="params">route</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> match = route.regex.exec(path)</span></span><br><span class="line"><span class="javascript">      componentToRender = NotFound</span></span><br><span class="line"><span class="javascript">	  <span class="comment">//判断匹配是否成功</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (match) &#123;</span></span><br><span class="line"><span class="javascript">        componentToRender = route.component</span></span><br><span class="line"><span class="javascript">        route.dynamicSegments.forEach(<span class="function">(<span class="params">segment, index</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          props[segment.name] = match[index + <span class="number">1</span>]</span></span><br><span class="line"><span class="javascript">        &#125;)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="literal">true</span></span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, [</span></span><br><span class="line"><span class="javascript">      h(componentToRender, &#123; props &#125;),</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#foo/123&#x27;</span> &#125;&#125;, <span class="string">&#x27;foo 123&#x27;</span>),</span></span><br><span class="line"><span class="javascript">      <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#foo/234&#x27;</span> &#125;&#125;, <span class="string">&#x27;foo 234&#x27;</span>),</span></span><br><span class="line"><span class="javascript">      <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#bar&#x27;</span> &#125;&#125;, <span class="string">&#x27;bar&#x27;</span>),</span></span><br><span class="line"><span class="javascript">      <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#garbage&#x27;</span> &#125;&#125;, <span class="string">&#x27;garbage&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    ])</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Vue源码</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Vue源码学习笔记05</title>
     <url>/2021/12/06/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B005/</url>
     <content><![CDATA[<h1 id="状态管理"><a href="#状态管理" class="headerlink" title="状态管理"></a>状态管理</h1><p>在以前，前端没有状态管理的概念。人们试图把MVC这个概念引入到前端中，把状态叫做模型。在很多场景下，这是一中很好的抽象。但是主要问题是我们缺乏一种以声明的方式将模型与渲染结合。</p>
@@ -136,26 +177,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Vue源码学习笔记04</title>
-    <url>/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/</url>
-    <content><![CDATA[<h3 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h3><p>简单来说，就是一个封装了一个或多个具体功能的组件，它与外界的联系只有简单的props，这样可以保证这个组件与其他组件的耦合度最低，可复用性强，并且不容易污染其他组件。</p>
-<h3 id="高阶函数和Mixins"><a href="#高阶函数和Mixins" class="headerlink" title="高阶函数和Mixins"></a>高阶函数和Mixins</h3><p>高阶函数不会污染外部函数，可以在其他组件中被复用。如果确定组件只用在这个项目中，他只处理非常具体的任务，那么使用mixin也是可以的。</p>
-<p>由于高阶函数与其他组件耦合度低，也使得它更好的进行测试，可以分别测试增强组件和内部组件，相反，使用Mixin时，你只能测试一个组件。</p>
-<p>然而，有时候Mixin比高阶函数更容易掌握，当你使用了太多的高阶组件时，组件的层级会变得复杂，使得难以定位错误，还有搞清楚它们的层级关系，和他们之间的影响。而且，当你多层嵌套时，你需要注意属性需要经过多层传递，嵌套多层组件也会带来一些性能开销，使用mixin的话往往能节省这些开销，所以要视情况使用。</p>
-<h3 id="高阶函数的实现"><a href="#高阶函数的实现" class="headerlink" title="高阶函数的实现"></a>高阶函数的实现</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">smart-avatar</span> <span class="attr">username</span>=<span class="string">&quot;vuejs&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">smart-avatar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="comment">// mock API</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">fetchURL</span> (<span class="params">username, cb</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// hard coded, bonus: exercise: make it fetch from gravatar!</span></span></span><br><span class="line"><span class="javascript">            cb(<span class="string">&#x27;https://avatars3.githubusercontent.com/u/6128107?v=4&amp;s=200&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        &#125;, <span class="number">500</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> Avatar = &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">props</span>: [<span class="string">&#x27;src&#x27;</span>],</span></span><br><span class="line"><span class="javascript">        <span class="attr">template</span>: <span class="string">`&lt;img :src=&quot;src&quot;&gt;`</span></span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="comment">//高阶组件</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">withAvatarURL</span> (<span class="params">InnerComponent</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="javascript">                <span class="attr">username</span>: <span class="built_in">String</span></span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            data () &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">                    <span class="attr">url</span>: <span class="string">&#x27;http://via.placeholder.com/200x200&#x27;</span></span></span><br><span class="line"><span class="javascript">                &#125;</span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            created () &#123;</span></span><br><span class="line"><span class="javascript">                <span class="comment">//在这里进行请求</span></span></span><br><span class="line"><span class="javascript">                fetchURL(<span class="built_in">this</span>.username, <span class="function">(<span class="params">url</span>) =&gt;</span> &#123; <span class="built_in">this</span>.url = url &#125;)</span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            render (h) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="comment">//渲染一个image标签，第二个参数给src传值</span></span></span><br><span class="line"><span class="javascript">                <span class="keyword">return</span> h(InnerComponent, &#123; <span class="attr">props</span>: &#123; <span class="attr">src</span>: <span class="built_in">this</span>.url &#125; &#125;)</span></span><br><span class="line"><span class="javascript">            &#125;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> SmartAvatar = withAvatarURL(Avatar)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">components</span>: &#123; SmartAvatar &#125;</span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p> 参考视频：<a href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-<p> 参考github：<a href="https://github.com/zhengguorong/vue-advanced-workshop">https://github.com/zhengguorong/vue-advanced-workshop</a></p>
-]]></content>
-      <categories>
-        <category>Vue源码</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Webpack学习笔记01</title>
     <url>/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</url>
     <content><![CDATA[<h1 id="webpack是什么"><a href="#webpack是什么" class="headerlink" title="webpack是什么"></a>webpack是什么</h1><p>webpack是一种前端资源构建工具，一个静态的模块打包器（module bundler）。在webpack看来，前端的所有资源文件（js/json/css/img/less）都会作为模块处理。</p>
@@ -168,27 +189,6 @@
 ]]></content>
       <categories>
         <category>Webpack</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Vue源码学习笔记06</title>
-    <url>/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/</url>
-    <content><![CDATA[<h1 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h1><p>vue-router是Vue框架的另一个强大工具。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌。</p>
-<h1 id="哈希路由"><a href="#哈希路由" class="headerlink" title="哈希路由"></a>哈希路由</h1><p>单页应用路由，我们有一些url，想把他们映射到组件。即使组件和这些url有一一对应的关系，并能够实现跳转。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;url&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#foo&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#bar&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="comment">//一个基于哈希的路由解决方案</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">/*</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		浏览器有两种方式进行路由，可以使用哈希，也可以使用HTML5 History API。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		从某种意义上说，Html5 History APi更好，它支持弹出状态，你的URL看起来会更好，但是他需要某种服务器配置</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		为了更方便的展示，这里使用哈希方式访问。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">	*/</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">foo</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">bar</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    routeTo (route) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.location.hash = route</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h1><p>完成了基础路由跳转的实现，那么我们能不能把基础路由和组件的对应关系维护起来，形成一张表，这样当我们需要跳转的时候查询路由表再跳转对应组件就好了。</p>
-<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;matchedComponent&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/foo&#x27; -&gt; Foo</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/bar&#x27; -&gt; Bar</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/404&#x27; -&gt; NotFound</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> NotFound = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;not found!&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//路由表，维护组件和路径的对应关系</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> routeTable = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">foo</span>: Foo,</span></span><br><span class="line"><span class="javascript">  <span class="attr">bar</span>: Bar</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="comment">//两种视图实现方式,render渲染函数和html模板</span></span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">	  <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, [</span></span><br><span class="line"><span class="javascript">		  h(routeTable[<span class="built_in">this</span>.url] || NotFound),</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#foo&#x27;</span>&#125;&#125;, <span class="string">&#x27;foo&#x27;</span>),</span></span><br><span class="line"><span class="javascript">		  <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#bar&#x27;</span>&#125;&#125;, <span class="string">&#x27;bar&#x27;</span>)</span></span><br><span class="line"><span class="javascript">	  ])</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// computed: &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   matchedComponent () &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//     return routeTable[this.url] || NotFound</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   &#125;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h2 id="正则匹配动态路由"><a href="#正则匹配动态路由" class="headerlink" title="正则匹配动态路由"></a>正则匹配动态路由</h2><h3 id="正则匹配"><a href="#正则匹配" class="headerlink" title="正则匹配"></a>正则匹配</h3><p>使用path-to-regexp工具库中的pathToRegexp函数处理url中的地址和参数</p>
-<h3 id="动态路由的匹配"><a href="#动态路由的匹配" class="headerlink" title="动态路由的匹配"></a>动态路由的匹配</h3><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/foo/123&#x27; -&gt; foo with id: 123</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/bar&#x27; -&gt; Bar</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/404&#x27; -&gt; NotFound</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// path-to-regexp usage:</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// const regex = pathToRegexp(pattern)</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// const match = regex.exec(path)</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//根据路由展现的组件</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Foo = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">props</span>: [<span class="string">&#x27;id&#x27;</span>],</span></span><br><span class="line"><span class="javascript">  <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo with id: &#123;&#123; id &#125;&#125;&lt;/div&gt;`</span></span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> NotFound = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;not found!&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//正则捕获的路由表</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> routeTable = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="string">&#x27;/foo/:id&#x27;</span>: Foo,</span></span><br><span class="line"><span class="javascript">  <span class="string">&#x27;/bar&#x27;</span>: Bar</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//编译完成后的数组，就是经过正则匹配后的数组</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> compiledRoutes = []</span></span><br><span class="line"><span class="javascript"><span class="comment">//取出路由表中的所有匹配规则</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">Object</span>.keys(routeTable).forEach(<span class="function"><span class="params">key</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> dynamicSegments = []</span></span><br><span class="line"><span class="javascript">  <span class="comment">//工具库函数pathToRegexp，用于处理url中的地址和参数</span></span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> regex = pathToRegexp(key, dynamicSegments)</span></span><br><span class="line"><span class="javascript">  <span class="keyword">const</span> component = routeTable[key]</span></span><br><span class="line"><span class="javascript">  compiledRoutes.push(&#123;</span></span><br><span class="line"><span class="javascript">	<span class="comment">//对应规则映射组件</span></span></span><br><span class="line"><span class="javascript">    component,</span></span><br><span class="line"><span class="javascript">	<span class="comment">//匹配规则</span></span></span><br><span class="line"><span class="javascript">    regex,</span></span><br><span class="line"><span class="javascript">	<span class="comment">//解析动态匹配部分</span></span></span><br><span class="line"><span class="javascript">    dynamicSegments</span></span><br><span class="line"><span class="javascript">  &#125;)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> path = <span class="string">&#x27;/&#x27;</span> + <span class="built_in">this</span>.url</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> componentToRender</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> props = &#123;&#125;</span></span><br><span class="line"><span class="javascript">	<span class="comment">//检查是否有匹配上的路由</span></span></span><br><span class="line"><span class="javascript">    compiledRoutes.some(<span class="function"><span class="params">route</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">const</span> match = route.regex.exec(path)</span></span><br><span class="line"><span class="javascript">      componentToRender = NotFound</span></span><br><span class="line"><span class="javascript">	  <span class="comment">//判断匹配是否成功</span></span></span><br><span class="line"><span class="javascript">      <span class="keyword">if</span> (match) &#123;</span></span><br><span class="line"><span class="javascript">        componentToRender = route.component</span></span><br><span class="line"><span class="javascript">        route.dynamicSegments.forEach(<span class="function">(<span class="params">segment, index</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">          props[segment.name] = match[index + <span class="number">1</span>]</span></span><br><span class="line"><span class="javascript">        &#125;)</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> <span class="literal">true</span></span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, [</span></span><br><span class="line"><span class="javascript">      h(componentToRender, &#123; props &#125;),</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#foo/123&#x27;</span> &#125;&#125;, <span class="string">&#x27;foo 123&#x27;</span>),</span></span><br><span class="line"><span class="javascript">      <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#foo/234&#x27;</span> &#125;&#125;, <span class="string">&#x27;foo 234&#x27;</span>),</span></span><br><span class="line"><span class="javascript">      <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#bar&#x27;</span> &#125;&#125;, <span class="string">&#x27;bar&#x27;</span>),</span></span><br><span class="line"><span class="javascript">      <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">      h(<span class="string">&#x27;a&#x27;</span>, &#123; <span class="attr">attrs</span>: &#123; <span class="attr">href</span>: <span class="string">&#x27;#garbage&#x27;</span> &#125;&#125;, <span class="string">&#x27;garbage&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    ])</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Vue源码</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
@@ -351,36 +351,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Js学习笔记01Html中的JavaScript</title>
-    <url>/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/</url>
-    <content><![CDATA[<h1 id="script元素"><a href="#script元素" class="headerlink" title="script元素"></a>script元素</h1><p>script元素是用于引入JavaScript的html元素。</p>
-<p>1.可选属性有：</p>
-<p>async：</p>
-<p>​    表示应该立即下载脚本，但不能阻止其他页面动作，比如下载资源或等待其他脚本加载。只对外部脚本文件有效（不保证顺序执行）</p>
-<p>defer：</p>
-<p>​    表示脚本可以延迟到文档完全被解析后再执行。只对外部脚本有效。</p>
-<p>2.scrpit标签中引用外部脚本的时候不受浏览器同源策略限制，就是可以跨域（jsonp方案的原理）</p>
-<p>3.在script元素中的代码被计算完成之前，在这段代码之后的页面的其余内容不会被加载，也不会被显示。</p>
-<p>4.不该在已经引用了外部脚本的script标签中包含JavaScript代码，会被忽略。</p>
-<h3 id="标签位置"><a href="#标签位置" class="headerlink" title="标签位置"></a>标签位置</h3><p>1.放在head标签内</p>
-<p>意味着必须把所有JavaScript代码都下载，解析和解释完成后才能渲染画面。（可能导致白屏幕时间过长）</p>
-<p>2.放在body标签中页面内容的后面（通常做法）</p>
-<p>会优先加载内容页面，再加载脚本。（白屏时间短，用户体验好）</p>
-<h3 id="行内代码与外部文件"><a href="#行内代码与外部文件" class="headerlink" title="行内代码与外部文件"></a>行内代码与外部文件</h3><p>1.推荐将js代码放在外部文件，然后按需引入</p>
-<p>​    理由：1.可维护性强，js代码过于分散维护难度会非常高，放到统一的文件下可维护性更高。</p>
-<p>​                2.缓存性能，如果多个页面用到同一个脚本，只加载一次就够了。</p>
-<p>​                3.外部脚本语法在HTML和XHTML中是一致的。</p>
-<h3 id="动态加载脚本"><a href="#动态加载脚本" class="headerlink" title="动态加载脚本"></a>动态加载脚本</h3><p>使用DOM API（不太支持，就不展开了，红宝书P15）</p>
-<h3 id="noscript元素"><a href="#noscript元素" class="headerlink" title="noscript元素"></a>noscript元素</h3><p>用于指定在浏览器不支持脚本时候显示的内容。如果浏览器支持js脚本，则此元素内的任何内容都不会被渲染。</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>第一篇博客</title>
     <url>/2021/12/04/hello-world/</url>
     <content><![CDATA[<h2 id="博客搭建指南"><a href="#博客搭建指南" class="headerlink" title="博客搭建指南"></a>博客搭建指南</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><p>安装环境</p>
@@ -416,6 +386,205 @@
 
 <p>本博客只是用于学习笔记和踩坑记录，具体操作可以看大神的<a href="https://zhuanlan.zhihu.com/p/102592286">https://zhuanlan.zhihu.com/p/102592286</a></p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Js学习笔记03变量、作用域与内存</title>
+    <url>/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/</url>
+    <content><![CDATA[<h1 id="原始值与引用值"><a href="#原始值与引用值" class="headerlink" title="原始值与引用值"></a>原始值与引用值</h1><ol>
+<li>原始值：最简单的数据</li>
+<li>引用值：由多个值构成的对象</li>
+<li>JavaScript不允许直接访问内存的位置，在操作对象的时候实际操作的时对该对象的引用，为此，保存引用值的变量是按引用访问的</li>
+</ol>
+<h2 id="动态属性"><a href="#动态属性" class="headerlink" title="动态属性"></a>动态属性</h2><ol>
+<li>原始值：原始值不能拥有属性，但尝试给它添加属性不会报错</li>
+<li>引用值：引用值可以动态添加属性</li>
+<li>原始值的初始化：<ol>
+<li>只使用原始字面量形式，如var a = 1</li>
+<li>使用new初始化，这会创建一个object类型的实例，但是行为上类似于原始值</li>
+</ol>
+</li>
+</ol>
+<h2 id="复制值"><a href="#复制值" class="headerlink" title="复制值"></a>复制值</h2><ol>
+<li><p>原始值：复制原始值得到的是一个相互独立的副本</p>
+</li>
+<li><p>引用值：引用值持有的其实是对堆内存中实际值的一个引用，复制引用值实际上是复制了指向堆内存的指针，所以原始引用值和复制的引用值是会互相影响的。（浅复制）</p>
+</li>
+<li><p>深复制：复制一份独立的副本。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//借用JSON方法：stringify和parse实现深复制</span><br><span class="line">function deepClone(obj)&#123;</span><br><span class="line">    let _obj = JSON.stringify(obj),</span><br><span class="line">        objClone = JSON.parse(_obj);</span><br><span class="line">    return objClone</span><br><span class="line">&#125;    </span><br><span class="line">let a=[0,1,[2,3],4],</span><br><span class="line">    b=deepClone(a);</span><br><span class="line">a[0]=1;</span><br><span class="line">a[2][0]=1;</span><br><span class="line">console.log(a,b);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><ol>
+<li>ECMAScript中所有函数都是按值传递的。</li>
+<li>原始值：和复制值行为一样</li>
+<li>引用值：注意！传递参数的时候不是按引用传递，而是按值传递。<ol>
+<li>区别在于，如果你在函数内重新定义传入的参数，修改它的属性。</li>
+<li>如果是按引用传递，在函数外查看参数的属性应该是会变的。</li>
+<li>但是按值传递，函数外的对象属性不会发生变化，对对象的引用没有发生改变。</li>
+</ol>
+</li>
+</ol>
+<h2 id="如何确定类型"><a href="#如何确定类型" class="headerlink" title="如何确定类型"></a>如何确定类型</h2><ol>
+<li>原始值用typeof确定类型比较好</li>
+<li>引用值使用instanceof操作符确定类型，例如：person instanceof Object</li>
+</ol>
+<h2 id="表示符查找"><a href="#表示符查找" class="headerlink" title="表示符查找"></a>表示符查找</h2><p>当在特定上下文中为读取或写入而引用一个标识符的时候，必须通过搜索确定这个标识符表示什么。搜索从作用域顶端开始，一直查找到全局上下文对象。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Js学习笔记01Html中的JavaScript</title>
+    <url>/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/</url>
+    <content><![CDATA[<h1 id="script元素"><a href="#script元素" class="headerlink" title="script元素"></a>script元素</h1><p>script元素是用于引入JavaScript的html元素。</p>
+<p>1.可选属性有：</p>
+<p>async：</p>
+<p>​    表示应该立即下载脚本，但不能阻止其他页面动作，比如下载资源或等待其他脚本加载。只对外部脚本文件有效（不保证顺序执行）</p>
+<p>defer：</p>
+<p>​    表示脚本可以延迟到文档完全被解析后再执行。只对外部脚本有效。</p>
+<p>2.scrpit标签中引用外部脚本的时候不受浏览器同源策略限制，就是可以跨域（jsonp方案的原理）</p>
+<p>3.在script元素中的代码被计算完成之前，在这段代码之后的页面的其余内容不会被加载，也不会被显示。</p>
+<p>4.不该在已经引用了外部脚本的script标签中包含JavaScript代码，会被忽略。</p>
+<h3 id="标签位置"><a href="#标签位置" class="headerlink" title="标签位置"></a>标签位置</h3><p>1.放在head标签内</p>
+<p>意味着必须把所有JavaScript代码都下载，解析和解释完成后才能渲染画面。（可能导致白屏幕时间过长）</p>
+<p>2.放在body标签中页面内容的后面（通常做法）</p>
+<p>会优先加载内容页面，再加载脚本。（白屏时间短，用户体验好）</p>
+<h3 id="行内代码与外部文件"><a href="#行内代码与外部文件" class="headerlink" title="行内代码与外部文件"></a>行内代码与外部文件</h3><p>1.推荐将js代码放在外部文件，然后按需引入</p>
+<p>​    理由：1.可维护性强，js代码过于分散维护难度会非常高，放到统一的文件下可维护性更高。</p>
+<p>​                2.缓存性能，如果多个页面用到同一个脚本，只加载一次就够了。</p>
+<p>​                3.外部脚本语法在HTML和XHTML中是一致的。</p>
+<h3 id="动态加载脚本"><a href="#动态加载脚本" class="headerlink" title="动态加载脚本"></a>动态加载脚本</h3><p>使用DOM API（不太支持，就不展开了，红宝书P15）</p>
+<h3 id="noscript元素"><a href="#noscript元素" class="headerlink" title="noscript元素"></a>noscript元素</h3><p>用于指定在浏览器不支持脚本时候显示的内容。如果浏览器支持js脚本，则此元素内的任何内容都不会被渲染。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Js学习笔记03变量、作用域与内存</title>
+    <url>/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
+<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
+</li>
+<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
+<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
+</li>
+<li><p>模式：</p>
+<ol>
+<li>i：忽略大小写</li>
+<li>g：全局查找</li>
+<li>m：多行查找</li>
+</ol>
+</li>
+<li><p>实例方法</p>
+<ol>
+<li><p>主要方法使exec()</p>
+<ol>
+<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
+<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
+</li>
+<li><p>没找到则返回null</p>
+</li>
+<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
+</li>
+<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
+</li>
+<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
+</li>
+</ol>
+</li>
+<li><p>还有一个是text（）</p>
+<ol>
+<li>只检测是否匹配，不关心为什么。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
+<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
+</ol>
+<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
+<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
+<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
+<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
+</ol>
+<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
+<li>创建方法直接使用数值赋值即可</li>
+<li>实例方法<ol>
+<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
+<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
+<li>isInteger()用于鉴别一个数组的值是否是整数</li>
+<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
+</ol>
+</li>
+</ol>
+<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
+<li><p>JavaScript字符</p>
+<ol>
+<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
+<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
+<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
+<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
+<li>codePointAt()方法可以突破16位码元的限制</li>
+</ol>
+</li>
+<li><p>字符串操作方法</p>
+<ol>
+<li>字符串截取<ol>
+<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
+<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
+<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>字符串位置方法</p>
+<ol>
+<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
+<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
+</ol>
+<p>都接受第二个参数表示开始搜索的位置。</p>
+</li>
+<li><p>字符串包含方法</p>
+<ol>
+<li>startWith()    开始于索引0的匹配项</li>
+<li>endWith()      结束于字符串末尾的匹配项</li>
+<li>includes()      任意位置的匹配项</li>
+</ol>
+</li>
+<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
+</li>
+<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
+</li>
+<li><p>padStart()和padEnd()</p>
+<ol>
+<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
+</ol>
+</li>
+<li><p>字符串迭代与解构，for-of迭代</p>
+</li>
+<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
+</li>
+<li><p>字符串模式匹配方法</p>
+<ol>
+<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
+<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
+</ol>
+</li>
+</ol>
+<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
   </entry>
   <entry>
     <title>Js学习笔记02语言基础</title>
@@ -854,175 +1023,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Js学习笔记03变量、作用域与内存</title>
-    <url>/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/</url>
-    <content><![CDATA[<h1 id="原始值与引用值"><a href="#原始值与引用值" class="headerlink" title="原始值与引用值"></a>原始值与引用值</h1><ol>
-<li>原始值：最简单的数据</li>
-<li>引用值：由多个值构成的对象</li>
-<li>JavaScript不允许直接访问内存的位置，在操作对象的时候实际操作的时对该对象的引用，为此，保存引用值的变量是按引用访问的</li>
-</ol>
-<h2 id="动态属性"><a href="#动态属性" class="headerlink" title="动态属性"></a>动态属性</h2><ol>
-<li>原始值：原始值不能拥有属性，但尝试给它添加属性不会报错</li>
-<li>引用值：引用值可以动态添加属性</li>
-<li>原始值的初始化：<ol>
-<li>只使用原始字面量形式，如var a = 1</li>
-<li>使用new初始化，这会创建一个object类型的实例，但是行为上类似于原始值</li>
-</ol>
-</li>
-</ol>
-<h2 id="复制值"><a href="#复制值" class="headerlink" title="复制值"></a>复制值</h2><ol>
-<li><p>原始值：复制原始值得到的是一个相互独立的副本</p>
-</li>
-<li><p>引用值：引用值持有的其实是对堆内存中实际值的一个引用，复制引用值实际上是复制了指向堆内存的指针，所以原始引用值和复制的引用值是会互相影响的。（浅复制）</p>
-</li>
-<li><p>深复制：复制一份独立的副本。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//借用JSON方法：stringify和parse实现深复制</span><br><span class="line">function deepClone(obj)&#123;</span><br><span class="line">    let _obj = JSON.stringify(obj),</span><br><span class="line">        objClone = JSON.parse(_obj);</span><br><span class="line">    return objClone</span><br><span class="line">&#125;    </span><br><span class="line">let a=[0,1,[2,3],4],</span><br><span class="line">    b=deepClone(a);</span><br><span class="line">a[0]=1;</span><br><span class="line">a[2][0]=1;</span><br><span class="line">console.log(a,b);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><ol>
-<li>ECMAScript中所有函数都是按值传递的。</li>
-<li>原始值：和复制值行为一样</li>
-<li>引用值：注意！传递参数的时候不是按引用传递，而是按值传递。<ol>
-<li>区别在于，如果你在函数内重新定义传入的参数，修改它的属性。</li>
-<li>如果是按引用传递，在函数外查看参数的属性应该是会变的。</li>
-<li>但是按值传递，函数外的对象属性不会发生变化，对对象的引用没有发生改变。</li>
-</ol>
-</li>
-</ol>
-<h2 id="如何确定类型"><a href="#如何确定类型" class="headerlink" title="如何确定类型"></a>如何确定类型</h2><ol>
-<li>原始值用typeof确定类型比较好</li>
-<li>引用值使用instanceof操作符确定类型，例如：person instanceof Object</li>
-</ol>
-<h2 id="表示符查找"><a href="#表示符查找" class="headerlink" title="表示符查找"></a>表示符查找</h2><p>当在特定上下文中为读取或写入而引用一个标识符的时候，必须通过搜索确定这个标识符表示什么。搜索从作用域顶端开始，一直查找到全局上下文对象。</p>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Js学习笔记03变量、作用域与内存</title>
-    <url>/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
-<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
-</li>
-<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
-<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
-</li>
-<li><p>模式：</p>
-<ol>
-<li>i：忽略大小写</li>
-<li>g：全局查找</li>
-<li>m：多行查找</li>
-</ol>
-</li>
-<li><p>实例方法</p>
-<ol>
-<li><p>主要方法使exec()</p>
-<ol>
-<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
-<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
-</li>
-<li><p>没找到则返回null</p>
-</li>
-<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
-</li>
-<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
-</li>
-<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
-</li>
-</ol>
-</li>
-<li><p>还有一个是text（）</p>
-<ol>
-<li>只检测是否匹配，不关心为什么。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
-<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
-</ol>
-<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
-<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
-<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
-<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
-</ol>
-<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
-<li>创建方法直接使用数值赋值即可</li>
-<li>实例方法<ol>
-<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
-<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
-<li>isInteger()用于鉴别一个数组的值是否是整数</li>
-<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
-</ol>
-</li>
-</ol>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
-<li><p>JavaScript字符</p>
-<ol>
-<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
-<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
-<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
-<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
-<li>codePointAt()方法可以突破16位码元的限制</li>
-</ol>
-</li>
-<li><p>字符串操作方法</p>
-<ol>
-<li>字符串截取<ol>
-<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
-<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
-<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>字符串位置方法</p>
-<ol>
-<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
-<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
-</ol>
-<p>都接受第二个参数表示开始搜索的位置。</p>
-</li>
-<li><p>字符串包含方法</p>
-<ol>
-<li>startWith()    开始于索引0的匹配项</li>
-<li>endWith()      结束于字符串末尾的匹配项</li>
-<li>includes()      任意位置的匹配项</li>
-</ol>
-</li>
-<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
-</li>
-<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
-</li>
-<li><p>padStart()和padEnd()</p>
-<ol>
-<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
-</ol>
-</li>
-<li><p>字符串迭代与解构，for-of迭代</p>
-</li>
-<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
-</li>
-<li><p>字符串模式匹配方法</p>
-<ol>
-<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
-<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
-</ol>
-</li>
-</ol>
-<h2 id=""><a href="#" class="headerlink" title=""></a></h2>]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Js学习笔记05集合引用类型Object</title>
     <url>/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/</url>
     <content><![CDATA[<h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><ol>
@@ -1281,147 +1281,6 @@
       </tags>
   </entry>
   <entry>
-    <title>js学习笔记08继承</title>
-    <url>/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/</url>
-    <content><![CDATA[<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>很多面向对象语言都支持两种继承：接口继承和实现继承。JavaScript只支持实现继承，而且是通过原型链方式继承的。这里介绍JavaScript中实现继承的6中方式。</p>
-<h2 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h2><p>原型链继承的基本思想是通过原型继承多个引用类型的属性和方法。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.far=<span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">this</span>.far</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.child=<span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型继承father实例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.getFar())	<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>本质：</p>
-<ul>
-<li>通过重写子类型的原型对象实现继承</li>
-<li>注：原型对象中包含constructor属性一般指回子类型函数本身，重写子类型的原型对象会导致constructor属性丢失。</li>
-<li>最终原型链为：a-&gt;child-&gt;father-&gt;Object（所有函数的默认原型）</li>
-</ul>
-</li>
-<li><p>缺点：</p>
-<ul>
-<li>父级的实例属性会被子级共享</li>
-<li>子级不能向父级传递参数</li>
-</ul>
-</li>
-<li><p>原型与继承的关系</p>
-<ol>
-<li><p>使用instanceof操作符确定</p>
-<ul>
-<li><p>如果一个实例的原型链中出现过相应的构造函数，则instanceof返回true。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">instance <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>使用isPrototypeOf()方法。</p>
-<ul>
-<li><p>只要原型链包含这个原型，就会返回true。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.isPrototypeOf(instance)</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ol>
-</li>
-<li><p>原型链的问题</p>
-<ol>
-<li>原型中包含的引用值会在所有实例间共享。在使用原型实现继承时，原型实际上变成了另一个类型实例。</li>
-<li>重写子类型对象后，constructor属性会丢失。</li>
-</ol>
-</li>
-<li><p>关于方法</p>
-<ol>
-<li>子类有些时候需要覆盖父类的方法，或者增设父类没有的方法。为此，有些方法必须在原型复制后再添加到原型上。</li>
-<li>如果以对象字面量的方式创建原型会破坏原型链，因为这相当于重写了原型链。</li>
-</ol>
-</li>
-</ol>
-<h2 id="借用构造函数继承（经典继承）"><a href="#借用构造函数继承（经典继承）" class="headerlink" title="借用构造函数继承（经典继承）"></a>借用构造函数继承（经典继承）</h2><p>为了解决原型链继承中共享的问题，基本思路是：在子类构造函数中调用父类构造函数。因为函数就是特定上下文中执行代码的简单对象，所以可以使用apply()和call()方法以新建的对象为上下文执行构造函数。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//通过call/apply方法，在子类型构造函数内部调用超类型构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">child</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;aa&quot;</span></span><br><span class="line">	<span class="comment">//打印来自子级的参数</span></span><br><span class="line">	<span class="built_in">console</span>.log(child.name)	<span class="comment">//jojo</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	father.apply(<span class="built_in">this</span>,[&#123;<span class="attr">name</span>:<span class="string">&quot;jojo&quot;</span>&#125;])	<span class="comment">//继承，可以传参</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.name)		<span class="comment">//aa</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>优点：<ul>
-<li>解决了原型链继承中所有属性都会暴露和子级不能向父级传参的问题。</li>
-<li>可以在子类构造函数中向父级构造函数传参</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>必须在构造函数中定义方法，因此函数不能复用</li>
-<li>父级的方法对于子级不可见</li>
-</ul>
-</li>
-</ol>
-<h1 id="组合继承-伪经典继承"><a href="#组合继承-伪经典继承" class="headerlink" title="组合继承(伪经典继承)"></a>组合继承(伪经典继承)</h1><p>JavaScript中最常见的继承模式，使用instanceof操作符和isPrototype()方法可用于识别基于组合继承的对象。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//借用构造函数继承实例属性，原型链继承来继承原型上的方法和属性。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line">funciton <span class="function"><span class="title">child</span>(<span class="params"></span>)</span>&#123;		<span class="comment">//借用构造函数继承属性</span></span><br><span class="line">	father.call(<span class="built_in">this</span>)</span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型链继承，注意！重写原型导致constructors属性丢失</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">a.sayName()</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>本质：<ul>
-<li>使用原型链继承来继承原型上的属性和方法，用组合继承来继承实例属性。这样既可以把方法定义在原型上实现复用，又可以让每个实例都有自己的属性。</li>
-</ul>
-</li>
-<li>优点：<ul>
-<li>综合了原型链和借用构造继承的优点</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>必会调用两次超类型构造函数，一次在创建子类型的原型时，另一次在子类型构造函数内部。</li>
-</ul>
-</li>
-</ol>
-<h2 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//两种实现方法</span></span><br><span class="line"><span class="comment">//1.自定义函数实现</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ob</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">	f.prototype.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> ob()</span><br><span class="line"><span class="built_in">console</span>.log(a.name)	<span class="comment">//jianhuo</span></span><br><span class="line"><span class="comment">//2.使用Object.create方法</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(person,&#123;</span><br><span class="line">	<span class="attr">name</span>:&#123;</span><br><span class="line">		<span class="attr">value</span>:<span class="string">&quot;gun&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line">alert(a.name)</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>本质：<ul>
-<li>ob()式对传入的对象执行了一次浅复制。</li>
-</ul>
-</li>
-<li>优点：<ul>
-<li>原型式继承非常适合不需要单独创建构造函数，但是任然需要在对象间共享信息的场合。</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>和原型链继承一样，属性中包含的引用值会始终在相关的对象间共享。</li>
-</ul>
-</li>
-</ol>
-<h2 id="寄生式继承"><a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> clone = <span class="built_in">Object</span>.create(name)</span><br><span class="line">	clone.sayGood=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		alert(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> clone</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> wiw = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span>,</span><br><span class="line">	<span class="attr">act</span>:<span class="string">&quot;pa&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> final = father(wiw)	<span class="comment">//hello world</span></span><br><span class="line"></span><br><span class="line">final.sayGood()</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>本质:<ul>
-<li>创建一个实现继承的函数，以某种方式增强对象，然后返回这个对象。</li>
-</ul>
-</li>
-<li>优点：<ul>
-<li>寄生式继承同样适合主要关注对象，而不在乎类型和构造函数的场景。</li>
-</ul>
-</li>
-<li>缺点:<ul>
-<li>通过寄生式继承给对象添加函数会导致函数难以重用。</li>
-</ul>
-</li>
-</ol>
-<h2 id="寄生式组合继承"><a href="#寄生式组合继承" class="headerlink" title="寄生式组合继承"></a>寄生式组合继承</h2><p>可以算是应用类型继承的最佳模式。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = name</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	father.call(<span class="built_in">this</span>,name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(father.prototype)</span><br><span class="line">a.constructor = child	<span class="comment">//重新赋值constructor</span></span><br><span class="line">child.prototype = a</span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> child(<span class="string">&quot;jianhuo&quot;</span>)</span><br><span class="line">b.sayName()</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>本质：</p>
-<ul>
-<li><p>这个函数实现了接受两个参数：子类构造函数和父类构造函数。</p>
-<ul>
-<li>在这个函数内部，第一步是创建父类原型的一个副本。然后，给返回的prototype对象设置constructor属性，解决由于重写原型导致的默认constructor丢失问题。最后将新创建的对象赋值给子类型原型。</li>
-</ul>
-</li>
-<li><p>寄生式组合继承通过借用构造函数继承属性，但是用混合式原型链继承方法。基本思路就是不通过调用父类构造函数给子类函数原型赋值，而是取得一个父类的副本。</p>
-<ul>
-<li>说到底就是使用寄生式继承来继承父类原型，然后将返回的新对象赋值给子类原型。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-]]></content>
-      <categories>
-        <category>JavaScript</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>js学习笔记07对象</title>
     <url>/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/</url>
     <content><![CDATA[<h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><ol>
@@ -1623,50 +1482,135 @@
       </tags>
   </entry>
   <entry>
-    <title>js学习笔记10代理与反射</title>
-    <url>/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/</url>
-    <content><![CDATA[<h1 id="代理与反射"><a href="#代理与反射" class="headerlink" title="代理与反射"></a>代理与反射</h1><ol>
-<li><h4 id="代理基础"><a href="#代理基础" class="headerlink" title="代理基础"></a>代理基础</h4><ul>
-<li>代理是目标对象的抽象。目标对象既可以直接被操作，也可以通过代理来操作。但是直接操作会绕过代理施予的行为。</li>
+    <title>js学习笔记08继承</title>
+    <url>/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/</url>
+    <content><![CDATA[<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>很多面向对象语言都支持两种继承：接口继承和实现继承。JavaScript只支持实现继承，而且是通过原型链方式继承的。这里介绍JavaScript中实现继承的6中方式。</p>
+<h2 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h2><p>原型链继承的基本思想是通过原型继承多个引用类型的属性和方法。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.far=<span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">this</span>.far</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.child=<span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型继承father实例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.getFar())	<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>本质：</p>
+<ul>
+<li>通过重写子类型的原型对象实现继承</li>
+<li>注：原型对象中包含constructor属性一般指回子类型函数本身，重写子类型的原型对象会导致constructor属性丢失。</li>
+<li>最终原型链为：a-&gt;child-&gt;father-&gt;Object（所有函数的默认原型）</li>
 </ul>
 </li>
-<li><h4 id="创建空代理"><a href="#创建空代理" class="headerlink" title="创建空代理"></a>创建空代理</h4><ul>
-<li>在代理对象上执行的任何操作实际上都会应用到目标对象。唯一可感知的不同就是代码中操作的是代理对象。</li>
+<li><p>缺点：</p>
+<ul>
+<li>父级的实例属性会被子级共享</li>
+<li>子级不能向父级传递参数</li>
 </ul>
 </li>
-<li><h4 id="定义捕获器"><a href="#定义捕获器" class="headerlink" title="定义捕获器"></a>定义捕获器</h4><ul>
-<li>使用代理的主要原因是可以定义捕获器。每个处理程序对象都可以包含多个捕获器，每个捕获器对应一种基本操作，可以直接或间接在代理对象上调用。</li>
-<li>每次在代理对象上调用这些基本操作时，代理可以在这些操作传播到目标对象之前像调用捕获器函数，从而实现拦截并修改相应的行为。</li>
-<li>例如，可以定一一个get()捕获器，JavaScript操作以某种形式调用get()时触发。所有这些操作只要发生在代理对象上，就会触发get()捕获器</li>
-<li>注意，只有在代理对象上，就会触发。</li>
+<li><p>原型与继承的关系</p>
+<ol>
+<li><p>使用instanceof操作符确定</p>
+<ul>
+<li><p>如果一个实例的原型链中出现过相应的构造函数，则instanceof返回true。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">instance <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
-<li><h4 id="捕获器参数和反射API"><a href="#捕获器参数和反射API" class="headerlink" title="捕获器参数和反射API"></a>捕获器参数和反射API</h4><ul>
-<li>所有捕获器都可以访问响应的参数面积与这些参数可以重建被捕获的方法的原始行为。</li>
-<li>通过调用全局Reflect对象上（封装了原始行为）的同名方法来轻松重建。</li>
+<li><p>使用isPrototypeOf()方法。</p>
+<ul>
+<li><p>只要原型链包含这个原型，就会返回true。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.isPrototypeOf(instance)</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
-<li><h4 id="代理捕获器与反射方法"><a href="#代理捕获器与反射方法" class="headerlink" title="代理捕获器与反射方法"></a>代理捕获器与反射方法</h4><ul>
-<li>代理可以捕获13种不同的基本操作</li>
+</ol>
+</li>
+<li><p>原型链的问题</p>
+<ol>
+<li>原型中包含的引用值会在所有实例间共享。在使用原型实现继承时，原型实际上变成了另一个类型实例。</li>
+<li>重写子类型对象后，constructor属性会丢失。</li>
+</ol>
+</li>
+<li><p>关于方法</p>
+<ol>
+<li>子类有些时候需要覆盖父类的方法，或者增设父类没有的方法。为此，有些方法必须在原型复制后再添加到原型上。</li>
+<li>如果以对象字面量的方式创建原型会破坏原型链，因为这相当于重写了原型链。</li>
+</ol>
+</li>
+</ol>
+<h2 id="借用构造函数继承（经典继承）"><a href="#借用构造函数继承（经典继承）" class="headerlink" title="借用构造函数继承（经典继承）"></a>借用构造函数继承（经典继承）</h2><p>为了解决原型链继承中共享的问题，基本思路是：在子类构造函数中调用父类构造函数。因为函数就是特定上下文中执行代码的简单对象，所以可以使用apply()和call()方法以新建的对象为上下文执行构造函数。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//通过call/apply方法，在子类型构造函数内部调用超类型构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">child</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;aa&quot;</span></span><br><span class="line">	<span class="comment">//打印来自子级的参数</span></span><br><span class="line">	<span class="built_in">console</span>.log(child.name)	<span class="comment">//jojo</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	father.apply(<span class="built_in">this</span>,[&#123;<span class="attr">name</span>:<span class="string">&quot;jojo&quot;</span>&#125;])	<span class="comment">//继承，可以传参</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.name)		<span class="comment">//aa</span></span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>优点：<ul>
+<li>解决了原型链继承中所有属性都会暴露和子级不能向父级传参的问题。</li>
+<li>可以在子类构造函数中向父级构造函数传参</li>
 </ul>
 </li>
-<li><h4 id="代理的问题和不足"><a href="#代理的问题和不足" class="headerlink" title="代理的问题和不足"></a>代理的问题和不足</h4></li>
-<li><h4 id="使用反射API"><a href="#使用反射API" class="headerlink" title="使用反射API"></a>使用反射API</h4><ul>
-<li>某些情况下应该优先使用反射API，这些是有一些理由的。</li>
-<li>反射API与对象API<ul>
-<li>反射API并不限于捕获处理程序</li>
-<li>大多数反射API方法在Object类型上对应的方法</li>
+<li>缺点：<ul>
+<li>必须在构造函数中定义方法，因此函数不能复用</li>
+<li>父级的方法对于子级不可见</li>
 </ul>
 </li>
+</ol>
+<h1 id="组合继承-伪经典继承"><a href="#组合继承-伪经典继承" class="headerlink" title="组合继承(伪经典继承)"></a>组合继承(伪经典继承)</h1><p>JavaScript中最常见的继承模式，使用instanceof操作符和isPrototype()方法可用于识别基于组合继承的对象。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//借用构造函数继承实例属性，原型链继承来继承原型上的方法和属性。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line">funciton <span class="function"><span class="title">child</span>(<span class="params"></span>)</span>&#123;		<span class="comment">//借用构造函数继承属性</span></span><br><span class="line">	father.call(<span class="built_in">this</span>)</span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型链继承，注意！重写原型导致constructors属性丢失</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">a.sayName()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质：<ul>
+<li>使用原型链继承来继承原型上的属性和方法，用组合继承来继承实例属性。这样既可以把方法定义在原型上实现复用，又可以让每个实例都有自己的属性。</li>
 </ul>
 </li>
-<li><h4 id="可撤销代理"><a href="#可撤销代理" class="headerlink" title="可撤销代理"></a>可撤销代理</h4><ul>
-<li>有时候可能需要中断代理对象与目标对象的联系。对于使用new Proxy()创建的普通代理来说，这种联系会在代理对象的生命周期内一致存在。</li>
-<li>Proxy也暴露了revocable()方法，这个方法支持撤销代理对象与目标对象的关联。撤销代理的操作是不可逆的。而且，撤销函数是幂等的，调用多少次结构都是一样的。</li>
+<li>优点：<ul>
+<li>综合了原型链和借用构造继承的优点</li>
 </ul>
 </li>
-<li><h4 id="捕获器不变式"><a href="#捕获器不变式" class="headerlink" title="捕获器不变式"></a>捕获器不变式</h4><ul>
-<li>目标对象有一个不可配置且不可写的数据属性，那么在捕获器返回一个与该属性不同的值时会报错。</li>
+<li>缺点：<ul>
+<li>必会调用两次超类型构造函数，一次在创建子类型的原型时，另一次在子类型构造函数内部。</li>
+</ul>
+</li>
+</ol>
+<h2 id="原型式继承"><a href="#原型式继承" class="headerlink" title="原型式继承"></a>原型式继承</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//两种实现方法</span></span><br><span class="line"><span class="comment">//1.自定义函数实现</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">ob</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">	f.prototype.name = <span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> f()</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> ob()</span><br><span class="line"><span class="built_in">console</span>.log(a.name)	<span class="comment">//jianhuo</span></span><br><span class="line"><span class="comment">//2.使用Object.create方法</span></span><br><span class="line"><span class="keyword">var</span> person = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(person,&#123;</span><br><span class="line">	<span class="attr">name</span>:&#123;</span><br><span class="line">		<span class="attr">value</span>:<span class="string">&quot;gun&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line">alert(a.name)</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质：<ul>
+<li>ob()式对传入的对象执行了一次浅复制。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>原型式继承非常适合不需要单独创建构造函数，但是任然需要在对象间共享信息的场合。</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>和原型链继承一样，属性中包含的引用值会始终在相关的对象间共享。</li>
+</ul>
+</li>
+</ol>
+<h2 id="寄生式继承"><a href="#寄生式继承" class="headerlink" title="寄生式继承"></a>寄生式继承</h2><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> clone = <span class="built_in">Object</span>.create(name)</span><br><span class="line">	clone.sayGood=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		alert(<span class="string">&quot;hello world&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> clone</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> wiw = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span>,</span><br><span class="line">	<span class="attr">act</span>:<span class="string">&quot;pa&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> final = father(wiw)	<span class="comment">//hello world</span></span><br><span class="line"></span><br><span class="line">final.sayGood()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>本质:<ul>
+<li>创建一个实现继承的函数，以某种方式增强对象，然后返回这个对象。</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>寄生式继承同样适合主要关注对象，而不在乎类型和构造函数的场景。</li>
+</ul>
+</li>
+<li>缺点:<ul>
+<li>通过寄生式继承给对象添加函数会导致函数难以重用。</li>
+</ul>
+</li>
+</ol>
+<h2 id="寄生式组合继承"><a href="#寄生式组合继承" class="headerlink" title="寄生式组合继承"></a>寄生式组合继承</h2><p>可以算是应用类型继承的最佳模式。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = name</span><br><span class="line">&#125;</span><br><span class="line">father.prototype.sayName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	alert(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	father.call(<span class="built_in">this</span>,name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="built_in">Object</span>.create(father.prototype)</span><br><span class="line">a.constructor = child	<span class="comment">//重新赋值constructor</span></span><br><span class="line">child.prototype = a</span><br><span class="line"><span class="keyword">var</span> b = <span class="keyword">new</span> child(<span class="string">&quot;jianhuo&quot;</span>)</span><br><span class="line">b.sayName()</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>本质：</p>
+<ul>
+<li><p>这个函数实现了接受两个参数：子类构造函数和父类构造函数。</p>
+<ul>
+<li>在这个函数内部，第一步是创建父类原型的一个副本。然后，给返回的prototype对象设置constructor属性，解决由于重写原型导致的默认constructor丢失问题。最后将新创建的对象赋值给子类型原型。</li>
+</ul>
+</li>
+<li><p>寄生式组合继承通过借用构造函数继承属性，但是用混合式原型链继承方法。基本思路就是不通过调用父类构造函数给子类函数原型赋值，而是取得一个父类的副本。</p>
+<ul>
+<li>说到底就是使用寄生式继承来继承父类原型，然后将返回的新对象赋值给子类原型。</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
@@ -1759,6 +1703,62 @@
 <li>类静态成员每一个类上只能有一个</li>
 <li>静态类成员在类定义中使用static关键字作为前缀。在静态成员中，this引用类自身。其他所有约定和原型成员一样。</li>
 </ol>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>js学习笔记10代理与反射</title>
+    <url>/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/</url>
+    <content><![CDATA[<h1 id="代理与反射"><a href="#代理与反射" class="headerlink" title="代理与反射"></a>代理与反射</h1><ol>
+<li><h4 id="代理基础"><a href="#代理基础" class="headerlink" title="代理基础"></a>代理基础</h4><ul>
+<li>代理是目标对象的抽象。目标对象既可以直接被操作，也可以通过代理来操作。但是直接操作会绕过代理施予的行为。</li>
+</ul>
+</li>
+<li><h4 id="创建空代理"><a href="#创建空代理" class="headerlink" title="创建空代理"></a>创建空代理</h4><ul>
+<li>在代理对象上执行的任何操作实际上都会应用到目标对象。唯一可感知的不同就是代码中操作的是代理对象。</li>
+</ul>
+</li>
+<li><h4 id="定义捕获器"><a href="#定义捕获器" class="headerlink" title="定义捕获器"></a>定义捕获器</h4><ul>
+<li>使用代理的主要原因是可以定义捕获器。每个处理程序对象都可以包含多个捕获器，每个捕获器对应一种基本操作，可以直接或间接在代理对象上调用。</li>
+<li>每次在代理对象上调用这些基本操作时，代理可以在这些操作传播到目标对象之前像调用捕获器函数，从而实现拦截并修改相应的行为。</li>
+<li>例如，可以定一一个get()捕获器，JavaScript操作以某种形式调用get()时触发。所有这些操作只要发生在代理对象上，就会触发get()捕获器</li>
+<li>注意，只有在代理对象上，就会触发。</li>
+</ul>
+</li>
+<li><h4 id="捕获器参数和反射API"><a href="#捕获器参数和反射API" class="headerlink" title="捕获器参数和反射API"></a>捕获器参数和反射API</h4><ul>
+<li>所有捕获器都可以访问响应的参数面积与这些参数可以重建被捕获的方法的原始行为。</li>
+<li>通过调用全局Reflect对象上（封装了原始行为）的同名方法来轻松重建。</li>
+</ul>
+</li>
+<li><h4 id="代理捕获器与反射方法"><a href="#代理捕获器与反射方法" class="headerlink" title="代理捕获器与反射方法"></a>代理捕获器与反射方法</h4><ul>
+<li>代理可以捕获13种不同的基本操作</li>
+</ul>
+</li>
+<li><h4 id="代理的问题和不足"><a href="#代理的问题和不足" class="headerlink" title="代理的问题和不足"></a>代理的问题和不足</h4></li>
+<li><h4 id="使用反射API"><a href="#使用反射API" class="headerlink" title="使用反射API"></a>使用反射API</h4><ul>
+<li>某些情况下应该优先使用反射API，这些是有一些理由的。</li>
+<li>反射API与对象API<ul>
+<li>反射API并不限于捕获处理程序</li>
+<li>大多数反射API方法在Object类型上对应的方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="可撤销代理"><a href="#可撤销代理" class="headerlink" title="可撤销代理"></a>可撤销代理</h4><ul>
+<li>有时候可能需要中断代理对象与目标对象的联系。对于使用new Proxy()创建的普通代理来说，这种联系会在代理对象的生命周期内一致存在。</li>
+<li>Proxy也暴露了revocable()方法，这个方法支持撤销代理对象与目标对象的关联。撤销代理的操作是不可逆的。而且，撤销函数是幂等的，调用多少次结构都是一样的。</li>
+</ul>
+</li>
+<li><h4 id="捕获器不变式"><a href="#捕获器不变式" class="headerlink" title="捕获器不变式"></a>捕获器不变式</h4><ul>
+<li>目标对象有一个不可配置且不可写的数据属性，那么在捕获器返回一个与该属性不同的值时会报错。</li>
+</ul>
 </li>
 </ol>
 ]]></content>
@@ -1987,6 +1987,140 @@
       </tags>
   </entry>
   <entry>
+    <title>js学习笔记14网络请求</title>
+    <url>/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/</url>
+    <content><![CDATA[<h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><h2 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a>Fetch API</h2><p>Fetch API能够执行XHR对象的所有任务，但更容易使用，接口也更现代化，能够在Web工作线程等陷害Web工具中使用。不同之处在于XHR可以选择同步或异步，但是Fetch API只能选择异步。</p>
+<ul>
+<li><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>fetch()方法是暴露在全局作用域中的</li>
+</ul>
+</li>
+<li><h4 id="分派请求"><a href="#分派请求" class="headerlink" title="分派请求"></a>分派请求</h4><ul>
+<li>fetch()只有一个必须参数input，作为请求URL，这个方法返回一个promise，这个对象是API的封装，可以通过他获取响应的资源。<ul>
+<li>在只有一个参数的情况下，默认执行get方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="读取响应"><a href="#读取响应" class="headerlink" title="读取响应"></a>读取响应</h4><ul>
+<li>读取响应内容的最简单方式是取得纯文本格式的内容，这要用到text()方法。这个方法返回一个promise，会决议为取得资源的完整内容。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/mock/data/getMsg&#x27;</span>).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="处理状态码和请求失败"><a href="#处理状态码和请求失败" class="headerlink" title="处理状态码和请求失败"></a>处理状态码和请求失败</h4><ul>
+<li>Fetch API支持通过Response的状态码和状态文本属性检查响应状态。<ul>
+<li>由于无论返回的响应式多少，只要返回了响应，那么promise都会决议为resolved状态，这在逻辑上是合理的，所以我们还要在已决议的promise中再去判断状态码，从而执行不同的操作。</li>
+<li>注意，如果服务器未响应导致浏览器超时，不符合的跨域请求都会导致fetch（）失败，从而导致promise决议为rejected。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h4><ol>
+<li>body<ul>
+<li>用于指定使用请求体的内容</li>
+</ul>
+</li>
+<li>credentials<ul>
+<li>用于指定在外发请求中包含cookie</li>
+</ul>
+</li>
+<li>method<ul>
+<li>用于指定HTTP请求方法</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><h4 id="Request对象"><a href="#Request对象" class="headerlink" title="Request对象"></a>Request对象</h4><ul>
+<li>顾名思义，Request对象就是获取资源请求接口</li>
+<li>创建Request对象<ol>
+<li>可以通过构造函数初始化Requset对象，为此需要传入一个input，一般是URL</li>
+<li>已接受第二个参数，和fetch()一样</li>
+<li>复制request对象，使用clone方法复制，这样不会请求标记为已使用。</li>
+<li>在fetch()中使用Request对象，在调用fetch()时，可以传入一创建好的Request实例。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><h4 id="Headers对象"><a href="#Headers对象" class="headerlink" title="Headers对象"></a>Headers对象</h4><ul>
+<li>headers对象时所有外法请求和入栈响应头部的容器。每个外发的Request实例都包含一个空的Header实例，可以通过Request.prototype.headers访问，每一个入栈的Respone实例也一样。</li>
+<li>Headers对象与Map的相似之处<ul>
+<li>都有get，set，has和delete</li>
+</ul>
+</li>
+<li>Headers的独特之处<ul>
+<li>可以使用键值对的形式初始化Headers对象，Map不行。</li>
+</ul>
+</li>
+<li>头部护卫<ul>
+<li>不是所有头部都可以被客户端修改</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="常见的Fetch请求模式"><a href="#常见的Fetch请求模式" class="headerlink" title="常见的Fetch请求模式"></a>常见的Fetch请求模式</h4><ul>
+<li><p>发送JSON数据</p>
+</li>
+<li><p>在请求体中发送参数</p>
+<ul>
+<li>因为请求体支持任意字符串值，所以可以通过它发送请求参数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> param = <span class="string">&#x27;username=admin&amp;pwd=admin&amp;deviceId=1&amp;deviceName=1&#x27;</span></span><br><span class="line"><span class="keyword">let</span> paramHearders = <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">		<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span></span><br><span class="line">	&#125;)</span><br><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/user/username/login&#x27;</span>,&#123;</span><br><span class="line">	<span class="attr">method</span>:<span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">	<span class="attr">body</span>:param,</span><br><span class="line">	<span class="attr">headers</span>:paramHearders</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p>发送文件</p>
+<ul>
+<li>因为请求体支持FormData实现，所以fetch()也可以序列化并发送文件字段中的文字件。</li>
+</ul>
+</li>
+<li><p>加载blob文件（重点！！）</p>
+<ul>
+<li>Fetch API也能提供Blob类型的响应，而blob又可以兼容多种浏览器API</li>
+</ul>
+</li>
+<li><p>发送跨域请求</p>
+<ul>
+<li>从不同的源请求资源，响应要包含CORS头部才能保证浏览器收到响应。没有这些头部，跨域请求会失败。</li>
+</ul>
+</li>
+<li><p>中断请求</p>
+<ul>
+<li>调用AbortController.abort()会中断所有网络传输。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h2><ul>
+<li><p>Web Socket的目标是通过一个长时间链接实现与服务器全双工、双向的通信（持久化推送消息）。在JavaScript中创建WebSocket时，一个HTTP请求会发送到服务器以初始化链接。服务器响应后，链接使用HTTP的Upgrade头部从HTTP协议切换到web Socket协议。这意味着web Socket不能通过标准的HTTP服务器实现，而必须使用支持该协议的服务器。</p>
+</li>
+<li><p>因为WebSocket使用自定义协议，所以URL方案稍有变化：不能再使用http://或者https://,而要使用ws://或wss://。前者是不安全链接，后者是安全链接</p>
+</li>
+<li><p>发送和接收数据，使用send（）方法并传入一个字符串、ArrayBuffer或Blob</p>
+</li>
+<li><p>API</p>
+<ul>
+<li>要创建一个新的Web Socket，就要实例化一个WebSocket对象并传入提供链接的URL</li>
+<li>注意：必须个WebSocket构造函数传入一个绝对URL。同源策略不适用于Web Socket。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>定义web socket协议的时间比定义JavaScript API时间药厂。Web Socket得到了所有主流浏览器的支持。</li>
+</ul>
+</li>
+<li><p>优点</p>
+<ul>
+<li>使用自定义协议而非HTTP协议的好处是，客户端与服务器之间可以发送十分少量的数据，不会对HTTP造成负担。</li>
+<li>非常适合带宽和延迟比较明显的移动端。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>微搭低代码搭建简易扫码系统</title>
     <url>/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/</url>
     <content><![CDATA[<h2 id="搭建前提"><a href="#搭建前提" class="headerlink" title="搭建前提"></a>搭建前提</h2><ol>
@@ -2124,137 +2258,30 @@
       </tags>
   </entry>
   <entry>
-    <title>js学习笔记14网络请求</title>
-    <url>/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/</url>
-    <content><![CDATA[<h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><h2 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a>Fetch API</h2><p>Fetch API能够执行XHR对象的所有任务，但更容易使用，接口也更现代化，能够在Web工作线程等陷害Web工具中使用。不同之处在于XHR可以选择同步或异步，但是Fetch API只能选择异步。</p>
-<ul>
-<li><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
-<li>fetch()方法是暴露在全局作用域中的</li>
-</ul>
-</li>
-<li><h4 id="分派请求"><a href="#分派请求" class="headerlink" title="分派请求"></a>分派请求</h4><ul>
-<li>fetch()只有一个必须参数input，作为请求URL，这个方法返回一个promise，这个对象是API的封装，可以通过他获取响应的资源。<ul>
-<li>在只有一个参数的情况下，默认执行get方法</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><h4 id="读取响应"><a href="#读取响应" class="headerlink" title="读取响应"></a>读取响应</h4><ul>
-<li>读取响应内容的最简单方式是取得纯文本格式的内容，这要用到text()方法。这个方法返回一个promise，会决议为取得资源的完整内容。</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/mock/data/getMsg&#x27;</span>).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-<li><h4 id="处理状态码和请求失败"><a href="#处理状态码和请求失败" class="headerlink" title="处理状态码和请求失败"></a>处理状态码和请求失败</h4><ul>
-<li>Fetch API支持通过Response的状态码和状态文本属性检查响应状态。<ul>
-<li>由于无论返回的响应式多少，只要返回了响应，那么promise都会决议为resolved状态，这在逻辑上是合理的，所以我们还要在已决议的promise中再去判断状态码，从而执行不同的操作。</li>
-<li>注意，如果服务器未响应导致浏览器超时，不符合的跨域请求都会导致fetch（）失败，从而导致promise决议为rejected。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><h4 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h4><ol>
-<li>body<ul>
-<li>用于指定使用请求体的内容</li>
-</ul>
-</li>
-<li>credentials<ul>
-<li>用于指定在外发请求中包含cookie</li>
-</ul>
-</li>
-<li>method<ul>
-<li>用于指定HTTP请求方法</li>
-</ul>
-</li>
-</ol>
-</li>
-<li><h4 id="Request对象"><a href="#Request对象" class="headerlink" title="Request对象"></a>Request对象</h4><ul>
-<li>顾名思义，Request对象就是获取资源请求接口</li>
-<li>创建Request对象<ol>
-<li>可以通过构造函数初始化Requset对象，为此需要传入一个input，一般是URL</li>
-<li>已接受第二个参数，和fetch()一样</li>
-<li>复制request对象，使用clone方法复制，这样不会请求标记为已使用。</li>
-<li>在fetch()中使用Request对象，在调用fetch()时，可以传入一创建好的Request实例。</li>
-</ol>
-</li>
-</ul>
-</li>
-<li><h4 id="Headers对象"><a href="#Headers对象" class="headerlink" title="Headers对象"></a>Headers对象</h4><ul>
-<li>headers对象时所有外法请求和入栈响应头部的容器。每个外发的Request实例都包含一个空的Header实例，可以通过Request.prototype.headers访问，每一个入栈的Respone实例也一样。</li>
-<li>Headers对象与Map的相似之处<ul>
-<li>都有get，set，has和delete</li>
-</ul>
-</li>
-<li>Headers的独特之处<ul>
-<li>可以使用键值对的形式初始化Headers对象，Map不行。</li>
-</ul>
-</li>
-<li>头部护卫<ul>
-<li>不是所有头部都可以被客户端修改</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><h4 id="常见的Fetch请求模式"><a href="#常见的Fetch请求模式" class="headerlink" title="常见的Fetch请求模式"></a>常见的Fetch请求模式</h4><ul>
-<li><p>发送JSON数据</p>
-</li>
-<li><p>在请求体中发送参数</p>
-<ul>
-<li>因为请求体支持任意字符串值，所以可以通过它发送请求参数</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> param = <span class="string">&#x27;username=admin&amp;pwd=admin&amp;deviceId=1&amp;deviceName=1&#x27;</span></span><br><span class="line"><span class="keyword">let</span> paramHearders = <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">		<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span></span><br><span class="line">	&#125;)</span><br><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/user/username/login&#x27;</span>,&#123;</span><br><span class="line">	<span class="attr">method</span>:<span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">	<span class="attr">body</span>:param,</span><br><span class="line">	<span class="attr">headers</span>:paramHearders</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-<li><p>发送文件</p>
-<ul>
-<li>因为请求体支持FormData实现，所以fetch()也可以序列化并发送文件字段中的文字件。</li>
-</ul>
-</li>
-<li><p>加载blob文件（重点！！）</p>
-<ul>
-<li>Fetch API也能提供Blob类型的响应，而blob又可以兼容多种浏览器API</li>
-</ul>
-</li>
-<li><p>发送跨域请求</p>
-<ul>
-<li>从不同的源请求资源，响应要包含CORS头部才能保证浏览器收到响应。没有这些头部，跨域请求会失败。</li>
-</ul>
-</li>
-<li><p>中断请求</p>
-<ul>
-<li>调用AbortController.abort()会中断所有网络传输。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h2><ul>
-<li><p>Web Socket的目标是通过一个长时间链接实现与服务器全双工、双向的通信（持久化推送消息）。在JavaScript中创建WebSocket时，一个HTTP请求会发送到服务器以初始化链接。服务器响应后，链接使用HTTP的Upgrade头部从HTTP协议切换到web Socket协议。这意味着web Socket不能通过标准的HTTP服务器实现，而必须使用支持该协议的服务器。</p>
-</li>
-<li><p>因为WebSocket使用自定义协议，所以URL方案稍有变化：不能再使用http://或者https://,而要使用ws://或wss://。前者是不安全链接，后者是安全链接</p>
-</li>
-<li><p>发送和接收数据，使用send（）方法并传入一个字符串、ArrayBuffer或Blob</p>
-</li>
-<li><p>API</p>
-<ul>
-<li>要创建一个新的Web Socket，就要实例化一个WebSocket对象并传入提供链接的URL</li>
-<li>注意：必须个WebSocket构造函数传入一个绝对URL。同源策略不适用于Web Socket。</li>
-</ul>
-</li>
-<li><p>缺点</p>
-<ul>
-<li>定义web socket协议的时间比定义JavaScript API时间药厂。Web Socket得到了所有主流浏览器的支持。</li>
-</ul>
-</li>
-<li><p>优点</p>
-<ul>
-<li>使用自定义协议而非HTTP协议的好处是，客户端与服务器之间可以发送十分少量的数据，不会对HTTP造成负担。</li>
-<li>非常适合带宽和延迟比较明显的移动端。</li>
-</ul>
-</li>
-</ul>
+    <title>手写Promise.all、Promise.Race</title>
+    <url>/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/</url>
+    <content><![CDATA[<h1 id="手写Promise-all"><a href="#手写Promise-all" class="headerlink" title="手写Promise.all()"></a>手写Promise.all()</h1><p>分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103213459296.png" alt="image-20220103213459296"></p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//resolve(&#x27;1&#x27;)</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;错了&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103214542617.png" alt="image-20220103214542617"></p>
+<p>思路：获取所有的Promise，都执行then，把结果放到数组，一起返回</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>._all = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> results = [], promiseCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        promises.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">            v.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                    promiseCount++</span><br><span class="line">                    results[i] = res</span><br><span class="line">                    <span class="keyword">if</span>(promiseCount === promises.length)&#123;</span><br><span class="line">                        <span class="keyword">return</span> resolve(results)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="手写Promsie-race"><a href="#手写Promsie-race" class="headerlink" title="手写Promsie.race"></a>手写Promsie.race</h1><p>分析：race和all差不多，不过一个是获取所有结果，race是获取最早执行的结果</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>._race = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        promises.forEach(<span class="function"><span class="params">promise</span> =&gt;</span> &#123;</span><br><span class="line">            promise.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> resolve(res),</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> reject(err)</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>JavaScript</category>
+        <category>Promise</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
+        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
@@ -2334,6 +2361,68 @@
       </tags>
   </entry>
   <entry>
+    <title>手写new</title>
+    <url>/2022/01/11/%E6%89%8B%E5%86%99new/</url>
+    <content><![CDATA[<h1 id="手写new"><a href="#手写new" class="headerlink" title="手写new"></a>手写new</h1><h3 id="new是什么"><a href="#new是什么" class="headerlink" title="new是什么"></a>new是什么</h3><p>在JavaScript中，new操作符用于创建一个给定构造函数的实例对象</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>)</span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.sayName = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> person1 = <span class="keyword">new</span> Person(<span class="string">&#x27;Tom&#x27;</span>, <span class="number">20</span>)</span><br><span class="line"><span class="built_in">console</span>.log(person1)  <span class="comment">// Person &#123;name: &quot;Tom&quot;, age: 20&#125;</span></span><br><span class="line">t.sayName() <span class="comment">// &#x27;Tom&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>从上面可以看出</p>
+<ul>
+<li>new通过构造函数Person创建出来的实例可以访问到构造函数中的属性</li>
+<li>new通过构造函数Person创建出来的实例可以访问到构造函数原型链中的属性（即实例于构造函数通过原型链连接了起来）</li>
+</ul>
+<p>现在在构建函数中显示加上返回值，并且这个返回值是一个原始类型</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name</span><br><span class="line">  <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> t = <span class="keyword">new</span> Test(<span class="string">&#x27;xxx&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(t.name) <span class="comment">// &#x27;xxx&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以发现，构造函数中返回一个原始值，然而这个返回值并没有作用</p>
+<p>下面在构造函数中返回一个对象</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Test</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">this</span>.name = name</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="built_in">this</span>) <span class="comment">// Test &#123; name: &#x27;xxx&#x27; &#125;</span></span><br><span class="line">  <span class="keyword">return</span> &#123; <span class="attr">age</span>: <span class="number">26</span> &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> t = <span class="keyword">new</span> Test(<span class="string">&#x27;xxx&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(t) <span class="comment">// &#123; age: 26 &#125;</span></span><br><span class="line"><span class="built_in">console</span>.log(t.name) <span class="comment">// &#x27;undefined&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>从上面可以发现，构造函数如果返回值为一个对象，那么这个返回值会被正常使用</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><p>从上面的演示中，我们可以看到new关键字主要做了一下工作：</p>
+<ul>
+<li>创建一个新的对象obj</li>
+<li>将对象与构建函数中通过原型链连接起来</li>
+<li>将构造函数中的this绑定到新建的对象obj上</li>
+<li>根据构造函数返回值的类型做判断，如果是原始值则会忽略，如果是对象，则正常处理</li>
+</ul>
+<h3 id="手写new操作符"><a href="#手写new操作符" class="headerlink" title="手写new操作符"></a>手写new操作符</h3><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mynew</span>(<span class="params">Func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 1.创建一个新对象</span></span><br><span class="line">    <span class="keyword">const</span> obj = &#123;&#125;</span><br><span class="line">    <span class="comment">// 2.新对象原型指向构造函数原型对象</span></span><br><span class="line">    obj.__proto__ = Func.prototype</span><br><span class="line">    <span class="comment">// 3.将构建函数的this指向新对象</span></span><br><span class="line">    <span class="keyword">let</span> result = Func.apply(obj, args)</span><br><span class="line">    <span class="comment">// 4.根据返回值判断</span></span><br><span class="line">    <span class="keyword">return</span> result <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? result : obj</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试一下</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mynew</span>(<span class="params">func, ...args</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> obj = &#123;&#125;</span><br><span class="line">    obj.__proto__ = func.prototype</span><br><span class="line">    <span class="keyword">let</span> result = func.apply(obj, args)</span><br><span class="line">    <span class="keyword">return</span> result <span class="keyword">instanceof</span> <span class="built_in">Object</span> ? result : obj</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name, age</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">this</span>.name = name;</span><br><span class="line">    <span class="built_in">this</span>.age = age;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.say = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> p = mynew(Person, <span class="string">&quot;huihui&quot;</span>, <span class="number">123</span>)</span><br><span class="line"><span class="built_in">console</span>.log(p) <span class="comment">// Person &#123;name: &quot;huihui&quot;, age: 123&#125;</span></span><br><span class="line">p.say() <span class="comment">// huihui</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>new</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>手写系列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写深复制</title>
+    <url>/2022/01/10/%E6%89%8B%E5%86%99%E6%B7%B1%E5%A4%8D%E5%88%B6/</url>
+    <content><![CDATA[<h1 id="手写深拷贝"><a href="#手写深拷贝" class="headerlink" title="手写深拷贝"></a>手写深拷贝</h1><p>在JavaScript中拷贝分为两种，浅拷贝和深拷贝。首先深复制和浅复制只针对像 Object, Array 这样的复杂对象的。简单来说，浅复制只复制一层对象的属性，而深复制则递归复制了所有层级。</p>
+<ul>
+<li>浅拷贝：将b对象拷贝到a对象中，但是不包括b内的子对象</li>
+<li>深拷贝：将b对象拷贝到a对象中，包括b内的子对象</li>
+</ul>
+<h3 id="实现深拷贝的两种方案"><a href="#实现深拷贝的两种方案" class="headerlink" title="实现深拷贝的两种方案"></a>实现深拷贝的两种方案</h3><h5 id="JSON转换"><a href="#JSON转换" class="headerlink" title="JSON转换"></a>JSON转换</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(obj))</span><br></pre></td></tr></table></figure>
+
+<p>缺点：如果对象里面有函数，函数无法被拷贝下来</p>
+<h5 id="遍历函数深拷贝"><a href="#遍历函数深拷贝" class="headerlink" title="遍历函数深拷贝"></a>遍历函数深拷贝</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">deepCopy</span>(<span class="params">obj = &#123;&#125;</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//检查参数类型,刨除数组和对象以外的数据类型</span></span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">typeof</span> obj !== <span class="string">&#x27;object&#x27;</span> || obj === <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="keyword">return</span> obj</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> result</span><br><span class="line">    <span class="keyword">if</span>(obj <span class="keyword">instanceof</span> <span class="built_in">Array</span>)&#123;</span><br><span class="line">        result = []</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        result = &#123;&#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span>(key <span class="keyword">in</span> obj)&#123;</span><br><span class="line">        <span class="comment">//剔除原型链上的不相关属性</span></span><br><span class="line">        <span class="keyword">if</span>(obj.hasOwnProperty(key))&#123;</span><br><span class="line">            result[key] = deepCopy(obj[key])</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>to be continue…</p>
+]]></content>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>手写系列</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>手写reduce、用reduce实现map</title>
     <url>/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/</url>
     <content><![CDATA[<h1 id="手写reduce"><a href="#手写reduce" class="headerlink" title="手写reduce"></a>手写reduce</h1><p>reduce是JavaScript原生的数组操作方法，功能强大</p>
@@ -2359,33 +2448,6 @@
 ]]></content>
       <categories>
         <category>数组操作</category>
-      </categories>
-      <tags>
-        <tag>学习笔记</tag>
-        <tag>手写系列</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>手写Promise.all、Promise.Race</title>
-    <url>/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/</url>
-    <content><![CDATA[<h1 id="手写Promise-all"><a href="#手写Promise-all" class="headerlink" title="手写Promise.all()"></a>手写Promise.all()</h1><p>分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103213459296.png" alt="image-20220103213459296"></p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//resolve(&#x27;1&#x27;)</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;错了&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220103214542617.png" alt="image-20220103214542617"></p>
-<p>思路：获取所有的Promise，都执行then，把结果放到数组，一起返回</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>._all = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> results = [], promiseCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        promises.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">            v.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                    promiseCount++</span><br><span class="line">                    results[i] = res</span><br><span class="line">                    <span class="keyword">if</span>(promiseCount === promises.length)&#123;</span><br><span class="line">                        <span class="keyword">return</span> resolve(results)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="手写Promsie-race"><a href="#手写Promsie-race" class="headerlink" title="手写Promsie.race"></a>手写Promsie.race</h1><p>分析：race和all差不多，不过一个是获取所有结果，race是获取最早执行的结果</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Promise</span>._race = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        promises.forEach(<span class="function"><span class="params">promise</span> =&gt;</span> &#123;</span><br><span class="line">            promise.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> resolve(res),</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> reject(err)</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>Promise</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
