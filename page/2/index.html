@@ -186,6 +186,224 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" class="post-title-link" itemprop="url">js学习笔记14网络请求</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-23 10:15:20" itemprop="dateCreated datePublished" datetime="2021-12-23T10:15:20+08:00">2021-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:37:06" itemprop="dateModified" datetime="2021-12-25T14:37:06+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><h2 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a>Fetch API</h2><p>Fetch API能够执行XHR对象的所有任务，但更容易使用，接口也更现代化，能够在Web工作线程等陷害Web工具中使用。不同之处在于XHR可以选择同步或异步，但是Fetch API只能选择异步。</p>
+<ul>
+<li><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>fetch()方法是暴露在全局作用域中的</li>
+</ul>
+</li>
+<li><h4 id="分派请求"><a href="#分派请求" class="headerlink" title="分派请求"></a>分派请求</h4><ul>
+<li>fetch()只有一个必须参数input，作为请求URL，这个方法返回一个promise，这个对象是API的封装，可以通过他获取响应的资源。<ul>
+<li>在只有一个参数的情况下，默认执行get方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="读取响应"><a href="#读取响应" class="headerlink" title="读取响应"></a>读取响应</h4><ul>
+<li>读取响应内容的最简单方式是取得纯文本格式的内容，这要用到text()方法。这个方法返回一个promise，会决议为取得资源的完整内容。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/mock/data/getMsg&#x27;</span>).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="处理状态码和请求失败"><a href="#处理状态码和请求失败" class="headerlink" title="处理状态码和请求失败"></a>处理状态码和请求失败</h4><ul>
+<li>Fetch API支持通过Response的状态码和状态文本属性检查响应状态。<ul>
+<li>由于无论返回的响应式多少，只要返回了响应，那么promise都会决议为resolved状态，这在逻辑上是合理的，所以我们还要在已决议的promise中再去判断状态码，从而执行不同的操作。</li>
+<li>注意，如果服务器未响应导致浏览器超时，不符合的跨域请求都会导致fetch（）失败，从而导致promise决议为rejected。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h4><ol>
+<li>body<ul>
+<li>用于指定使用请求体的内容</li>
+</ul>
+</li>
+<li>credentials<ul>
+<li>用于指定在外发请求中包含cookie</li>
+</ul>
+</li>
+<li>method<ul>
+<li>用于指定HTTP请求方法</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><h4 id="Request对象"><a href="#Request对象" class="headerlink" title="Request对象"></a>Request对象</h4><ul>
+<li>顾名思义，Request对象就是获取资源请求接口</li>
+<li>创建Request对象<ol>
+<li>可以通过构造函数初始化Requset对象，为此需要传入一个input，一般是URL</li>
+<li>已接受第二个参数，和fetch()一样</li>
+<li>复制request对象，使用clone方法复制，这样不会请求标记为已使用。</li>
+<li>在fetch()中使用Request对象，在调用fetch()时，可以传入一创建好的Request实例。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><h4 id="Headers对象"><a href="#Headers对象" class="headerlink" title="Headers对象"></a>Headers对象</h4><ul>
+<li>headers对象时所有外法请求和入栈响应头部的容器。每个外发的Request实例都包含一个空的Header实例，可以通过Request.prototype.headers访问，每一个入栈的Respone实例也一样。</li>
+<li>Headers对象与Map的相似之处<ul>
+<li>都有get，set，has和delete</li>
+</ul>
+</li>
+<li>Headers的独特之处<ul>
+<li>可以使用键值对的形式初始化Headers对象，Map不行。</li>
+</ul>
+</li>
+<li>头部护卫<ul>
+<li>不是所有头部都可以被客户端修改</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="常见的Fetch请求模式"><a href="#常见的Fetch请求模式" class="headerlink" title="常见的Fetch请求模式"></a>常见的Fetch请求模式</h4><ul>
+<li><p>发送JSON数据</p>
+</li>
+<li><p>在请求体中发送参数</p>
+<ul>
+<li>因为请求体支持任意字符串值，所以可以通过它发送请求参数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> param = <span class="string">&#x27;username=admin&amp;pwd=admin&amp;deviceId=1&amp;deviceName=1&#x27;</span></span><br><span class="line"><span class="keyword">let</span> paramHearders = <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">		<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span></span><br><span class="line">	&#125;)</span><br><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/user/username/login&#x27;</span>,&#123;</span><br><span class="line">	<span class="attr">method</span>:<span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">	<span class="attr">body</span>:param,</span><br><span class="line">	<span class="attr">headers</span>:paramHearders</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p>发送文件</p>
+<ul>
+<li>因为请求体支持FormData实现，所以fetch()也可以序列化并发送文件字段中的文字件。</li>
+</ul>
+</li>
+<li><p>加载blob文件（重点！！）</p>
+<ul>
+<li>Fetch API也能提供Blob类型的响应，而blob又可以兼容多种浏览器API</li>
+</ul>
+</li>
+<li><p>发送跨域请求</p>
+<ul>
+<li>从不同的源请求资源，响应要包含CORS头部才能保证浏览器收到响应。没有这些头部，跨域请求会失败。</li>
+</ul>
+</li>
+<li><p>中断请求</p>
+<ul>
+<li>调用AbortController.abort()会中断所有网络传输。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h2><ul>
+<li><p>Web Socket的目标是通过一个长时间链接实现与服务器全双工、双向的通信（持久化推送消息）。在JavaScript中创建WebSocket时，一个HTTP请求会发送到服务器以初始化链接。服务器响应后，链接使用HTTP的Upgrade头部从HTTP协议切换到web Socket协议。这意味着web Socket不能通过标准的HTTP服务器实现，而必须使用支持该协议的服务器。</p>
+</li>
+<li><p>因为WebSocket使用自定义协议，所以URL方案稍有变化：不能再使用http://或者https://,而要使用ws://或wss://。前者是不安全链接，后者是安全链接</p>
+</li>
+<li><p>发送和接收数据，使用send（）方法并传入一个字符串、ArrayBuffer或Blob</p>
+</li>
+<li><p>API</p>
+<ul>
+<li>要创建一个新的Web Socket，就要实例化一个WebSocket对象并传入提供链接的URL</li>
+<li>注意：必须个WebSocket构造函数传入一个绝对URL。同源策略不适用于Web Socket。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>定义web socket协议的时间比定义JavaScript API时间药厂。Web Socket得到了所有主流浏览器的支持。</li>
+</ul>
+</li>
+<li><p>优点</p>
+<ul>
+<li>使用自定义协议而非HTTP协议的好处是，客户端与服务器之间可以发送十分少量的数据，不会对HTTP造成负担。</li>
+<li>非常适合带宽和延迟比较明显的移动端。</li>
+</ul>
+</li>
+</ul>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1588,224 +1806,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Js学习笔记05集合引用类型Object</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-07 09:45:58" itemprop="dateCreated datePublished" datetime="2021-12-07T09:45:58+08:00">2021-12-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:28" itemprop="dateModified" datetime="2021-12-25T14:36:28+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><ol>
-<li><h5 id="两种创建方式"><a href="#两种创建方式" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
-<li>new Object</li>
-<li>使用对象字面量{name:’a’}</li>
-</ol>
-</li>
-<li><h5 id="关于定义对象的“-”出现的地方"><a href="#关于定义对象的“-”出现的地方" class="headerlink" title="关于定义对象的“{”出现的地方"></a>关于定义对象的“{”出现的地方</h5><ol>
-<li>出现在表达式上下文中（期待返回值的上下文中），赋值操作符表示后面要期待一个值，因此在左大括号表达一个表达式的开始。</li>
-<li>出现在语句上下文中，比如if语句的条件后面，则表示一个语句块的开始</li>
-</ol>
-</li>
-<li><h5 id="属性一般是使用点语法来存取的，例如obj-name-“pa”"><a href="#属性一般是使用点语法来存取的，例如obj-name-“pa”" class="headerlink" title="属性一般是使用点语法来存取的，例如obj.name=“pa”"></a>属性一般是使用点语法来存取的，例如obj.name=“pa”</h5><p>注意：也可以使用中括号存取，例如obj[“name”]=”pa”使用中括号的优点在于如果属性名中包含会导致语法错误的字符，只用中括号可以避免这一点。（fs优化对象值的存取）</p>
-</li>
-<li><h5 id="属性值可以是字符串或数值-数值会自动转为字符串"><a href="#属性值可以是字符串或数值-数值会自动转为字符串" class="headerlink" title="属性值可以是字符串或数值(数值会自动转为字符串)"></a>属性值可以是字符串或数值(数值会自动转为字符串)</h5></li>
-</ol>
-<h1 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h1><ol>
-<li><h5 id="两种创建方式-1"><a href="#两种创建方式-1" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
-<li>使用new Array()来创建<ol>
-<li>可以传入一个数值，然后length属性就会自动设置成这个值。配合fill函数可以创建一个全部为某一个数的数组</li>
-<li>也可以传入要保存的元素</li>
-</ol>
-</li>
-<li>使用数组字面量</li>
-</ol>
-</li>
-<li><h5 id="es6新增的创建数组的方法。"><a href="#es6新增的创建数组的方法。" class="headerlink" title="es6新增的创建数组的方法。"></a>es6新增的创建数组的方法。</h5><ol>
-<li>from()用于将类数组结构转化为数组<ol>
-<li>第一个参数但是任何可迭代结构</li>
-<li>第二个参数可以选择映射函数的参数，这个函数可以直接增强新数组的值</li>
-<li>第三个参数用于指定映射函数中this的值</li>
-</ol>
-</li>
-<li>of()用于将一组参数转换为数组实例</li>
-</ol>
-</li>
-</ol>
-<h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><ol>
-<li><h5 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li><p>使用new Map()创建一个空映射</p>
-<p>可以给这个构造函数传入一个可迭代对象。需要包含键值对数组。可迭代对象中的每一个键值对都会按照迭代顺序插入到新实例对象中</p>
-</li>
-</ol>
-</li>
-<li><h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ol>
-<li>set()添加键值对</li>
-<li>get()查找键对应的值</li>
-<li>has()查询是否有这个键</li>
-<li>delete()删除某个键值对</li>
-<li>clear()删除所有键值对</li>
-</ol>
-</li>
-<li><h5 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h5><ol>
-<li>Object只能使用数值。字符串或者符号作为键。</li>
-<li>Map可以使用任何JavaScript对象数据类型作为键</li>
-<li>在映射中作为键和值对象或其他集合类型，在自己的内容被修改时，映射关系不会改变。</li>
-</ol>
-</li>
-<li><h5 id="顺序与迭代"><a href="#顺序与迭代" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
-<li>映射（map）实例可以提供一个迭代器(Iterator)可以通过entries()方法或者Symbol.iterator属性取得这个迭代器。<ol>
-<li>for(let pair of m.entries())</li>
-<li>for(let pair of m[Symbol.iterator])</li>
-<li>键和值在迭代器遍历的时候是可以修改的，但在映射内部是不可修改的。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="Weak-Map"><a href="#Weak-Map" class="headerlink" title="Weak Map"></a>Weak Map</h1><ol>
-<li><h5 id="创建方式-1"><a href="#创建方式-1" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li>使用new WeakMap()关键字实例化一个空的弱映射</li>
-</ol>
-</li>
-<li><h5 id="弱映射中的键只能是object或者继承自object的类型，值没有限制"><a href="#弱映射中的键只能是object或者继承自object的类型，值没有限制" class="headerlink" title="弱映射中的键只能是object或者继承自object的类型，值没有限制"></a>弱映射中的键只能是object或者继承自object的类型，值没有限制</h5></li>
-<li><h5 id="操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置"><a href="#操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置" class="headerlink" title="操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置"></a>操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置</h5></li>
-<li><h5 id="使用弱映射"><a href="#使用弱映射" class="headerlink" title="使用弱映射"></a>使用弱映射</h5><ol>
-<li>私有变量<ol>
-<li>私有变量会储存在弱映射中，以对象实例为键，以私有成员的字段为值</li>
-</ol>
-</li>
-<li>DOM节点元数据<ol>
-<li>因为WeakMap实例不会妨碍垃圾回收机制，所以非常适合保存关联元数据。</li>
-<li>当节点从DOM树种被删除后，垃圾回收程序会立即释放内存。（假设没有其他地方引用这个对象）</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"><a href="#因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。" class="headerlink" title="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"></a>因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。</h5></li>
-<li><h5 id="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"><a href="#弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。" class="headerlink" title="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"></a>弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。</h5></li>
-</ol>
-<h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><ol>
-<li><h5 id="创建方式-2"><a href="#创建方式-2" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li>使用new Set()关键字实例化一个空的集合<ol>
-<li>可以传入一个可迭代对象，其中包含需要插入到集合的元素。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="基本API"><a href="#基本API" class="headerlink" title="基本API"></a>基本API</h5><ol>
-<li>add()增加一个值</li>
-<li>has()查询一个值</li>
-<li>size()取得元素数量</li>
-<li>delete()/clear()删除值</li>
-</ol>
-</li>
-<li><h5 id="Set可以包含任何JavaScript数据类型作为值"><a href="#Set可以包含任何JavaScript数据类型作为值" class="headerlink" title="Set可以包含任何JavaScript数据类型作为值"></a>Set可以包含任何JavaScript数据类型作为值</h5><ol>
-<li>用作值的对象和其他集合类型在自身改变时不会影响。</li>
-</ol>
-</li>
-<li><h5 id="顺序与迭代-1"><a href="#顺序与迭代-1" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
-<li><p>Set会维护值插入时的顺序，因此支持顺序迭代</p>
-</li>
-<li><p>set实例可以提供一个迭代器(Iterator)，能以插入顺序生成集合内容。</p>
-</li>
-<li><p>可以通过values()方法以及其别名方法keys()</p>
-<p>for(let v of s.values())</p>
-</li>
-<li><p>或者Symbol.ietrator属性，他引用values()取得这个迭代器</p>
-<p>for(let v of s[Symbol.iterator])</p>
-</li>
-<li><p>set的entires()方法返回一个迭代器，可以按照插入顺序产生包含两个元素的数组，这两个元素是集合中每个值的重复出现。</p>
-</li>
-</ol>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1877,20 +1877,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">8</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
