@@ -186,6 +186,173 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" class="post-title-link" itemprop="url">Js学习笔记06迭代器与生成器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-07 20:55:54" itemprop="dateCreated datePublished" datetime="2021-12-07T20:55:54+08:00">2021-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:36:32" itemprop="dateModified" datetime="2021-12-25T14:36:32+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><ol>
+<li><h5 id="理解迭代"><a href="#理解迭代" class="headerlink" title="理解迭代"></a>理解迭代</h5><ol>
+<li>迭代是循环的一种，可以指定迭代次数，以及迭代要执行的操作，顺序也是事先定好的。</li>
+</ol>
+</li>
+<li><p>可迭代协议</p>
+<ol>
+<li>实现Iterrable接口（可迭代协议）要求支持迭代的自我识别能力和创建实现Iterable接口的对象能力。在ECMAScript中，这意味着必须暴露一个属性作为默认的迭代器，而这个属性必须使用特殊的Symbol.iterator作为键。这个默认的迭代器属性必须应用一个迭代器工厂函数，调用这个工厂函数必须返回一个迭代器。</li>
+</ol>
+</li>
+<li><p>迭代器模式</p>
+<ol>
+<li>可迭代对象可以理解为数组或集合这样的集合类型对象。包含与有限元素，且有无歧义的遍历顺序。</li>
+</ol>
+</li>
+<li><p>迭代器协议</p>
+<ol>
+<li>迭代器API使用next()方法在可迭代对象中遍历数据。每次成功调用next()都会返回一个包含迭代器返回的下一个值的对象。<ol>
+<li>迭代器并不知道怎么从可迭代对象中获取下一个值，也不知道可迭代对象有多大。只要迭代器到达done:true状态，后续调用next()对象就一直返回这个值了。</li>
+<li>每个迭代器都表示可迭代对象的一次性有序遍历。不同迭代器实例之间没有联系，只会独立第遍历可迭代对象。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><p>提前终止迭代器</p>
+<ol>
+<li>可选的return()方法用于指定迭代器关闭时执行的逻辑。</li>
+</ol>
+</li>
+</ol>
+<h1 id="生成器"><a href="#生成器" class="headerlink" title="生成器"></a>生成器</h1><ol>
+<li><p>生成器基础</p>
+<ol>
+<li>生成器的形式是一个函数，在函数名称前面加一个*号，例如:function *foo(){…},只要可以定义函数的地方，就可以定义生成器。</li>
+<li>调用生成器函数会生成一个生成器对象，生成器对象一开始处于暂停执行的状态。与迭代器相似，生成器对象也实现了Iterator接口，因此具有next()方法。调用这个方法会让生成器开始或回复执行。</li>
+<li>next()方法的返回值有一个done和value属性<ol>
+<li>函数体为空的函数调用一遍next()就返回done:true状态</li>
+</ol>
+</li>
+<li>生成器对象实现了Iterable接口，他们的默认迭代器是自引用的。</li>
+</ol>
+</li>
+<li><p>通过yield中断执行（重点）</p>
+<ol>
+<li><p>这是生成器最有用的地方</p>
+<ol>
+<li>生成器在遇到yield关键字之前会正常执行。遇到这个关键字后，执行会停止，函数作用域的状态会被保留。停止执行的生成器函数只能通过在生成器对象上调用next()方法来恢复执行。</li>
+<li>yield关键字只能在生成器函数内部使用，用在其他地方会抛出错误。</li>
+</ol>
+</li>
+<li><p>生成器对象作为可迭代对象</p>
+<ol>
+<li><p>如果把生成器对象当成可迭代对象，那么使用起来会很方便。也可以自定义迭代对象。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function *foo（）&#123;</span><br><span class="line">	yield 1;</span><br><span class="line">	yield 2;</span><br><span class="line">	yield 3</span><br><span class="line">&#125;</span><br><span class="line">for (const x of foo())&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//自定义迭代对象</span><br><span class="line">function *foo（n）&#123;</span><br><span class="line">	while（n--）&#123;</span><br><span class="line">		yield；</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">for (const x of foo(3))&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line">//0</span><br><span class="line">//1</span><br><span class="line">//2</span><br></pre></td></tr></table></figure></li>
+<li><p>使用yield实现输入和输出</p>
+<ol>
+<li>yield可以作为函数的中间参数使用。上一次生成器暂停的yield关键字会接收到传给next（）方法的第一个值。（第一次调用next()传入的值不会被使用，因为第一次是开始执行生成器函数）（可以同时用于输入和输出）</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function *foo（）&#123;</span><br><span class="line">	return yield &quot;foo&quot;</span><br><span class="line">&#125;</span><br><span class="line">let bar = foo()</span><br><span class="line">console.log(bar.next());		//&#123;done:false, value:&#x27;foo&#x27;&#125;</span><br><span class="line">console.log(bar.next(&quot;bar&quot;))	//&#123;done:true, value:&#x27;bar&#x27;&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>产生可迭代对象</p>
+<ol>
+<li>yield的值是关联迭代器返回done:true时的value属性。对于普通迭代器来说，这个值时undefined，对于生成器函数产生的迭代器来说，这个值就是生成器函数返回的值。</li>
+<li>可以使用*增强yield的行为，让它能够迭代一个可迭代对象</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function *foo()&#123;</span><br><span class="line">	yield *[1,2]</span><br><span class="line">	yield *[3,4]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(const x of foo())&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br><span class="line">//4</span><br></pre></td></tr></table></figure></li>
+<li><p>使用yield实现递归算法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function *nTimes(n)&#123;</span><br><span class="line">	if(n&gt;0)&#123;</span><br><span class="line">		yield *nTimes(n-1)</span><br><span class="line">		yield n-1</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">for(const x of nTimes(5))&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1402,108 +1569,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/" class="post-title-link" itemprop="url">Vue源码学习笔记03</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-04 12:32:05" itemprop="dateCreated datePublished" datetime="2021-12-04T12:32:05+08:00">2021-12-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-03 15:08:27" itemprop="dateModified" datetime="2022-01-03T15:08:27+08:00">2022-01-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="Render-Function"><a href="#Render-Function" class="headerlink" title="Render Function"></a>Render Function</h3><p>渲染函数是组成完整的响应性渲染系统的另外一半，Vue的template实际上是通过渲染函数渲染出来的。</p>
-<p>在Vue上下文中，当我们第一次渲染一个Vue应用时，会将template放到渲染函数进行编译。Render函数实际上是一个返回虚拟DOM的函数，然后Vue基于虚拟DOM生成真实DOM。</p>
-<p>在后续的产生虚拟DOM的过程本质上是调用渲染函数，因为渲染函数和所有的data属性有依赖关系，在Vue中，这些data属性是具有响应性的，所有这些data属性会帮助这个组件的渲染函数收集依赖，如果这些依赖关系中的任何一个发生变化，将会再次调用渲染函数，它会返回一个新的虚拟DOM，新的虚拟DOM会和旧的虚拟DOM进行比较，最后，把最少量的更改应用到真实DOM中。</p>
-<h3 id="Render-Function-API"><a href="#Render-Function-API" class="headerlink" title="Render Function API"></a>Render Function API</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">    render (h) &#123;</span><br><span class="line">        <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, &#123;&#125;, [...])</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p> render函数接收一个参数h（hyper script超文本脚本），h需要三个参数，第一个参数是元素类型，第二个参数是数据对象（可选），第三个参数是一个数组表示子节点。它会返回这个虚拟DOM树的顶层元素，以便返回整个树。</p>
-<h3 id="虚拟DOM（Virtual-DOM）"><a href="#虚拟DOM（Virtual-DOM）" class="headerlink" title="虚拟DOM（Virtual DOM）"></a>虚拟DOM（Virtual DOM）</h3><p> 通常情况下，调用真实DOM的开销十分的大，因为真实DOM具有非常多的属性，并且它在底层实现也十分的复杂。所以很多时候我们会说直接修改DOM是比较缓慢的。虚拟DOM的结构十分简单，因此它的开销会比真实DOM小很多</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1575,7 +1640,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">34</span>
+          <span class="site-state-item-count">35</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
