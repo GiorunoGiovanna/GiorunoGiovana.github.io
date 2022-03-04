@@ -2277,11 +2277,10 @@
 
 ]]></content>
       <categories>
-        <category>Promise</category>
+        <category>手写系列</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
-        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
@@ -2353,11 +2352,10 @@
 <p>从测试代码中可以发现，异步调用中的微内核任务没有实现。同时还有Promise.all(),Promise.race(),Promise值穿透等等功能待实现，Promise是一个复杂但是十分有用的技术，多阅读源码可以有效提高自己的代码水平。</p>
 ]]></content>
       <categories>
-        <category>Promise</category>
+        <category>手写系列</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
-        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
@@ -2393,11 +2391,10 @@
 
 ]]></content>
       <categories>
-        <category>new</category>
+        <category>手写系列</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
-        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
@@ -2417,9 +2414,11 @@
 
 <p>to be continue…</p>
 ]]></content>
+      <categories>
+        <category>手写系列</category>
+      </categories>
       <tags>
         <tag>学习笔记</tag>
-        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
@@ -2447,11 +2446,10 @@
 
 ]]></content>
       <categories>
-        <category>数组操作</category>
+        <category>手写系列</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
-        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
@@ -2745,9 +2743,11 @@
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//1.在函数原型上定义一个方法，接收作为this的参数和后续的参数</span></span><br><span class="line"><span class="built_in">Function</span>.prototype.myBind = <span class="function"><span class="keyword">function</span>(<span class="params">context,arg</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//2.判断context是否为空，为空则将this绑定为window</span></span><br><span class="line">    <span class="keyword">var</span> context = context || <span class="built_in">window</span></span><br><span class="line">    <span class="comment">//3.因为这是函数原型的方法，所以在这个方法中的this就指向需要调用的函数本身</span></span><br><span class="line">    <span class="keyword">var</span> thisFunc = <span class="built_in">this</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">//4.因为需要构造函数，所以不能用匿名函数</span></span><br><span class="line">    <span class="keyword">let</span> fBound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> thisFunc.apply(context,arg)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//5.需要将原函数的prototype赋值给绑定函数</span></span><br><span class="line">    fBound.prototype = <span class="built_in">this</span>.prototype;</span><br><span class="line">    <span class="comment">//6.返回函数</span></span><br><span class="line">    <span class="keyword">return</span> fBound</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//检验</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">text</span>(<span class="params">a,b</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(a+b+<span class="built_in">this</span>.name)</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> person = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&#x27;abc&#x27;</span>,</span><br><span class="line">	<span class="attr">age</span>:<span class="number">18</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> func = text.myBind(person,[<span class="string">&#x27;i &#x27;</span>,<span class="string">&#x27;am &#x27;</span>])</span><br><span class="line">func()				<span class="comment">//i am abc</span></span><br></pre></td></tr></table></figure>
 
 ]]></content>
+      <categories>
+        <category>手写系列</category>
+      </categories>
       <tags>
         <tag>学习笔记</tag>
-        <tag>手写系列</tag>
       </tags>
   </entry>
   <entry>
