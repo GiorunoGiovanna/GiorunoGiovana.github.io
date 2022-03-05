@@ -2842,7 +2842,7 @@
   </entry>
   <entry>
     <title>css之BFC详解</title>
-    <url>/2022/03/05/css%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/</url>
+    <url>/2022/03/05/CSS%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="什么是BFC"><a href="#什么是BFC" class="headerlink" title="什么是BFC"></a>什么是BFC</h2><p>BFC（Block Formatting Context），中文称块级格式化上下文，是页面中的一块渲染区域，有别于页面的其他地方，它有一套属于自己的渲染规则，它决定了元素如何对齐内容进行布局，以及与其他元素的关系和相互作用。</p>
 <p>简而言之：BFC就是一个独立的布局环境，BFC内部的元素布局与外部互不影响</p>
 <h2 id="如何触发BFC"><a href="#如何触发BFC" class="headerlink" title="如何触发BFC"></a>如何触发BFC</h2><table>
