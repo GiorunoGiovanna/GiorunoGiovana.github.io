@@ -186,6 +186,182 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/07/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8401/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/07/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8401/" class="post-title-link" itemprop="url">面经摘抄01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-07 20:00:19" itemprop="dateCreated datePublished" datetime="2022-03-07T20:00:19+08:00">2022-03-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-08 16:25:05" itemprop="dateModified" datetime="2022-03-08T16:25:05+08:00">2022-03-08</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%84/" itemprop="url" rel="index"><span itemprop="name">面经摘抄</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/07/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8401/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/07/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8401/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面经摘抄"><a href="#面经摘抄" class="headerlink" title="面经摘抄"></a>面经摘抄</h1><p>从各大网站面经中学习到的不错的问题</p>
+<ol>
+<li><h5 id="讲了讲有哪些宏任务和微任务，以及它们的循环方式"><a href="#讲了讲有哪些宏任务和微任务，以及它们的循环方式" class="headerlink" title="讲了讲有哪些宏任务和微任务，以及它们的循环方式"></a>讲了讲有哪些宏任务和微任务，以及它们的循环方式</h5><p>宏任务：JavaScript大部分代码，SetTimeout，setInterval，setImmediate（Nodejs环境）</p>
+<p>微任务：Promise.then，Promise,catch，Promise.finally，process.nextTick(Nodejs环境)</p>
+<p>循环方式如下：</p>
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/v2-e6dd78c74cb671dd9408c2273308a265_1440w.jpg" alt="v2-e6dd78c74cb671dd9408c2273308a265_1440w"></p>
+<h6 id="思考：如何实现这种循环？"><a href="#思考：如何实现这种循环？" class="headerlink" title="思考：如何实现这种循环？"></a>思考：如何实现这种循环？</h6><p>考虑到事件循环是在一个队列中的顺序循环，所以可以考虑使用链表这种数据结构存储任务，既保证队列，又保证顺序，再将宏任务和微任务的规则用代码实现。</p>
+</li>
+<li><h5 id="垂直水平居中方式"><a href="#垂直水平居中方式" class="headerlink" title="垂直水平居中方式"></a>垂直水平居中方式</h5><ul>
+<li><p>使用绝对定位脱离文档流的方法</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100vh</span>;</span><br><span class="line">    <span class="attribute">position</span>:relative</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink;</span><br><span class="line">    <span class="attribute">position</span>:absolute;</span><br><span class="line">    <span class="attribute">margin</span>:auto;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">bottom</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">right</span>:<span class="number">0</span>;</span><br><span class="line">    <span class="attribute">left</span>:<span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220307201830955.png" alt="image-20220307201830955"></p>
+</li>
+<li><p>使用flex弹性定位</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100vh</span>;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">    <span class="attribute">justify-content</span>:center;</span><br><span class="line">    <span class="attribute">align-items</span>:center</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220307202159649.png" alt="image-20220307202159649"></p>
+</li>
+</ul>
+</li>
+<li><h5 id="Set、Map、WeakMap、WeakSet-区别（各自的-API，WeakMap-和-WeakSet-可迭代吗，JS-垃圾回收机制对-WeakMap-和-WeakSet-的影响）"><a href="#Set、Map、WeakMap、WeakSet-区别（各自的-API，WeakMap-和-WeakSet-可迭代吗，JS-垃圾回收机制对-WeakMap-和-WeakSet-的影响）" class="headerlink" title="Set、Map、WeakMap、WeakSet 区别（各自的 API，WeakMap 和 WeakSet 可迭代吗，JS 垃圾回收机制对 WeakMap 和 WeakSet 的影响）"></a>Set、Map、WeakMap、WeakSet 区别（各自的 API，WeakMap 和 WeakSet 可迭代吗，JS 垃圾回收机制对 WeakMap 和 WeakSet 的影响）</h5><p>WeakMap和WeakSet相比与Map和Set就像是低配版，它们对于键值对或值的关联性不够紧密，当键值对的值发生变化的时候，Weak的关联会断开。</p>
+<p>WeakMap和WeakSet不可以迭代，因为它们的结构松散，随时可能发生改变，迭代没有意义。js垃圾回收机制也不受影响，如果是Map和Set会阻止垃圾回收，只要它们还保留着引用。</p>
+</li>
+<li><h5 id="Vue-组件间通信方式"><a href="#Vue-组件间通信方式" class="headerlink" title="Vue 组件间通信方式"></a>Vue 组件间通信方式</h5><ul>
+<li><p>prop（父传子）</p>
+</li>
+<li><p>emit（子传父）</p>
+</li>
+<li><p>this.$parent（Vue3中被废弃）</p>
+</li>
+<li><p>事件总线bus</p>
+<p>在项目创建一个额外的js文件作为通信中间件</p>
+</li>
+<li><p>VueX</p>
+<p>Vue官方推荐使用的方式，不过如果项目不大没有必要。</p>
+</li>
+</ul>
+</li>
+<li><h5 id="Vue-中-key-的作用，为什么有高效性？"><a href="#Vue-中-key-的作用，为什么有高效性？" class="headerlink" title="Vue 中 key 的作用，为什么有高效性？"></a>Vue 中 key 的作用，为什么有高效性？</h5><p>Vue中的Key可以用来唯一确定一个DOM元素，从而使diff算法更加高效。</p>
+<p>因为Vue实现了一套虚拟DOM系统，具体原理就是因为当页面做出变化的时候每次都直接修改真实DOM会比较浪费资源，所以Vue中每次页面发生变化的时候都是优先在虚拟DOM中产生变化，然后diff算法会去逐一比较同一层次的真实DOM和虚拟DOM，然后以最小量的方式去修改真实DOM，Key的作用就是在diff算法中使Vue更容易定位DOM。</p>
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/20191118120109728.png" alt="20191118120109728"></p>
+</li>
+<li><h5 id="单行文本省略，多行文本省略分情况实现"><a href="#单行文本省略，多行文本省略分情况实现" class="headerlink" title="单行文本省略，多行文本省略分情况实现"></a>单行文本省略，多行文本省略分情况实现</h5><p>单文本</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">300px</span>; </span><br><span class="line">    <span class="comment">/*设置文字在一行显示，不能换行*/</span></span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="comment">/*规定当文本溢出时，显示省略符号来代表被修剪的文本*/</span></span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis; </span><br><span class="line">    <span class="comment">/*文字长度超出限定宽度，则隐藏超出的内容*/</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="async和await的原理"><a href="#async和await的原理" class="headerlink" title="async和await的原理"></a>async和await的原理</h5><p>async函数返回一个Promise对象，当函数执行的时候，一旦遇到awiat就会先返回，等到触发的异步操作完成，才会接着执行函数体后面的的语句。async函数就是Generator函数的语法糖。<a target="_blank" rel="noopener" href="https://stoneocean.top/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">详见</a></p>
+</li>
+<li><h5 id="Http0-9，Http1-0，Http2-0，Http3-0简介"><a href="#Http0-9，Http1-0，Http2-0，Http3-0简介" class="headerlink" title="Http0.9，Http1.0，Http2.0，Http3.0简介"></a>Http0.9，Http1.0，Http2.0，Http3.0简介</h5><p>Http0.9是一个初期基本协议，只有get请求，只用于获取html</p>
+<p>Http1.0支持 HEAD，POST 方法，支持状态码，但是规定只能短链接，频繁请求会使网络负担大</p>
+<p>Http1.1支持了TCP长连接，同时引入Cookie网络安全机制</p>
+<p>Http2.0支持二进制传输，使用HPACK算法压缩头部，可以同时在一个连接中发送多个请求。</p>
+<p>Http3.0添加QUIC协议，基于UDP协议，之前的版本都只支持TCP协议，如果网络不好或者频繁切换网络环境的话TCP会一直断开重连，UCP协议解决了</p>
+<p>1.线头阻塞问题：TCP协议重如果又数据丢包，需要等待重传，浪费后续资源</p>
+<p>2.切换网络是保持连接：从4g切换为5g时候，TCP协议会重连，但是UDP协议通过内建协议不必重连</p>
+</li>
+<li><h5 id="Nodejs使用Proxy代理跨域的原理"><a href="#Nodejs使用Proxy代理跨域的原理" class="headerlink" title="Nodejs使用Proxy代理跨域的原理"></a>Nodejs使用Proxy代理跨域的原理</h5><p>在浏览器中跨域访问是被禁止的，但是在服务器中没有这个限制，所以我们想要在前端实现跨域请求的话可以把请求发送到自己的服务端，再让服务端去请求目标服务器，这样就不会有跨域的限制。</p>
+<h6 id="配置代码："><a href="#配置代码：" class="headerlink" title="配置代码："></a>配置代码：</h6><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dev&#123;</span><br><span class="line">    <span class="attr">proxyTable</span>:&#123;</span><br><span class="line">        <span class="string">&#x27;/api&#x27;</span>:&#123;</span><br><span class="line">            <span class="attr">target</span>:<span class="string">&#x27;http://192.168.0.1&#x27;</span>,<span class="comment">//要代理的域名</span></span><br><span class="line">            <span class="attr">changeOrigin</span>:<span class="literal">true</span>,<span class="comment">//允许跨域</span></span><br><span class="line">            pathRewrite：&#123;</span><br><span class="line">                ‘/api<span class="string">&#x27;:&#x27;</span><span class="string">&#x27;,//这个是定义要访问的路径</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意事项：以这种写法，会将请求中所有带有/api字段替换掉，因此在代理数量比较多的时候容易出问题。</p>
+</li>
+<li><h5 id="JavaScript异步发展史"><a href="#JavaScript异步发展史" class="headerlink" title="JavaScript异步发展史"></a>JavaScript异步发展史</h5><p>JavaScript本身是单线程语言，也就是同步的，这意味着有可能会阻塞，当有一个任务需要的时间较长的时候，后面的代码会需要等待他完成后才能执行。而异步方式不会，异步代码不需要阻塞，可以优先让其他任务执行。</p>
+<p>异步发展史有：回调函数——&gt;Promise——&gt;Generator——&gt;async/await</p>
+<ol>
+<li><p>回调函数：callback</p>
+<p>就是在需要异步的地方用回调函数还函数的末尾调用其他函数。</p>
+<p>优势：简单</p>
+<p>缺点：回调地狱</p>
+</li>
+<li><p>Promise是ES6最重要的内容之一，他在一定程度上解决了回调地狱。</p>
+<p>优势：状态只会改变一次，任何时候都可以得到结果</p>
+<p>缺点：无法取消Promise，当处于pending状态时候，无法得知进展到哪一个阶段，错误不能够被try catch</p>
+</li>
+<li><p>Generator又称为生成器，就是使用function* func()这种方式去定义函数，这样生成的函数就是生成器，他的特点就是可以使用yield打断点，每次执行到yield的时候，函数都会暂停，并返回一个值，直到next（）命令才向下执行。</p>
+</li>
+<li><p>async/await其实就是Generator的一个语法糖。使用方式是</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">read</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	<span class="keyword">await</span> readFile(A,<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><h5 id="手写jsonp（扩展）"><a href="#手写jsonp（扩展）" class="headerlink" title="手写jsonp（扩展）"></a>手写jsonp（扩展）</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//	因为我们是利用script标签的src请求这个接口地址http://127.0.0.1:8081/，所以我们需要设置响应头为js格式</span></span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123; <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/javascript&#x27;</span> &#125;);</span><br><span class="line">    <span class="comment">//然后返回js格式代码回去</span></span><br><span class="line">    response.end(<span class="string">&#x27;var a=1&#x27;</span>);</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Server running at http://127.0.0.1:8081/&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>to be countinue</p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/07/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8401/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/05/CSS%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1193,115 +1369,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">微搭低代码搭建简易扫码系统</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-01-03 16:16:14 / 修改时间：16:34:47" itemprop="dateCreated datePublished" datetime="2022-01-03T16:16:14+08:00">2022-01-03</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">微搭低代码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="搭建前提"><a href="#搭建前提" class="headerlink" title="搭建前提"></a>搭建前提</h2><ol>
-<li>找陆哥分配一个团队子账号，后续用这个子账号在团队账号中进行开发。</li>
-<li>对微搭平台搭建项目过程有一定了解</li>
-</ol>
-<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ol>
-<li>通过微信扫码进入小程序或web端，同时能够获取对应的产品信息显示在页面上。</li>
-<li>初步想法分为Web端搭建和小程序搭建<ul>
-<li>Web端：优势是可以直接请求跳转对应的页面，同时携带请求信息。</li>
-<li>小程序端。</li>
-</ul>
-</li>
-</ol>
-<h3 id="Web端搭建过程"><a href="#Web端搭建过程" class="headerlink" title="Web端搭建过程"></a>Web端搭建过程</h3><h5 id="技术前提："><a href="#技术前提：" class="headerlink" title="技术前提："></a>技术前提：</h5><ol>
-<li>微信扫码的机制是，如果扫描出来的是一个网址，则会自动跳转到该网址</li>
-<li>经过测试，扫码出来的url自带后缀如?id=xxx形式不影响跳转结果，同时会保留后缀</li>
-</ol>
-<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
-<li>将二维码设置为网址+id的url形式如<a target="_blank" rel="noopener" href="http://www.abc.com/?id=1">http://www.abc.com?id=1</a></li>
-<li>扫码后在网址的生命周期内获取url并解析id，请求后台数据并进行显示</li>
-</ol>
-<h6 id="展示页面"><a href="#展示页面" class="headerlink" title="展示页面"></a>展示页面</h6>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1373,14 +1440,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
