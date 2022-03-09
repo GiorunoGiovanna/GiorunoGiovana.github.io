@@ -2991,35 +2991,6 @@
 </ol>
 </li>
 <li><h5 id="手写jsonp（扩展）"><a href="#手写jsonp（扩展）" class="headerlink" title="手写jsonp（扩展）"></a>手写jsonp（扩展）</h5><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//	因为我们是利用script标签的src请求这个接口地址http://127.0.0.1:8081/，所以我们需要设置响应头为js格式</span></span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123; <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/javascript&#x27;</span> &#125;);</span><br><span class="line">    <span class="comment">//然后返回js格式代码回去</span></span><br><span class="line">    response.end(<span class="string">&#x27;var a=1&#x27;</span>);</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Server running at http://127.0.0.1:8081/&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
-<li><h5 id="设计模式概述"><a href="#设计模式概述" class="headerlink" title="设计模式概述"></a>设计模式概述</h5><ul>
-<li>概念：设计模式是软件开发人员再软件开发过程面临的一般问题的解决方案啊。这些解决方案是众多软件开发人员经过相当长的一段是时间的实验和错误总结出来的。</li>
-<li>分类：共有23中设计模式。这些模式可以分为三大类；创建型模式，结构型模式和行为型模式。</li>
-</ul>
-<table>
-<thead>
-<tr>
-<th>模式概述</th>
-<th>包括</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>创建型模式：这些设计模式提供了一种在创建对象的同时隐藏创建逻辑的方式，而不是使用new运算符直接实例化对象。这使得程序在判断针对某个给定实例需要创建哪些对象时更加灵活。</td>
-<td>工厂模式，抽象工厂模式，单例模式，创建者模式和原型模式</td>
-</tr>
-<tr>
-<td><strong>结构型模式</strong>: 这些设计模式关注类和对象的组合。继承的概念被用来组合接口和定义组合对象获得新功能的方式。</td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-</li>
 <li><h5 id="观察者模式vs发布订阅模式"><a href="#观察者模式vs发布订阅模式" class="headerlink" title="观察者模式vs发布订阅模式"></a>观察者模式vs发布订阅模式</h5><p>在23中设计模式中并没有发布订阅模式，这个模式其实可以看成时观察者模式的变种。</p>
 <p>总所周知，观察者模式中只要被观察的对象发生了改变，就会通知观察者发生变化（Vue采用了这种方式实现响应式原理）</p>
 <p>而在发布订阅模式中，观察者和被观察者时不直接通信的。它们之间通过第三者进行间接通信，可以说观察者模式两者是松耦合的，而发布订阅模式是完全解耦的。</p>
