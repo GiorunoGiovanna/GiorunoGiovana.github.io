@@ -20,25 +20,20 @@
     var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="什么是BFCBFC（Block Formatting Context），中文称块级格式化上下文，是页面中的一块渲染区域，有别于页面的其他地方，它有一套属于自己的渲染规则，它决定了元素如何对齐内容进行布局，以及与其他元素的关系和相互作用。 简而言之：BFC就是一个独立的布局环境，BFC内部的元素布局与外部互不影响 如何触发BFC   元素或属性 属性值    根元素    float left、ri">
+  <meta name="description" content="浏览器跨域跨域的定义跨域是指从一个域名的网页去请求另一个域名的资源，就会发生跨域。只要协议，域名，端口有任何一个不同就算做跨域。 浏览器执行JavaScript脚本时，会检查这个脚本属于哪个页面，如果不是同源页面，就不会被执行。 对于端口和协议的不同，只能通过后台来解决。 浏览器为什么要限制跨域安全问题：如果一个网页可以随意的访问另外一个网站的资源，那么就有可能再客户完全不知情的情况下获取客户的个">
 <meta property="og:type" content="article">
-<meta property="og:title" content="css之BFC详解">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/05/CSS%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/index.html">
+<meta property="og:title" content="浏览器跨域">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/index.html">
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
-<meta property="og:description" content="什么是BFCBFC（Block Formatting Context），中文称块级格式化上下文，是页面中的一块渲染区域，有别于页面的其他地方，它有一套属于自己的渲染规则，它决定了元素如何对齐内容进行布局，以及与其他元素的关系和相互作用。 简而言之：BFC就是一个独立的布局环境，BFC内部的元素布局与外部互不影响 如何触发BFC   元素或属性 属性值    根元素    float left、ri">
+<meta property="og:description" content="浏览器跨域跨域的定义跨域是指从一个域名的网页去请求另一个域名的资源，就会发生跨域。只要协议，域名，端口有任何一个不同就算做跨域。 浏览器执行JavaScript脚本时，会检查这个脚本属于哪个页面，如果不是同源页面，就不会被执行。 对于端口和协议的不同，只能通过后台来解决。 浏览器为什么要限制跨域安全问题：如果一个网页可以随意的访问另外一个网站的资源，那么就有可能再客户完全不知情的情况下获取客户的个">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305204614141.png">
-<meta property="og:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305204724251.png">
-<meta property="og:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305211642477.png">
-<meta property="og:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305211912897.png">
-<meta property="article:published_time" content="2022-03-05T12:25:56.000Z">
-<meta property="article:modified_time" content="2022-03-05T13:20:59.884Z">
+<meta property="article:published_time" content="2022-03-10T06:56:38.000Z">
+<meta property="article:modified_time" content="2022-03-10T08:44:56.041Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305204614141.png">
 
-<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/05/CSS%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/">
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/">
 
 
 <script id="page-configurations">
@@ -51,7 +46,7 @@
   };
 </script>
 
-  <title>css之BFC详解 | StoneOcean's Blog</title>
+  <title>浏览器跨域 | StoneOcean's Blog</title>
   
 
 
@@ -195,7 +190,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/05/CSS%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.jpeg">
@@ -208,7 +203,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          css之BFC详解
+          浏览器跨域
         </h1>
 
         <div class="post-meta">
@@ -219,7 +214,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-03-05 20:25:56 / 修改时间：21:20:59" itemprop="dateCreated datePublished" datetime="2022-03-05T20:25:56+08:00">2022-03-05</time>
+              <time title="创建时间：2022-03-10 14:56:38 / 修改时间：16:44:56" itemprop="dateCreated datePublished" datetime="2022-03-10T14:56:38+08:00">2022-03-10</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,7 +222,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
                 </span>
             </span>
 
@@ -240,8 +235,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2022/03/05/CSS%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/05/CSS%E4%B9%8BBFC%E8%AF%A6%E8%A7%A3/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -256,61 +251,34 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h2 id="什么是BFC"><a href="#什么是BFC" class="headerlink" title="什么是BFC"></a>什么是BFC</h2><p>BFC（Block Formatting Context），中文称块级格式化上下文，是页面中的一块渲染区域，有别于页面的其他地方，它有一套属于自己的渲染规则，它决定了元素如何对齐内容进行布局，以及与其他元素的关系和相互作用。</p>
-<p>简而言之：BFC就是一个独立的布局环境，BFC内部的元素布局与外部互不影响</p>
-<h2 id="如何触发BFC"><a href="#如何触发BFC" class="headerlink" title="如何触发BFC"></a>如何触发BFC</h2><table>
-<thead>
-<tr>
-<th>元素或属性</th>
-<th>属性值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>根元素</td>
-<td></td>
-</tr>
-<tr>
-<td>float</td>
-<td>left、right</td>
-</tr>
-<tr>
-<td>position</td>
-<td>absolute、fixed</td>
-</tr>
-<tr>
-<td>overflow</td>
-<td>auto、scroll、hidden</td>
-</tr>
-<tr>
-<td>display</td>
-<td>inline-block、table-cell</td>
-</tr>
-</tbody></table>
-<h2 id="BFC布局规则"><a href="#BFC布局规则" class="headerlink" title="BFC布局规则"></a>BFC布局规则</h2><ol>
-<li>内部的BOX会在垂直方向上一个接着一个地放置</li>
-<li>BOX垂直方向上的距离由margin决定。属于同一个BFC的两个相邻的BOX的margin会重叠。</li>
-<li>每个盒子的左外边框紧挨着包含块的左边框，即使是浮动元素也是如此</li>
-<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素</li>
-<li>计算BFC的高度时候，浮动子元素也参与计算</li>
+        <h1 id="浏览器跨域"><a href="#浏览器跨域" class="headerlink" title="浏览器跨域"></a>浏览器跨域</h1><h3 id="跨域的定义"><a href="#跨域的定义" class="headerlink" title="跨域的定义"></a>跨域的定义</h3><p>跨域是指从一个域名的网页去请求另一个域名的资源，就会发生跨域。只要协议，域名，端口有任何一个不同就算做跨域。</p>
+<p>浏览器执行JavaScript脚本时，会检查这个脚本属于哪个页面，如果不是同源页面，就不会被执行。</p>
+<p>对于端口和协议的不同，只能通过后台来解决。</p>
+<h3 id="浏览器为什么要限制跨域"><a href="#浏览器为什么要限制跨域" class="headerlink" title="浏览器为什么要限制跨域"></a>浏览器为什么要限制跨域</h3><p><strong>安全问题</strong>：如果一个网页可以随意的访问另外一个网站的资源，那么就有可能再客户完全不知情的情况下获取客户的个人资料从而出现安全问题</p>
+<h3 id="为什么要进行跨域"><a href="#为什么要进行跨域" class="headerlink" title="为什么要进行跨域"></a>为什么要进行跨域</h3><p>设想一个场景，一个公司有很多的子域，这些子域之间进行访问资源的时候就需要进行跨域</p>
+<h3 id="跨域的解决办法"><a href="#跨域的解决办法" class="headerlink" title="跨域的解决办法"></a><strong>跨域的解决办法</strong></h3><ol>
+<li><h5 id="跨域资源共享（CORS）"><a href="#跨域资源共享（CORS）" class="headerlink" title="跨域资源共享（CORS）"></a>跨域资源共享（CORS）</h5><p>CORS允许浏览器向跨域的服务器发出XMLHttpRequest请求，克服了AJAX只能同源使用的限制。</p>
+<p><strong>CORS需要服务器和浏览器都支持</strong>目前所有浏览器都支持CORS。整个CORS通信完全由浏览器自动进行，对于开发者来说，CORS通信与普通的AJAX通信没有任何区别，代码完全一致。浏览器一旦发现AJAX进行跨域请求，就会自动添加一些请求头，有时还会额外请求，但用户不会感知。因此，实现CORS通信的关键时服务器端要支持。</p>
+</li>
+<li><h5 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h5><p><strong>原理</strong>：通过script标签引入一个js文件（script标签不受跨域限制），这个js 文件载入成功后会执行我们在url中指定的函数，并且会把我们需要的json数据作为参数传入。JSONP需要服务器进行配合，返回一个可执行的js我呢见，其中包含所需数据。</p>
+<p><strong>优点</strong>：兼容性好</p>
+<p><strong>缺点</strong>：它只支持GET请求而不支持POST等其他类型的HTTP请求；它只支持跨域HTTP请求这种情况，不能解决不同域的两个页面之间如何让进行Javascript调用的问题。</p>
+<h6 id="手写一个简单的JSONP例子"><a href="#手写一个简单的JSONP例子" class="headerlink" title="手写一个简单的JSONP例子"></a>手写一个简单的JSONP例子</h6><p>服务端部分：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//	因为我们是利用script标签的src请求这个接口地址http://127.0.0.1:8081/，所以我们需要设置响应头为js格式</span></span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123; <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/javascript&#x27;</span> &#125;);</span><br><span class="line">    <span class="comment">//然后返回js格式代码回去</span></span><br><span class="line">    response.end(<span class="string">&#x27;var a=1&#x27;</span>);</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Server running at http://127.0.0.1:8081/&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="通过修改document-domain来跨子域"><a href="#通过修改document-domain来跨子域" class="headerlink" title="通过修改document.domain来跨子域"></a>通过修改document.domain来跨子域</h5><p><strong>原理</strong>：通过修改域名设置成相同的主域就可以跨域</p>
+<p>document.domain是有限制的，我们只能设置成高一级的域名或者自身，且主域必须相同。所以只适用不同子域的框架间交互</p>
+</li>
+<li><h5 id="使用window-name进行跨域"><a href="#使用window-name进行跨域" class="headerlink" title="使用window.name进行跨域"></a>使用window.name进行跨域</h5><p><strong>原理</strong>：Window对象的name属性有个特点：即在一个窗口的生命周期内，该窗口所有载入的网页共享一个window.name，且每个页面对window.name都有读写权限</p>
+<p>在网页中使用一个隐藏的iframe来充当中间人，让这个iframe去请求数据，然后再网页中获取这个iframe的数据。还必须把这个iframe的src设成跟a.html页面同一个域才行，否则根据同源策略，获取不到iframe的数据。</p>
+</li>
+<li><h5 id="使用h5的window-postMessage进行跨域"><a href="#使用h5的window-postMessage进行跨域" class="headerlink" title="使用h5的window.postMessage进行跨域"></a>使用h5的window.postMessage进行跨域</h5><p><strong>原理</strong>：<strong>window.postMessage</strong>(message,targetOrigin) 方法是html5新引进的特性，可以使用它来向其它的window对象发送消息，无论这个window对象是属于同源或不同源，目前IE8+、FireFox、Chrome、Opera等浏览器都已经支持window.postMessage方法。</p>
+<p>调用postMessage方法的window对象是指要接收消息的那一个window对象，该方法的第一个参数message为要发送的消息，类型只能为字符串；第二个参数targetOrigin用来限定接收消息的那个window对象所在的域，如果不想限定域，可以使用通配符 * 。</p>
+<p>需要接收消息的window对象，可是通过监听自身的message事件来获取传过来的消息，消息内容储存在该事件对象的data属性中。</p>
+</li>
+<li><h5 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h5><p><strong>原理</strong>：web sockets是一种浏览器的API，它的目标是在一个单独的持久连接上提供全双工、双向通信。(同源策略对web sockets不适用)</p>
+<p>web sockets原理：在<a target="_blank" rel="noopener" href="http://lib.csdn.net/base/javascript">js</a>创建了web socket之后，会有一个HTTP请求发送到浏览器以发起连接。取得服务器响应后，建立的连接会使用HTTP升级从HTTP协议交换为web sockt协议</p>
+</li>
 </ol>
-<h2 id="BFC的应用"><a href="#BFC的应用" class="headerlink" title="BFC的应用"></a>BFC的应用</h2><ul>
-<li><p>解决子元素使用浮动父元素高度坍塌的问题</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">10px</span> solid pink;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">50px</span></span><br><span class="line">&#125;	</span><br><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305204614141.png" alt="image-20220305204614141"></p>
-<h4 id="使用BFC后"><a href="#使用BFC后" class="headerlink" title="使用BFC后"></a>使用BFC后</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    //触发BFC，规则上计算高度的时候浮动子元素也会被包含在内</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">10px</span> solid pink;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">50px</span></span><br><span class="line">&#125;	</span><br><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305204724251.png" alt="image-20220305204724251"></p>
-</li>
-<li><p>浮动元素覆盖正常元素（可用于实现两栏、三栏自适应布局）</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box2</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305211642477.png" alt="image-20220305211642477"></p>
-<h4 id="使用BFC后-1"><a href="#使用BFC后-1" class="headerlink" title="使用BFC后"></a>使用BFC后</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box2</span>&#123;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220305211912897.png" alt="image-20220305211912897"></p>
-</li>
-</ul>
 
     </div>
 
@@ -329,13 +297,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/03/03/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F01-%E8%BF%9B%E7%A8%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/" rel="prev" title="操作系统01-进程与线程">
-      <i class="fa fa-chevron-left"></i> 操作系统01-进程与线程
+    <a href="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/" rel="prev" title="手写fetch控制并发数">
+      <i class="fa fa-chevron-left"></i> 手写fetch控制并发数
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2022/03/07/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8401/" rel="next" title="面经摘抄01">
-      面经摘抄01 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -395,7 +360,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFBFC"><span class="nav-number">1.</span> <span class="nav-text">什么是BFC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E8%A7%A6%E5%8F%91BFC"><span class="nav-number">2.</span> <span class="nav-text">如何触发BFC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BFC%E5%B8%83%E5%B1%80%E8%A7%84%E5%88%99"><span class="nav-number">3.</span> <span class="nav-text">BFC布局规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#BFC%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">BFC的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8BFC%E5%90%8E"><span class="nav-number">4.0.1.</span> <span class="nav-text">使用BFC后</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8BFC%E5%90%8E-1"><span class="nav-number">4.0.2.</span> <span class="nav-text">使用BFC后</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F"><span class="nav-number">1.</span> <span class="nav-text">浏览器跨域</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%A8%E5%9F%9F%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">1.0.1.</span> <span class="nav-text">跨域的定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E9%99%90%E5%88%B6%E8%B7%A8%E5%9F%9F"><span class="nav-number">1.0.2.</span> <span class="nav-text">浏览器为什么要限制跨域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%BF%9B%E8%A1%8C%E8%B7%A8%E5%9F%9F"><span class="nav-number">1.0.3.</span> <span class="nav-text">为什么要进行跨域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B7%A8%E5%9F%9F%E7%9A%84%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">1.0.4.</span> <span class="nav-text">跨域的解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%A8%E5%9F%9F%E8%B5%84%E6%BA%90%E5%85%B1%E4%BA%AB%EF%BC%88CORS%EF%BC%89"><span class="nav-number">1.0.4.0.1.</span> <span class="nav-text">跨域资源共享（CORS）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JSONP"><span class="nav-number">1.0.4.0.2.</span> <span class="nav-text">JSONP</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%89%8B%E5%86%99%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84JSONP%E4%BE%8B%E5%AD%90"><span class="nav-number">1.0.4.0.2.1.</span> <span class="nav-text">手写一个简单的JSONP例子</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E4%BF%AE%E6%94%B9document-domain%E6%9D%A5%E8%B7%A8%E5%AD%90%E5%9F%9F"><span class="nav-number">1.0.4.0.3.</span> <span class="nav-text">通过修改document.domain来跨子域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8window-name%E8%BF%9B%E8%A1%8C%E8%B7%A8%E5%9F%9F"><span class="nav-number">1.0.4.0.4.</span> <span class="nav-text">使用window.name进行跨域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8h5%E7%9A%84window-postMessage%E8%BF%9B%E8%A1%8C%E8%B7%A8%E5%9F%9F"><span class="nav-number">1.0.4.0.5.</span> <span class="nav-text">使用h5的window.postMessage进行跨域</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Web-Socket"><span class="nav-number">1.0.4.0.6.</span> <span class="nav-text">Web Socket</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

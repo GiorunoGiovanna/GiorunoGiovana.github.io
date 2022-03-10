@@ -3012,10 +3012,100 @@
 <li><h5 id="浏览器缓存-强缓存、协商缓存-为什么cache-control优先级更高"><a href="#浏览器缓存-强缓存、协商缓存-为什么cache-control优先级更高" class="headerlink" title="浏览器缓存,强缓存、协商缓存,为什么cache-control优先级更高"></a>浏览器缓存,强缓存、协商缓存,为什么cache-control优先级更高</h5><p>浏览器缓存分为强缓存和协商缓存，当存在缓存时，客户端第一次向服务器请求数据时，客户端会缓存到内存或者硬盘当中，当第二次获取相同的资源，强缓存和协商缓存的应对方式有所不同。</p>
 <h6 id="强缓存：当客户端第二次向服务器请求相同的资源时，不会向服务器发送请求，而是直接从内存-硬盘中间读取"><a href="#强缓存：当客户端第二次向服务器请求相同的资源时，不会向服务器发送请求，而是直接从内存-硬盘中间读取" class="headerlink" title="强缓存：当客户端第二次向服务器请求相同的资源时，不会向服务器发送请求，而是直接从内存/硬盘中间读取"></a>强缓存：当客户端第二次向服务器请求相同的资源时，不会向服务器发送请求，而是直接从内存/硬盘中间读取</h6><h6 id="协商缓存：当客户端第二次向服务器请求相同的资源时，先向服务器发送请求”询问”该请求的文件缓存在本地与服务器相比是否更改，如果更改，则更新文件，如果没有就从内存-硬盘中读取"><a href="#协商缓存：当客户端第二次向服务器请求相同的资源时，先向服务器发送请求”询问”该请求的文件缓存在本地与服务器相比是否更改，如果更改，则更新文件，如果没有就从内存-硬盘中读取" class="headerlink" title="协商缓存：当客户端第二次向服务器请求相同的资源时，先向服务器发送请求”询问”该请求的文件缓存在本地与服务器相比是否更改，如果更改，则更新文件，如果没有就从内存/硬盘中读取"></a>协商缓存：当客户端第二次向服务器请求相同的资源时，先向服务器发送请求”询问”该请求的文件缓存在本地与服务器相比是否更改，如果更改，则更新文件，如果没有就从内存/硬盘中读取</h6><h6 id="强缓存由服务器的响应头里-cache-control-和-expires-两个字段决定，协商缓存由-last-modified-和-etag两个字段决定。"><a href="#强缓存由服务器的响应头里-cache-control-和-expires-两个字段决定，协商缓存由-last-modified-和-etag两个字段决定。" class="headerlink" title="强缓存由服务器的响应头里 cache-control 和 expires 两个字段决定，协商缓存由 last-modified 和 etag两个字段决定。"></a>强缓存由服务器的响应头里 cache-control 和 expires 两个字段决定，协商缓存由 last-modified 和 etag两个字段决定。</h6><p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/20200901103330879.jpg" alt="20200901103330879"></p>
 </li>
+<li><h5 id="常见的http状态码"><a href="#常见的http状态码" class="headerlink" title="常见的http状态码"></a>常见的http状态码</h5><h6 id="2XX成功"><a href="#2XX成功" class="headerlink" title="2XX成功"></a>2XX成功</h6><ul>
+<li>200 OK，表示从客户端发来的请求被正确处理</li>
+<li>204 No content，表示请求成功，但是响应报文不包含主体部分</li>
+<li>206 Partial Content，进行范围请求</li>
+</ul>
+<h6 id="3XX重定向"><a href="#3XX重定向" class="headerlink" title="3XX重定向"></a>3XX重定向</h6><ul>
+<li>301 moved permanently，永久性重定向，表示资源已被分配了新的URL</li>
+<li>302 found，临时性重定向，表示资源临时被分配了新的URL</li>
+<li>303 see other，表示资源存在着另一个URL，应使用get方法定向获取资源</li>
+<li>304 not modified，表示服务器允许访问资源，但因发生请求未满足条件的情况</li>
+<li>307 temporary redrect，临时重定向，和302含义相同</li>
+</ul>
+<h6 id="4XX客户端错误"><a href="#4XX客户端错误" class="headerlink" title="4XX客户端错误"></a>4XX客户端错误</h6><ul>
+<li>400 badrequest，请求报文存在语法错误</li>
+<li>401 unauthorized，表示需要权限（token）</li>
+<li>403 forbidden，表示对请求资源的访问被服务器拒绝</li>
+<li>404 not found，表示在服务器上没有找到请求的资源</li>
+<li>105 请求行中指定的请求方法不能被用于请求相应的资源。</li>
+</ul>
+<h6 id="5XX服务器错误"><a href="#5XX服务器错误" class="headerlink" title="5XX服务器错误"></a>5XX服务器错误</h6><ul>
+<li>500 internal sever error，表示服务器端在执行请求的时候发生了错误</li>
+<li>503 service unavailable，表示服务器暂时处于超负荷或者在停机维护，无法处理请求</li>
+</ul>
+</li>
+<li><h5 id="Vue的-nextTick用法"><a href="#Vue的-nextTick用法" class="headerlink" title="Vue的$nextTick用法"></a>Vue的$nextTick用法</h5><p>当在Vue中完成了赋值操作而视图更新没有完成时，是获取不到最新DOM的，这个时候如果想要操作DOM就要使用$nextTick去异步延迟到DOM更新完成后再操作。</p>
+<h6 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h6><p>Vue分了三种情况来延迟调用</p>
+<ol>
+<li><p>promise.then延迟调用</p>
+<p>如果这个浏览器支持原生promise，那么使用Promise.then延迟函数</p>
+</li>
+<li><p>MutationObserver监听变化</p>
+</li>
+<li><p>setTimeout延迟器</p>
+</li>
+</ol>
+</li>
+<li></li>
 </ol>
 ]]></content>
       <categories>
         <category>面经摘抄</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写fetch控制并发数</title>
+    <url>/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="fecth控制并发数"><a href="#fecth控制并发数" class="headerlink" title="fecth控制并发数"></a>fecth控制并发数</h1><p>面试题，实现一个带并发数限制的fetch请求函数</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendResquest</span>(<span class="params">urls, max</span>) </span>&#123; </span><br><span class="line">    <span class="keyword">let</span> pending_count = <span class="number">0</span>, <span class="comment">//并发数</span></span><br><span class="line">    idx = <span class="number">0</span>;<span class="comment">//当前请求的位置</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//先把请求池填满</span></span><br><span class="line">    <span class="keyword">while</span> (pending_count &lt; max) &#123; </span><br><span class="line">        _fetch(urls[idx++])</span><br><span class="line">    &#125; </span><br><span class="line">	</span><br><span class="line">	<span class="comment">//为了实现并发，需要嵌套调用fetch</span></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">_fetch</span>(<span class="params">url</span>) </span>&#123; </span><br><span class="line">        <span class="keyword">if</span> (!url) <span class="keyword">return</span>; </span><br><span class="line">        pending_count++; </span><br><span class="line">		<span class="built_in">console</span>.log(url+<span class="string">&#x27;:start，并发数:&#x27;</span>+pending_count)</span><br><span class="line">		<span class="keyword">await</span> fetch(url)</span><br><span class="line">		pending_count--</span><br><span class="line">		<span class="built_in">console</span>.log(url+<span class="string">&#x27;:end，并发数:&#x27;</span>+pending_count)</span><br><span class="line">		<span class="comment">//此fetch执行完毕，切换下一个fetch</span></span><br><span class="line">		_fetch(urls[idx++])</span><br><span class="line">		<span class="keyword">if</span>(!pending_count)&#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">&quot;执行完毕&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//验证</span></span><br><span class="line"><span class="keyword">let</span> urls = <span class="built_in">Array</span>.from(&#123;<span class="attr">length</span>:<span class="number">7</span>&#125;, <span class="function">(<span class="params">v, k</span>) =&gt;</span> k);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> fetch = <span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> timeout = <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * <span class="number">1e4</span>);</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            resolve(idx)</span><br><span class="line">        &#125;, timeout)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> max = <span class="number">4</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> callback = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;run callback&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//执行</span></span><br><span class="line">sendResquest(urls, max, callback)</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>手写系列</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浏览器跨域</title>
+    <url>/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/</url>
+    <content><![CDATA[<h1 id="浏览器跨域"><a href="#浏览器跨域" class="headerlink" title="浏览器跨域"></a>浏览器跨域</h1><h3 id="跨域的定义"><a href="#跨域的定义" class="headerlink" title="跨域的定义"></a>跨域的定义</h3><p>跨域是指从一个域名的网页去请求另一个域名的资源，就会发生跨域。只要协议，域名，端口有任何一个不同就算做跨域。</p>
+<p>浏览器执行JavaScript脚本时，会检查这个脚本属于哪个页面，如果不是同源页面，就不会被执行。</p>
+<p>对于端口和协议的不同，只能通过后台来解决。</p>
+<h3 id="浏览器为什么要限制跨域"><a href="#浏览器为什么要限制跨域" class="headerlink" title="浏览器为什么要限制跨域"></a>浏览器为什么要限制跨域</h3><p><strong>安全问题</strong>：如果一个网页可以随意的访问另外一个网站的资源，那么就有可能再客户完全不知情的情况下获取客户的个人资料从而出现安全问题</p>
+<h3 id="为什么要进行跨域"><a href="#为什么要进行跨域" class="headerlink" title="为什么要进行跨域"></a>为什么要进行跨域</h3><p>设想一个场景，一个公司有很多的子域，这些子域之间进行访问资源的时候就需要进行跨域</p>
+<h3 id="跨域的解决办法"><a href="#跨域的解决办法" class="headerlink" title="跨域的解决办法"></a><strong>跨域的解决办法</strong></h3><ol>
+<li><h5 id="跨域资源共享（CORS）"><a href="#跨域资源共享（CORS）" class="headerlink" title="跨域资源共享（CORS）"></a>跨域资源共享（CORS）</h5><p>CORS允许浏览器向跨域的服务器发出XMLHttpRequest请求，克服了AJAX只能同源使用的限制。</p>
+<p><strong>CORS需要服务器和浏览器都支持</strong>目前所有浏览器都支持CORS。整个CORS通信完全由浏览器自动进行，对于开发者来说，CORS通信与普通的AJAX通信没有任何区别，代码完全一致。浏览器一旦发现AJAX进行跨域请求，就会自动添加一些请求头，有时还会额外请求，但用户不会感知。因此，实现CORS通信的关键时服务器端要支持。</p>
+</li>
+<li><h5 id="JSONP"><a href="#JSONP" class="headerlink" title="JSONP"></a>JSONP</h5><p><strong>原理</strong>：通过script标签引入一个js文件（script标签不受跨域限制），这个js 文件载入成功后会执行我们在url中指定的函数，并且会把我们需要的json数据作为参数传入。JSONP需要服务器进行配合，返回一个可执行的js我呢见，其中包含所需数据。</p>
+<p><strong>优点</strong>：兼容性好</p>
+<p><strong>缺点</strong>：它只支持GET请求而不支持POST等其他类型的HTTP请求；它只支持跨域HTTP请求这种情况，不能解决不同域的两个页面之间如何让进行Javascript调用的问题。</p>
+<h6 id="手写一个简单的JSONP例子"><a href="#手写一个简单的JSONP例子" class="headerlink" title="手写一个简单的JSONP例子"></a>手写一个简单的JSONP例子</h6><p>服务端部分：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> http = <span class="built_in">require</span>(<span class="string">&#x27;http&#x27;</span>);</span><br><span class="line">http.createServer(<span class="function"><span class="keyword">function</span>(<span class="params">request, response</span>) </span>&#123;</span><br><span class="line">	<span class="comment">//	因为我们是利用script标签的src请求这个接口地址http://127.0.0.1:8081/，所以我们需要设置响应头为js格式</span></span><br><span class="line">    response.writeHead(<span class="number">200</span>, &#123; <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/javascript&#x27;</span> &#125;);</span><br><span class="line">    <span class="comment">//然后返回js格式代码回去</span></span><br><span class="line">    response.end(<span class="string">&#x27;var a=1&#x27;</span>);</span><br><span class="line">&#125;).listen(<span class="number">8081</span>);</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">&#x27;Server running at http://127.0.0.1:8081/&#x27;</span>);</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="通过修改document-domain来跨子域"><a href="#通过修改document-domain来跨子域" class="headerlink" title="通过修改document.domain来跨子域"></a>通过修改document.domain来跨子域</h5><p><strong>原理</strong>：通过修改域名设置成相同的主域就可以跨域</p>
+<p>document.domain是有限制的，我们只能设置成高一级的域名或者自身，且主域必须相同。所以只适用不同子域的框架间交互</p>
+</li>
+<li><h5 id="使用window-name进行跨域"><a href="#使用window-name进行跨域" class="headerlink" title="使用window.name进行跨域"></a>使用window.name进行跨域</h5><p><strong>原理</strong>：Window对象的name属性有个特点：即在一个窗口的生命周期内，该窗口所有载入的网页共享一个window.name，且每个页面对window.name都有读写权限</p>
+<p>在网页中使用一个隐藏的iframe来充当中间人，让这个iframe去请求数据，然后再网页中获取这个iframe的数据。还必须把这个iframe的src设成跟a.html页面同一个域才行，否则根据同源策略，获取不到iframe的数据。</p>
+</li>
+<li><h5 id="使用h5的window-postMessage进行跨域"><a href="#使用h5的window-postMessage进行跨域" class="headerlink" title="使用h5的window.postMessage进行跨域"></a>使用h5的window.postMessage进行跨域</h5><p><strong>原理</strong>：<strong>window.postMessage</strong>(message,targetOrigin) 方法是html5新引进的特性，可以使用它来向其它的window对象发送消息，无论这个window对象是属于同源或不同源，目前IE8+、FireFox、Chrome、Opera等浏览器都已经支持window.postMessage方法。</p>
+<p>调用postMessage方法的window对象是指要接收消息的那一个window对象，该方法的第一个参数message为要发送的消息，类型只能为字符串；第二个参数targetOrigin用来限定接收消息的那个window对象所在的域，如果不想限定域，可以使用通配符 * 。</p>
+<p>需要接收消息的window对象，可是通过监听自身的message事件来获取传过来的消息，消息内容储存在该事件对象的data属性中。</p>
+</li>
+<li><h5 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h5><p><strong>原理</strong>：web sockets是一种浏览器的API，它的目标是在一个单独的持久连接上提供全双工、双向通信。(同源策略对web sockets不适用)</p>
+<p>web sockets原理：在<a href="http://lib.csdn.net/base/javascript">js</a>创建了web socket之后，会有一个HTTP请求发送到浏览器以发起连接。取得服务器响应后，建立的连接会使用HTTP升级从HTTP协议交换为web sockt协议</p>
+</li>
+</ol>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
