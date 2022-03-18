@@ -2633,6 +2633,38 @@
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">flex-direction</span>: row | row-reverse | column | column-reverse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>默认值：row，主轴为水平方向，起点在左端。</p>
+<ul>
+<li><strong>flex-warp：决定换行方式</strong></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">flex-wrap</span>: nowrap | wrap | wrap-reverse</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>flex-flow：是flex-direction和flex-warp的简写形式，默认为row nowarp</strong></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">flex-flow</span>: &lt;flex-direction&gt; &lt;flex-warp&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>justify-content：定义了在主轴上的对齐方式</strong></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">justify-content</span>: flex-start | flex-end | center | space-between | space-around</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>align-items：定义了项目在交叉轴上的对齐方式</strong></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">align-items</span>: flex-start | flex-end | center | baseline | stretch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>align-content：定义了项目在多轴上的对齐方式，如果只有一个轴则不算</strong></li>
+</ul>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span>&#123;</span><br><span class="line">    <span class="attribute">align-content</span>: flex-start | flex-end | center | space-between | space-around | stretch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>小测验：实现一个有16个元素的flex布局，这16个元素水平排列每四个一行，上下左右居中，同时是响应式的长宽</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.parent</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">background</span>:skyblue;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">    <span class="attribute">flex-direction</span>:row;<span class="comment">/*项目排列方向：水平*/</span></span><br><span class="line">    <span class="attribute">flex-wrap</span>:wrap;<span class="comment">/*项目换行方式：换行*/</span></span><br><span class="line">    <span class="attribute">align-content</span>:center;<span class="comment">/*项目交叉轴对齐方式：居中*/</span></span><br><span class="line">    <span class="attribute">justify-content</span>:center/*项目纵轴对齐方式：居中*/</span><br><span class="line">&#125;	</span><br><span class="line"><span class="selector-class">.child</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">20%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">20%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink;</span><br><span class="line">    <span class="attribute">margin</span>:<span class="number">2%</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>效果如图：</p>
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/image-20220318224912723.png" alt="image-20220318224912723"></p>
 ]]></content>
       <categories>
         <category>JavaScript</category>
