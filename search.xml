@@ -3193,4 +3193,26 @@
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>防抖和节流</title>
+    <url>/2022/03/19/%E9%98%B2%E6%8A%96%E5%92%8C%E8%8A%82%E6%B5%81/</url>
+    <content><![CDATA[<h1 id="防抖和节流"><a href="#防抖和节流" class="headerlink" title="防抖和节流"></a>防抖和节流</h1><p>防抖和节流是JavaScript中经常遇到的性能优化问题。</p>
+<p>在前端开发中我们经常需要绑定一些高频率触发的事件，例如滚动条滚动事件。但是这种事件触发频率实在太高了，如果每次触发都进行响应会极大地消耗浏览器的资源，为此，我们需要一种方法在一段时间内只触发一次事件，其余的触发事件进行忽略，这样就可以节省资源。</p>
+<h2 id="防抖-debounce"><a href="#防抖-debounce" class="headerlink" title="防抖(debounce)"></a>防抖(debounce)</h2><p>防抖是性能优化的一种思路，<strong>在第一次触发事件的时候，不立即执行函数，而是设定一个时间段，例如200ms，然后：</strong></p>
+<ul>
+<li>如果这段时间内没有再次触发事件，则倒计时结束执行此函数</li>
+<li>如果这段时间内再次触发事件，则倒计时刷新并重复前面的步骤</li>
+</ul>
+<p><strong>效果</strong>：如果短时间内大量触发同一事件，只会执行一次函数。</p>
+<p><strong>实现</strong>：需要计时的需求，就用setTimeout来实现，考虑维护全局纯净，可以使用闭包来实现</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">debounce</span>(<span class="params">fn,delay</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> timer = <span class="literal">null</span> <span class="comment">//借助闭包</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(timer)&#123;</span><br><span class="line">            <span class="built_in">clearTimeout</span>(timer) </span><br><span class="line">        &#125;</span><br><span class="line">        timer = <span class="built_in">setTimeout</span>(fn,delay) <span class="comment">// 简化写法</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>对于这个防抖函数，我们可以传入需要执行的函数和间隔时间，他会帮我们自动进行防抖</p>
+<h2 id="节流（throrrle）"><a href="#节流（throrrle）" class="headerlink" title="节流（throrrle）"></a>节流（throrrle）</h2><p>节流是性能优化的另一种思路，<strong>设计一种类似阀门一样定期开放的函数，允许函数首先执行一次，然后再让它一段时间内失效，过了这段时间后再重新激活。</strong></p>
+<p><strong>效果</strong>：如果短时间内大量触发同一事件，<strong>在函数执行一次之后，该函数在指定的时间期限内不再工作</strong>，直至过了这段时间才重新生效。</p>
+<p><strong>实现</strong>：同样借助setTimeout来做一个简单的实现，加上一个状态位来表示当前函数是否处于工作状态。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">throttle</span>(<span class="params">fn,delay</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">let</span> valid = <span class="literal">true</span></span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(!valid)&#123;</span><br><span class="line">           <span class="comment">//休息时间 暂不接客</span></span><br><span class="line">           <span class="keyword">return</span> <span class="literal">false</span> </span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">// 工作时间，执行函数并且在间隔期内把状态位设为无效</span></span><br><span class="line">        valid = <span class="literal">false</span></span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            fn()</span><br><span class="line">            valid = <span class="literal">true</span>;</span><br><span class="line">        &#125;, delay)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
 </search>
