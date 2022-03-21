@@ -3254,4 +3254,45 @@
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>Vue生命周期</title>
+    <url>/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
+    <content><![CDATA[<h1 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h1><p>每个Vue的实例创建的时候都有一系列的阶段，比如创建Vue实例，数据装载，渲染DOM数，渲染CSS等等，这些不同阶段就被成为Vue的生命周期。理解生命周期的概念和各个生命周期钩子的作用有助于对Vue项目的提升。</p>
+<p><img src="https://gitee.com/zhou-keer/drawing-bed/raw/master/drawingbed/11370083-f279314aef6741db.webp" alt="11370083-f279314aef6741db"></p>
+<p>这是大佬博客的图，很直观的展示了Vue生命周期和生命周期钩子的作用。</p>
+<ol>
+<li><p>beforeCreate（创建前）</p>
+<p>这个时候Vue对象刚刚创建，没有DOM和数据</p>
+</li>
+<li><p>created（已创建）</p>
+<p>这个时候已经开始监控Data数据变化，这个时候就<strong>可以获取到Data的内容了</strong></p>
+</li>
+<li><p>beforeMount</p>
+<p>这个阶段编译了虚拟DOM树，真实DOM树还没有渲染到页面上</p>
+</li>
+<li><p>mounted</p>
+<p>这个阶段已经将虚拟DOM编译为真实DOM，此时一般可以进行一些ajax操作，mouted只会执行一次</p>
+</li>
+<li><p>beforeUpdate</p>
+<p>这是响应式更新前的钩子，可以在虚拟DOM的基础上再次修改DOM</p>
+</li>
+<li><p>updated</p>
+<p>这是响应式更新后的钩子，此时真实DOM已经更新完毕，最好不要在这里才再次修改DOM</p>
+</li>
+<li><p>beforeDestroy</p>
+<p>实例销毁前的钩子，实例任然完全可用</p>
+</li>
+<li><p>destroyed</p>
+<p>实例已经销毁</p>
+</li>
+</ol>
+<p>参考原帖：<a href="https://www.jianshu.com/p/672e967e201c">https://www.jianshu.com/p/672e967e201c</a></p>
+]]></content>
+      <categories>
+        <category>Vue源码</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
 </search>
