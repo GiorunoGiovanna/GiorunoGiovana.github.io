@@ -186,117 +186,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/24/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/24/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" class="post-title-link" itemprop="url">算法-动态规划</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-24 09:32:47" itemprop="dateCreated datePublished" datetime="2022-01-24T09:32:47+08:00">2022-01-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-26 20:10:49" itemprop="dateModified" datetime="2022-01-26T20:10:49+08:00">2022-01-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/24/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/24/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h2><p>动态规划，简称DP，将问题分解为互相重叠的子问题，通过反复求解子问题解决原问题就是动态规划，如果某一问题有很多重叠子问题，使用动态规划来解决是比较有效的。</p>
-<p>求接动态规划的核心问题就是穷举，但是这类问题穷举存在重叠子问题，直接求解效率回十分低下。动态规划问题一定回具备最优子结构，才能通过子问题的最值得到原问题的最值。另外，虽然动态规划的核心是穷举求最值，但是穷举所有可行解并不是一件容易的事，只有列出正确的”状态转移方程”，才能正确的穷举。重叠子问题、最有子结构、状态转移方程就是动态规划的三要素。</p>
-<h4 id="动态规划和其他算法的区别："><a href="#动态规划和其他算法的区别：" class="headerlink" title="动态规划和其他算法的区别："></a>动态规划和其他算法的区别：</h4><ol>
-<li>动态规划和分治的区别：动态规划和分治都有最优子结构 ，但是分治的子问题不重叠</li>
-<li>动态规划和贪心的区别：动态规划中每一个状态一定是由上一个状态推导出来的，<strong>这一点就区分于贪心</strong>，贪心没有状态推导，而是从局部直接选最优解，所以它永远是局部最优，但是全局的解不一定是最优的。</li>
-<li>动态规划和递归的区别：递归和回溯可能存在非常多的重复计算，动态规划可以用递归加记忆化的方式减少不必要的重复计算</li>
-</ol>
-<h4 id="解动态规划题目的步骤"><a href="#解动态规划题目的步骤" class="headerlink" title="解动态规划题目的步骤"></a>解动态规划题目的步骤</h4><ol>
-<li>根据重叠子问题定义状态</li>
-<li>寻找最优子结构推导状态转移方程</li>
-<li>确定dp初始状态</li>
-<li>确定输出值</li>
-</ol>
-<h4 id="力扣509-斐波那契数"><a href="#力扣509-斐波那契数" class="headerlink" title="力扣509. 斐波那契数"></a>力扣<a target="_blank" rel="noopener" href="https://leetcode-cn.com/problems/fibonacci-number/">509. 斐波那契数</a></h4><ul>
-<li>思路：对于除了第一二个数外的数，都是由前两个数求和而得出，因此有状态转移方程dp[i] = dp[i-1]+dp[i-2]</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fib = <span class="function">(<span class="params">n</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (n &lt;= <span class="number">1</span>) <span class="keyword">return</span> n;</span><br><span class="line">    <span class="keyword">const</span> dp = [<span class="number">0</span>, <span class="number">1</span>];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">        <span class="comment">//自底向上计算每个状态</span></span><br><span class="line">        dp[i] = dp[i - <span class="number">1</span>] + dp[i - <span class="number">2</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> dp[n];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/24/%E7%AE%97%E6%B3%95-%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/11/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%B8%83%E5%B1%80/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1370,6 +1259,224 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" class="post-title-link" itemprop="url">js学习笔记14网络请求</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-23 10:15:20" itemprop="dateCreated datePublished" datetime="2021-12-23T10:15:20+08:00">2021-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:37:06" itemprop="dateModified" datetime="2021-12-25T14:37:06+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><h2 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a>Fetch API</h2><p>Fetch API能够执行XHR对象的所有任务，但更容易使用，接口也更现代化，能够在Web工作线程等陷害Web工具中使用。不同之处在于XHR可以选择同步或异步，但是Fetch API只能选择异步。</p>
+<ul>
+<li><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>fetch()方法是暴露在全局作用域中的</li>
+</ul>
+</li>
+<li><h4 id="分派请求"><a href="#分派请求" class="headerlink" title="分派请求"></a>分派请求</h4><ul>
+<li>fetch()只有一个必须参数input，作为请求URL，这个方法返回一个promise，这个对象是API的封装，可以通过他获取响应的资源。<ul>
+<li>在只有一个参数的情况下，默认执行get方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="读取响应"><a href="#读取响应" class="headerlink" title="读取响应"></a>读取响应</h4><ul>
+<li>读取响应内容的最简单方式是取得纯文本格式的内容，这要用到text()方法。这个方法返回一个promise，会决议为取得资源的完整内容。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/mock/data/getMsg&#x27;</span>).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="处理状态码和请求失败"><a href="#处理状态码和请求失败" class="headerlink" title="处理状态码和请求失败"></a>处理状态码和请求失败</h4><ul>
+<li>Fetch API支持通过Response的状态码和状态文本属性检查响应状态。<ul>
+<li>由于无论返回的响应式多少，只要返回了响应，那么promise都会决议为resolved状态，这在逻辑上是合理的，所以我们还要在已决议的promise中再去判断状态码，从而执行不同的操作。</li>
+<li>注意，如果服务器未响应导致浏览器超时，不符合的跨域请求都会导致fetch（）失败，从而导致promise决议为rejected。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h4><ol>
+<li>body<ul>
+<li>用于指定使用请求体的内容</li>
+</ul>
+</li>
+<li>credentials<ul>
+<li>用于指定在外发请求中包含cookie</li>
+</ul>
+</li>
+<li>method<ul>
+<li>用于指定HTTP请求方法</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><h4 id="Request对象"><a href="#Request对象" class="headerlink" title="Request对象"></a>Request对象</h4><ul>
+<li>顾名思义，Request对象就是获取资源请求接口</li>
+<li>创建Request对象<ol>
+<li>可以通过构造函数初始化Requset对象，为此需要传入一个input，一般是URL</li>
+<li>已接受第二个参数，和fetch()一样</li>
+<li>复制request对象，使用clone方法复制，这样不会请求标记为已使用。</li>
+<li>在fetch()中使用Request对象，在调用fetch()时，可以传入一创建好的Request实例。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><h4 id="Headers对象"><a href="#Headers对象" class="headerlink" title="Headers对象"></a>Headers对象</h4><ul>
+<li>headers对象时所有外法请求和入栈响应头部的容器。每个外发的Request实例都包含一个空的Header实例，可以通过Request.prototype.headers访问，每一个入栈的Respone实例也一样。</li>
+<li>Headers对象与Map的相似之处<ul>
+<li>都有get，set，has和delete</li>
+</ul>
+</li>
+<li>Headers的独特之处<ul>
+<li>可以使用键值对的形式初始化Headers对象，Map不行。</li>
+</ul>
+</li>
+<li>头部护卫<ul>
+<li>不是所有头部都可以被客户端修改</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="常见的Fetch请求模式"><a href="#常见的Fetch请求模式" class="headerlink" title="常见的Fetch请求模式"></a>常见的Fetch请求模式</h4><ul>
+<li><p>发送JSON数据</p>
+</li>
+<li><p>在请求体中发送参数</p>
+<ul>
+<li>因为请求体支持任意字符串值，所以可以通过它发送请求参数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> param = <span class="string">&#x27;username=admin&amp;pwd=admin&amp;deviceId=1&amp;deviceName=1&#x27;</span></span><br><span class="line"><span class="keyword">let</span> paramHearders = <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">		<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span></span><br><span class="line">	&#125;)</span><br><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/user/username/login&#x27;</span>,&#123;</span><br><span class="line">	<span class="attr">method</span>:<span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">	<span class="attr">body</span>:param,</span><br><span class="line">	<span class="attr">headers</span>:paramHearders</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p>发送文件</p>
+<ul>
+<li>因为请求体支持FormData实现，所以fetch()也可以序列化并发送文件字段中的文字件。</li>
+</ul>
+</li>
+<li><p>加载blob文件（重点！！）</p>
+<ul>
+<li>Fetch API也能提供Blob类型的响应，而blob又可以兼容多种浏览器API</li>
+</ul>
+</li>
+<li><p>发送跨域请求</p>
+<ul>
+<li>从不同的源请求资源，响应要包含CORS头部才能保证浏览器收到响应。没有这些头部，跨域请求会失败。</li>
+</ul>
+</li>
+<li><p>中断请求</p>
+<ul>
+<li>调用AbortController.abort()会中断所有网络传输。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h2><ul>
+<li><p>Web Socket的目标是通过一个长时间链接实现与服务器全双工、双向的通信（持久化推送消息）。在JavaScript中创建WebSocket时，一个HTTP请求会发送到服务器以初始化链接。服务器响应后，链接使用HTTP的Upgrade头部从HTTP协议切换到web Socket协议。这意味着web Socket不能通过标准的HTTP服务器实现，而必须使用支持该协议的服务器。</p>
+</li>
+<li><p>因为WebSocket使用自定义协议，所以URL方案稍有变化：不能再使用http://或者https://,而要使用ws://或wss://。前者是不安全链接，后者是安全链接</p>
+</li>
+<li><p>发送和接收数据，使用send（）方法并传入一个字符串、ArrayBuffer或Blob</p>
+</li>
+<li><p>API</p>
+<ul>
+<li>要创建一个新的Web Socket，就要实例化一个WebSocket对象并传入提供链接的URL</li>
+<li>注意：必须个WebSocket构造函数传入一个绝对URL。同源策略不适用于Web Socket。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>定义web socket协议的时间比定义JavaScript API时间药厂。Web Socket得到了所有主流浏览器的支持。</li>
+</ul>
+</li>
+<li><p>优点</p>
+<ul>
+<li>使用自定义协议而非HTTP协议的好处是，客户端与服务器之间可以发送十分少量的数据，不会对HTTP造成负担。</li>
+<li>非常适合带宽和延迟比较明显的移动端。</li>
+</ul>
+</li>
+</ul>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1441,7 +1548,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">44</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
