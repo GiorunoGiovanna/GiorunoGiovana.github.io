@@ -28,7 +28,7 @@
 <meta property="og:description" content="继承很多面向对象语言都支持两种继承：接口继承和实现继承。JavaScript只支持实现继承，而且是通过原型链方式继承的。这里介绍JavaScript中实现继承的7种方式（新增class方式继承）。 原型链继承原型链继承的基本思想是通过原型继承多个引用类型的属性和方法。 123456789101112function father()&amp;#123;	this.far&#x3D;true&amp;#125;father.">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-12-09T02:15:42.993Z">
-<meta property="article:modified_time" content="2022-03-30T08:26:45.698Z">
+<meta property="article:modified_time" content="2022-03-31T02:39:14.959Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-30 16:26:45" itemprop="dateModified" datetime="2022-03-30T16:26:45+08:00">2022-03-30</time>
+                <time title="修改时间：2022-03-31 10:39:14" itemprop="dateModified" datetime="2022-03-31T10:39:14+08:00">2022-03-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -417,6 +417,19 @@
 <li><p>class的静态属性只要在实例属性写法前面加上static关键字就可以了。</p>
 </li>
 </ol>
+<h3 id="class继承中的super"><a href="#class继承中的super" class="headerlink" title="class继承中的super"></a>class继承中的super</h3><p>由于采用了新的语法糖实现继承，class继承方式也更加直观易用。但是其中的super()函数有点不太好理解。</p>
+<p>ES6中class可以通过extends关键字实现继承，但同时需要在子类的constructor方法中添加super方法，否则在子类新建实例后调用父类属性或方法的时候会报错。</p>
+<p>这是因为子类自己的this对象，需要先通过父类的构造函数完成构造，得到父类的实例属性和方法后再进行自己的构造函数进行构造。而super()可以看作是一个指向离这个类最近的父类的指针函数，通过调用这个函数，子类就可以获得来自父类的实例属性和方法，从而实现继承，从这里可以看出，super()是实现继承的重要一环。</p>
+<h4 id="super的用法"><a href="#super的用法" class="headerlink" title="super的用法"></a>super的用法</h4><h6 id="super是一个比较特殊的JavaScript关键词，它可以有不同的用法"><a href="#super是一个比较特殊的JavaScript关键词，它可以有不同的用法" class="headerlink" title="super是一个比较特殊的JavaScript关键词，它可以有不同的用法"></a>super是一个比较特殊的JavaScript关键词，它可以有不同的用法</h6><ol>
+<li><p>super方法</p>
+<p>当super作为函数调用的时候，代表父类的构造函数。</p>
+<p>super虽然代表了父类A的构造函数，但是返回的是子类B的实例，即super内部的this指的是B的实例，因此super()在这里相当于**A.prototype.constructor.call(this)**。</p>
+<p>作为函数时，super()只能用在子类的构造函数之中，用在其他地方就会报错。</p>
+</li>
+<li><p>super对象</p>
+<p>super作为对象时，在普通方法中，指向父类的原型对象，在静态方法中，指向父类。</p>
+</li>
+</ol>
 
     </div>
 
@@ -501,7 +514,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF"><span class="nav-number">1.1.</span> <span class="nav-text">原型链继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%9F%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%BB%A7%E6%89%BF%EF%BC%88%E7%BB%8F%E5%85%B8%E7%BB%A7%E6%89%BF%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">借用构造函数继承（经典继承）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF-%E4%BC%AA%E7%BB%8F%E5%85%B8%E7%BB%A7%E6%89%BF"><span class="nav-number">2.</span> <span class="nav-text">组合继承(伪经典继承)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9E%8B%E5%BC%8F%E7%BB%A7%E6%89%BF"><span class="nav-number">2.1.</span> <span class="nav-text">原型式继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E7%94%9F%E5%BC%8F%E7%BB%A7%E6%89%BF"><span class="nav-number">2.2.</span> <span class="nav-text">寄生式继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E7%94%9F%E5%BC%8F%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF"><span class="nav-number">2.3.</span> <span class="nav-text">寄生式组合继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class%E7%BB%A7%E6%89%BF"><span class="nav-number">2.4.</span> <span class="nav-text">Class继承</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%A7%E6%89%BF"><span class="nav-number">1.</span> <span class="nav-text">继承</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E7%BB%A7%E6%89%BF"><span class="nav-number">1.1.</span> <span class="nav-text">原型链继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%80%9F%E7%94%A8%E6%9E%84%E9%80%A0%E5%87%BD%E6%95%B0%E7%BB%A7%E6%89%BF%EF%BC%88%E7%BB%8F%E5%85%B8%E7%BB%A7%E6%89%BF%EF%BC%89"><span class="nav-number">1.2.</span> <span class="nav-text">借用构造函数继承（经典继承）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF-%E4%BC%AA%E7%BB%8F%E5%85%B8%E7%BB%A7%E6%89%BF"><span class="nav-number">2.</span> <span class="nav-text">组合继承(伪经典继承)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E5%9E%8B%E5%BC%8F%E7%BB%A7%E6%89%BF"><span class="nav-number">2.1.</span> <span class="nav-text">原型式继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E7%94%9F%E5%BC%8F%E7%BB%A7%E6%89%BF"><span class="nav-number">2.2.</span> <span class="nav-text">寄生式继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%84%E7%94%9F%E5%BC%8F%E7%BB%84%E5%90%88%E7%BB%A7%E6%89%BF"><span class="nav-number">2.3.</span> <span class="nav-text">寄生式组合继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Class%E7%BB%A7%E6%89%BF"><span class="nav-number">2.4.</span> <span class="nav-text">Class继承</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#class%E7%BB%A7%E6%89%BF%E4%B8%AD%E7%9A%84super"><span class="nav-number">2.4.1.</span> <span class="nav-text">class继承中的super</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#super%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">super的用法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#super%E6%98%AF%E4%B8%80%E4%B8%AA%E6%AF%94%E8%BE%83%E7%89%B9%E6%AE%8A%E7%9A%84JavaScript%E5%85%B3%E9%94%AE%E8%AF%8D%EF%BC%8C%E5%AE%83%E5%8F%AF%E4%BB%A5%E6%9C%89%E4%B8%8D%E5%90%8C%E7%9A%84%E7%94%A8%E6%B3%95"><span class="nav-number">2.4.1.1.0.1.</span> <span class="nav-text">super是一个比较特殊的JavaScript关键词，它可以有不同的用法</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -517,7 +530,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-count">48</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
