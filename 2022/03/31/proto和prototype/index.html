@@ -20,17 +20,22 @@
     var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="记录自己的学习路程，以及一些有趣的事物">
-<meta property="og:type" content="website">
-<meta property="og:title" content="StoneOcean&#39;s Blog">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/categories/JavaScript/index.html">
+  <meta name="description" content="js中prototype和__proto__的区别和关系__proto__又被称为隐式原型，prototype又被称为显式原型 是什么 显式原型(prototype) 每一个函数在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。  隐式原型(__proto__) JavaScript中的任意对象都有一个内置属性[[prototype]],在ES5之前没有标准的方法方位">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js中prototype和proto的关系">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/31/proto%E5%92%8Cprototype/index.html">
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
-<meta property="og:description" content="记录自己的学习路程，以及一些有趣的事物">
+<meta property="og:description" content="js中prototype和__proto__的区别和关系__proto__又被称为隐式原型，prototype又被称为显式原型 是什么 显式原型(prototype) 每一个函数在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。  隐式原型(__proto__) JavaScript中的任意对象都有一个内置属性[[prototype]],在ES5之前没有标准的方法方位">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg">
+<meta property="article:published_time" content="2022-03-31T01:38:03.000Z">
+<meta property="article:modified_time" content="2022-04-03T09:00:43.948Z">
 <meta property="article:author" content="StoneOcean">
+<meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg">
 
-<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/categories/JavaScript/">
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/31/proto%E5%92%8Cprototype/">
 
 
 <script id="page-configurations">
@@ -38,12 +43,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: JavaScript | StoneOcean's Blog</title>
+  <title>js中prototype和proto的关系 | StoneOcean's Blog</title>
   
 
 
@@ -180,243 +185,155 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/31/proto%E5%92%8Cprototype/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          js中prototype和proto的关系
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-31 09:38:03" itemprop="dateCreated datePublished" datetime="2022-03-31T09:38:03+08:00">2022-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-03 17:00:43" itemprop="dateModified" datetime="2022-04-03T17:00:43+08:00">2022-04-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">JavaScript
-          <small>分类</small>
-        </h2>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/31/proto%E5%92%8Cprototype/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/31/proto%E5%92%8Cprototype/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
-    </div>
+        <h1 id="js中prototype和-proto-的区别和关系"><a href="#js中prototype和-proto-的区别和关系" class="headerlink" title="js中prototype和__proto__的区别和关系"></a>js中prototype和__proto__的区别和关系</h1><p>__proto__又被称为隐式原型，prototype又被称为显式原型</p>
+<h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><ul>
+<li><p>显式原型(prototype)</p>
+<p>每一个函数在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。</p>
+</li>
+<li><p>隐式原型(__proto__)</p>
+<p>JavaScript中的任意对象都有一个内置属性[[prototype]],在ES5之前没有标准的方法方位这个内置属性，但是大多数浏览器都支持通过__proto__来访问。ES5中有了对于这个内置属性标准的Get方法Object.getPrototypeOf()</p>
+</li>
+<li><p>两者的关系</p>
+<p>隐式原型指向<strong>创建这个对象的函数（constructor）的prototype</strong></p>
+</li>
+</ul>
+<h2 id="作用是什么"><a href="#作用是什么" class="headerlink" title="作用是什么"></a>作用是什么</h2><ul>
+<li>显式原型的作用：用来实现基于原型的继承与属性的共享</li>
+<li>隐式原型的作用：构成原型链，同样用于实现基于原型的继承。举个例子，当我们访问obj这个对象中的x属性时，如果在obj中找不到，那么就会沿着__proto__依次查找。</li>
+</ul>
+<h2 id="隐式原型的指向由什么决定"><a href="#隐式原型的指向由什么决定" class="headerlink" title="隐式原型的指向由什么决定"></a>隐式原型的指向由什么决定</h2><ol>
+<li><p>这个对象是通过对象字面量构造出来的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;lihua&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="string">&#x27;18&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+<p>这样构造出来的对象，其__proto__指向<strong>Object.prototype</strong></p>
+</li>
+<li><p>这个对象是由构造函数构造出来的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"><span class="title">var</span> <span class="title">obj</span> = <span class="title">new</span> <span class="title">Person</span>(<span class="params"></span>)</span></span><br></pre></td></tr></table></figure>
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-31T09:38:03+08:00"
-              content="2022-03-31">
-          03-31
-        </time>
-      </div>
+<p>通过new操作符调用的函数就是构造函数。由构造函数构造的对象，其__proto__指向<strong>其构造函数的prototype属性指向的对象</strong>。每个函数都有一个prototype属性，其所指向的对象带有constructor属性，这一属性指向函数自身。</p>
+</li>
+<li><p>这个对象是由函数Object.create构造出来的</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person1 = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&quot;lihua&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="string">&#x27;18&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person2 = <span class="built_in">Object</span>.create(person1)</span><br></pre></td></tr></table></figure>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/31/proto%E5%92%8Cprototype/" itemprop="url">
-            <span itemprop="name">js中prototype和proto的关系</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-30T10:20:28+08:00"
-              content="2022-03-30">
-          03-30
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/30/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" itemprop="url">
-            <span itemprop="name">排序算法</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-19T20:49:00+08:00"
-              content="2022-03-19">
-          03-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/19/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/" itemprop="url">
-            <span itemprop="name">函数柯里化</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-03-19T09:39:07+08:00"
-              content="2022-03-19">
-          03-19
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/03/19/js%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/" itemprop="url">
-            <span itemprop="name">js事件冒泡和捕获</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-01-11T14:41:36+08:00"
-              content="2022-01-11">
-          01-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/01/11/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%B8%83%E5%B1%80/" itemprop="url">
-            <span itemprop="name">css学习笔记03布局</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-    <div class="collection-year">
-      <span class="collection-header">2021</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-12-23T10:15:20+08:00"
-              content="2021-12-23">
-          12-23
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" itemprop="url">
-            <span itemprop="name">js学习笔记14网络请求</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-12-11T09:54:13+08:00"
-              content="2021-12-11">
-          12-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/" itemprop="url">
-            <span itemprop="name">js学习笔记13JSON</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-12-11T08:12:54+08:00"
-              content="2021-12-11">
-          12-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" itemprop="url">
-            <span itemprop="name">js学习笔记12异步编程</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-12-10T10:16:50+08:00"
-              content="2021-12-10">
-          12-10
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/" itemprop="url">
-            <span itemprop="name">js学习笔记11函数</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2021-12-10T09:54:38+08:00"
-              content="2021-12-10">
-          12-10
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="url">
-            <span itemprop="name">js学习笔记10代理与反射</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
+<p>这里对象的__proto__指向<strong>对象person1</strong></p>
+</li>
+</ol>
+<h2 id="原理图-amp-amp-总结"><a href="#原理图-amp-amp-总结" class="headerlink" title="原理图&amp;&amp;总结"></a>原理图&amp;&amp;总结</h2><p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg" alt="e83bca5f1d1e6bf359d1f75727968c11_720w"></p>
+<p>总结：</p>
+<ol>
+<li>__proto__是所有对象都有的属性，prototype是函数对象拥有的属性</li>
+<li>__proto__的指向根据对象创建方式的不同会指向不同的对象，而在由构造函数构成的对象中，__proto__指向构造函数的prototype</li>
+<li>prototype是方法才有的属性，指向该方法的原型对象</li>
+</ol>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/" rel="prev" title="css常见布局方式">
+      <i class="fa fa-chevron-left"></i> css常见布局方式
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/categories/JavaScript/page/2/">2</a><a class="extend next" rel="next" href="/categories/JavaScript/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
+  
+  
 
 
 
           </div>
           
+    <div class="comments" id="valine-comments"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -463,6 +380,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#js%E4%B8%ADprototype%E5%92%8C-proto-%E7%9A%84%E5%8C%BA%E5%88%AB%E5%92%8C%E5%85%B3%E7%B3%BB"><span class="nav-number">1.</span> <span class="nav-text">js中prototype和__proto__的区别和关系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.1.</span> <span class="nav-text">是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">1.2.</span> <span class="nav-text">作用是什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9A%90%E5%BC%8F%E5%8E%9F%E5%9E%8B%E7%9A%84%E6%8C%87%E5%90%91%E7%94%B1%E4%BB%80%E4%B9%88%E5%86%B3%E5%AE%9A"><span class="nav-number">1.3.</span> <span class="nav-text">隐式原型的指向由什么决定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E5%9B%BE-amp-amp-%E6%80%BB%E7%BB%93"><span class="nav-number">1.4.</span> <span class="nav-text">原理图&amp;&amp;总结</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
