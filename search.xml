@@ -3309,10 +3309,35 @@
 <li><p>布局实例</p>
 <p><strong>grid-template-columns</strong>对于实现布局非常有用，例如两栏布局</p>
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  grid-template-<span class="attribute">columns</span>: <span class="number">30%</span> <span class="number">70%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li></li>
 </ol>
 </li>
-<li></li>
+<li><p><strong>row-gap，columns-gap，gap</strong></p>
+<p><strong>row-gap和columns-gap</strong>分别设置表格的行间距和列间距</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  grid-row-gap: <span class="number">20px</span>;</span><br><span class="line">  grid-<span class="attribute">column-gap</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>gap</strong>是<strong>row-gap和columns-gap</strong>的合并写法</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    grid-gap: <span class="number">20px</span> <span class="number">20px</span> || <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>grid-template-areas</strong>(*)</p>
+<p>网格布局允许定义区域，一个区域可以由多个单元格组成。<strong>定义的区域只能为矩形区域，否则不生效</strong></p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">150px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">150px</span>;</span><br><span class="line">    <span class="attribute">display</span>:grid;</span><br><span class="line">    grid-template-<span class="attribute">columns</span>:<span class="number">50px</span> <span class="number">50px</span> <span class="number">50px</span>;</span><br><span class="line">    grid-template-rows:<span class="number">50px</span> <span class="number">50px</span> <span class="number">50px</span>;</span><br><span class="line">    grid-template-areas:<span class="string">&quot;a a a&quot;</span> <span class="string">&quot;c b b&quot;</span> <span class="string">&quot;c b b&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.a</span>&#123;</span><br><span class="line">    grid-area:a;</span><br><span class="line">    <span class="attribute">background</span>: skyblue;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.b</span>&#123;</span><br><span class="line">    grid-area:b;</span><br><span class="line">    <span class="attribute">background</span>: pink;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.c</span>&#123;</span><br><span class="line">    grid-area:c;</span><br><span class="line">    <span class="attribute">background</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220403154704309.png" alt="image-20220403154704309"></p>
+</li>
+<li><p><strong>grid-auto-flow</strong></p>
+<p>这个属性定义项目items的换行方式，默认是先行后列。优先级上区域优先级更高。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: grid;</span><br><span class="line">  grid-<span class="attribute">auto</span>-flow: column;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>justify-items,align-items,place-items</strong></p>
+<p>这个属性定义单元格内的内容对齐方式。</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    justify-items: start | end | center | stretch;</span><br><span class="line">    <span class="attribute">align-items</span>: start | end | center | stretch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>justify-content,align-content,place-content</strong></p>
+<p>这个属性定义整个单元格的对齐方式</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span> &#123;</span><br><span class="line">    <span class="attribute">justify-content</span>: start | end | center | stretch;</span><br><span class="line">    <span class="attribute">align-content</span>: start | end | center | stretch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>grid-column-start，grid-column-end，grid-row-start，grid-row-end</strong></p>
+<p>用于根据指定网格线取指定项目的位置</p>
+</li>
+<li><p><strong>justify-self ，align-self，place-self</strong></p>
+<p>用于指定单个项目的定位，用法跟justify-content一样</p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">  justify-self: start | end | center | stretch;</span><br><span class="line">  <span class="attribute">align-self</span>: start | end | center | stretch;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 ]]></content>
       <categories>
