@@ -257,134 +257,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/31/proto-%E5%92%8Cprototype/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/31/proto-%E5%92%8Cprototype/" class="post-title-link" itemprop="url">js中prototype和proto的关系</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-31 09:38:03" itemprop="dateCreated datePublished" datetime="2022-03-31T09:38:03+08:00">2022-03-31</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-03 17:00:43" itemprop="dateModified" datetime="2022-04-03T17:00:43+08:00">2022-04-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/31/proto-%E5%92%8Cprototype/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/31/proto-%E5%92%8Cprototype/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="js中prototype和-proto-的区别和关系"><a href="#js中prototype和-proto-的区别和关系" class="headerlink" title="js中prototype和__proto__的区别和关系"></a>js中prototype和__proto__的区别和关系</h1><p>__proto__又被称为隐式原型，prototype又被称为显式原型</p>
-<h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><ul>
-<li><p>显式原型(prototype)</p>
-<p>每一个函数在创建之后都会拥有一个名为prototype的属性，这个属性指向函数的原型对象。</p>
-</li>
-<li><p>隐式原型(__proto__)</p>
-<p>JavaScript中的任意对象都有一个内置属性[[prototype]],在ES5之前没有标准的方法方位这个内置属性，但是大多数浏览器都支持通过__proto__来访问。ES5中有了对于这个内置属性标准的Get方法Object.getPrototypeOf()</p>
-</li>
-<li><p>两者的关系</p>
-<p>隐式原型指向<strong>创建这个对象的函数（constructor）的prototype</strong></p>
-</li>
-</ul>
-<h2 id="作用是什么"><a href="#作用是什么" class="headerlink" title="作用是什么"></a>作用是什么</h2><ul>
-<li>显式原型的作用：用来实现基于原型的继承与属性的共享</li>
-<li>隐式原型的作用：构成原型链，同样用于实现基于原型的继承。举个例子，当我们访问obj这个对象中的x属性时，如果在obj中找不到，那么就会沿着__proto__依次查找。</li>
-</ul>
-<h2 id="隐式原型的指向由什么决定"><a href="#隐式原型的指向由什么决定" class="headerlink" title="隐式原型的指向由什么决定"></a>隐式原型的指向由什么决定</h2><ol>
-<li><p>这个对象是通过对象字面量构造出来的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> obj = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&#x27;lihua&#x27;</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="string">&#x27;18&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这样构造出来的对象，其__proto__指向<strong>Object.prototype</strong></p>
-</li>
-<li><p>这个对象是由构造函数构造出来的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"><span class="title">var</span> <span class="title">obj</span> = <span class="title">new</span> <span class="title">Person</span>(<span class="params"></span>)</span></span><br></pre></td></tr></table></figure>
-
-<p>通过new操作符调用的函数就是构造函数。由构造函数构造的对象，其__proto__指向<strong>其构造函数的prototype属性指向的对象</strong>。每个函数都有一个prototype属性，其所指向的对象带有constructor属性，这一属性指向函数自身。</p>
-</li>
-<li><p>这个对象是由函数Object.create构造出来的</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> person1 = &#123;</span><br><span class="line">    <span class="attr">name</span>:<span class="string">&quot;lihua&quot;</span>,</span><br><span class="line">    <span class="attr">age</span>:<span class="string">&#x27;18&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> person2 = <span class="built_in">Object</span>.create(person1)</span><br></pre></td></tr></table></figure>
-
-<p>这里对象的__proto__指向<strong>对象person1</strong></p>
-</li>
-</ol>
-<h2 id="原理图-amp-amp-总结"><a href="#原理图-amp-amp-总结" class="headerlink" title="原理图&amp;&amp;总结"></a>原理图&amp;&amp;总结</h2><p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg" alt="e83bca5f1d1e6bf359d1f75727968c11_720w"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/31/proto-%E5%92%8Cprototype/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1271,6 +1143,98 @@
   
   
 
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/" class="post-title-link" itemprop="url">手写fetch控制并发数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-03-10 09:35:28 / 修改时间：09:44:18" itemprop="dateCreated datePublished" datetime="2022-03-10T09:35:28+08:00">2022-03-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="fecth控制并发数"><a href="#fecth控制并发数" class="headerlink" title="fecth控制并发数"></a>fecth控制并发数</h1><p>面试题，实现一个带并发数限制的fetch请求函数</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendResquest</span>(<span class="params">urls, max</span>) </span>&#123; </span><br><span class="line">    <span class="keyword">let</span> pending_count = <span class="number">0</span>, <span class="comment">//并发数</span></span><br><span class="line">    idx = <span class="number">0</span>;<span class="comment">//当前请求的位置</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//先把请求池填满</span></span><br><span class="line">    <span class="keyword">while</span> (pending_count &lt; max) &#123; </span><br><span class="line">        _fetch(urls[idx++])</span><br><span class="line">    &#125; </span><br><span class="line">	</span><br><span class="line">	<span class="comment">//为了实现并发，需要嵌套调用fetch</span></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">_fetch</span>(<span class="params">url</span>) </span>&#123; </span><br><span class="line">        <span class="keyword">if</span> (!url) <span class="keyword">return</span>; </span><br><span class="line">        pending_count++; </span><br><span class="line">		<span class="built_in">console</span>.log(url+<span class="string">&#x27;:start，并发数:&#x27;</span>+pending_count)</span><br><span class="line">		<span class="keyword">await</span> fetch(url)</span><br><span class="line">		pending_count--</span><br><span class="line">		<span class="built_in">console</span>.log(url+<span class="string">&#x27;:end，并发数:&#x27;</span>+pending_count)</span><br><span class="line">		<span class="comment">//此fetch执行完毕，切换下一个fetch</span></span><br><span class="line">		_fetch(urls[idx++])</span><br><span class="line">		<span class="keyword">if</span>(!pending_count)&#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">&quot;执行完毕&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//验证</span></span><br><span class="line"><span class="keyword">let</span> urls = <span class="built_in">Array</span>.from(&#123;<span class="attr">length</span>:<span class="number">7</span>&#125;, <span class="function">(<span class="params">v, k</span>) =&gt;</span> k);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> fetch = <span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> timeout = <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * <span class="number">1e4</span>);</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            resolve(idx)</span><br><span class="line">        &#125;, timeout)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> max = <span class="number">4</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> callback = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;run callback&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//执行</span></span><br><span class="line">sendResquest(urls, max, callback)</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
 
   
   <nav class="pagination">
@@ -1342,7 +1306,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">47</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
