@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="CSS3动画在CSS3之前前端动画实现基本上都靠JavaScriptAPI去动态改变元素样式属性来完成，这种方式虽然能够实现动画，但是在性能上存在一些问题。CSS3动画的出现很好地解决了这些问题。 CSS动画属性主要有transform、transition、animation transformtransform可以用来设置元素的形状改变，主要有以下几种变形：rotate（旋转）、scale（缩">
+<meta property="og:type" content="article">
+<meta property="og:title" content="css学习笔记04动画">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="StoneOcean&#39;s Blog">
+<meta property="og:description" content="CSS3动画在CSS3之前前端动画实现基本上都靠JavaScriptAPI去动态改变元素样式属性来完成，这种方式虽然能够实现动画，但是在性能上存在一些问题。CSS3动画的出现很好地解决了这些问题。 CSS动画属性主要有transform、transition、animation transformtransform可以用来设置元素的形状改变，主要有以下几种变形：rotate（旋转）、scale（缩">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-04T01:25:28.000Z">
+<meta property="article:modified_time" content="2022-04-04T02:35:37.791Z">
+<meta property="article:author" content="StoneOcean">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>css学习笔记04动画 | StoneOcean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">StoneOcean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">StoneOcean的个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/GiorunoGiovanna" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          css学习笔记04动画
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-04 09:25:28 / 修改时间：10:35:37" itemprop="dateCreated datePublished" datetime="2022-04-04T09:25:28+08:00">2022-04-04</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="CSS3动画"><a href="#CSS3动画" class="headerlink" title="CSS3动画"></a>CSS3动画</h1><p>在CSS3之前前端动画实现基本上都靠JavaScriptAPI去动态改变元素样式属性来完成，这种方式虽然能够实现动画，但是在性能上存在一些问题。CSS3动画的出现很好地解决了这些问题。</p>
+<p>CSS动画属性主要有<strong>transform、transition、animation</strong></p>
+<h2 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h2><p>transform可以用来设置元素的形状改变，主要有以下几种变形：<code>rotate</code>（旋转）、<code>scale</code>（缩放）、<code>skew</code>（扭曲）、<code>translate</code>（移动）和<code>matrix</code>（矩阵变形），语法如下：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-class</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span> ： <span class="attribute">none</span> | &lt;<span class="attribute">transform</span>-function&gt; <span class="selector-attr">[ &lt;transform-function&gt; ]</span>*</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>none</code>表示不做变换；<code>&lt;transform-function&gt;</code>表示一个或多个变化函数，变化函数由函数名和参数组成，参数包含在<code>()</code>里面，用<strong>空格</strong>分开，例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-class</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span> ： rotate(<span class="number">30deg</span>) scale(<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="transform-origin基点"><a href="#transform-origin基点" class="headerlink" title="transform-origin基点"></a>transform-origin基点</h3><p>所有变形都是基于基点，基点默认为元素的中心点。用法：<code>transform-origin:(x,y)</code>其中x和y的值可以是百分比、rem或者px等等，也可以用表示位置的单词来表示例如：x可以用<code>left、center、right</code>；y可以用<code>top、center、bottom</code><strong>不要加括号也不要加逗号，空格就行</strong></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-class</span> &#123;</span><br><span class="line">    <span class="attribute">transform-origin</span>: left bottom;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="rotate旋转"><a href="#rotate旋转" class="headerlink" title="rotate旋转"></a>rotate旋转</h3><p><code>rotate(&lt;angle&gt;)</code>；表示通过指定的角度对元素进行旋转变形，如果是正数则顺时针旋转，如果是负数则逆时针旋转，例如：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-rotate</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">30deg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="scale缩放"><a href="#scale缩放" class="headerlink" title="scale缩放"></a>scale缩放</h3><p>它有三种用法：<code>scale(&lt;number&gt;[, &lt;number&gt;])</code>、<code>scaleX(&lt;number&gt;)</code>和<code>scaleY(&lt;number&gt;)</code>；分别代表水平和垂直方向同时缩放、水平方向的缩放以及垂直方向的缩放，入参代表水平或者垂直方向的缩放比例。缩放比例如果大于1则放大，反之则缩小，如果等于1代表原始大小。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-scale</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(<span class="number">2</span>,<span class="number">1.5</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.transform-scaleX</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scaleX</span>(<span class="number">2</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.transform-scaleY</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scaleY</span>(<span class="number">1.5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="translate移动"><a href="#translate移动" class="headerlink" title="translate移动"></a>translate移动</h3><p>移动也分三种情况：<code>translate(&lt;translation-value&gt;[, &lt;translation-value&gt;])</code>、<code>translateX(&lt;translation-value&gt;)</code>和<code>translateY(&lt;translation-value&gt;)</code>；分别代表水平和垂直的移动、水平方向的移动以及垂直方向同时移动，移动单位是 CSS 中的长度单位：<code>px</code>、<code>rem</code>等;</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-translate</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(<span class="number">400px</span>, <span class="number">20px</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.transform-translateX</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(<span class="number">300px</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.transform-translateY</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(<span class="number">20px</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="skew扭曲"><a href="#skew扭曲" class="headerlink" title="skew扭曲"></a>skew扭曲</h3><p>扭曲同样也有三种情况，<code>skew(&lt;angle&gt;[, &lt;angle&gt;])</code>、<code>skewX(&lt;angle&gt;)</code>和<code>skewY(&lt;angle&gt;)</code>；同样也是水平和垂直方向同时扭曲、水平方向的扭曲以及垂直方向的扭曲，单位为角度。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-skew</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">skew</span>(<span class="number">30deg</span>, <span class="number">10deg</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.transform-skewX</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">skewX</span>(<span class="number">30deg</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.transform-skewY</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">skewY</span>(<span class="number">10deg</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="matrix矩阵形变"><a href="#matrix矩阵形变" class="headerlink" title="matrix矩阵形变"></a>matrix矩阵形变</h3><p>to be continue</p>
+<h2 id="transition"><a href="#transition" class="headerlink" title="transition"></a>transition</h2><p>transform是过渡的意思。过渡是CSS3中具有颠覆性的一个特征，可以实现元素不同状态的平滑过渡（补间动画），进程用来制作动画效果。 </p>
+<p><code>transition</code>是用来设置样式的属性值是如何从一种状态平滑过渡到另外一种状态，他有四个属性：</p>
+<ul>
+<li>transition-property（变换的属性，即哪一种形式的变换：大小、位置、扭曲）</li>
+<li>transition-duration（变换延续的时间）</li>
+<li>transition-timing-function（变换的速率）</li>
+<li>transition-delay（变换的延时）</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transition-class</span> &#123;</span><br><span class="line">    <span class="attribute">transition</span> ： <span class="selector-attr">[&lt;<span class="string">&#x27;transition-property&#x27;</span>&gt; || &lt;<span class="string">&#x27;transition-duration&#x27;</span>&gt; || &lt;<span class="string">&#x27;transition-timing-function&#x27;</span>&gt; || &lt;<span class="string">&#x27;transition-delay&#x27;</span>&gt; [, [&lt;<span class="string">&#x27;transition-property&#x27;</span>&gt; || &lt;<span class="string">&#x27;transition-duration&#x27;</span>&gt; || &lt;<span class="string">&#x27;transition-timing-function&#x27;</span>&gt; || &lt;<span class="string">&#x27;transition-delay&#x27;</span>&gt;]</span>]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="transition-property"><a href="#transition-property" class="headerlink" title="transition-property"></a>transition-property</h3><p>用于设置哪些属性的改变会有平滑过渡的效果</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transition-property</span> &#123;</span><br><span class="line">    <span class="attribute">transition-property</span> ： <span class="attribute">none</span> | all | <span class="selector-attr">[ &lt;IDENT&gt; ]</span> <span class="selector-attr">[ <span class="string">&#x27;,&#x27;</span> &lt;IDENT&gt; ]</span>*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="transition-duration"><a href="#transition-duration" class="headerlink" title="transition-duration"></a>transition-duration</h3><p>用于设置转换过程的持续时间，单位是s或者ms</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transition-duration</span> &#123;</span><br><span class="line">    <span class="attribute">transition-duration</span> ： &lt;<span class="selector-tag">time</span>&gt; <span class="selector-attr">[, &lt;time&gt;]</span>* ;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="transition-timing-function"><a href="#transition-timing-function" class="headerlink" title="transition-timing-function"></a>transition-timing-function</h3><p>它是来设置过渡效果的速率，它有6种形式的速率：</p>
+<ul>
+<li>ease：逐渐变慢（默认），等同于贝塞尔曲线(0.25, 0.1, 0.25, 1.0)；</li>
+<li>linear：匀速，等同于贝塞尔曲线(0.0, 0.0, 1.0, 1.0)；</li>
+<li>ease-in：加速，等同于贝塞尔曲线(0.42, 0, 1.0, 1.0)；</li>
+<li>ease-out：减速，等同于贝塞尔曲线(0, 0, 0.58, 1.0)；</li>
+<li>ease-in-out：先加速后减速，等同于贝塞尔曲线(0.42, 0, 0.58, 1.0)；</li>
+<li>cubic-bezier：自定义贝塞尔曲线。</li>
+</ul>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transition-timing</span> &#123;</span><br><span class="line">    <span class="attribute">transition-timing-function</span> ： ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;) <span class="selector-attr">[, ease | linear | ease-in | ease-out | ease-in-out | cubic-bezier(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;)]</span>*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="transition-delay"><a href="#transition-delay" class="headerlink" title="transition-delay"></a>transition-delay</h3><p>它是来设置过渡动画开始执行的时间，单位是<code>s</code>或者<code>ms</code>，默认值为0；</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transition-delay</span> &#123;</span><br><span class="line">    <span class="attribute">transition-delay</span> ： &lt;<span class="selector-tag">time</span>&gt; <span class="selector-attr">[, &lt;time&gt;]</span>*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="transition-1"><a href="#transition-1" class="headerlink" title="transition"></a>transition</h3><p>它是<code>transition-property</code>、<code>transition-duration</code>、<code>transition-timing-function</code>、<code>transition-delay</code>的简写：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transition</span> &#123;</span><br><span class="line">    <span class="attribute">transition</span> ：&lt;property&gt; &lt;duration&gt; &lt;timing function&gt; &lt;delay&gt;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="animation"><a href="#animation" class="headerlink" title="animation"></a>animation</h2><p><code>animation</code>比较类似于flash中的逐帧动画，逐帧动画就像电影的播放一样，表现非常细腻并且有非常强大的灵活性。然而<code>transiton</code>只是指定了开始和结束态，整个动画的过程也是由特定的函数控制。这种逐帧动画是由关键帧组成的。在CSS3中就是由属性<code>keyframes</code>来完成逐帧动画的。</p>
+<h3 id="keyframes关键帧"><a href="#keyframes关键帧" class="headerlink" title="@keyframes关键帧"></a>@keyframes关键帧</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@keyframes</span> animationName &#123;</span><br><span class="line">    <span class="selector-tag">from</span> &#123;</span><br><span class="line">        properties: value;</span><br><span class="line">    &#125;</span><br><span class="line">    percentage &#123;</span><br><span class="line">        properties: value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="selector-tag">to</span> &#123;</span><br><span class="line">        properties: value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//or</span><br><span class="line"><span class="keyword">@keyframes</span> animationName &#123;</span><br><span class="line">    <span class="number">0%</span> &#123;</span><br><span class="line">        properties: value;</span><br><span class="line">    &#125;</span><br><span class="line">    percentage &#123;</span><br><span class="line">        properties: value;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="number">100%</span> &#123;</span><br><span class="line">        properties: value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-name"><a href="#animation-name" class="headerlink" title="animation-name"></a>animation-name</h3><p>它是用来设置动画的名称，可以同时赋值多个动画名称</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.animation</span> &#123;</span><br><span class="line">    <span class="attribute">animation-name</span>: none | IDENT[,none | IDENT]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-duration"><a href="#animation-duration" class="headerlink" title="animation-duration"></a>animation-duration</h3><p>它是用来设置动画的持续时间，单位为<code>s</code>，默认值为<code>0</code>：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.animation</span> &#123;</span><br><span class="line">    <span class="attribute">animation-duration</span>: &lt;time&gt;[,&lt;time&gt;]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-timing-function"><a href="#animation-timing-function" class="headerlink" title="animation-timing-function"></a>animation-timing-function</h3><p>和<code>transition-timing-function</code>类似：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.animation</span> &#123;</span><br><span class="line">    <span class="attribute">animation-timing-function</span>:ease | linear | ease-in | ease-out | ease-in-out | <span class="built_in">cubic-bezier</span>(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;) [, ease | linear | ease-in | ease-out | ease-in-out | <span class="built_in">cubic-bezier</span>(&lt;number&gt;, &lt;number&gt;, &lt;number&gt;, &lt;number&gt;)]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-delay"><a href="#animation-delay" class="headerlink" title="animation-delay"></a>animation-delay</h3><p>它是来设置动画的开始时间，单位是<code>s</code>或者<code>ms</code>，默认值为0：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.animation</span> &#123;</span><br><span class="line">    <span class="attribute">animation-delay</span>: &lt;time&gt;[,&lt;time&gt;]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-iteration-count"><a href="#animation-iteration-count" class="headerlink" title="animation-iteration-count"></a>animation-iteration-count</h3><p>它是来设置动画循环的次数，默认为<code>1</code>，<code>infinite</code>为无限次数的循环：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.animation</span> &#123;</span><br><span class="line">    <span class="attribute">animation-iteration-count</span>:infinite | &lt;number&gt; [, infinite | &lt;number&gt;]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-direction"><a href="#animation-direction" class="headerlink" title="animation-direction"></a>animation-direction</h3><p>它是来设置动画播放的方向，默认值为<code>normal</code>表示向前播放，<code>alternate</code>代表动画播放在第偶数次向前播放，第奇数次向反方向播放：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.animation</span> &#123;</span><br><span class="line">    <span class="attribute">animation-direction</span>: normal | alternate [, normal | alternate]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-play-state"><a href="#animation-play-state" class="headerlink" title="animation-play-state"></a>animation-play-state</h3><p>它主要是来控制动画的播放状态：<code>running</code>代表播放，而<code>paused</code>代表停止播放，<code>running</code>为默认值：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.animation</span> &#123;</span><br><span class="line">    <span class="attribute">animation-play-state</span>:running | paused [, running | paused]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="animation-1"><a href="#animation-1" class="headerlink" title="animation"></a>animation</h3><p>它是<code>animation-name</code>、<code>animation-duration</code>、<code>animation-timing-function</code>、<code>animation-delay</code>、<code>animation-iteration-count</code>、<code>animation-direction</code>的简写：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">.animation &#123;</span><br><span class="line">    animation:[<span class="tag">&lt;<span class="name">animation-name</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-duration</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-timing-function</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-delay</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-iteration-count</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-direction</span>&gt;</span>] [, [<span class="tag">&lt;<span class="name">animation-name</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-duration</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-timing-function</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-delay</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-iteration-count</span>&gt;</span> || <span class="tag">&lt;<span class="name">animation-direction</span>&gt;</span>] ]*;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/03/31/proto%E5%92%8Cprototype/" rel="prev" title="js中prototype和proto的关系">
+      <i class="fa fa-chevron-left"></i> js中prototype和proto的关系
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS3%E5%8A%A8%E7%94%BB"><span class="nav-number">1.</span> <span class="nav-text">CSS3动画</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#transform"><span class="nav-number">1.1.</span> <span class="nav-text">transform</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#transform-origin%E5%9F%BA%E7%82%B9"><span class="nav-number">1.1.1.</span> <span class="nav-text">transform-origin基点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rotate%E6%97%8B%E8%BD%AC"><span class="nav-number">1.1.2.</span> <span class="nav-text">rotate旋转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scale%E7%BC%A9%E6%94%BE"><span class="nav-number">1.1.3.</span> <span class="nav-text">scale缩放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#translate%E7%A7%BB%E5%8A%A8"><span class="nav-number">1.1.4.</span> <span class="nav-text">translate移动</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#skew%E6%89%AD%E6%9B%B2"><span class="nav-number">1.1.5.</span> <span class="nav-text">skew扭曲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#matrix%E7%9F%A9%E9%98%B5%E5%BD%A2%E5%8F%98"><span class="nav-number">1.1.6.</span> <span class="nav-text">matrix矩阵形变</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#transition"><span class="nav-number">1.2.</span> <span class="nav-text">transition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#transition-property"><span class="nav-number">1.2.1.</span> <span class="nav-text">transition-property</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transition-duration"><span class="nav-number">1.2.2.</span> <span class="nav-text">transition-duration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transition-timing-function"><span class="nav-number">1.2.3.</span> <span class="nav-text">transition-timing-function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transition-delay"><span class="nav-number">1.2.4.</span> <span class="nav-text">transition-delay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#transition-1"><span class="nav-number">1.2.5.</span> <span class="nav-text">transition</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#animation"><span class="nav-number">1.3.</span> <span class="nav-text">animation</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#keyframes%E5%85%B3%E9%94%AE%E5%B8%A7"><span class="nav-number">1.3.1.</span> <span class="nav-text">@keyframes关键帧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-name"><span class="nav-number">1.3.2.</span> <span class="nav-text">animation-name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-duration"><span class="nav-number">1.3.3.</span> <span class="nav-text">animation-duration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-timing-function"><span class="nav-number">1.3.4.</span> <span class="nav-text">animation-timing-function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-delay"><span class="nav-number">1.3.5.</span> <span class="nav-text">animation-delay</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-iteration-count"><span class="nav-number">1.3.6.</span> <span class="nav-text">animation-iteration-count</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-direction"><span class="nav-number">1.3.7.</span> <span class="nav-text">animation-direction</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-play-state"><span class="nav-number">1.3.8.</span> <span class="nav-text">animation-play-state</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#animation-1"><span class="nav-number">1.3.9.</span> <span class="nav-text">animation</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="StoneOcean"
+      src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">StoneOcean</p>
+  <div class="site-description" itemprop="description">记录自己的学习路程，以及一些有趣的事物</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GiorunoGiovanna" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GiorunoGiovanna" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:971615621@qq.com" title="E-Mail → mailto:971615621@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/joker_21" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;joker_21" rel="noopener" target="_blank">CSDN</a>
+        </li>
+    </ul>
+  </div>
+
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1383864027&auto=0&height=66"></iframe>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+<!--  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneOcean</span>-->
+
+<!---->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  本站总访问量<span id="busuanzi_value_site_pv"></span>次 |
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次 |
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'R4P3AYQnIg7nWijg9leQO1Q0-gzGzoHsz',
+      appKey     : 'uqUrNJX2Awrl6QNfEMelYYFH',
+      placeholder: "说些什么吧~",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":"true#是否在手机端显示"},"log":false});</script></body>
+</html>
