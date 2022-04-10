@@ -3874,4 +3874,38 @@
         <tag>学习笔记</tag>
       </tags>
   </entry>
+  <entry>
+    <title>首屏加载优化</title>
+    <url>/2022/04/10/%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h1 id="首屏加载优化"><a href="#首屏加载优化" class="headerlink" title="首屏加载优化"></a>首屏加载优化</h1><p>首屏加载优化是前端开发中必须重视的一环，首屏加载时间太长会破坏用户体验，严重的甚至会导致客户的流失，所以要尽可能用各种方法去优化前端首屏加载的时间。</p>
+<h2 id="通用优化方法"><a href="#通用优化方法" class="headerlink" title="通用优化方法"></a>通用优化方法</h2><ol>
+<li><p>图片资源的压缩，使用雪碧图将一个页面所用到的图标用一张大图代替。</p>
+</li>
+<li><p>图片的懒加载，在首屏中一开始用户无法看见的地方的图片可以不优先加载，等到用户浏览这个地方的时候再加载。</p>
+<p>详情见手写<a href="https://stoneocean.top/2022/04/06/%E6%89%8B%E5%86%99%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/">图片懒加载</a></p>
+</li>
+<li><p>使用cdn加速，负载均衡，将一部分资源转移到cdn服务器上，减轻主服务器的压力。</p>
+<p>例如：</p>
+<ul>
+<li><p>在index中引入cdn服务器中的依赖</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 首屏优化，使用cdn引入外部文件 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- vue主要的js文件--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/vue/2.6.11/vue.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- element-ui的文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://unpkg.com/element-ui/lib/theme-chalk/index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--  组件库引入--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/element-ui/2.15.2/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/vue-router/3.5.1/vue-router.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/axios/0.21.1/axios.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在vue.config中引入外部文件</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">configureWebpack:&#123;</span><br><span class="line">    <span class="attr">externals</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;vue&#x27;</span>:<span class="string">&#x27;Vue&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;vue-router&#x27;</span>:<span class="string">&#x27;VueRouter&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;axios&#x27;</span>:<span class="string">&#x27;axios&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;element-ui&#x27;</span>:<span class="string">&#x27;Element&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>main.js不用导入elementui，因为是全局引入，需要的直接使用就行</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// import ElementUI from &quot;element-ui&quot;;</span></span><br><span class="line"><span class="comment">// import &quot;element-ui/lib/theme-chalk/index.css&quot;;</span></span><br><span class="line"><span class="comment">// Vue.use(ElementUI);</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+</ol>
+<h2 id="对于Vue的优化方法"><a href="#对于Vue的优化方法" class="headerlink" title="对于Vue的优化方法"></a>对于Vue的优化方法</h2><ol>
+<li>由于vue使用的是webpack框架进行资源打包，我们可以将打包后的资源使用Gzip进行压缩，使得依赖文件体积更小。</li>
+<li>路由懒加载，路由在需要用到的时候再进行加载。组件懒加载同理。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
 </search>
