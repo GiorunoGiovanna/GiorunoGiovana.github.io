@@ -20,15 +20,15 @@
     var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="面经摘抄02 触发回流的一些操作 js更改DOM元素（增删改） 样式表的添加或者删除 窗口大小改变 字体大小改变 激活伪类，如:hover(hover颜色除外) 改变样式属性（颜色，透明度除外） 更改元素的className 位置的计算（对如offsetHeight或者getComputerdStyle之类的元素进行测量） 修改页面上的内容，例如输入框中的文本、用户输入">
+  <meta name="description" content="面经摘抄02 重绘和回流以及如何减少回流重绘：当前页面中元素样式的改变并不影响它在文档流中的位置，也就是说布局没有发生改变的时候 回流：任何会改变元素几何信息的操作，都会触发回流，回流是影响浏览器新能的关键因素。  js更改DOM元素（增删改） 样式表的添加或者删除 窗口大小改变 字体大小改变 激活伪类，如:hover(hover颜色除外) 改变样式属性（颜色，透明度除外） 更改元素的classN">
 <meta property="og:type" content="article">
 <meta property="og:title" content="面经摘抄02">
 <meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/index.html">
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
-<meta property="og:description" content="面经摘抄02 触发回流的一些操作 js更改DOM元素（增删改） 样式表的添加或者删除 窗口大小改变 字体大小改变 激活伪类，如:hover(hover颜色除外) 改变样式属性（颜色，透明度除外） 更改元素的className 位置的计算（对如offsetHeight或者getComputerdStyle之类的元素进行测量） 修改页面上的内容，例如输入框中的文本、用户输入">
+<meta property="og:description" content="面经摘抄02 重绘和回流以及如何减少回流重绘：当前页面中元素样式的改变并不影响它在文档流中的位置，也就是说布局没有发生改变的时候 回流：任何会改变元素几何信息的操作，都会触发回流，回流是影响浏览器新能的关键因素。  js更改DOM元素（增删改） 样式表的添加或者删除 窗口大小改变 字体大小改变 激活伪类，如:hover(hover颜色除外) 改变样式属性（颜色，透明度除外） 更改元素的classN">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-11T08:05:30.000Z">
-<meta property="article:modified_time" content="2022-04-11T08:11:30.737Z">
+<meta property="article:modified_time" content="2022-04-13T07:21:40.434Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
@@ -212,10 +212,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-11 16:05:30 / 修改时间：16:11:30" itemprop="dateCreated datePublished" datetime="2022-04-11T16:05:30+08:00">2022-04-11</time>
+              <time title="创建时间：2022-04-11 16:05:30" itemprop="dateCreated datePublished" datetime="2022-04-11T16:05:30+08:00">2022-04-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-13 15:21:40" itemprop="dateModified" datetime="2022-04-13T15:21:40+08:00">2022-04-13</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -252,7 +258,9 @@
 
       
         <h1 id="面经摘抄02"><a href="#面经摘抄02" class="headerlink" title="面经摘抄02"></a>面经摘抄02</h1><ol>
-<li><h5 id="触发回流的一些操作"><a href="#触发回流的一些操作" class="headerlink" title="触发回流的一些操作"></a>触发回流的一些操作</h5><ol>
+<li><h5 id="重绘和回流以及如何减少回流"><a href="#重绘和回流以及如何减少回流" class="headerlink" title="重绘和回流以及如何减少回流"></a>重绘和回流以及如何减少回流</h5><p>重绘：当前页面中元素样式的改变并不影响它在文档流中的位置，也就是说布局没有发生改变的时候</p>
+<p>回流：任何会改变元素几何信息的操作，都会触发回流，回流是影响浏览器新能的关键因素。</p>
+<ol>
 <li>js更改DOM元素（增删改）</li>
 <li>样式表的添加或者删除</li>
 <li>窗口大小改变</li>
@@ -262,6 +270,54 @@
 <li>更改元素的className</li>
 <li>位置的计算（对如offsetHeight或者getComputerdStyle之类的元素进行测量）</li>
 <li>修改页面上的内容，例如输入框中的文本、用户输入</li>
+</ol>
+<p>如何减少回流：</p>
+<p>css：</p>
+<ul>
+<li>避免设置多层内联样式</li>
+<li>如果需要设置动画效果，最好将元素脱离正常的文档流</li>
+<li>避免使用css表达式</li>
+</ul>
+<p>JavaScript</p>
+<ul>
+<li>避免频繁操作演示，最好将样式列表定义为class并一次性改变样式</li>
+<li>避免频繁操作DOM</li>
+<li>可以先将元素设置为不可见：display：none,操作结束后再把它显示出来。 </li>
+<li>通过硬件加速可以是渲染图层提升为复合图层。</li>
+</ul>
+</li>
+<li><h5 id="内存泄露的原因和解决方案"><a href="#内存泄露的原因和解决方案" class="headerlink" title="内存泄露的原因和解决方案"></a>内存泄露的原因和解决方案</h5><p>通俗点说就是指由于疏忽或者错误造成程序未能释放已经不再使用的内存，从而造成内存上的浪费。</p>
+<ol>
+<li><p>意外的全局变量：在函数内部没有使用var声明变量，导致创建一个全局变量。</p>
+<p>解决方案：使用严格模式编写，使用eslint纠错</p>
+</li>
+<li><p>计时器和回调函数timers：定时器在使用的时候会生成一个唯一的标识符用于操作这个计时器，如果调用了计时器之后不管他，就会导致标识符一直存在</p>
+<p>解决方案：当不需要再使用计时器的时候调用ckeartimeout或者clearInterval</p>
+</li>
+<li><p>js闭包</p>
+<p>闭包在IE6下会造成内存泄漏，但是现在已经无须考虑了。值得注意的是闭包本身不会造成内存泄漏，但闭包过多很容易导致内存泄漏。闭包会造成对象引用的生命周期脱离当前函数的上下文，如果闭包如果使用不当，可以导致环形引用（circular reference），类似于死锁，只能避免，无法发生之后解决，即使有垃圾回收也还是会内存泄露。</p>
+</li>
+<li><p>DOM泄露</p>
+<p>给DOM对象添加的熟悉感是一个对象的引用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;&#125;;</span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&#x27;id&#x27;</span>).diyProp = a;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><h5 id="JavaScript为什么是单线程的"><a href="#JavaScript为什么是单线程的" class="headerlink" title="JavaScript为什么是单线程的"></a>JavaScript为什么是单线程的</h5><p>这与JavaScript的用途有关，JavaScript最初是被设计为浏览器的脚本语言，而浏览器的作用就是和用户交互，以及操作DOM。这决定了它只能是单线程的，否则会带来很严重的冲突问题。比如，JavaScript在一个线程中删除了一个DOM节点，但是另一个线程却修改了这个DOM节点，浏览器应该以哪一个线程的结果为准？</p>
+<p>为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完 全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。</p>
+</li>
+<li><h5 id="事件委托的原理以及优缺点"><a href="#事件委托的原理以及优缺点" class="headerlink" title="事件委托的原理以及优缺点"></a>事件委托的原理以及优缺点</h5><p>原理：JavaScript事件代理是通过把事件处理器添加到上一个上级元素，这样就比米娜了将事件处理器添加到多个子级的元素上。当我们需要对很多元素添加事件的时候，可以通过将事件添加到它们的上级元素而将事件委托给上级元素来触发处理函数。这主要得益于浏览器的事件冒泡机制。</p>
+<p>优点：</p>
+<ol>
+<li>减少事件注册，节省内存。</li>
+<li>在table上代理所有td的click事件</li>
+<li>简化了DOM节点更新的时候，相应的事件的更新</li>
+<li>不用在新添加的li上绑定click事件</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>事件委托基于冒泡，对于不冒泡的事件不支持</li>
+<li>层级过多，冒泡过程中，可能会被某层阻止</li>
+<li>把所有事件都用代理就可能会出现事件误判。比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。</li>
 </ol>
 </li>
 </ol>
@@ -286,7 +342,10 @@
     <a href="/2022/04/11/%E6%89%8B%E5%86%99freeze/" rel="prev" title="手写freeze">
       <i class="fa fa-chevron-left"></i> 手写freeze
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/11/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%AE%97%E6%B3%95/" rel="next" title="时间复杂度和空间复杂度算法">
+      时间复杂度和空间复杂度算法 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -346,7 +405,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402"><span class="nav-number">1.</span> <span class="nav-text">面经摘抄02</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E5%9B%9E%E6%B5%81%E7%9A%84%E4%B8%80%E4%BA%9B%E6%93%8D%E4%BD%9C"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">触发回流的一些操作</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402"><span class="nav-number">1.</span> <span class="nav-text">面经摘抄02</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E7%BB%98%E5%92%8C%E5%9B%9E%E6%B5%81%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%9B%9E%E6%B5%81"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">重绘和回流以及如何减少回流</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">内存泄露的原因和解决方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">JavaScript为什么是单线程的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%E7%9A%84%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.0.0.0.4.</span> <span class="nav-text">事件委托的原理以及优缺点</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -362,14 +421,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-count">62</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-count">12</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
