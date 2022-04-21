@@ -186,6 +186,916 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/" class="post-title-link" itemprop="url">微搭低代码搭建简易扫码系统</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-03 16:16:14" itemprop="dateCreated datePublished" datetime="2022-01-03T16:16:14+08:00">2022-01-03</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-29 17:02:16" itemprop="dateModified" datetime="2022-03-29T17:02:16+08:00">2022-03-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">微搭低代码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="搭建前提"><a href="#搭建前提" class="headerlink" title="搭建前提"></a>搭建前提</h2><ol>
+<li>找陆哥分配一个团队子账号，后续用这个子账号在团队账号中进行开发。</li>
+<li>对微搭平台搭建项目过程有一定了解</li>
+</ol>
+<h2 id="需求分析"><a href="#需求分析" class="headerlink" title="需求分析"></a>需求分析</h2><ol>
+<li>通过微信扫码进入小程序或web端，同时能够获取对应的产品信息显示在页面上。</li>
+<li>初步想法分为Web端搭建和小程序搭建<ul>
+<li>Web端：优势是可以直接请求跳转对应的页面，同时携带请求信息。</li>
+<li>小程序端。</li>
+</ul>
+</li>
+</ol>
+<h3 id="Web端搭建过程"><a href="#Web端搭建过程" class="headerlink" title="Web端搭建过程"></a>Web端搭建过程</h3><h5 id="技术前提："><a href="#技术前提：" class="headerlink" title="技术前提："></a>技术前提：</h5><ol>
+<li>微信扫码的机制是，如果扫描出来的是一个网址，则会自动跳转到该网址</li>
+<li>经过测试，扫码出来的url自带后缀如?id=xxx形式不影响跳转结果，同时会保留后缀</li>
+</ol>
+<h5 id="思路："><a href="#思路：" class="headerlink" title="思路："></a>思路：</h5><ol>
+<li>将二维码设置为网址+id的url形式如<a target="_blank" rel="noopener" href="http://www.abc.com/?id=1">http://www.abc.com?id=1</a></li>
+<li>扫码后在网址的生命周期内获取url并解析id，请求后台数据并进行显示</li>
+</ol>
+<h6 id="展示页面"><a href="#展示页面" class="headerlink" title="展示页面"></a>展示页面</h6>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/03/%E5%BE%AE%E6%90%AD%E4%BD%8E%E4%BB%A3%E7%A0%81%E6%90%AD%E5%BB%BA%E7%AE%80%E6%98%93%E6%89%AB%E7%A0%81%E7%B3%BB%E7%BB%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/02/%E6%89%8B%E5%86%99promise/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/01/02/%E6%89%8B%E5%86%99promise/" class="post-title-link" itemprop="url">手写promise</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-01-02 09:43:11" itemprop="dateCreated datePublished" datetime="2022-01-02T09:43:11+08:00">2022-01-02</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-04 11:43:13" itemprop="dateModified" datetime="2022-03-04T11:43:13+08:00">2022-03-04</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/01/02/%E6%89%8B%E5%86%99promise/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/02/%E6%89%8B%E5%86%99promise/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写Promise"><a href="#手写Promise" class="headerlink" title="手写Promise"></a>手写Promise</h1><p>promise是ES6中非常重要的内容，可以说，promise终结了回调地狱的难题，在面试中经常会考Promise的相关原理，因此掌握Promise的底层原理十分重要。</p>
+<h2 id="初始结构"><a href="#初始结构" class="headerlink" title="初始结构"></a>初始结构</h2><ol>
+<li><p>正常情况下是通过new Promise方法来创建新的promise，因此手写Promise时可以使用class。</p>
+</li>
+<li><p>一个Promise接收一个参数，这个参数是一个函数</p>
+</li>
+<li><p>在这个函数内接收两个参数resolve，reject</p>
+</li>
+<li><p>状态转换</p>
+<p>promise有三种状态，pending，fulfilled，rejected</p>
+<ul>
+<li>其中默认初始状态为pending</li>
+<li>fulfilled和rejected只能通过pending转换过来，且不可逆</li>
+</ul>
+</li>
+<li><p>结果参数</p>
+<ul>
+<li>当Promise完成执行函数后，会产生一个结果参数，我们需要根据这个结果参数来确定Promise接下来转换的状态</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//promise的基本结构</span></span><br><span class="line"><span class="comment">//原生的promise一般会用new来创建实例，所以这里采用class的方式模拟promise</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">myPromise</span> </span>&#123;</span><br><span class="line">    <span class="comment">//创建静态属性</span></span><br><span class="line">    <span class="keyword">static</span> PENDING = <span class="string">&#x27;待定&#x27;</span>; <span class="keyword">static</span> FULFILLED = <span class="string">&#x27;成功&#x27;</span>; <span class="keyword">static</span> REJECTED = <span class="string">&#x27;拒绝&#x27;</span>;</span><br><span class="line">    <span class="comment">//new Promise对象是需要传入一个参数，这个参数是一个函数,所以需要在constructor接收一个函数参数并自动执行它。</span></span><br><span class="line">    <span class="comment">//接收的函数内也可以传入两个参数，resolve和reject</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">func</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//默认的状态为pending</span></span><br><span class="line">        <span class="built_in">this</span>.status = myPromise.PENDING</span><br><span class="line">        <span class="comment">//默认结果传参</span></span><br><span class="line">        <span class="built_in">this</span>.result = <span class="literal">null</span></span><br><span class="line">        <span class="comment">//注意由于在执行构造函数中的this在类函数中会丢失，需要重新指定this</span></span><br><span class="line">        func(<span class="built_in">this</span>.resolve.bind(<span class="built_in">this</span>),<span class="built_in">this</span>.reject.bind(<span class="built_in">this</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//由于在类内resolve和reject两个参数还没有定义，需要创造两个参数</span></span><br><span class="line">    <span class="function"><span class="title">resolve</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.FULFILLED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">reject</span>(<span class="params">result</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//判断当前状态，只有状态为pending时才可以转换状态</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="built_in">this</span>.status === myPromise.PENDING) &#123;</span><br><span class="line">            <span class="built_in">this</span>.status = myPromise.REJECTED</span><br><span class="line">            <span class="built_in">this</span>.result = result</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="this指向"><a href="#this指向" class="headerlink" title="this指向"></a>this指向</h2><p>在将结果参数传入给resolve和reject时，会发现this指向异常（调用this.status的时候并没有调用this.constructor里面的this.status）</p>
+<p>原因：</p>
+<ul>
+<li>在创建新实例的时候确实创建了新的this.status</li>
+<li>但是目前我们是在新实例被创建后再在外部环境下执行resolve方法，此时this就会丢失</li>
+</ul>
+<p>解决方法：</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/01/02/%E6%89%8B%E5%86%99promise/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/26/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%A0%B7%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/26/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%A0%B7%E5%BC%8F/" class="post-title-link" itemprop="url">css学习笔记02样式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-26 09:17:07" itemprop="dateCreated datePublished" datetime="2021-12-26T09:17:07+08:00">2021-12-26</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-26 21:05:09" itemprop="dateModified" datetime="2022-03-26T21:05:09+08:00">2022-03-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/26/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%A0%B7%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/26/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%A0%B7%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="美化网页元素"><a href="#美化网页元素" class="headerlink" title="美化网页元素"></a>美化网页元素</h1><ol>
+<li><p>为什么要美化网页</p>
+<ol>
+<li>有效传递页面信息</li>
+<li>美化网页、页面漂亮、才能吸引用户</li>
+<li>凸显页面的主题</li>
+<li>提高用户体验</li>
+</ol>
+</li>
+<li><p>span</p>
+<p>约定俗成的标记重点语句用的标签</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">	<span class="selector-tag">span</span>&#123;</span></span><br><span class="line"><span class="css">		<span class="attribute">color</span>: <span class="number">#FF0000</span>;</span></span><br><span class="line"><span class="css">		<span class="attribute">font-size</span>: <span class="number">30px</span>;</span></span><br><span class="line"><span class="css">	&#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	hello <span class="tag">&lt;<span class="name">span</span>&gt;</span>word!<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>字体样式</p>
+<ul>
+<li>font-family:”Arial Black”(字体)</li>
+<li>font-size（字体大小）</li>
+<li>font-weight:bolder(字体粗细)</li>
+</ul>
+</li>
+<li><p>文本样式</p>
+<ol>
+<li>颜色    color    rgb    rgba</li>
+<li>文本对齐方式   text-align = center</li>
+<li>首行缩进 text-indent:2em</li>
+<li>下划线（装饰） text-decoration</li>
+<li>行高 line-height</li>
+<li>文本图片水平对齐 vertical-align:middle</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">		<span class="selector-tag">h1</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="attribute">color</span>: red;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 居中 */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">		<span class="selector-class">.p1</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 首行缩进 */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">text-indent</span>: <span class="number">2em</span>;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">		<span class="selector-class">.p2</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="attribute">background-color</span>: yellow;</span></span><br><span class="line"><span class="css">			<span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 行高，可以用于上下居中 */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">line-height</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">			<span class="comment">/* 划线（上下中） */</span></span></span><br><span class="line"><span class="css">			<span class="attribute">text-decoration</span>: line-through;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">		<span class="comment">/* 水平对齐	参照物	a,b */</span></span></span><br><span class="line"><span class="css">		<span class="selector-tag">img</span>,<span class="selector-tag">span</span>&#123;</span></span><br><span class="line"><span class="css">			<span class="attribute">vertical-align</span>: middle;</span></span><br><span class="line"><span class="css">		&#125;</span></span><br><span class="line"><span class="css">	</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">h1</span>&gt;</span>故事简介<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;p1&quot;</span>&gt;</span></span><br><span class="line">		从故事中可看出，JOJO每一代故事发生的背景舞台是不同的。</span><br><span class="line">		<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;p2&quot;</span>&gt;</span></span><br><span class="line">			作为主角的新一代JOJO，拥有诸多“萌点”。因帽子上的手型标志被网友指为平行世界的空条承太郎。赤身裸体从地底爬出的出场方式也十分“惊艳”。以异于常人的生理特点而被人称为“四蛋男”。现名为“东方定助”，事实上是吉良吉影与空条仗世文的融合。</span><br><span class="line">		<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;image.png&quot;</span> /&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">span</span>&gt;</span>jojo<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>超链接伪类</p>
+<p>一般情况下，使用:hover或:active足够了</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE <span class="selector-tag">html</span>&gt;</span><br><span class="line">&lt;<span class="selector-tag">html</span>&gt;</span><br><span class="line">	&lt;head&gt;</span><br><span class="line">		&lt;meta charset=&quot;utf-<span class="number">8</span>&quot;&gt;</span><br><span class="line">		&lt;title&gt;&lt;/title&gt;</span><br><span class="line">	&lt;/head&gt;</span><br><span class="line">	&lt;style&gt;</span><br><span class="line">		<span class="comment">/* 默认颜色 */</span></span><br><span class="line">		<span class="selector-tag">a</span>&#123;</span><br><span class="line">			<span class="attribute">text-decoration</span>: none;</span><br><span class="line">			<span class="attribute">color</span>: <span class="number">#000000</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 鼠标悬停 */</span></span><br><span class="line">		<span class="selector-tag">a</span><span class="selector-pseudo">:hover</span>&#123;</span><br><span class="line">			<span class="attribute">color</span>: <span class="number">#7FFF00</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="comment">/* 鼠标点击 */</span></span><br><span class="line">		<span class="selector-tag">a</span><span class="selector-pseudo">:active</span>&#123;</span><br><span class="line">			<span class="attribute">color</span>: <span class="number">#FF0000</span>;</span><br><span class="line">			<span class="attribute">font-size</span>: <span class="number">50px</span>;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="selector-id">#price</span>&#123;</span><br><span class="line">			<span class="attribute">text-shadow</span>: <span class="number">#7FFF00</span> <span class="number">5px</span> <span class="number">5px</span> <span class="number">3px</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&lt;/style&gt;</span><br><span class="line">	&lt;<span class="selector-tag">body</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">a</span>&gt;</span><br><span class="line">			&lt;<span class="selector-tag">img</span> <span class="attribute">src</span>=&quot;image<span class="selector-class">.png</span>&quot; /&gt;</span><br><span class="line">		&lt;/<span class="selector-tag">a</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">p</span>&gt;</span><br><span class="line">			&lt;<span class="selector-tag">a</span> href=&quot;#&quot;&gt;ex&lt;/<span class="selector-tag">a</span>&gt;</span><br><span class="line">		&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">p</span>&gt;</span><br><span class="line">			&lt;<span class="selector-tag">a</span> href=&quot;#&quot;&gt;yue&lt;/<span class="selector-tag">a</span>&gt;</span><br><span class="line">		&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">		&lt;<span class="selector-tag">p</span> id=&quot;price&quot;&gt;</span><br><span class="line">			￥<span class="number">99</span></span><br><span class="line">		&lt;/<span class="selector-tag">p</span>&gt;</span><br><span class="line">	&lt;/<span class="selector-tag">body</span>&gt;</span><br><span class="line">&lt;/<span class="selector-tag">html</span>&gt;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/26/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%A0%B7%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/25/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E3%80%81%E9%80%89%E6%8B%A9%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/25/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E3%80%81%E9%80%89%E6%8B%A9%E5%99%A8/" class="post-title-link" itemprop="url">css学习笔记01快速上手、选择器</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-25 16:39:07" itemprop="dateCreated datePublished" datetime="2021-12-25T16:39:07+08:00">2021-12-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-30 10:47:58" itemprop="dateModified" datetime="2022-03-30T10:47:58+08:00">2022-03-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/25/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E3%80%81%E9%80%89%E6%8B%A9%E5%99%A8/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/25/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E3%80%81%E9%80%89%E6%8B%A9%E5%99%A8/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="1、css优势："><a href="#1、css优势：" class="headerlink" title="1、css优势："></a>1、css优势：</h2><ul>
+<li>内容和表现分离</li>
+<li>可以实现复用，网页结构表现统一</li>
+<li>样式十分丰富</li>
+<li>建议使用独立于html的css文件</li>
+<li>利用SEO，容易被搜索引擎收录</li>
+</ul>
+<h2 id="2、css的3中导入方式："><a href="#2、css的3中导入方式：" class="headerlink" title="2、css的3中导入方式："></a>2、css的3中导入方式：</h2><ol>
+<li><p>内联样式</p>
+<ul>
+<li>写在本网页中的style标签中</li>
+</ul>
+</li>
+<li><p>外联样式</p>
+<ul>
+<li>写在外部文件中，通过link标签引入（推荐，因为便于维护和管理）</li>
+</ul>
+</li>
+<li><p>行内样式</p>
+<ul>
+<li>写在html标签的内部，用style=“”写</li>
+</ul>
+<p>优先级排序</p>
+<p>行内&gt;内联&gt;外联</p>
+</li>
+<li><p>拓展：外联样式的两种写法</p>
+<ol>
+<li><p>连接式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 连接式 --&gt;</span><br><span class="line">	<span class="xml"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;./css/index.css&quot;</span>/&gt;</span></span></span><br></pre></td></tr></table></figure></li>
+<li><p>导入式</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 导入式 --&gt;</span><br><span class="line">	<span class="xml"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span></span><br><span class="line"><span class="css"><span class="xml">		<span class="keyword">@import</span> url(<span class="string">&quot;./css/index.css&quot;</span>);</span></span></span><br><span class="line"><span class="css"><span class="xml">	</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span></span><br></pre></td></tr></table></figure></li>
+<li><p>两者区别</p>
+<ul>
+<li>link标签是html标签，只能放在html中使用。</li>
+<li>@import在html中使用的时候外面要加style标签，但是也可以直接在css文件中使用用以引入其他css文件</li>
+<li>本质上区别不大，推荐使用link</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="3、选择器"><a href="#3、选择器" class="headerlink" title="3、选择器"></a>3、选择器</h2><blockquote>
+<p>作用：选择页面中的某一个元素</p>
+</blockquote>
+<ol>
+<li>标签选择器</li>
+<li>类选择器 class（可多对一）</li>
+<li>id选择器（仅一对一，权重高）</li>
+</ol>
+<p>优先级：id&gt;class&lt;标签</p>
+<h2 id="3-1、层次选择器"><a href="#3-1、层次选择器" class="headerlink" title="3.1、层次选择器"></a>3.1、层次选择器</h2><ol>
+<li><p>后代选择器： 在某个元素后面</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*后代选择器 */</span></span><br><span class="line"><span class="selector-tag">body</span> <span class="selector-tag">p</span>&#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>子选择器，一代，儿子</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 子选择器 */</span></span><br><span class="line"><span class="selector-tag">body</span>&gt;<span class="selector-tag">p</span>&#123;</span><br><span class="line">    <span class="attribute">color</span>: black;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>相邻兄弟选择器（只有一个，而且是向下相邻）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 相邻兄弟选择器 */</span></span><br><span class="line"><span class="selector-class">.p1</span> + <span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: blue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>通用兄弟选择器（下面所有统一层次的选择器）</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 通用选择器 */</span></span><br><span class="line"><span class="selector-class">.p1</span> ~ <span class="selector-tag">p</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: chartreuse;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/25/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%BF%AB%E9%80%9F%E4%B8%8A%E6%89%8B%E3%80%81%E9%80%89%E6%8B%A9%E5%99%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" class="post-title-link" itemprop="url">js学习笔记14网络请求</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-23 10:15:20" itemprop="dateCreated datePublished" datetime="2021-12-23T10:15:20+08:00">2021-12-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:37:06" itemprop="dateModified" datetime="2021-12-25T14:37:06+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="网络请求"><a href="#网络请求" class="headerlink" title="网络请求"></a>网络请求</h1><h2 id="Fetch-API"><a href="#Fetch-API" class="headerlink" title="Fetch API"></a>Fetch API</h2><p>Fetch API能够执行XHR对象的所有任务，但更容易使用，接口也更现代化，能够在Web工作线程等陷害Web工具中使用。不同之处在于XHR可以选择同步或异步，但是Fetch API只能选择异步。</p>
+<ul>
+<li><h4 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h4><ul>
+<li>fetch()方法是暴露在全局作用域中的</li>
+</ul>
+</li>
+<li><h4 id="分派请求"><a href="#分派请求" class="headerlink" title="分派请求"></a>分派请求</h4><ul>
+<li>fetch()只有一个必须参数input，作为请求URL，这个方法返回一个promise，这个对象是API的封装，可以通过他获取响应的资源。<ul>
+<li>在只有一个参数的情况下，默认执行get方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="读取响应"><a href="#读取响应" class="headerlink" title="读取响应"></a>读取响应</h4><ul>
+<li>读取响应内容的最简单方式是取得纯文本格式的内容，这要用到text()方法。这个方法返回一个promise，会决议为取得资源的完整内容。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/mock/data/getMsg&#x27;</span>).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><h4 id="处理状态码和请求失败"><a href="#处理状态码和请求失败" class="headerlink" title="处理状态码和请求失败"></a>处理状态码和请求失败</h4><ul>
+<li>Fetch API支持通过Response的状态码和状态文本属性检查响应状态。<ul>
+<li>由于无论返回的响应式多少，只要返回了响应，那么promise都会决议为resolved状态，这在逻辑上是合理的，所以我们还要在已决议的promise中再去判断状态码，从而执行不同的操作。</li>
+<li>注意，如果服务器未响应导致浏览器超时，不符合的跨域请求都会导致fetch（）失败，从而导致promise决议为rejected。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="自定义选项"><a href="#自定义选项" class="headerlink" title="自定义选项"></a>自定义选项</h4><ol>
+<li>body<ul>
+<li>用于指定使用请求体的内容</li>
+</ul>
+</li>
+<li>credentials<ul>
+<li>用于指定在外发请求中包含cookie</li>
+</ul>
+</li>
+<li>method<ul>
+<li>用于指定HTTP请求方法</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><h4 id="Request对象"><a href="#Request对象" class="headerlink" title="Request对象"></a>Request对象</h4><ul>
+<li>顾名思义，Request对象就是获取资源请求接口</li>
+<li>创建Request对象<ol>
+<li>可以通过构造函数初始化Requset对象，为此需要传入一个input，一般是URL</li>
+<li>已接受第二个参数，和fetch()一样</li>
+<li>复制request对象，使用clone方法复制，这样不会请求标记为已使用。</li>
+<li>在fetch()中使用Request对象，在调用fetch()时，可以传入一创建好的Request实例。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li><h4 id="Headers对象"><a href="#Headers对象" class="headerlink" title="Headers对象"></a>Headers对象</h4><ul>
+<li>headers对象时所有外法请求和入栈响应头部的容器。每个外发的Request实例都包含一个空的Header实例，可以通过Request.prototype.headers访问，每一个入栈的Respone实例也一样。</li>
+<li>Headers对象与Map的相似之处<ul>
+<li>都有get，set，has和delete</li>
+</ul>
+</li>
+<li>Headers的独特之处<ul>
+<li>可以使用键值对的形式初始化Headers对象，Map不行。</li>
+</ul>
+</li>
+<li>头部护卫<ul>
+<li>不是所有头部都可以被客户端修改</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="常见的Fetch请求模式"><a href="#常见的Fetch请求模式" class="headerlink" title="常见的Fetch请求模式"></a>常见的Fetch请求模式</h4><ul>
+<li><p>发送JSON数据</p>
+</li>
+<li><p>在请求体中发送参数</p>
+<ul>
+<li>因为请求体支持任意字符串值，所以可以通过它发送请求参数</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> param = <span class="string">&#x27;username=admin&amp;pwd=admin&amp;deviceId=1&amp;deviceName=1&#x27;</span></span><br><span class="line"><span class="keyword">let</span> paramHearders = <span class="keyword">new</span> Headers(&#123;</span><br><span class="line">		<span class="string">&#x27;Content-Type&#x27;</span>:<span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span></span><br><span class="line">	&#125;)</span><br><span class="line">fetch(<span class="string">&#x27;https://api.it120.cc/MartinGarrixForTest/user/username/login&#x27;</span>,&#123;</span><br><span class="line">	<span class="attr">method</span>:<span class="string">&#x27;POST&#x27;</span>,</span><br><span class="line">	<span class="attr">body</span>:param,</span><br><span class="line">	<span class="attr">headers</span>:paramHearders</span><br><span class="line">&#125;).then(<span class="function">(<span class="params">res</span>) =&gt;</span> &#123;</span><br><span class="line">	res.text().then(<span class="function">(<span class="params">data</span>) =&gt;</span> &#123;</span><br><span class="line">		<span class="built_in">console</span>.log(data)</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p>发送文件</p>
+<ul>
+<li>因为请求体支持FormData实现，所以fetch()也可以序列化并发送文件字段中的文字件。</li>
+</ul>
+</li>
+<li><p>加载blob文件（重点！！）</p>
+<ul>
+<li>Fetch API也能提供Blob类型的响应，而blob又可以兼容多种浏览器API</li>
+</ul>
+</li>
+<li><p>发送跨域请求</p>
+<ul>
+<li>从不同的源请求资源，响应要包含CORS头部才能保证浏览器收到响应。没有这些头部，跨域请求会失败。</li>
+</ul>
+</li>
+<li><p>中断请求</p>
+<ul>
+<li>调用AbortController.abort()会中断所有网络传输。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="Web-Socket"><a href="#Web-Socket" class="headerlink" title="Web Socket"></a>Web Socket</h2><ul>
+<li><p>Web Socket的目标是通过一个长时间链接实现与服务器全双工、双向的通信（持久化推送消息）。在JavaScript中创建WebSocket时，一个HTTP请求会发送到服务器以初始化链接。服务器响应后，链接使用HTTP的Upgrade头部从HTTP协议切换到web Socket协议。这意味着web Socket不能通过标准的HTTP服务器实现，而必须使用支持该协议的服务器。</p>
+</li>
+<li><p>因为WebSocket使用自定义协议，所以URL方案稍有变化：不能再使用http://或者https://,而要使用ws://或wss://。前者是不安全链接，后者是安全链接</p>
+</li>
+<li><p>发送和接收数据，使用send（）方法并传入一个字符串、ArrayBuffer或Blob</p>
+</li>
+<li><p>API</p>
+<ul>
+<li>要创建一个新的Web Socket，就要实例化一个WebSocket对象并传入提供链接的URL</li>
+<li>注意：必须个WebSocket构造函数传入一个绝对URL。同源策略不适用于Web Socket。</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li>定义web socket协议的时间比定义JavaScript API时间药厂。Web Socket得到了所有主流浏览器的支持。</li>
+</ul>
+</li>
+<li><p>优点</p>
+<ul>
+<li>使用自定义协议而非HTTP协议的好处是，客户端与服务器之间可以发送十分少量的数据，不会对HTTP造成负担。</li>
+<li>非常适合带宽和延迟比较明显的移动端。</li>
+</ul>
+</li>
+</ul>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/23/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B014%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/" class="post-title-link" itemprop="url">js学习笔记13JSON</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-11 09:54:13" itemprop="dateCreated datePublished" datetime="2021-12-11T09:54:13+08:00">2021-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:37:02" itemprop="dateModified" datetime="2021-12-25T14:37:02+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h1><ol>
+<li>理解JSON最关键的一点就是要把它当成一种数据格式而不是编程语言</li>
+<li>语法<ol>
+<li>JSON语法支持三种类型的值<ul>
+<li>简单值（字符串，数值，布尔值，null，都可以在JSON中出现，undefined不可以）</li>
+<li>对象</li>
+<li>数组</li>
+</ul>
+</li>
+<li>JSON没有变量、函数或对象实例的概念。JSON的所有记号都只为标识结构化数据，虽然它借用了JavaScript的语法。</li>
+</ol>
+</li>
+<li>解析与序列化<ul>
+<li>JSON可以直接被解析为可用的JavaScript对象，与解析为DOM文档的XML相比，这个优势非常明显。为此，JavaScript开发者可以非常方便第使用JSON数据。</li>
+</ul>
+</li>
+<li>序列化选项<ul>
+<li>stringify()<ul>
+<li>过滤结果<ul>
+<li>如果第二个参数是一个数组，那么JSON.stringify()返回的结果只会包含该数组中列出的对象属性</li>
+<li>如果第二个参数是一个函数，提供的函数接受两个参数：属性名(key)和属性值(value)，可以根据这个key决定要对应属性做什么。<ul>
+<li>函数过滤器会应用到要序列化对象所包含的全部对象。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>字符串缩进<ul>
+<li>第三个参数可以控制缩进和空格<ul>
+<li>是数值是，表示缩进空格数</li>
+<li>是字符串时，表示要填充到每一行开头的字符串</li>
+<li>无论时那种，最大不超过10个</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>简单值<ul>
+<li>JavaScript字符串与JSON字符串的主要区别就是JSON字符串必须使用双引号（单引号会导致语法错误）</li>
+</ul>
+</li>
+<li>对象<ul>
+<li>有两处不同<ul>
+<li>JSON没有变量声明（JSON没有变量）</li>
+<li>最后没有分号（不需要，因为不是JavaScript语句）</li>
+</ul>
+</li>
+<li>同样，用引号将属性名包围起来才是有效的JSON。</li>
+</ul>
+</li>
+<li>数组<ul>
+<li>和对象差不多</li>
+</ul>
+</li>
+<li>JSON对象<ol>
+<li>因为JSON时JavaScript语法的子集，所以eval()可以解析、解释并将其作为JavaScript对象和数组返回。</li>
+<li>JSON对象<ul>
+<li>Stringify()<ul>
+<li>将JavaScript序列化为JSON字符串</li>
+</ul>
+</li>
+<li>parse()<ul>
+<li>将JSON解析为原生JavaScript值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>扩展<ul>
+<li>JSON.Stringify(JSON.parse(str))可以实现深复制对象。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -809,1053 +1719,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/" class="post-title-link" itemprop="url">js学习笔记08继承</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-09 10:15:42" itemprop="dateCreated datePublished" datetime="2021-12-09T10:15:42+08:00">2021-12-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-10 10:03:05" itemprop="dateModified" datetime="2022-04-10T10:03:05+08:00">2022-04-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>很多面向对象语言都支持两种继承：接口继承和实现继承。JavaScript只支持实现继承，而且是通过原型链方式继承的。这里介绍JavaScript中实现继承的7种方式（新增class方式继承）。</p>
-<h2 id="原型链继承"><a href="#原型链继承" class="headerlink" title="原型链继承"></a>原型链继承</h2><p>原型链继承的基本思想是通过原型继承多个引用类型的属性和方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.far=<span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line">father.prototype.getFar = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">this</span>.far</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.child=<span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line">child.prototype = <span class="keyword">new</span> father()	<span class="comment">//原型继承father实例</span></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.getFar())	<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li><p>本质：</p>
-<ul>
-<li>通过重写子类型的原型对象实现继承</li>
-<li>注：原型对象中包含constructor属性一般指回子类型函数本身，重写子类型的原型对象会导致constructor属性丢失。</li>
-<li>最终原型链为：a-&gt;child-&gt;father-&gt;Object（所有函数的默认原型）</li>
-</ul>
-</li>
-<li><p>缺点：</p>
-<ul>
-<li>父级的实例属性会被子级共享</li>
-<li>子级不能向父级传递参数</li>
-</ul>
-</li>
-<li><p>原型与继承的关系</p>
-<ol>
-<li><p>使用instanceof操作符确定</p>
-<ul>
-<li><p>如果一个实例的原型链中出现过相应的构造函数，则instanceof返回true。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">instance <span class="keyword">instanceof</span> <span class="built_in">Object</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-<li><p>使用isPrototypeOf()方法。</p>
-<ul>
-<li><p>只要原型链包含这个原型，就会返回true。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.isPrototypeOf(instance)</span><br></pre></td></tr></table></figure></li>
-</ul>
-</li>
-</ol>
-</li>
-<li><p>原型链的问题</p>
-<ol>
-<li>原型中包含的引用值会在所有实例间共享。在使用原型实现继承时，原型实际上变成了另一个类型实例。</li>
-<li>重写子类型对象后，constructor属性会丢失。</li>
-</ol>
-</li>
-<li><p>关于方法</p>
-<ol>
-<li>子类有些时候需要覆盖父类的方法，或者增设父类没有的方法。为此，有些方法必须在原型复制后再添加到原型上。</li>
-<li>如果以对象字面量的方式创建原型会破坏原型链，因为这相当于重写了原型链。</li>
-</ol>
-</li>
-</ol>
-<h2 id="借用构造函数继承（经典继承）"><a href="#借用构造函数继承（经典继承）" class="headerlink" title="借用构造函数继承（经典继承）"></a>借用构造函数继承（经典继承）</h2><p>为了解决原型链继承中共享的问题，基本思路是：在子类构造函数中调用父类构造函数。因为函数就是特定上下文中执行代码的简单对象，所以可以使用apply()和call()方法以新建的对象为上下文执行构造函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过call/apply方法，在子类型构造函数内部调用超类型构造函数</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">father</span>(<span class="params">child</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">this</span>.name = <span class="string">&quot;aa&quot;</span></span><br><span class="line">	<span class="comment">//打印来自子级的参数</span></span><br><span class="line">	<span class="built_in">console</span>.log(child.name)	<span class="comment">//jojo</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">child</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	father.apply(<span class="built_in">this</span>,[&#123;<span class="attr">name</span>:<span class="string">&quot;jojo&quot;</span>&#125;])	<span class="comment">//继承，可以传参</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> child()</span><br><span class="line">alert(a.name)		<span class="comment">//aa</span></span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>优点：<ul>
-<li>解决了原型链继承中所有属性都会暴露和子级不能向父级传参的问题。</li>
-<li>可以在子类构造函数中向父级构造函数传参</li>
-</ul>
-</li>
-<li>缺点：<ul>
-<li>必须在构造函数中定义方法，因此函数不能复用</li>
-<li>父级的方法对于子级不可见</li>
-</ul>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/" class="post-title-link" itemprop="url">Vue源码学习笔记06</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-08 10:31:19" itemprop="dateCreated datePublished" datetime="2021-12-08T10:31:19+08:00">2021-12-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-01-03 15:12:17" itemprop="dateModified" datetime="2022-01-03T15:12:17+08:00">2022-01-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h1><p>vue-router是Vue框架的另一个强大工具。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌。</p>
-<h1 id="哈希路由"><a href="#哈希路由" class="headerlink" title="哈希路由"></a>哈希路由</h1><p>单页应用路由，我们有一些url，想把他们映射到组件。即使组件和这些url有一一对应的关系，并能够实现跳转。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;url&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#foo&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#bar&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="comment">//一个基于哈希的路由解决方案</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">/*</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		浏览器有两种方式进行路由，可以使用哈希，也可以使用HTML5 History API。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		从某种意义上说，Html5 History APi更好，它支持弹出状态，你的URL看起来会更好，但是他需要某种服务器配置</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		为了更方便的展示，这里使用哈希方式访问。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">	*/</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">foo</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">bar</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    routeTo (route) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.location.hash = route</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<h1 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h1><p>完成了基础路由跳转的实现，那么我们能不能把基础路由和组件的对应关系维护起来，形成一张表，这样当我们需要跳转的时候查询路由表再跳转对应组件就好了。</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;matchedComponent&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/foo&#x27; -&gt; Foo</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/bar&#x27; -&gt; Bar</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/404&#x27; -&gt; NotFound</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> NotFound = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;not found!&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//路由表，维护组件和路径的对应关系</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> routeTable = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">foo</span>: Foo,</span></span><br><span class="line"><span class="javascript">  <span class="attr">bar</span>: Bar</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="comment">//两种视图实现方式,render渲染函数和html模板</span></span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">	  <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, [</span></span><br><span class="line"><span class="javascript">		  h(routeTable[<span class="built_in">this</span>.url] || NotFound),</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#foo&#x27;</span>&#125;&#125;, <span class="string">&#x27;foo&#x27;</span>),</span></span><br><span class="line"><span class="javascript">		  <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#bar&#x27;</span>&#125;&#125;, <span class="string">&#x27;bar&#x27;</span>)</span></span><br><span class="line"><span class="javascript">	  ])</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// computed: &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   matchedComponent () &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//     return routeTable[this.url] || NotFound</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   &#125;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">js学习笔记07对象</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-07 21:51:01" itemprop="dateCreated datePublished" datetime="2021-12-07T21:51:01+08:00">2021-12-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:36" itemprop="dateModified" datetime="2021-12-25T14:36:36+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><ol>
-<li><h4 id="属性的类型"><a href="#属性的类型" class="headerlink" title="属性的类型"></a>属性的类型</h4><ol>
-<li><h5 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h5><ol>
-<li>数据属性包含一个保存数据值的位置。值会从这个位置读取，也会写入到这个位置。</li>
-<li>要修改属性的默认特性，就必须使用Object.defineProperty()方法。这个方法接受3个参数（要个其添加属性的对象，属性的名称和一个描述对象）<ol>
-<li>最后一个参数，即描述符对象上的属性可以包含:configurable、enumerable、wirtable和value</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="访问器属性"><a href="#访问器属性" class="headerlink" title="访问器属性"></a>访问器属性</h5><ol>
-<li>访问器属性不包含数据值，包含一个获取(getter)函数和一个(setter)函数，不过这两个函数不是必须的。</li>
-<li>在读取访问器属性时，会调用获取函数，这个函数的责任是返回一个有效的值。再写入访问器属性时，会调用设置函数并传入新值，这个函数必须决定对数据做出什么修改。（Vue响应式原理）</li>
-</ol>
-</li>
-<li><h5 id="定义多个属性"><a href="#定义多个属性" class="headerlink" title="定义多个属性"></a>定义多个属性</h5><ol>
-<li>Object.defineProperties()可以通过多个描述符一次性定义多个属性。它接受两个参数（要为之添加或修改属性的对象和另一个描述符对象，其属性与一一对应）</li>
-</ol>
-</li>
-<li><h5 id="读取属性的特性"><a href="#读取属性的特性" class="headerlink" title="读取属性的特性"></a>读取属性的特性</h5><ol>
-<li>使用Object.getOwnPropertyDescriptor()方法可以取得指定属性的属性描述符。<ol>
-<li>这个方法接受两个参数:属性所在的对象和要去的其描述符的属性名。返回值是一个对象，包含访问器属性</li>
-</ol>
-</li>
-<li>ES7新增了Object.getOwnPropertyDescriptors()静态方法<ol>
-<li>接受一个对象，并返回这个对象每个属性的特性</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h4 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h4><ol>
-<li>使用解构，可以在一个类似对象字面量的结构中，声明多个变量，同时执行多个复制动作。可以简写<ol>
-<li>解构赋值不一定与对象属性匹配，赋值的时候可以忽略某些属性，如果引用的属性不存在，则该变量的值为undefined，也可以定义默认值，适用于属性不存在的情况。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h4 id="增强的对象语法"><a href="#增强的对象语法" class="headerlink" title="增强的对象语法"></a>增强的对象语法</h4><ol>
-<li><h5 id="属性值的简写"><a href="#属性值的简写" class="headerlink" title="属性值的简写"></a>属性值的简写</h5><ol>
-<li>简写的属性名只要使用变量名就会自动被解释为同名的属性键</li>
-</ol>
-</li>
-<li><h5 id="可计算属性"><a href="#可计算属性" class="headerlink" title="可计算属性"></a>可计算属性</h5><ol>
-<li>如果想使用变量的值作为属性，那么必须先声明对象，然后使用中括号语法来添加属性。换句话说，不能再对象字面量中直接动态命名属性<ol>
-<li>中括号包围的对象属性键告诉运行时将其作为JavaScript表达式而不是字符串来求值。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="简写方法名"><a href="#简写方法名" class="headerlink" title="简写方法名"></a>简写方法名</h5><ol>
-<li><p>再给对象定义方法时，通常要写一个方法名、冒号，然后再引用一个匿名函数表达式。</p>
-<ol>
-<li>新的简写方法可以直接声明函数，例如sayName(){…}，与可计算属性键相互兼容</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const methodKey = &quot;foo&quot;</span><br><span class="line">let person = &#123;</span><br><span class="line">	[methodKey](name)&#123;</span><br><span class="line">		alert(&quot;aaa &quot;+name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.sayName(&quot;john&quot;)		//aaa john</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h4 id="对象标识及相等判定"><a href="#对象标识及相等判定" class="headerlink" title="对象标识及相等判定"></a>对象标识及相等判定</h4><ol>
-<li>ES6新增了Object.assign()方法用于合并对象。接受一个目标对象和一个多源对象作为参数，然后将每个源对象中可枚举和自由属性赋值到目标函数。<ol>
-<li>这是一种浅拷贝，如果多个源对象有相同的属性，则使用最后一个。此外，从源对象访问器属性中取得的值，比如获取函数，会作为一个静态值赋值给目标对象。如果赋值期间出错，则操作会终止并退出，同时抛出错误。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>前提：使用Object构造函数创建多个有相同接口的对象会比较麻烦。ES6开始正式支持类和继承。</p>
-<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>简单来说，就是把创建Object对象的过程封装到函数中。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	let 0 = new Object</span><br><span class="line">	o.name = name</span><br><span class="line">	o.age = age</span><br><span class="line">	o.job = job</span><br><span class="line">	o.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">	return o</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h3><ol>
-<li><h5 id="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"><a href="#跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。" class="headerlink" title="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"></a>跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。</h5><ol>
-<li>没有显示地创建对象</li>
-<li>属性和方法直接赋值给this</li>
-<li>没有return</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	this.name = name</span><br><span class="line">	this.age = age</span><br><span class="line">	this.job = job</span><br><span class="line">	this.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure></li>
-<li><h5 id="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"><a href="#按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的" class="headerlink" title="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"></a>按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的</h5></li>
-<li><h5 id="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"><a href="#要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作" class="headerlink" title="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"></a>要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作</h5><ol>
-<li>在内存中创建一个新对象</li>
-<li>在这个新对象的内部的[[Prototype]]特性被赋值为构造函数的prototype属性</li>
-<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
-<li>执行构造函数内部的代码（给新对象添加属性）</li>
-<li>如果构造函数返回非空对象，则返回该对象；否则返回创建的新对象</li>
-</ol>
-</li>
-<li><h5 id="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"><a href="#构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数" class="headerlink" title="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"></a>构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数</h5></li>
-<li><h5 id="如果不想传参数，那么new的时候后面的括号可以不加。"><a href="#如果不想传参数，那么new的时候后面的括号可以不加。" class="headerlink" title="如果不想传参数，那么new的时候后面的括号可以不加。"></a>如果不想传参数，那么new的时候后面的括号可以不加。</h5></li>
-<li><h5 id="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"><a href="#构造函数也是函数，和普通函数的唯一区别是调用方式的不同。" class="headerlink" title="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"></a>构造函数也是函数，和普通函数的唯一区别是调用方式的不同。</h5><ol>
-<li>使用new操作符调用就是构造函数，不使用new操作符调用就是普通函数</li>
-</ol>
-</li>
-<li><h5 id="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"><a href="#构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。" class="headerlink" title="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"></a>构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。</h5><ol>
-<li>要解决这个问题，可以把函数定义转移到构造函数外面。</li>
-</ol>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" class="post-title-link" itemprop="url">Js学习笔记06迭代器与生成器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-07 20:55:54" itemprop="dateCreated datePublished" datetime="2021-12-07T20:55:54+08:00">2021-12-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-08 10:12:58" itemprop="dateModified" datetime="2022-03-08T10:12:58+08:00">2022-03-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h1><ol>
-<li><h5 id="理解迭代"><a href="#理解迭代" class="headerlink" title="理解迭代"></a>理解迭代</h5><ol>
-<li>迭代是循环的一种，可以指定迭代次数，以及迭代要执行的操作，顺序也是事先定好的。</li>
-</ol>
-</li>
-<li><p>可迭代协议</p>
-<ol>
-<li>实现Iterrable接口（可迭代协议）要求支持迭代的自我识别能力和创建实现Iterable接口的对象能力。在ECMAScript中，这意味着必须暴露一个属性作为默认的迭代器，而这个属性必须使用特殊的Symbol.iterator作为键。这个默认的迭代器属性必须应用一个迭代器工厂函数，调用这个工厂函数必须返回一个迭代器。</li>
-</ol>
-</li>
-<li><p>迭代器模式</p>
-<ol>
-<li>可迭代对象可以理解为数组或集合这样的集合类型对象。包含与有限元素，且有无歧义的遍历顺序。</li>
-</ol>
-</li>
-<li><p>迭代器协议</p>
-<ol>
-<li>迭代器API使用next()方法在可迭代对象中遍历数据。每次成功调用next()都会返回一个包含迭代器返回的下一个值的对象。<ol>
-<li>迭代器并不知道怎么从可迭代对象中获取下一个值，也不知道可迭代对象有多大。只要迭代器到达done:true状态，后续调用next()对象就一直返回这个值了。</li>
-<li>每个迭代器都表示可迭代对象的一次性有序遍历。不同迭代器实例之间没有联系，只会独立第遍历可迭代对象。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>提前终止迭代器</p>
-<ol>
-<li>可选的return()方法用于指定迭代器关闭时执行的逻辑。</li>
-</ol>
-</li>
-</ol>
-<h1 id="生成器（Generator）"><a href="#生成器（Generator）" class="headerlink" title="生成器（Generator）"></a>生成器（Generator）</h1><ol>
-<li><p>生成器基础</p>
-<ol>
-<li>生成器的形式是一个函数，在函数名称前面加一个*号，例如:function *foo(){…},只要可以定义函数的地方，就可以定义生成器。</li>
-<li>调用生成器函数会生成一个生成器对象，生成器对象一开始处于暂停执行的状态。与迭代器相似，生成器对象也实现了Iterator接口，因此具有next()方法。调用这个方法会让生成器开始或回复执行。</li>
-<li>next()方法的返回值有一个done和value属性<ol>
-<li>函数体为空的函数调用一遍next()就返回done:true状态</li>
-</ol>
-</li>
-<li>生成器对象实现了Iterable接口，他们的默认迭代器是自引用的。</li>
-</ol>
-</li>
-<li><p>通过yield中断执行（重点）</p>
-<ol>
-<li><p>这是生成器最有用的地方</p>
-<ol>
-<li>生成器在遇到yield关键字之前会正常执行。遇到这个关键字后，执行会停止，函数作用域的状态会被保留。停止执行的生成器函数只能通过在生成器对象上调用next()方法来恢复执行。</li>
-<li>yield关键字只能在生成器函数内部使用，用在其他地方会抛出错误。</li>
-</ol>
-</li>
-<li><p>生成器对象作为可迭代对象</p>
-<ol>
-<li><p>如果把生成器对象当成可迭代对象，那么使用起来会很方便。也可以自定义迭代对象。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">function *foo（）&#123;</span><br><span class="line">	yield 1;</span><br><span class="line">	yield 2;</span><br><span class="line">	yield 3</span><br><span class="line">&#125;</span><br><span class="line">for (const x of foo())&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//自定义迭代对象</span><br><span class="line">function *foo（n）&#123;</span><br><span class="line">	while（n--）&#123;</span><br><span class="line">		yield；</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">for (const x of foo(3))&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line">//0</span><br><span class="line">//1</span><br><span class="line">//2</span><br></pre></td></tr></table></figure></li>
-<li><p>使用yield实现输入和输出</p>
-<ol>
-<li>yield可以作为函数的中间参数使用。上一次生成器暂停的yield关键字会接收到传给next（）方法的第一个值。（第一次调用next()传入的值不会被使用，因为第一次是开始执行生成器函数）（可以同时用于输入和输出）</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function *foo（）&#123;</span><br><span class="line">	return yield &quot;foo&quot;</span><br><span class="line">&#125;</span><br><span class="line">let bar = foo()</span><br><span class="line">console.log(bar.next());		//&#123;done:false, value:&#x27;foo&#x27;&#125;</span><br><span class="line">console.log(bar.next(&quot;bar&quot;))	//&#123;done:true, value:&#x27;bar&#x27;&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>产生可迭代对象</p>
-<ol>
-<li>yield的值是关联迭代器返回done:true时的value属性。对于普通迭代器来说，这个值时undefined，对于生成器函数产生的迭代器来说，这个值就是生成器函数返回的值。</li>
-<li>可以使用*增强yield的行为，让它能够迭代一个可迭代对象</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function *foo()&#123;</span><br><span class="line">	yield *[1,2]</span><br><span class="line">	yield *[3,4]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(const x of foo())&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//1</span><br><span class="line">//2</span><br><span class="line">//3</span><br><span class="line">//4</span><br></pre></td></tr></table></figure></li>
-<li><p>使用yield实现递归算法</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function *nTimes(n)&#123;</span><br><span class="line">	if(n&gt;0)&#123;</span><br><span class="line">		yield *nTimes(n-1)</span><br><span class="line">		yield n-1</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">for(const x of nTimes(5))&#123;</span><br><span class="line">	console.log(x)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>扩展：async、await原理</p>
-<p>async函数返回一个Promise对象，当函数执行的时候，一旦遇到awiat就会先返回，等到触发的异步操作完成，才会接着执行函数体后面的的语句。async函数就是Generator函数的语法糖。</p>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Js学习笔记05集合引用类型Object</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-07 09:45:58" itemprop="dateCreated datePublished" datetime="2021-12-07T09:45:58+08:00">2021-12-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:28" itemprop="dateModified" datetime="2021-12-25T14:36:28+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h1><ol>
-<li><h5 id="两种创建方式"><a href="#两种创建方式" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
-<li>new Object</li>
-<li>使用对象字面量{name:’a’}</li>
-</ol>
-</li>
-<li><h5 id="关于定义对象的“-”出现的地方"><a href="#关于定义对象的“-”出现的地方" class="headerlink" title="关于定义对象的“{”出现的地方"></a>关于定义对象的“{”出现的地方</h5><ol>
-<li>出现在表达式上下文中（期待返回值的上下文中），赋值操作符表示后面要期待一个值，因此在左大括号表达一个表达式的开始。</li>
-<li>出现在语句上下文中，比如if语句的条件后面，则表示一个语句块的开始</li>
-</ol>
-</li>
-<li><h5 id="属性一般是使用点语法来存取的，例如obj-name-“pa”"><a href="#属性一般是使用点语法来存取的，例如obj-name-“pa”" class="headerlink" title="属性一般是使用点语法来存取的，例如obj.name=“pa”"></a>属性一般是使用点语法来存取的，例如obj.name=“pa”</h5><p>注意：也可以使用中括号存取，例如obj[“name”]=”pa”使用中括号的优点在于如果属性名中包含会导致语法错误的字符，只用中括号可以避免这一点。（fs优化对象值的存取）</p>
-</li>
-<li><h5 id="属性值可以是字符串或数值-数值会自动转为字符串"><a href="#属性值可以是字符串或数值-数值会自动转为字符串" class="headerlink" title="属性值可以是字符串或数值(数值会自动转为字符串)"></a>属性值可以是字符串或数值(数值会自动转为字符串)</h5></li>
-</ol>
-<h1 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h1><ol>
-<li><h5 id="两种创建方式-1"><a href="#两种创建方式-1" class="headerlink" title="两种创建方式"></a>两种创建方式</h5><ol>
-<li>使用new Array()来创建<ol>
-<li>可以传入一个数值，然后length属性就会自动设置成这个值。配合fill函数可以创建一个全部为某一个数的数组</li>
-<li>也可以传入要保存的元素</li>
-</ol>
-</li>
-<li>使用数组字面量</li>
-</ol>
-</li>
-<li><h5 id="es6新增的创建数组的方法。"><a href="#es6新增的创建数组的方法。" class="headerlink" title="es6新增的创建数组的方法。"></a>es6新增的创建数组的方法。</h5><ol>
-<li>from()用于将类数组结构转化为数组<ol>
-<li>第一个参数但是任何可迭代结构</li>
-<li>第二个参数可以选择映射函数的参数，这个函数可以直接增强新数组的值</li>
-<li>第三个参数用于指定映射函数中this的值</li>
-</ol>
-</li>
-<li>of()用于将一组参数转换为数组实例</li>
-</ol>
-</li>
-</ol>
-<h1 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h1><ol>
-<li><h5 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li><p>使用new Map()创建一个空映射</p>
-<p>可以给这个构造函数传入一个可迭代对象。需要包含键值对数组。可迭代对象中的每一个键值对都会按照迭代顺序插入到新实例对象中</p>
-</li>
-</ol>
-</li>
-<li><h5 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h5><ol>
-<li>set()添加键值对</li>
-<li>get()查找键对应的值</li>
-<li>has()查询是否有这个键</li>
-<li>delete()删除某个键值对</li>
-<li>clear()删除所有键值对</li>
-</ol>
-</li>
-<li><h5 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h5><ol>
-<li>Object只能使用数值。字符串或者符号作为键。</li>
-<li>Map可以使用任何JavaScript对象数据类型作为键</li>
-<li>在映射中作为键和值对象或其他集合类型，在自己的内容被修改时，映射关系不会改变。</li>
-</ol>
-</li>
-<li><h5 id="顺序与迭代"><a href="#顺序与迭代" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
-<li>映射（map）实例可以提供一个迭代器(Iterator)可以通过entries()方法或者Symbol.iterator属性取得这个迭代器。<ol>
-<li>for(let pair of m.entries())</li>
-<li>for(let pair of m[Symbol.iterator])</li>
-<li>键和值在迭代器遍历的时候是可以修改的，但在映射内部是不可修改的。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="Weak-Map"><a href="#Weak-Map" class="headerlink" title="Weak Map"></a>Weak Map</h1><ol>
-<li><h5 id="创建方式-1"><a href="#创建方式-1" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li>使用new WeakMap()关键字实例化一个空的弱映射</li>
-</ol>
-</li>
-<li><h5 id="弱映射中的键只能是object或者继承自object的类型，值没有限制"><a href="#弱映射中的键只能是object或者继承自object的类型，值没有限制" class="headerlink" title="弱映射中的键只能是object或者继承自object的类型，值没有限制"></a>弱映射中的键只能是object或者继承自object的类型，值没有限制</h5></li>
-<li><h5 id="操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置"><a href="#操作和Map基本一致，除了没有clear，set-方法返回弱映射实例，因此可以串联设置" class="headerlink" title="操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置"></a>操作和Map基本一致，除了没有clear，set()方法返回弱映射实例，因此可以串联设置</h5></li>
-<li><h5 id="使用弱映射"><a href="#使用弱映射" class="headerlink" title="使用弱映射"></a>使用弱映射</h5><ol>
-<li>私有变量<ol>
-<li>私有变量会储存在弱映射中，以对象实例为键，以私有成员的字段为值</li>
-</ol>
-</li>
-<li>DOM节点元数据<ol>
-<li>因为WeakMap实例不会妨碍垃圾回收机制，所以非常适合保存关联元数据。</li>
-<li>当节点从DOM树种被删除后，垃圾回收程序会立即释放内存。（假设没有其他地方引用这个对象）</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"><a href="#因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。" class="headerlink" title="因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。"></a>因为WeakMap中的键值对随时可能被摧毁，所以没有必要提供迭代键值对的能力。</h5></li>
-<li><h5 id="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"><a href="#弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。" class="headerlink" title="弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。"></a>弱映射中的弱指的是键不属于正式的引用，不会阻止垃圾回收。但是值是正式的引用。意思是说只要键是存在的，键值对就会存在于映射中。</h5></li>
-</ol>
-<h1 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h1><ol>
-<li><h5 id="创建方式-2"><a href="#创建方式-2" class="headerlink" title="创建方式"></a>创建方式</h5><ol>
-<li>使用new Set()关键字实例化一个空的集合<ol>
-<li>可以传入一个可迭代对象，其中包含需要插入到集合的元素。</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><h5 id="基本API"><a href="#基本API" class="headerlink" title="基本API"></a>基本API</h5><ol>
-<li>add()增加一个值</li>
-<li>has()查询一个值</li>
-<li>size()取得元素数量</li>
-<li>delete()/clear()删除值</li>
-</ol>
-</li>
-<li><h5 id="Set可以包含任何JavaScript数据类型作为值"><a href="#Set可以包含任何JavaScript数据类型作为值" class="headerlink" title="Set可以包含任何JavaScript数据类型作为值"></a>Set可以包含任何JavaScript数据类型作为值</h5><ol>
-<li>用作值的对象和其他集合类型在自身改变时不会影响。</li>
-</ol>
-</li>
-<li><h5 id="顺序与迭代-1"><a href="#顺序与迭代-1" class="headerlink" title="顺序与迭代"></a>顺序与迭代</h5><ol>
-<li><p>Set会维护值插入时的顺序，因此支持顺序迭代</p>
-</li>
-<li><p>set实例可以提供一个迭代器(Iterator)，能以插入顺序生成集合内容。</p>
-</li>
-<li><p>可以通过values()方法以及其别名方法keys()</p>
-<p>for(let v of s.values())</p>
-</li>
-<li><p>或者Symbol.ietrator属性，他引用values()取得这个迭代器</p>
-<p>for(let v of s[Symbol.iterator])</p>
-</li>
-<li><p>set的entires()方法返回一个迭代器，可以按照插入顺序产生包含两个元素的数组，这两个元素是集合中每个值的重复出现。</p>
-</li>
-</ol>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E9%9B%86%E5%90%88%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Js学习笔记03变量、作用域与内存</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 22:32:44" itemprop="dateCreated datePublished" datetime="2021-12-06T22:32:44+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:35:42" itemprop="dateModified" datetime="2021-12-25T14:35:42+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
-<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
-</li>
-<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
-<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
-</li>
-<li><p>模式：</p>
-<ol>
-<li>i：忽略大小写</li>
-<li>g：全局查找</li>
-<li>m：多行查找</li>
-</ol>
-</li>
-<li><p>实例方法</p>
-<ol>
-<li><p>主要方法使exec()</p>
-<ol>
-<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
-<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
-</li>
-<li><p>没找到则返回null</p>
-</li>
-<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
-</li>
-<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
-</li>
-<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
-</li>
-</ol>
-</li>
-<li><p>还有一个是text（）</p>
-<ol>
-<li>只检测是否匹配，不关心为什么。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
-<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
-</ol>
-<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
-<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
-<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
-<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
-</ol>
-<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
-<li>创建方法直接使用数值赋值即可</li>
-<li>实例方法<ol>
-<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
-<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
-<li>isInteger()用于鉴别一个数组的值是否是整数</li>
-<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
-</ol>
-</li>
-</ol>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
-<li><p>JavaScript字符</p>
-<ol>
-<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
-<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
-<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
-<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
-<li>codePointAt()方法可以突破16位码元的限制</li>
-</ol>
-</li>
-<li><p>字符串操作方法</p>
-<ol>
-<li>字符串截取<ol>
-<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
-<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
-<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>字符串位置方法</p>
-<ol>
-<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
-<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
-</ol>
-<p>都接受第二个参数表示开始搜索的位置。</p>
-</li>
-<li><p>字符串包含方法</p>
-<ol>
-<li>startWith()    开始于索引0的匹配项</li>
-<li>endWith()      结束于字符串末尾的匹配项</li>
-<li>includes()      任意位置的匹配项</li>
-</ol>
-</li>
-<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
-</li>
-<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
-</li>
-<li><p>padStart()和padEnd()</p>
-<ol>
-<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
-</ol>
-</li>
-<li><p>字符串迭代与解构，for-of迭代</p>
-</li>
-<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
-</li>
-<li><p>字符串模式匹配方法</p>
-<ol>
-<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
-<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
-</ol>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1927,7 +1790,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">62</span>
+          <span class="site-state-item-count">68</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
