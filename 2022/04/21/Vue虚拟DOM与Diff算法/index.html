@@ -23,7 +23,7 @@
   <meta name="description" content="虚拟DOM与DIff算法虚拟DOM在Vue中虚拟DOM是一个重要的概念，是作为Vue响应式与真实DOM之间的‘桥梁’ 什么是虚拟DOM虚拟DOM的本质就是一个对象，用以描述视图的界面结构。在Vue中，每个组件都有一个render函数，每个render函数都会返回一个虚拟DOM树，这也就意味着每个组件都有一个对应的虚拟DOM树 为什么要虚拟DOMVue的核心在于响应式，为了实现响应式，就必须要频繁地">
 <meta property="og:type" content="article">
 <meta property="og:title" content="虚拟DOM与Diff算法">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/21/%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/index.html">
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
 <meta property="og:description" content="虚拟DOM与DIff算法虚拟DOM在Vue中虚拟DOM是一个重要的概念，是作为Vue响应式与真实DOM之间的‘桥梁’ 什么是虚拟DOM虚拟DOM的本质就是一个对象，用以描述视图的界面结构。在Vue中，每个组件都有一个render函数，每个render函数都会返回一个虚拟DOM树，这也就意味着每个组件都有一个对应的虚拟DOM树 为什么要虚拟DOMVue的核心在于响应式，为了实现响应式，就必须要频繁地">
 <meta property="og:locale" content="zh_CN">
@@ -35,7 +35,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/patch%E6%B5%81%E7%A8%8B.png">
 
-<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/21/%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/">
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/">
 
 
 <script id="page-configurations">
@@ -192,7 +192,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/21/%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
@@ -237,8 +237,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2022/04/21/%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/21/%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -281,10 +281,13 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/04/21/%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91AST/" rel="prev" title="抽象语法树AST">
+    <a href="/2022/04/21/Vue%E6%8A%BD%E8%B1%A1%E8%AF%AD%E6%B3%95%E6%A0%91AST/" rel="prev" title="抽象语法树AST">
       <i class="fa fa-chevron-left"></i> 抽象语法树AST
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/22/%E6%89%8B%E5%86%99DOM%E8%BD%ACjson%E6%A0%BC%E5%BC%8F/" rel="next" title="手写DOM转json格式">
+      手写DOM转json格式 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     

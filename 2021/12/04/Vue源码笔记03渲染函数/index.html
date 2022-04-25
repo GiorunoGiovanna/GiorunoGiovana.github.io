@@ -23,7 +23,7 @@
   <meta name="description" content="Render Function渲染函数是组成完整的响应性渲染系统的另外一半，Vue的template实际上是通过渲染函数渲染出来的。 在Vue上下文中，当我们第一次渲染一个Vue应用时，会将template放到渲染函数进行编译。Render函数实际上是一个返回虚拟DOM的函数，然后Vue基于虚拟DOM生成真实DOM。 在后续的产生虚拟DOM的过程本质上是调用渲染函数，因为渲染函数和所有的data属">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Vue源码学习笔记03">
-<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/index.html">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0/index.html">
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
 <meta property="og:description" content="Render Function渲染函数是组成完整的响应性渲染系统的另外一半，Vue的template实际上是通过渲染函数渲染出来的。 在Vue上下文中，当我们第一次渲染一个Vue应用时，会将template放到渲染函数进行编译。Render函数实际上是一个返回虚拟DOM的函数，然后Vue基于虚拟DOM生成真实DOM。 在后续的产生虚拟DOM的过程本质上是调用渲染函数，因为渲染函数和所有的data属">
 <meta property="og:locale" content="zh_CN">
@@ -41,7 +41,7 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==">
 
-<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/">
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0/">
 
 
 <script id="page-configurations">
@@ -198,7 +198,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
@@ -249,8 +249,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003/" itemprop="commentCount"></span>
+    <a title="valine" href="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B003%E6%B8%B2%E6%9F%93%E5%87%BD%E6%95%B0/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -313,11 +313,11 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002/" rel="prev" title="Vue源码学习笔记02">
+    <a href="/2021/12/04/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B002%E6%8F%92%E4%BB%B6/" rel="prev" title="Vue源码学习笔记02">
       <i class="fa fa-chevron-left"></i> Vue源码学习笔记02
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004/" rel="next" title="Vue源码学习笔记04">
+    <a href="/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6/" rel="next" title="Vue源码学习笔记04">
       Vue源码学习笔记04 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
