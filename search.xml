@@ -3202,6 +3202,38 @@
 
 <p>不会改变数组的方法：</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">filter()</span><br><span class="line">concat()</span><br><span class="line">slice()</span><br><span class="line">map()</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="常见的移动端适配方案"><a href="#常见的移动端适配方案" class="headerlink" title="常见的移动端适配方案"></a>常见的移动端适配方案</h5><ol>
+<li><p>媒体查询<code>@media</code></p>
+<ul>
+<li><p>通过查询设备的宽高来适配不同的屏幕，执行不同的css代码</p>
+</li>
+<li><p>优点：简单，响应式</p>
+</li>
+<li><p>缺点：多套css代码，维护量大</p>
+</li>
+<li><pre><code class="css">/* 适配iphone6 plus*/
+@media screen and (min-width:414px) &#123;
+    //写上区别于默认的代码样式即可
+    .top p &#123;
+        font-size: 20px;
+        top: 43px;
+    &#125;
+&#125;
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>flex布局</p>
+<p>flex布局本来都是响应式的，只要布局合理，就可以适配</p>
+</li>
+<li><p>动态rem</p>
+<p>因为rem是根据根元素的字体大小的比例的单位，只要我们修改默认根元素的尺寸，那么所有采用rem的长度都会随之改变</p>
+</li>
+<li><p>vw</p>
+<p>响应式的比例单位，但是兼容性不太好</p>
+</li>
+</ol>
+</li>
 </ol>
 ]]></content>
       <categories>
@@ -3820,8 +3852,18 @@
 <ol>
 <li>事件委托基于冒泡，对于不冒泡的事件不支持</li>
 <li>层级过多，冒泡过程中，可能会被某层阻止</li>
-<li>把所有事件都用代理就可能会出现事件误判。比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。</li>
+<li>把所有事件都用代理就可能会出现事件误判。比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。、</li>
 </ol>
+</li>
+<li><h5 id="tree-shaking原理"><a href="#tree-shaking原理" class="headerlink" title="tree-shaking原理"></a>tree-shaking原理</h5><p>简单来说，tree-shaking的本质就是在打包过程中消除无用的代码。tree-shaking思想出现得很早，但在JavaScript中得到有效应用是ES6之后。</p>
+<p>因为在ES6之前，代码的引用是CommonJS规范的动态的<code>require</code>,这样的话代码是在被使用的时候才会引入，这样导致代码打包的时候编译器不好判断是否能删除。</p>
+<p>而ES6之后引入使用的ES6 Modules是<code>import</code>纯静态引入，代码在打包的时候就可以扫描代码，用到的留下，没有用到的就删除，从而优化打包后的体积。</p>
+<p>CommonJS和ES6 Module的主要区别</p>
+<p>1、CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</p>
+<p>2、CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
+<p>3、CommonJs 是单个值导出，ES6 Module可以导出多个</p>
+<p>4、CommonJs 是动态语法可以写在判断里，ES6 Module 静态语法只能写在顶层</p>
+<p>5、CommonJs 的 this 是当前模块，ES6 Module的 this 是 undefined</p>
 </li>
 </ol>
 ]]></content>
@@ -4421,6 +4463,139 @@
 ]]></content>
       <categories>
         <category>Vue源码</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Javascript中的hook</title>
+    <url>/2022/04/26/Javascript%E4%B8%AD%E7%9A%84hook/</url>
+    <content><![CDATA[<h1 id="Javascript中的hook"><a href="#Javascript中的hook" class="headerlink" title="Javascript中的hook"></a>Javascript中的hook</h1><p>Hook在英文中意为“钩子”，是一种动态修改函数执行流程或返回结果的方法，在实际应用中非常广泛。</p>
+<h2 id="Hook是什么"><a href="#Hook是什么" class="headerlink" title="Hook是什么"></a>Hook是什么</h2><p>hook原理图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/Hook.png" alt="Hook"></p>
+<p>可以看出，Hook其实非常像是一个拦截器，只不过它是一个“开放的拦截器”。什么意思呢？就是它相当于来正常的流程中开了一个口，使得A—&gt;B的过程变成了A—&gt;Hook—&gt;B,而这个Hook允许你自行添加处理的逻辑，因此我称它为”开放的拦截器“。</p>
+<h3 id="HooK和拦截器的差别"><a href="#HooK和拦截器的差别" class="headerlink" title="HooK和拦截器的差别"></a>HooK和拦截器的差别</h3><p>Hook虽然十分像拦截器，但是还是有所不同的。</p>
+<ul>
+<li>拦截器是不能在一个封闭的函数中件设置的，而Hook可以。因为Hook是由事件的提供者提供的，也就是说Hook是开发者本身留给你的后门。拦截器只是设置在流程前后的你自己设置的处理逻辑。</li>
+<li>你在Hook中添加的逻辑是被流程承认的。而拦截器对于这段流程本身来说是没有联系的，流程并不知道拦截器的存在。</li>
+</ul>
+<h2 id="Hook的应用"><a href="#Hook的应用" class="headerlink" title="Hook的应用"></a>Hook的应用</h2><ol>
+<li><h5 id="最简单的Hook方法"><a href="#最简单的Hook方法" class="headerlink" title="最简单的Hook方法"></a>最简单的Hook方法</h5><p>JavaScript中存在函数重载这一概念，这意味着你可以直接修改同名函数的逻辑，这也是一种Hook。</p>
+</li>
+<li><h5 id="Vue2-x响应式原理"><a href="#Vue2-x响应式原理" class="headerlink" title="Vue2.x响应式原理"></a>Vue2.x响应式原理</h5><p>JavaScript中存在一个<code>defineProperty</code>API，作用是可以自定义对象中某个元素的行为，例如是否可编辑，是否可遍历，修改当前元素的值等</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(<span class="built_in">document</span>, <span class="string">&#x27;domain&#x27;</span>, &#123;</span><br><span class="line">    <span class="attr">configurable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">enumerable</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">get</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>._domain || location.host;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">set</span>: <span class="function"><span class="keyword">function</span>(<span class="params">value</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">this</span>._domain = value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h5><p>Vue生命周期钩子是比较典型的Hook</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    <span class="function"><span class="title">mounted</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="Vue3-x响应式原理"><a href="#Vue3-x响应式原理" class="headerlink" title="Vue3.x响应式原理"></a>Vue3.x响应式原理</h5><p>ES6中引入了一个概念<code>proxy</code>代理，简单来说就是为某个东西添加一层拦截，Vue3.x响应式原理就是基于这个</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.screen = <span class="keyword">new</span> <span class="built_in">Proxy</span>(<span class="built_in">window</span>.screen, &#123;</span><br><span class="line">    <span class="attr">get</span>: <span class="function"><span class="keyword">function</span> (<span class="params">target, key</span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;get&#x27;</span>, key);</span><br><span class="line">        <span class="keyword">return</span> target[key];</span><br><span class="line">    &#125;&#125;);</span><br></pre></td></tr></table></figure></li>
+</ol>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TS学习笔记02类</title>
+    <url>/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/</url>
+    <content><![CDATA[<h1 id="TypeScript中的类"><a href="#TypeScript中的类" class="headerlink" title="TypeScript中的类"></a>TypeScript中的类</h1><p>TS中的类定义方式和ES6中定义方式很相似，直接使用class关键字来定义</p>
+<p><strong>值得注意的是，在使用变量之前需要声明这个变量，不能像在es6中constructor直接使用this</strong></p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Call</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> name</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">name: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">call</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> c = <span class="keyword">new</span> Call(<span class="string">&#x27;ddd&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(c.call())</span><br></pre></td></tr></table></figure>
+
+<h2 id="类中的属性声明"><a href="#类中的属性声明" class="headerlink" title="类中的属性声明"></a>类中的属性声明</h2><ol>
+<li><p><code>public</code>公有属性：这个类本身，它的子类和类外都能访问的属性</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Call</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> yourname: <span class="built_in">string</span> = <span class="string">&#x27;xixi&#x27;</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">yourname: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.yourname = yourname</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">call</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.yourname</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> c = <span class="keyword">new</span> Call(<span class="string">&#x27;ddd&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(c.call())	<span class="comment">//ddd</span></span><br><span class="line"><span class="built_in">console</span>.log(c.yourname)	<span class="comment">//在类外ddd</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>private</code>私有属性：这个类本身和它的子类才能访问，类外不能访问</p>
+</li>
+<li><p><code>static</code>静态属性：只有这个类本身才能访问，子类和类外都不能访问</p>
+</li>
+</ol>
+<h2 id="类的多态"><a href="#类的多态" class="headerlink" title="类的多态"></a>类的多态</h2><p>多态是一种继承的形式，父类定义一个方法不去实现，让它的子类去实现，每个子类都可以由不同的表现</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">eat</span>(<span class="params">food: <span class="built_in">string</span></span>)</span> &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    eat(food: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`喜欢吃<span class="subst">$&#123;food&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    eat(food: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`不喜欢吃<span class="subst">$&#123;food&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> cat = <span class="keyword">new</span> Cat()</span><br><span class="line">cat.eat(<span class="string">&#x27;鱼&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> dog = <span class="keyword">new</span> Dog()</span><br><span class="line">dog.eat(<span class="string">&#x27;菜&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TS中的抽象类"><a href="#TS中的抽象类" class="headerlink" title="TS中的抽象类"></a>TS中的抽象类</h2><p>TS中的抽象类的作用是提供其他类继承的基类，<strong>不能直接被实例化</strong></p>
+<p>在定义类之前使用<code>abstract</code>关键字可以定义抽象类和抽象方法，抽象类中的抽象方法不包括具体实现，并且必须在派生类中实现，这点类似多态，但是比多态强硬得多。</p>
+<p>抽象类和抽象方法是用来定义标准的，因为继承它的子类必须实现它的抽象方法</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> food: <span class="built_in">string</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">food: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.food = food</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">abstract</span> eat(food: <span class="built_in">string</span>): <span class="built_in">any</span>	<span class="comment">//必须没有实现，否则报错</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">food: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(food)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">eat</span>(<span class="params"></span>)</span> &#123;						<span class="comment">//这里必须有实现，否则报错</span></span><br><span class="line">        <span class="keyword">return</span> <span class="string">`吃<span class="subst">$&#123;<span class="built_in">this</span>.food&#125;</span>`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="keyword">new</span> Cat(<span class="string">&#x27;fish&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(a.eat())</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>TypeScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ts学习笔记01数据类型和函数</title>
+    <url>/2022/04/27/Ts%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h1 id="TypeScript中的数据类型和函数"><a href="#TypeScript中的数据类型和函数" class="headerlink" title="TypeScript中的数据类型和函数"></a>TypeScript中的数据类型和函数</h1><p>TS是在JavaScript的基础上添加静态类型定义构建而成的语言，可以说是JavaScript的超集，能通过typescript编译器转化为JavaScript代码从而执行。由于JavaScript动态类型的特性，很多编程错误都是因为对类型定义不准确造成的，TS规定数据类型的方式巧妙的解决了这个难题。</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>在ts中变量被要求赋予一个固定的类型，类型确定了之后不能随意更改变量的类型。</p>
+<h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><p>基本数据类型就是在定义的变量后面加上<code>:类型</code>用于确定这个变量的类型</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> num: <span class="built_in">number</span> = <span class="number">123</span></span><br><span class="line"><span class="keyword">let</span> str: <span class="built_in">string</span> = <span class="string">&#x27;aaa&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h3><h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><p>在TS中，有两种数组的定义方式，在数组中的各个元素的值也被要求是统一的</p>
+<ol>
+<li><p>类似于Java中定义数组的方式</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr: <span class="built_in">number</span>[] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line"><span class="keyword">let</span> arr: <span class="built_in">string</span>[] = [<span class="string">&#x27;11&#x27;</span>, <span class="string">&#x27;22&#x27;</span>, <span class="string">&#x27;33&#x27;</span>]</span><br></pre></td></tr></table></figure></li>
+<li><p>泛型</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr: <span class="built_in">Array</span>&lt;<span class="built_in">number</span>&gt; = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h4 id="元组（tuple）"><a href="#元组（tuple）" class="headerlink" title="元组（tuple）"></a>元组（tuple）</h4><p>元组是一种特殊的数组，它支持定义每一个内部元素的属性</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> arr: [<span class="built_in">string</span>, <span class="built_in">number</span>, <span class="built_in">boolean</span>] = [<span class="string">&#x27;dd&#x27;</span>, <span class="number">1</span>, <span class="literal">true</span>]</span><br></pre></td></tr></table></figure>
+
+<h4 id="枚举类型（enum）"><a href="#枚举类型（enum）" class="headerlink" title="枚举类型（enum）"></a>枚举类型（enum）</h4><p>枚举类型可以为每一个值设置一个标识，之后可以使用标识来引用它</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">enum</span> Flag &#123; success = <span class="number">1</span>, error = <span class="number">0</span> &#125;</span><br><span class="line"><span class="keyword">var</span> success = Flag.success</span><br><span class="line"><span class="built_in">console</span>.log(success)	<span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+<p>如果定义的时候没有赋值，那么默认是获得它的索引值</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">enum</span> color &#123; red, pink, blue &#125;</span><br><span class="line"><span class="keyword">var</span> c: color = color.pink</span><br><span class="line"><span class="built_in">console</span>.log(c)</span><br></pre></td></tr></table></figure>
+
+<p>值得注意的是，如果在某一个枚举类型中定义的值，后面的没有定义过值的枚举类型都会以他的值为索引基准获取值</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">enum</span> color &#123; red, pink = <span class="number">45</span>, blue = <span class="number">99</span>, purple &#125;</span><br><span class="line"><span class="keyword">var</span> c: color = color.pink</span><br><span class="line"><span class="keyword">var</span> d: color = color.blue</span><br><span class="line"><span class="keyword">var</span> e: color = color.purple</span><br><span class="line"><span class="built_in">console</span>.log(c)	<span class="comment">//45</span></span><br><span class="line"><span class="built_in">console</span>.log(d)	<span class="comment">//99</span></span><br><span class="line"><span class="built_in">console</span>.log(e)	<span class="comment">//100</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="any任意类型"><a href="#any任意类型" class="headerlink" title="any任意类型"></a>any任意类型</h3><p>在不确定变量的具体类型的情况下可以使用any类型定义，这个定义的类型和原本JavaScript中的类型定义没有区别</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a:<span class="built_in">any</span> = <span class="literal">NaN</span> || <span class="literal">null</span> </span><br></pre></td></tr></table></figure>
+
+<h3 id="never类型"><a href="#never类型" class="headerlink" title="never类型"></a>never类型</h3><p>标识不会出现的值</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> a: <span class="built_in">never</span></span><br><span class="line">a = (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;错误&#x27;</span>)</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure>
+
+<h4 id="null和undefined类型"><a href="#null和undefined类型" class="headerlink" title="null和undefined类型"></a>null和undefined类型</h4><p>null和undefined是never的子类型，可以用于指定如果变量前一个类型无法匹配的情况</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> num: <span class="built_in">number</span> | <span class="literal">undefined</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h2><h4 id="普通函数"><a href="#普通函数" class="headerlink" title="普通函数"></a>普通函数</h4><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call</span>(<span class="params"></span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">&#x27;run&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="匿名函数"><a href="#匿名函数" class="headerlink" title="匿名函数"></a>匿名函数</h4><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> call = <span class="function"><span class="keyword">function</span> (<span class="params"></span>): <span class="title">number</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">123</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="TS方法定义传参"><a href="#TS方法定义传参" class="headerlink" title="TS方法定义传参"></a>TS方法定义传参</h4><figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserInfo</span>(<span class="params">name: <span class="built_in">string</span>, age: <span class="built_in">number</span></span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;name&#125;</span> is <span class="subst">$&#123;age&#125;</span>`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="没有返回值的方法"><a href="#没有返回值的方法" class="headerlink" title="没有返回值的方法"></a>没有返回值的方法</h4><p>使用viod定义</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">call</span>(<span class="params"></span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;call&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="方法可选参数"><a href="#方法可选参数" class="headerlink" title="方法可选参数"></a>方法可选参数</h4><p>es5和es6中方法的形参和实参可以不一样，但是在ts中必须一样，如果不一样需要配置为可选参数</p>
+<p><strong>注意！！可选参数必须配置在参数的最后面</strong></p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserInfo</span>(<span class="params">name: <span class="built_in">string</span>, age?: <span class="built_in">number</span></span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (age) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;name&#125;</span> is <span class="subst">$&#123;age&#125;</span>`</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;name&#125;</span> is 18`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">alert(getUserInfo(<span class="string">&#x27;lihua&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h4><p>与可选参数不同的是，默认参数位置是随意的，类似于es6中的默认参数</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserInfo</span>(<span class="params">name: <span class="built_in">string</span>, age: <span class="built_in">number</span> = <span class="number">20</span></span>): <span class="title">string</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (age) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;name&#125;</span> is <span class="subst">$&#123;age&#125;</span>`</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;name&#125;</span> is 18`</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">alert(getUserInfo(<span class="string">&#x27;lihua&#x27;</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="剩余参数"><a href="#剩余参数" class="headerlink" title="剩余参数"></a>剩余参数</h4><p>就是ES6中的<code>...</code>运算符</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">a: <span class="built_in">number</span>, ...result: <span class="built_in">number</span>[]</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> sum = result.reduce(<span class="function">(<span class="params">total: <span class="built_in">number</span>, cur: <span class="built_in">number</span></span>) =&gt;</span> total + cur)</span><br><span class="line">    <span class="keyword">return</span> sum</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(sum(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>))</span><br></pre></td></tr></table></figure>
+
+<h4 id="函数重载（重点）"><a href="#函数重载（重点）" class="headerlink" title="函数重载（重点）"></a>函数重载（重点）</h4><p>在JavaScript中函数重载的概念是指重复定义同名函数的时候，无论如何后一个都会取代前一个。</p>
+<p>但是在TS中，只要参数的类型不一致，只要参数的个数不一致，就是两个不同的函数。</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getUserInfo</span>(<span class="params">name: <span class="built_in">string</span></span>): <span class="title">string</span></span></span><br><span class="line"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">getUserInfo</span>(<span class="params">name: <span class="built_in">string</span>, age?: <span class="built_in">number</span></span>): <span class="title">string</span></span></span></span><br><span class="line"><span class="function"><span class="function"><span class="function"><span class="keyword">function</span> <span class="title">getUserInfo</span>(<span class="params">name: <span class="built_in">string</span>, age?: <span class="built_in">any</span></span>): <span class="title">string</span> </span>&#123;</span></span></span><br><span class="line"><span class="function"><span class="function">    <span class="title">if</span> (<span class="params">age</span>) </span>&#123;</span></span><br><span class="line"><span class="function">        <span class="title">return</span> `<span class="title">$</span></span>&#123;name&#125; is $&#123;age&#125;<span class="string">`</span></span><br><span class="line"><span class="string">    &#125; else &#123;</span></span><br><span class="line"><span class="string">        return `</span>$&#123;name&#125; is <span class="number">18</span> forever<span class="string">`</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">console.log(getUserInfo(&#x27;lihua&#x27;, 34))</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="箭头函数"><a href="#箭头函数" class="headerlink" title="箭头函数"></a>箭头函数</h4><p>跟前面的的几种函数没有本质区别</p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> a = (name: <span class="built_in">string</span>, age?: <span class="built_in">number</span> | <span class="literal">undefined</span>): <span class="function"><span class="params">string</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="string">`<span class="subst">$&#123;name&#125;</span> is <span class="subst">$&#123;age&#125;</span>`</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>TypeScript</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>

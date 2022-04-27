@@ -28,7 +28,7 @@
 <meta property="og:description" content="面经摘抄02 重绘和回流以及如何减少回流重绘：当前页面中元素样式的改变并不影响它在文档流中的位置，也就是说布局没有发生改变的时候 回流：任何会改变元素几何信息的操作，都会触发回流，回流是影响浏览器新能的关键因素。  js更改DOM元素（增删改） 样式表的添加或者删除 窗口大小改变 字体大小改变 激活伪类，如:hover(hover颜色除外) 改变样式属性（颜色，透明度除外） 更改元素的classN">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-04-11T08:05:30.000Z">
-<meta property="article:modified_time" content="2022-04-13T07:21:40.434Z">
+<meta property="article:modified_time" content="2022-04-25T14:12:44.459Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
@@ -220,7 +220,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-13 15:21:40" itemprop="dateModified" datetime="2022-04-13T15:21:40+08:00">2022-04-13</time>
+                <time title="修改时间：2022-04-25 22:12:44" itemprop="dateModified" datetime="2022-04-25T22:12:44+08:00">2022-04-25</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -317,8 +317,18 @@
 <ol>
 <li>事件委托基于冒泡，对于不冒泡的事件不支持</li>
 <li>层级过多，冒泡过程中，可能会被某层阻止</li>
-<li>把所有事件都用代理就可能会出现事件误判。比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。</li>
+<li>把所有事件都用代理就可能会出现事件误判。比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。、</li>
 </ol>
+</li>
+<li><h5 id="tree-shaking原理"><a href="#tree-shaking原理" class="headerlink" title="tree-shaking原理"></a>tree-shaking原理</h5><p>简单来说，tree-shaking的本质就是在打包过程中消除无用的代码。tree-shaking思想出现得很早，但在JavaScript中得到有效应用是ES6之后。</p>
+<p>因为在ES6之前，代码的引用是CommonJS规范的动态的<code>require</code>,这样的话代码是在被使用的时候才会引入，这样导致代码打包的时候编译器不好判断是否能删除。</p>
+<p>而ES6之后引入使用的ES6 Modules是<code>import</code>纯静态引入，代码在打包的时候就可以扫描代码，用到的留下，没有用到的就删除，从而优化打包后的体积。</p>
+<p>CommonJS和ES6 Module的主要区别</p>
+<p>1、CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</p>
+<p>2、CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
+<p>3、CommonJs 是单个值导出，ES6 Module可以导出多个</p>
+<p>4、CommonJs 是动态语法可以写在判断里，ES6 Module 静态语法只能写在顶层</p>
+<p>5、CommonJs 的 this 是当前模块，ES6 Module的 this 是 undefined</p>
 </li>
 </ol>
 
@@ -405,7 +415,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402"><span class="nav-number">1.</span> <span class="nav-text">面经摘抄02</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E7%BB%98%E5%92%8C%E5%9B%9E%E6%B5%81%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%9B%9E%E6%B5%81"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">重绘和回流以及如何减少回流</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">内存泄露的原因和解决方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">JavaScript为什么是单线程的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%E7%9A%84%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.0.0.0.4.</span> <span class="nav-text">事件委托的原理以及优缺点</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402"><span class="nav-number">1.</span> <span class="nav-text">面经摘抄02</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%87%8D%E7%BB%98%E5%92%8C%E5%9B%9E%E6%B5%81%E4%BB%A5%E5%8F%8A%E5%A6%82%E4%BD%95%E5%87%8F%E5%B0%91%E5%9B%9E%E6%B5%81"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">重绘和回流以及如何减少回流</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%86%85%E5%AD%98%E6%B3%84%E9%9C%B2%E7%9A%84%E5%8E%9F%E5%9B%A0%E5%92%8C%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">内存泄露的原因和解决方案</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%95%E7%BA%BF%E7%A8%8B%E7%9A%84"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">JavaScript为什么是单线程的</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98%E7%9A%84%E5%8E%9F%E7%90%86%E4%BB%A5%E5%8F%8A%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.0.0.0.4.</span> <span class="nav-text">事件委托的原理以及优缺点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#tree-shaking%E5%8E%9F%E7%90%86"><span class="nav-number">1.0.0.0.5.</span> <span class="nav-text">tree-shaking原理</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -421,14 +431,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

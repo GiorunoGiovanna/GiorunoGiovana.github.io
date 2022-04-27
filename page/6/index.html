@@ -186,6 +186,470 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">js学习笔记11函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-10 10:16:50" itemprop="dateCreated datePublished" datetime="2021-12-10T10:16:50+08:00">2021-12-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:36:52" itemprop="dateModified" datetime="2021-12-25T14:36:52+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ol>
+<li>因为函数是对象，所以函数名就是指向函数对象的指针，而且不一定余函数本身紧密绑定</li>
+<li>创建函数的方式和区别<ul>
+<li>函数表达式 var foo = function() {…}<ul>
+<li>只有在JavaScript语句执行到这句话的之后才会创建函数。在这之前调用函数会报错。（没有提升）</li>
+</ul>
+</li>
+<li>函数声明 function foo() {…}<ul>
+<li>在JavaScript编译的时候函数声明会被提前，也就是说可以先调用函数再在下面声明函数</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>箭头函数<ul>
+<li>箭头函数是使用胖箭头(=&gt;)语法定义函数表达式的能力。</li>
+<li>标准写法是 let a = (x) =&gt; {…}</li>
+<li>如果函数只有一条语句的话，可以不要大括号，但是函数会默认将这一句话当成返回值；只有一个参数的时候也可以没有前一个括号</li>
+</ul>
+</li>
+</ol>
+<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><ol>
+<li><p>闭包是指哪些引用了另一个函数作用域中变量的函数，通常是在嵌套函数中实现的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createComparison</span>(<span class="params">name</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">obj1,obj2</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">let</span> val1 = obj1[name]</span><br><span class="line">		<span class="keyword">let</span> val2 = obj2[name]</span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(val1&gt;val2)&#123;</span><br><span class="line">			<span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span> <span class="keyword">if</span>(val1&lt;val2)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">		&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> compare  = createComparison(<span class="string">&quot;name&quot;</span>)</span><br><span class="line"><span class="keyword">let</span> result = compare(&#123;<span class="attr">name</span>:<span class="string">&quot;jianhuo&quot;</span>&#125;,&#123;<span class="attr">name</span>:<span class="string">&quot;pa&quot;</span>&#125;)	<span class="comment">//1</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>这个例子中的val1和val2引用了来自函数外的变量，在这个内部的匿名函数被返回并在其他的地方使用后，它仍然引用着那个变量。这是因为内部函数的作用域包含createComparison()函数的作用域。</li>
+</ul>
+</li>
+<li><p>在调用一个函数的时候，会为这个函数创建一个执行上下文，并创建一个作用域链。然后用arguments和其他命名参数来初始化这个函数的活动独享。外部函数的活动对象是内部函数作用域链上的第二个对象。这个作用域一直向外串起了所有包含函数的活动对象，直到全局上下文才终止。</p>
+</li>
+<li><p>函数执行的时候，每个执行上下文都会有一个包含其中变量的对象。全局上下文中的叫变量对象，他会在代码执行期间始终存在。而函数局部上下文中的叫活动对象，指在函数执行期间存在。</p>
+<ul>
+<li>函数内部的代码在访问变量时，就会使用给定的名称从作用域中查找变量。函数执行完毕后，局部活动对象会被摧毁。只剩下全局作用域。但是在闭包中就不一样了。</li>
+</ul>
+</li>
+<li><p>注意：因为闭包会保留他们包含的函数作用域，因此会比其他函数更占用内存，所以要谨慎使用。</p>
+</li>
+<li><p>在一个函数内部定义的函数会把其包含函数的活动对象添加到子自己的作用域链中。导致在外部函数被销毁时外部函数的活动对象由于仍然被引用，所以不能销毁。就产生了闭包。</p>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/" class="post-title-link" itemprop="url">js学习笔记10代理与反射</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-10 09:54:38" itemprop="dateCreated datePublished" datetime="2021-12-10T09:54:38+08:00">2021-12-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-03-31 11:20:35" itemprop="dateModified" datetime="2022-03-31T11:20:35+08:00">2022-03-31</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="代理与反射"><a href="#代理与反射" class="headerlink" title="代理与反射"></a>代理与反射</h1><ol>
+<li><h4 id="代理基础"><a href="#代理基础" class="headerlink" title="代理基础"></a>代理基础</h4><ul>
+<li><p>代理是目标对象的抽象。目标对象既可以直接被操作，也可以通过代理来操作。但是直接操作会绕过代理施予的行为。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;lihua&quot;</span>,</span><br><span class="line">	<span class="attr">age</span>:<span class="string">&quot;18&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj,&#123;</span><br><span class="line">	<span class="function"><span class="title">get</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Reflect</span>.get(...args)+<span class="string">&quot;好耶！&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(proxy.name) <span class="comment">//lihua好耶！</span></span><br><span class="line"><span class="built_in">console</span>.log(obj.name)	<span class="comment">//lihua</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><h4 id="创建空代理"><a href="#创建空代理" class="headerlink" title="创建空代理"></a>创建空代理</h4><ul>
+<li>在代理对象上执行的任何操作实际上都会应用到目标对象。唯一可感知的不同就是代码中操作的是代理对象。</li>
+</ul>
+</li>
+<li><h4 id="定义捕获器"><a href="#定义捕获器" class="headerlink" title="定义捕获器"></a>定义捕获器</h4><ul>
+<li>使用代理的主要原因是可以定义捕获器。每个处理程序对象都可以包含多个捕获器，每个捕获器对应一种基本操作，可以直接或间接在代理对象上调用。</li>
+<li>每次在代理对象上调用这些基本操作时，代理可以在这些操作传播到目标对象之前像调用捕获器函数，从而实现拦截并修改相应的行为。</li>
+<li>例如，可以定一一个get()捕获器，JavaScript操作以某种形式调用get()时触发。所有这些操作只要发生在代理对象上，就会触发get()捕获器</li>
+<li>注意，只有在代理对象上，就会触发。</li>
+</ul>
+</li>
+<li><h4 id="捕获器参数和反射API"><a href="#捕获器参数和反射API" class="headerlink" title="捕获器参数和反射API"></a>捕获器参数和反射API</h4><ul>
+<li><p>所有捕获器都可以访问响应的参数面积与这些参数可以重建被捕获的方法的原始行为。</p>
+</li>
+<li><p>通过调用全局Reflect对象上（封装了原始行为）的同名方法来轻松重建。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;lihua&quot;</span>,</span><br><span class="line">	<span class="attr">age</span>:<span class="string">&quot;18&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> proxy = <span class="keyword">new</span> <span class="built_in">Proxy</span>(obj,&#123;</span><br><span class="line">	<span class="function"><span class="title">get</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Reflect</span>.get(...args)+<span class="string">&quot;好耶！&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(proxy.name)</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><h4 id="代理捕获器与反射方法"><a href="#代理捕获器与反射方法" class="headerlink" title="代理捕获器与反射方法"></a>代理捕获器与反射方法</h4><ul>
+<li>代理可以捕获13种不同的基本操作</li>
+</ul>
+</li>
+<li><h4 id="代理的问题和不足"><a href="#代理的问题和不足" class="headerlink" title="代理的问题和不足"></a>代理的问题和不足</h4><ul>
+<li>proxy的prototype是undefined，因此不能使用instanceof操作符</li>
+</ul>
+</li>
+<li><h4 id="使用反射API"><a href="#使用反射API" class="headerlink" title="使用反射API"></a>使用反射API</h4><ul>
+<li>某些情况下应该优先使用反射API，这些是有一些理由的。</li>
+<li>反射API与对象API<ul>
+<li>反射API并不限于捕获处理程序</li>
+<li>大多数反射API方法在Object类型上对应的方法</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><h4 id="可撤销代理"><a href="#可撤销代理" class="headerlink" title="可撤销代理"></a>可撤销代理</h4><ul>
+<li><p>有时候可能需要中断代理对象与目标对象的联系。对于使用new Proxy()创建的普通代理来说，这种联系会在代理对象的生命周期内一致存在。</p>
+</li>
+<li><p>Proxy也暴露了revocable()方法，这个方法支持撤销代理对象与目标对象的关联。撤销代理的操作是不可逆的。而且，撤销函数是幂等的，调用多少次结构都是一样的。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;lihua&quot;</span>,</span><br><span class="line">	<span class="attr">age</span>:<span class="string">&quot;18&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> &#123; proxy, revoke &#125; = <span class="built_in">Proxy</span>.revocable(obj,&#123;</span><br><span class="line">	<span class="function"><span class="title">get</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Reflect</span>.get(...args)+<span class="string">&quot;好耶！&quot;</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(proxy.name) <span class="comment">//lihua好耶！</span></span><br><span class="line">	</span><br><span class="line">revoke()</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(proxy.name)<span class="comment">//TypeError,代理已经撤销</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><h4 id="捕获器不变式"><a href="#捕获器不变式" class="headerlink" title="捕获器不变式"></a>捕获器不变式</h4><ul>
+<li>目标对象有一个不可配置且不可写的数据属性，那么在捕获器返回一个与该属性不同的值时会报错。</li>
+</ul>
+</li>
+<li><h4 id="代理模式"><a href="#代理模式" class="headerlink" title="代理模式"></a>代理模式</h4></li>
+</ol>
+<ul>
+<li><p>跟踪属性访问</p>
+<p>通过捕获器的get,set和has等操作，可以知道对象属性什么时候被访问、被查询。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> obj = &#123;</span><br><span class="line">	<span class="attr">name</span>:<span class="string">&quot;lihua&quot;</span>,</span><br><span class="line">	<span class="attr">age</span>:<span class="string">&quot;18&quot;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> &#123; proxy, revoke &#125; = <span class="built_in">Proxy</span>.revocable(obj,&#123;</span><br><span class="line">	<span class="function"><span class="title">get</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(args)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Reflect</span>.get(...args)</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="function"><span class="title">set</span>(<span class="params">...args</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(args)</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">Reflect</span>.set(...args)</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;)</span><br><span class="line">proxy.name</span><br><span class="line">proxy.age = <span class="number">17</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B010%E4%BB%A3%E7%90%86%E4%B8%8E%E5%8F%8D%E5%B0%84/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/" class="post-title-link" itemprop="url">js学习笔记09类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-09 14:32:57" itemprop="dateCreated datePublished" datetime="2021-12-09T14:32:57+08:00">2021-12-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 14:36:43" itemprop="dateModified" datetime="2021-12-25T14:36:43+08:00">2021-12-25</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><ol>
+<li><h5 id="ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"><a href="#ES6支持单继承。使用extends关键字，就可以继承任何拥有-Construct-和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）" class="headerlink" title="ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）"></a>ES6支持单继承。使用extends关键字，就可以继承任何拥有[[Construct]]和原型的对象。很大程度上，这意味着不仅可以继承一个类，也可以继承普通的构造函数（向后兼容）</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus();</span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Bus);	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(b <span class="keyword">instanceof</span> Vehicle);	<span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//继承普通构造函数	</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Engineer</span> <span class="keyword">extends</span> <span class="title">Person</span> ()</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">let</span> <span class="title">e</span> </span>= <span class="keyword">new</span> Engineer ()</span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Engineer)	<span class="comment">//true</span></span><br><span class="line"><span class="built_in">console</span>.log(e <span class="keyword">instanceof</span> Person)	<span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li><h5 id="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："><a href="#派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：" class="headerlink" title="派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类："></a>派生类都会通过原型链访问到类和原型上定义的方法。this的值会反映调用响应方法的实例或者类：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Vehicle</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="title">identifyPrototype</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">static</span> <span class="function"><span class="title">identifyClass</span>(<span class="params">id</span>)</span>&#123;</span><br><span class="line">		<span class="built_in">console</span>.log(id,<span class="built_in">this</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bus</span> <span class="keyword">extends</span> <span class="title">Vehicle</span> </span>&#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> v = <span class="keyword">new</span> Vehicle()</span><br><span class="line"><span class="keyword">let</span> b = <span class="keyword">new</span> Bus()</span><br><span class="line"></span><br><span class="line">b.identifyPrototype(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">v.identifyPrototype(<span class="string">&#x27;vehicle&#x27;</span>)</span><br><span class="line"></span><br><span class="line">Bus.identifyClass(<span class="string">&#x27;bus&#x27;</span>)</span><br><span class="line">Vehicle. identifyClass(<span class="string">&#x27;vehicle&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h1 id="类定义"><a href="#类定义" class="headerlink" title="类定义"></a>类定义</h1><ol>
+<li><h5 id="定义类有两种方式"><a href="#定义类有两种方式" class="headerlink" title="定义类有两种方式"></a>定义类有两种方式</h5><ol>
+<li>类声明<ul>
+<li>class Person {} 类声明不能提升</li>
+</ul>
+</li>
+<li>类表达式<ul>
+<li>const a = class {}</li>
+</ul>
+</li>
+<li>函数收到作用域限制，类收到块作用域限制。</li>
+</ol>
+</li>
+<li><h5 id="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"><a href="#JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）" class="headerlink" title="JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）"></a>JavaScript中那么多的继承方式只是用来模拟类的行为（ES5）</h5><ul>
+<li>ES6引入了class关键字具有正式定义类的能力。类（class）是ES6中新的基础性语法糖结构。虽然这个类表面上支持正式的面向对象编程，但实际上它背后使用的仍然是原型和构造函数的概念。</li>
+</ul>
+</li>
+<li><h5 id="类的构成"><a href="#类的构成" class="headerlink" title="类的构成"></a>类的构成</h5><ul>
+<li>类可以包含构造函数方法、实例方法、获取函数、设置函数、静态类的方法。但是不是必须的，空类也是有效的。</li>
+<li>类表达式的名称是可选的。在把类表达式赋值给变量之后，可以通过name属性访问类表达式的名称字符串。但是不能在类表达式作用域外部访问这个标识符。</li>
+</ul>
+</li>
+</ol>
+<h1 id="类构造函数"><a href="#类构造函数" class="headerlink" title="类构造函数"></a>类构造函数</h1><p>constructor关键字用于在类定义块内部创建类的构造函数。构造函数的定义不是必须的。</p>
+<ol>
+<li><h5 id="实例化"><a href="#实例化" class="headerlink" title="实例化"></a>实例化</h5><ul>
+<li>使用new操作符实例化Person的操作等于使用new调用其构造函数。唯一可感知的不同之处就是，JavaScript解释器知道使用new和类意味着应该使用constructor函数进行实例化。</li>
+<li>使用new调用类的构造函数会执行如下操作。(类实例化时传入的参数会用作构造函数的参数，如过不需要参数，则类名后面的括号也是可选的)<ol>
+<li>在内存中创建一个新对象</li>
+<li>这个新对象的内部[[prototypr]]指针被赋值为constructor构造函数的prototypr属性。</li>
+<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
+<li>执行构造函数内部的代码（给新对象添加属性）</li>
+<li>如果构造函数返回非空对象，则返回该对象；否则，返回刚创建的新对象。</li>
+</ol>
+</li>
+<li>默认情况下，类构造函数会在执行之后返回this对象。构造函数返回的对象会被用作实例化对象，如果没有什么引用新创建的对象，那么这个对象就会被销毁。不过，如果返回的不是this对象，而是其他对象，那么这个对象不会通过instanceof操作符检测出跟类有关联，因为这个对象的原型指针没有被修改。</li>
+<li>类构造函数与构造函数的主要区别是，调用类构造函数必须使用new操作符，否则会报错。普通构造函数直接调用，则会以全局对象作为this。</li>
+</ul>
+</li>
+<li><h5 id="把类当成特殊函数"><a href="#把类当成特殊函数" class="headerlink" title="把类当成特殊函数"></a>把类当成特殊函数</h5><ol>
+<li>ECMAScript中没有正式的类这个类型，从各个方面来看，类就是一种特殊的函数</li>
+<li>在类上下文中，类本身在使用new调用时就会被当作构造函数。重点在于，类定义中的constructor方法不会被当成构造函数，在对他使用instanceof操作符时会返回false。但是，如果在创建实例时直接将类构造函数方程普通构造函数来使用，那么instanceof操作符的返回值会反转。</li>
+<li>可以向其他对象或者函数引用一样把类作为参数传递，也可以立即实例化。</li>
+</ol>
+</li>
+</ol>
+<h1 id="实例、原型和类成员"><a href="#实例、原型和类成员" class="headerlink" title="实例、原型和类成员"></a>实例、原型和类成员</h1><ol>
+<li><h5 id="实例成员"><a href="#实例成员" class="headerlink" title="实例成员"></a>实例成员</h5><ol>
+<li>每次通过new调用类识别符，都会执行类构造函数。在这个函数内部，可以为新创建的实例（this）添加自有属性。至于添加怎么样的属性，没有限制。另外，在构造函数执行完毕之后，仍然可以给实例添加新的成员。</li>
+<li>所有成员都不会在原型上共享</li>
+</ol>
+</li>
+<li><h5 id="原型方法与访问器"><a href="#原型方法与访问器" class="headerlink" title="原型方法与访问器"></a>原型方法与访问器</h5><ol>
+<li>为了在实例间共享方法，类定义语法把类块中定义的方法作为原型方法。</li>
+<li>可以把方法定义在类构造函数中或者类块中，但是不能在类块中给原型添加原始值或对象作为成员数据。</li>
+<li>类方法等同于对象属性，因此可以使用字符串、符号或计算的值作为键。</li>
+<li>类定义也支持获取和设置访问器。语法与行为跟普通对象一样。</li>
+</ol>
+</li>
+<li><h5 id="迭代器与生成器方法"><a href="#迭代器与生成器方法" class="headerlink" title="迭代器与生成器方法"></a>迭代器与生成器方法</h5><ol>
+<li>类定义语法支持在原型和类本身上定义生成器的方法</li>
+<li>因为支持生成器方法，所以可以通过添加一个默认的迭代器，八十例变成可迭代对象。</li>
+<li>也可以只返回迭代器实例。</li>
+</ol>
+</li>
+<li><h5 id="非函数原型和类成员"><a href="#非函数原型和类成员" class="headerlink" title="非函数原型和类成员"></a>非函数原型和类成员</h5><ul>
+<li>虽然类定义不显示支持在原型或类上添加成员数据，但在类定义外部，可以手动添加。</li>
+</ul>
+</li>
+<li><h5 id="静态类方法"><a href="#静态类方法" class="headerlink" title="静态类方法"></a>静态类方法</h5><ol>
+<li>可以在类上定义静态方法。这些方法通常用于执行不特定与实例的操作，也不要求存在类的实例。</li>
+<li>类静态成员每一个类上只能有一个</li>
+<li>静态类成员在类定义中使用static关键字作为前缀。在静态成员中，this引用类自身。其他所有约定和原型成员一样。</li>
+</ol>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/09/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008%E7%BB%A7%E6%89%BF/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1359,372 +1823,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" class="post-title-link" itemprop="url">Webpack学习笔记02</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 17:04:42" itemprop="dateCreated datePublished" datetime="2021-12-06T17:04:42+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:38:49" itemprop="dateModified" datetime="2021-12-25T14:38:49+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Webpack/" itemprop="url" rel="index"><span itemprop="name">Webpack</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Css文件优化操作"><a href="#Css文件优化操作" class="headerlink" title="Css文件优化操作"></a>Css文件优化操作</h1><h2 id="提取css文件"><a href="#提取css文件" class="headerlink" title="提取css文件"></a>提取css文件</h2><ol>
-<li><p>默认情况下webpack打包会把css文件压缩到目的js文件中</p>
-</li>
-<li><p>如果要提取出js中的文件需要加载插件mini-css-extract-plugin</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">npm i mini-css-extract-plugin -D	//加载依赖</span><br><span class="line"></span><br><span class="line">const MiniCssExtractPlugin = require(&#x27;mini-css-extract-plugin&#x27;)</span><br><span class="line"></span><br><span class="line">	module:&#123;</span><br><span class="line">		rules:[</span><br><span class="line">			&#123;</span><br><span class="line">				test:/\.css$/,</span><br><span class="line">				use:[</span><br><span class="line">					//创建style标签，将样式放入</span><br><span class="line">					// &#x27;style-loader&#x27;,</span><br><span class="line">					//取代&#x27;style-loader&#x27;。作用，提取被打包js中的css代码成为单独的文件</span><br><span class="line">					MiniCssExtractPlugin.loader,</span><br><span class="line">					//将css文件整合到js文件中</span><br><span class="line">					&#x27;css-loader&#x27;</span><br><span class="line">				]</span><br><span class="line">			&#125;</span><br><span class="line">		]</span><br><span class="line">	&#125;,</span><br><span class="line">	plugins:[</span><br><span class="line">		new MiniCssExtractPlugin(&#123;</span><br><span class="line">			//对输出的css文件重命名</span><br><span class="line">			filename:&#x27;css/built.css&#x27;</span><br><span class="line">		&#125;)</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="压缩css文件"><a href="#压缩css文件" class="headerlink" title="压缩css文件"></a>压缩css文件</h2><ol>
-<li>使用插件提取出来的css文件是按照正常格式输出的，这样的文件比较大，需要压缩</li>
-<li>使用optimize-css-assets-webpack-plugin插件进行压缩</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm i optimize-css-assets-webpack-plugin -D	//加载依赖</span><br><span class="line"></span><br><span class="line">const OptimizeCssAssetsWebpackPlugin = require(&#x27;optimize-css-assets-webpack-plugin&#x27;)</span><br><span class="line"></span><br><span class="line">	plugins:[</span><br><span class="line">		//压缩css</span><br><span class="line">		new OptimizeCssAssetsWebpackPlugin()</span><br><span class="line">	],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="css兼容性处理"><a href="#css兼容性处理" class="headerlink" title="css兼容性处理"></a>css兼容性处理</h2><p>1.在开发环境中对兼容性的要求很高，因为不同的浏览器之间css实现方式可能不同，可能会有冲突。这个时候就需要兼容性处理</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">npm i postcss-preset-env -D	//加载依赖</span><br><span class="line"></span><br><span class="line">// 设置nodejs环境变量</span><br><span class="line">process.env.NODE_ENV = &#x27;development&#x27;;</span><br><span class="line"></span><br><span class="line">module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [</span><br><span class="line">          MiniCssExtractPlugin.loader,</span><br><span class="line">          &#x27;css-loader&#x27;,</span><br><span class="line">          /*</span><br><span class="line">            css兼容性处理：postcss --&gt; postcss-loader postcss-preset-env</span><br><span class="line"></span><br><span class="line">            帮postcss找到package.json中browserslist里面的配置，通过配置加载指定的css兼容性样式</span><br><span class="line"></span><br><span class="line">            &quot;browserslist&quot;: &#123;</span><br><span class="line">              // 开发环境 --&gt; 设置node环境变量：process.env.NODE_ENV = development</span><br><span class="line">              &quot;development&quot;: [</span><br><span class="line">                &quot;last 1 chrome version&quot;,</span><br><span class="line">                &quot;last 1 firefox version&quot;,</span><br><span class="line">                &quot;last 1 safari version&quot;</span><br><span class="line">              ],</span><br><span class="line">              // 生产环境：默认是看生产环境</span><br><span class="line">              &quot;production&quot;: [</span><br><span class="line">                &quot;&gt;0.2%&quot;,</span><br><span class="line">                &quot;not dead&quot;,</span><br><span class="line">                &quot;not op_mini all&quot;</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          */</span><br><span class="line">          // 使用loader的默认配置</span><br><span class="line">          // &#x27;postcss-loader&#x27;,</span><br><span class="line">          // 修改loader的配置</span><br><span class="line">          &#123;</span><br><span class="line">            loader: &#x27;postcss-loader&#x27;,</span><br><span class="line">            options: &#123;</span><br><span class="line">              ident: &#x27;postcss&#x27;,</span><br><span class="line">              plugins: () =&gt; [</span><br><span class="line">                // postcss的插件</span><br><span class="line">                require(&#x27;postcss-preset-env&#x27;)()</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/" class="post-title-link" itemprop="url">Js学习笔记01Html中的JavaScript</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 12:29:21" itemprop="dateCreated datePublished" datetime="2021-12-06T12:29:21+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:06" itemprop="dateModified" datetime="2021-12-25T14:36:06+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="script元素"><a href="#script元素" class="headerlink" title="script元素"></a>script元素</h1><p>script元素是用于引入JavaScript的html元素。</p>
-<p>1.可选属性有：</p>
-<p>async：</p>
-<p>​    表示应该立即下载脚本，但不能阻止其他页面动作，比如下载资源或等待其他脚本加载。只对外部脚本文件有效（不保证顺序执行）</p>
-<p>defer：</p>
-<p>​    表示脚本可以延迟到文档完全被解析后再执行。只对外部脚本有效。</p>
-<p>2.scrpit标签中引用外部脚本的时候不受浏览器同源策略限制，就是可以跨域（jsonp方案的原理）</p>
-<p>3.在script元素中的代码被计算完成之前，在这段代码之后的页面的其余内容不会被加载，也不会被显示。</p>
-<p>4.不该在已经引用了外部脚本的script标签中包含JavaScript代码，会被忽略。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">Js学习笔记02语言基础</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 11:17:02" itemprop="dateCreated datePublished" datetime="2021-12-06T11:17:02+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-25 14:36:02" itemprop="dateModified" datetime="2021-12-25T14:36:02+08:00">2021-12-25</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h1><ol>
-<li><h6 id="JavaScript中的一切都区分大小写"><a href="#JavaScript中的一切都区分大小写" class="headerlink" title="JavaScript中的一切都区分大小写"></a>JavaScript中的一切都区分大小写</h6></li>
-<li><h6 id="变量标识符"><a href="#变量标识符" class="headerlink" title="变量标识符"></a>变量标识符</h6><ol>
-<li>第一个字符必须是字母、下划线或美元符号</li>
-<li>后面的字符必须是字母、下划线、美元符号或者数字</li>
-<li>惯例上按照驼峰命名法</li>
-</ol>
-</li>
-<li><h6 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h6><ol>
-<li>单行注释使用    //</li>
-<li>多行注释使用/*    */</li>
-</ol>
-</li>
-<li><h6 id="语句"><a href="#语句" class="headerlink" title="语句"></a>语句</h6><ol>
-<li>代码块{}</li>
-<li>最好在控制语句中使用代码块</li>
-</ol>
-</li>
-</ol>
-<h1 id="Var关键字"><a href="#Var关键字" class="headerlink" title="Var关键字"></a>Var关键字</h1><ol>
-<li><h6 id="var声明提升"><a href="#var声明提升" class="headerlink" title="var声明提升"></a>var声明提升</h6><ol>
-<li>使用var声明变量还会自动提升到函数作用域顶部</li>
-<li>也就是说可以先使用变量再声明它</li>
-</ol>
-</li>
-<li><h6 id="var声明作用域"><a href="#var声明作用域" class="headerlink" title="var声明作用域"></a>var声明作用域</h6><ol>
-<li>在函数内定义var变量，会成为函数中的局部变量</li>
-<li>使用var声明，变量会自动被添加到最近的上下文</li>
-<li>在函数内省略var关键字，如name=“gyp”。会创建全局变量（不推荐）</li>
-</ol>
-</li>
-</ol>
-<h1 id="Let关键字"><a href="#Let关键字" class="headerlink" title="Let关键字"></a>Let关键字</h1><ol>
-<li><h6 id="和var的区别"><a href="#和var的区别" class="headerlink" title="和var的区别"></a>和var的区别</h6><ol>
-<li>使用let在全局作用域中声明变量不会成为window对象的属性，而var会</li>
-<li>var声明的是函数作用域，let声明的是块作用域</li>
-<li>let声明不会提升，如果在定义let之前使用它会出现临时性死区</li>
-<li>let在同一作用域下不能被声明两次</li>
-</ol>
-</li>
-<li><h6 id="for循环中的let声明"><a href="#for循环中的let声明" class="headerlink" title="for循环中的let声明"></a>for循环中的let声明</h6><ol>
-<li>在let之前，使用var定义for循环的迭代变量会渗透到循环体外。</li>
-<li>使用let做for循环的迭代变量不会泄露，因为是块级作用域。</li>
-<li>之前使用var，在循环中var变量中始终都是头一个变量，所以在循环体内访问var变量始终都是同一个值</li>
-<li>使用let，每个循环都会创建新的迭代变量，所以在循环体内访问let变量是不同的。</li>
-</ol>
-</li>
-</ol>
-<h1 id="const关键字"><a href="#const关键字" class="headerlink" title="const关键字"></a>const关键字</h1><ol>
-<li>与let基本一致，唯一一个重要区别是const必须在命名变量时赋值，且在后续使用中无法修改其值（定义常量）。</li>
-<li>只应用到顶级原语或者对象，如果为const初始化一个对象，那么虽然无法改变const的引用值，但是对象内的键值是可以更改的</li>
-</ol>
-<h1 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h1><h2 id="typeof操作符"><a href="#typeof操作符" class="headerlink" title="typeof操作符"></a>typeof操作符</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1792,14 +1894,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

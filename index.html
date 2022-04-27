@@ -186,6 +186,302 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/" class="post-title-link" itemprop="url">TS学习笔记02类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-27 21:33:20 / 修改时间：22:10:51" itemprop="dateCreated datePublished" datetime="2022-04-27T21:33:20+08:00">2022-04-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TypeScript中的类"><a href="#TypeScript中的类" class="headerlink" title="TypeScript中的类"></a>TypeScript中的类</h1><p>TS中的类定义方式和ES6中定义方式很相似，直接使用class关键字来定义</p>
+<p><strong>值得注意的是，在使用变量之前需要声明这个变量，不能像在es6中constructor直接使用this</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Call</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> name</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">name: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">call</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> c = <span class="keyword">new</span> Call(<span class="string">&#x27;ddd&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(c.call())</span><br></pre></td></tr></table></figure>
+
+<h2 id="类中的属性声明"><a href="#类中的属性声明" class="headerlink" title="类中的属性声明"></a>类中的属性声明</h2><ol>
+<li><p><code>public</code>公有属性：这个类本身，它的子类和类外都能访问的属性</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Call</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> yourname: <span class="built_in">string</span> = <span class="string">&#x27;xixi&#x27;</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">yourname: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.yourname = yourname</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">call</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.yourname</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> c = <span class="keyword">new</span> Call(<span class="string">&#x27;ddd&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(c.call())	<span class="comment">//ddd</span></span><br><span class="line"><span class="built_in">console</span>.log(c.yourname)	<span class="comment">//在类外ddd</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>private</code>私有属性：这个类本身和它的子类才能访问，类外不能访问</p>
+</li>
+<li><p><code>static</code>静态属性：只有这个类本身才能访问，子类和类外都不能访问</p>
+</li>
+</ol>
+<h2 id="类的多态"><a href="#类的多态" class="headerlink" title="类的多态"></a>类的多态</h2><p>多态是一种继承的形式，父类定义一个方法不去实现，让它的子类去实现，每个子类都可以由不同的表现</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">eat</span>(<span class="params">food: <span class="built_in">string</span></span>)</span> &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    eat(food: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`喜欢吃<span class="subst">$&#123;food&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    eat(food: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`不喜欢吃<span class="subst">$&#123;food&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> cat = <span class="keyword">new</span> Cat()</span><br><span class="line">cat.eat(<span class="string">&#x27;鱼&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> dog = <span class="keyword">new</span> Dog()</span><br><span class="line">dog.eat(<span class="string">&#x27;菜&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TS中的抽象类"><a href="#TS中的抽象类" class="headerlink" title="TS中的抽象类"></a>TS中的抽象类</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/27/Ts%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%87%BD%E6%95%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/27/Ts%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">Ts学习笔记01数据类型和函数</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-27 09:36:16 / 修改时间：21:00:21" itemprop="dateCreated datePublished" datetime="2022-04-27T09:36:16+08:00">2022-04-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/27/Ts%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%87%BD%E6%95%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/27/Ts%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%87%BD%E6%95%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TypeScript中的数据类型和函数"><a href="#TypeScript中的数据类型和函数" class="headerlink" title="TypeScript中的数据类型和函数"></a>TypeScript中的数据类型和函数</h1><p>TS是在JavaScript的基础上添加静态类型定义构建而成的语言，可以说是JavaScript的超集，能通过typescript编译器转化为JavaScript代码从而执行。由于JavaScript动态类型的特性，很多编程错误都是因为对类型定义不准确造成的，TS规定数据类型的方式巧妙的解决了这个难题。</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>在ts中变量被要求赋予一个固定的类型，类型确定了之后不能随意更改变量的类型。</p>
+<h3 id="基本数据类型"><a href="#基本数据类型" class="headerlink" title="基本数据类型"></a>基本数据类型</h3><p>基本数据类型就是在定义的变量后面加上<code>:类型</code>用于确定这个变量的类型</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> num: <span class="built_in">number</span> = <span class="number">123</span></span><br><span class="line"><span class="keyword">let</span> str: <span class="built_in">string</span> = <span class="string">&#x27;aaa&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="引用数据类型"><a href="#引用数据类型" class="headerlink" title="引用数据类型"></a>引用数据类型</h3><h4 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h4><p>在TS中，有两种数组的定义方式，在数组中的各个元素的值也被要求是统一的</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/27/Ts%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%87%BD%E6%95%B0/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/26/Javascript%E4%B8%AD%E7%9A%84hook/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/26/Javascript%E4%B8%AD%E7%9A%84hook/" class="post-title-link" itemprop="url">Javascript中的hook</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-26 15:01:20 / 修改时间：15:39:37" itemprop="dateCreated datePublished" datetime="2022-04-26T15:01:20+08:00">2022-04-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/26/Javascript%E4%B8%AD%E7%9A%84hook/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/26/Javascript%E4%B8%AD%E7%9A%84hook/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Javascript中的hook"><a href="#Javascript中的hook" class="headerlink" title="Javascript中的hook"></a>Javascript中的hook</h1><p>Hook在英文中意为“钩子”，是一种动态修改函数执行流程或返回结果的方法，在实际应用中非常广泛。</p>
+<h2 id="Hook是什么"><a href="#Hook是什么" class="headerlink" title="Hook是什么"></a>Hook是什么</h2><p>hook原理图</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/Hook.png" alt="Hook"></p>
+<p>可以看出，Hook其实非常像是一个拦截器，只不过它是一个“开放的拦截器”。什么意思呢？就是它相当于来正常的流程中开了一个口，使得A—&gt;B的过程变成了A—&gt;Hook—&gt;B,而这个Hook允许你自行添加处理的逻辑，因此我称它为”开放的拦截器“。</p>
+<h3 id="HooK和拦截器的差别"><a href="#HooK和拦截器的差别" class="headerlink" title="HooK和拦截器的差别"></a>HooK和拦截器的差别</h3><p>Hook虽然十分像拦截器，但是还是有所不同的。</p>
+<ul>
+<li>拦截器是不能在一个封闭的函数中件设置的，而Hook可以。因为Hook是由事件的提供者提供的，也就是说Hook是开发者本身留给你的后门。拦截器只是设置在流程前后的你自己设置的处理逻辑。</li>
+<li>你在Hook中添加的逻辑是被流程承认的。而拦截器对于这段流程本身来说是没有联系的，流程并不知道拦截器的存在。</li>
+</ul>
+<h2 id="Hook的应用"><a href="#Hook的应用" class="headerlink" title="Hook的应用"></a>Hook的应用</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/26/Javascript%E4%B8%AD%E7%9A%84hook/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/22/%E6%89%8B%E5%86%99DOM%E8%BD%ACjson%E6%A0%BC%E5%BC%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -867,352 +1163,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">浏览器缓存机制</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-13 13:51:43 / 修改时间：14:57:09" itemprop="dateCreated datePublished" datetime="2022-04-13T13:51:43+08:00">2022-04-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="浏览器的缓存机制"><a href="#浏览器的缓存机制" class="headerlink" title="浏览器的缓存机制"></a>浏览器的缓存机制</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>为了节约网络的资源，加速浏览。浏览器会对最近请求过的一些文档进行存储，当访问者再次请求这个页面的时候，浏览器就可以从本地加载文档，而不用等待网络中的文档，可以加速页面的预览。</p>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><h3 id="缓存策略"><a href="#缓存策略" class="headerlink" title="缓存策略"></a>缓存策略</h3><p>浏览器的缓存策略分为两种，强制缓存和协商缓存，并且缓存策略都是通过设置http Header来实现的</p>
-<h4 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h4><h5 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h5><p>设置过期的具体时间，在这个时间内再次请求，则命中强缓存</p>
-<h5 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h5>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/13/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/13/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">事件循环</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-13 09:15:40 / 修改时间：09:52:50" itemprop="dateCreated datePublished" datetime="2022-04-13T09:15:40+08:00">2022-04-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/13/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/13/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JavaScript中的事件循环"><a href="#JavaScript中的事件循环" class="headerlink" title="JavaScript中的事件循环"></a>JavaScript中的事件循环</h1><h2 id="什么是事件循环"><a href="#什么是事件循环" class="headerlink" title="什么是事件循环"></a>什么是事件循环</h2><p>JavaScript是一个单线程的语言，不像Java一样可以同时执行多个任务，在同一时间节点下JavaScript只能执行一个任务。</p>
-<p>这就产生了一个问题，当JavaScript去请求网络上的资源或者进行一些耗时但是不需要JavaScript引擎本身去做的事的时候，就会为了等待这个耗时任务的完成而浪费了大量的时间。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/75ed6085ba982cc9da9b524b010da660.png" alt="75ed6085ba982cc9da9b524b010da660"></p>
-<p>为了解决这个问题，就产生了异步任务通知回调的模式：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/0acd586791a98689147cdf0957834654.png" alt="0acd586791a98689147cdf0957834654"></p>
-<p>当JavaScript在等待异步任务执行的这段时间内可以先去执行其他不相关的同步任务，这样就能节省大量时间，等到异步任务完成的时候再去通知异步任务的后续任务进行处理，而进行“通知”的，就是时间循环。把异步任务的回调部分交给事件循环，等待何时的时机再交还给js线程执行。</p>
-<p>事件循环是由一个队列组成的，异步任务的回调遵循先进先出，在js引擎空闲的时候会一轮轮地被取出，所以叫做循环。</p>
-<p>而根据任务类型的不同，分为宏任务和微任务。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/13/%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/11/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/11/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" class="post-title-link" itemprop="url">git常用命令</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-11 22:03:43" itemprop="dateCreated datePublished" datetime="2022-04-11T22:03:43+08:00">2022-04-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-12 09:19:00" itemprop="dateModified" datetime="2022-04-12T09:19:00+08:00">2022-04-12</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/git/" itemprop="url" rel="index"><span itemprop="name">git</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/11/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/11/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="git常用操作命令"><a href="#git常用操作命令" class="headerlink" title="git常用操作命令"></a>git常用操作命令</h1><h3 id="git常用本地操作命令"><a href="#git常用本地操作命令" class="headerlink" title="git常用本地操作命令"></a>git常用本地操作命令</h3><ol>
-<li><p>创建git库</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git init</span><br></pre></td></tr></table></figure>
-
-<p>在当前目录中创建一个.git目录（含有.git目录的就是git仓库）</p>
-</li>
-<li><p>注册用户</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name</span><br><span class="line">git config --global user.email</span><br><span class="line">git config --list #查看用户信息</span><br></pre></td></tr></table></figure></li>
-<li><p>向git库中添加修改</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git add[path] #会把对应的目录或文件，添加到stage状态</span><br><span class="line">git add . #将当前所有的未被忽略的文件添加到stage状态</span><br></pre></td></tr></table></figure></li>
-<li><p>拉取远程仓库的代码到本地</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull</span><br></pre></td></tr></table></figure></li>
-<li><p>向版本库提交修改</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m&quot;XXXXX&quot; #提交修改，添加注释</span><br></pre></td></tr></table></figure></li>
-<li><p>将本地版本库中的提交推送到远程仓库</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push</span><br></pre></td></tr></table></figure></li>
-<li><p>查看当前代码库的状态</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br></pre></td></tr></table></figure></li>
-<li><p>查看版本信息，这个版本信息就是你每次提交的时候生成的版本信息</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log</span><br></pre></td></tr></table></figure></li>
-<li><p>查看指定版本信息，根据上面的命令得到的信息查询</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git show sdjf974654dd….  #(show后面为每次提交系统自动生成的一串哈希值)</span><br><span class="line"></span><br><span class="line">git show sdji97 #一般只使用版本号的前几个字符即可 </span><br></pre></td></tr></table></figure></li>
-<li><p>撤销修改</p>
-<p>git reset(可以回退commit操作)</p>
-<ul>
-<li><p>撤销整体的修改</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard #退回到原来编辑的地方，改动会丢失</span><br><span class="line">git reset --soft dsadwf #退回到指定的版本</span><br></pre></td></tr></table></figure>
-
-<p>参数<strong>soft</strong>指的是：保留当前工作区，以便重新提交<br> 还可以选择参数<strong>hard</strong>，会撤销相应工作区的修改，一定要谨慎使用</p>
-</li>
-<li><p>撤销某次修改</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git reset HEAD^ #撤回上一次的修改</span><br><span class="line">git reset HEAD^^ #撤回上两次的修改，以此类推</span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>撤销已经push到远程仓库的提交</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master –force #强制提交当前版本号，以达到撤销版本号的目的：</span><br></pre></td></tr></table></figure>
-
-<p>必须添加参数<strong>force</strong>进行强制提交，否则会提交失败，并报错。报错原因：<strong>本地项目版本号低于远端仓库版本号</strong>。</p>
-</li>
-</ol>
-<h3 id="git团队开发常用操作命令"><a href="#git团队开发常用操作命令" class="headerlink" title="git团队开发常用操作命令"></a>git团队开发常用操作命令</h3><ol>
-<li><p>获取远端库项目</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone/pull</span><br></pre></td></tr></table></figure></li>
-<li><p>团队开发基本流程</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git add .   #添加改动的文件</span><br><span class="line">git commit  #（提交至本地）</span><br><span class="line">git pull --rebase  #（将服务器项目与本地项目合并）</span><br><span class="line">git push    #（将本地项目上传至远端库）</span><br><span class="line">（在提交前要git pull --rebase 一下，确保当前的本地的代码为最新。） </span><br></pre></td></tr></table></figure></li>
-</ol>
-<h3 id="Git分支管理"><a href="#Git分支管理" class="headerlink" title="Git分支管理"></a>Git分支管理</h3><ol>
-<li><p>建立分支</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch AAA #建立新分支</span><br></pre></td></tr></table></figure></li>
-<li><p>分支切换</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout AAA #从当前分支切换到AAA分支（若AAA分支不存在，则自动刷新）</span><br></pre></td></tr></table></figure></li>
-<li><p>将分支与主枝master合并</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git checkout master   #（首先切换回主枝）</span><br><span class="line">git merge AAA    #（将分支AAA与主枝合并）</span><br><span class="line"></span><br><span class="line">注：git merge：默认情况下，Git执行&quot;快进式合并&quot;（fast-farward merge），会直接将Master分支指向Develop分支。</span><br><span class="line">使用--no-ff参数后，会执行正常合并，在Master分支上生成一个新节点。为了保证版本演进的清晰（保持提交曲线为直线），建议采用这种方法。 </span><br></pre></td></tr></table></figure></li>
-<li><p>当前分支查看</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch    #默认有master（也称为主枝）</span><br><span class="line">git branch -r  #查看远端库分支</span><br><span class="line">git branch –a  #查看当前所有分支（包括本地分支和远端库分支） </span><br></pre></td></tr></table></figure></li>
-<li><p>删除分支</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git branch –d  AAA   #删除分支AAA </span><br></pre></td></tr></table></figure></li>
-<li><p>切下远端库A分支到本地库A分支</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b  A origin/A  （若本地A分支不存在，则自动新建） </span><br></pre></td></tr></table></figure></li>
-</ol>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/11/git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1280,14 +1234,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-count">71</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-count">13</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
