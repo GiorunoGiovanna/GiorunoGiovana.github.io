@@ -186,6 +186,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/13/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%9B%BE%E5%B1%82%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/13/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%9B%BE%E5%B1%82%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/" class="post-title-link" itemprop="url">css学习笔记05图层和浏览器渲染</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-13 20:27:34 / 修改时间：20:59:43" itemprop="dateCreated datePublished" datetime="2022-04-13T20:27:34+08:00">2022-04-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/13/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%9B%BE%E5%B1%82%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/13/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%9B%BE%E5%B1%82%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="图层和浏览器渲染"><a href="#图层和浏览器渲染" class="headerlink" title="图层和浏览器渲染"></a>图层和浏览器渲染</h1><h2 id="图层"><a href="#图层" class="headerlink" title="图层"></a>图层</h2><p>层叠上下文、渲染图层和复合图层（硬件加速）的区别和联系</p>
+<h3 id="层叠上下文"><a href="#层叠上下文" class="headerlink" title="层叠上下文"></a>层叠上下文</h3><p>层叠上下文是元素的一种属性，是html中的一个三维概念。如果元素具备以下任何一个条件，则改元素会创建一个新的层叠上下文。</p>
+<ul>
+<li>根元素</li>
+<li>z-index不是auto的定位元素</li>
+</ul>
+<h3 id="渲染图层和复合图层的关系"><a href="#渲染图层和复合图层的关系" class="headerlink" title="渲染图层和复合图层的关系"></a>渲染图层和复合图层的关系</h3><p>两者都是为了让HTML元素在2D平面堆叠处3D的视觉效果。</p>
+<p>简单理解就是，<strong>拥有层叠上下文属性的元素</strong>会生成一个新的层叠上下文对象，每个层叠上下文对象都是一个渲染图图层，渲染图层与复合图层的概念是不同的，渲染图层是伪3D，始终离不开层叠上下文，而复合图层则完全脱离层叠上下文，相当于开辟新的位面。</p>
+<ul>
+<li>渲染图层是页面普通的文档流，我们虽然可以通过绝对定位，相对定位，浮动定位脱离文档流，但他仍然属于默认复合层（根层叠上下文），共用一个绘图上下文对象（GraphicsContext）</li>
+<li>复合图层，又称图形层。它会单独分配系统资源，每个复合图层都有一个独立的GraphicsContext。（当然也会脱离普通文档流，这样一来，不管这个复合图层中怎么变化，也不会影响默认复合层里的回流重绘）</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/13/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%9B%BE%E5%B1%82%E5%92%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1211,98 +1311,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/06/%E6%89%8B%E5%86%99instanceof/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/06/%E6%89%8B%E5%86%99instanceof/" class="post-title-link" itemprop="url">手写instanceof</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-06 15:40:04 / 修改时间：15:47:28" itemprop="dateCreated datePublished" datetime="2022-04-06T15:40:04+08:00">2022-04-06</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/06/%E6%89%8B%E5%86%99instanceof/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/06/%E6%89%8B%E5%86%99instanceof/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="手写instanceof"><a href="#手写instanceof" class="headerlink" title="手写instanceof"></a>手写instanceof</h1><p>instanceof是JavaScript中一种检查构造函数的prototype属性是否在另一个实例对象上出现过的方法。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _instanceof = <span class="function">(<span class="params">left,right</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//获取实例对象的原型链</span></span><br><span class="line">	<span class="keyword">let</span> proto = left.__proto__</span><br><span class="line">	<span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(proto===<span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        <span class="comment">//当构造函数的原型出现在实例对象的原型链中</span></span><br><span class="line">		<span class="keyword">if</span>(proto===right.prototype)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">//向下查找实例对象的原型链</span></span><br><span class="line">		proto = proto.__proto__</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="keyword">const</span> b = <span class="keyword">new</span> B</span><br><span class="line"><span class="built_in">console</span>.log(_instanceof(b,A))</span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/06/%E6%89%8B%E5%86%99instanceof/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1374,7 +1382,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-count">72</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
