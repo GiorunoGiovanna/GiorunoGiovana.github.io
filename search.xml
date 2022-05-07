@@ -3865,6 +3865,19 @@
 <p>4、CommonJs 是动态语法可以写在判断里，ES6 Module 静态语法只能写在顶层</p>
 <p>5、CommonJs 的 this 是当前模块，ES6 Module的 this 是 undefined</p>
 </li>
+<li><p><strong>文字跑马灯</strong></p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    * &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">font-size</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">color</span>:<span class="number">#fff</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.block</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">500px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#65b4ae</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">white-space</span>: nowrap;</span></span><br><span class="line"><span class="css">        <span class="attribute">overflow</span>: hidden;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.words</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">position</span>: relative;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: fit-content;</span></span><br><span class="line"><span class="css">        <span class="attribute">animation</span>:move <span class="number">10s</span> linear infinite;</span></span><br><span class="line"><span class="css">        <span class="attribute">padding-left</span>:<span class="number">50px</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.words</span><span class="selector-pseudo">::after</span>&#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">position</span>: absolute; </span></span><br><span class="line"><span class="css">        <span class="attribute">right</span>:<span class="number">100%</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">content</span>:<span class="built_in">attr</span>(text);</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="keyword">@keyframes</span> move &#123;</span></span><br><span class="line"><span class="css">        <span class="number">0%</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="attribute">transform</span>: <span class="built_in">translateX</span>(<span class="number">0</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">        <span class="number">100%</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="comment">/*将字幕完全隐藏*/</span></span></span><br><span class="line"><span class="css">            <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">100%</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--原理：利用单行文字可以设置超出部分隐藏，同时css中transform只对标签中的值起作用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;block&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;words&quot;</span> <span class="attr">text</span>=<span class="string">&quot;HOW YOU LIKE THAT&quot;</span>&gt;</span></span><br><span class="line">            HOW YOU LIKE THAT</span><br><span class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原理如下</p>
+<p><img src="C:\Users\Martin\Downloads\文字跑马灯原理.png" alt="文字跑马灯原理"></p>
+</li>
+<li><p>环绕跑马灯</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* 页面初始化 */</span></span></span><br><span class="line"><span class="css">    * &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#414141</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">display</span>: flex;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-items</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">justify-content</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">100vh</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* content为内容部分 */</span></span></span><br><span class="line"><span class="css">    <span class="selector-class">.content</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">150px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#414141</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">line-height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">font-size</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">color</span>: wheat;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* cover为边框部分 */</span></span></span><br><span class="line"><span class="css">    <span class="selector-class">.cover</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">display</span>: inherit;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-items</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">justify-content</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">60px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">160px</span>;</span></span><br><span class="line"><span class="css">        <span class="comment">/* 圆角 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">border-radius</span>: <span class="number">15px</span>;</span></span><br><span class="line"><span class="css">        <span class="comment">/* background-color: pink; */</span></span></span><br><span class="line"><span class="css">        <span class="comment">/* transition: all 3s; */</span></span></span><br><span class="line"><span class="css">        <span class="comment">/* 核心代码 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">135deg</span>, <span class="built_in">rgb</span>(<span class="number">1</span>, <span class="number">255</span>, <span class="number">234</span>), <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">251</span>, <span class="number">14</span>), <span class="built_in">rgb</span>(<span class="number">0</span>, <span class="number">238</span>, <span class="number">255</span>));</span></span><br><span class="line"><span class="css">        <span class="comment">/*添加动画 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">animation</span>: color <span class="number">3s</span> linear infinite;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="keyword">@keyframes</span> <span class="attribute">color</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="selector-tag">to</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="attribute">filter</span>: <span class="built_in">hue-rotate</span>(<span class="number">360deg</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;cover&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>hello world!<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原理如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E7%8E%AF%E7%BB%95%E8%B7%91%E9%A9%AC%E7%81%AF%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt="环绕跑马灯原理图"></p>
+</li>
+<li></li>
 </ol>
 ]]></content>
       <categories>
@@ -4716,6 +4729,117 @@
 ]]></content>
       <categories>
         <category>TypeScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vue3学习笔记02组合式API</title>
+    <url>/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/</url>
+    <content><![CDATA[<h1 id="Composition-API"><a href="#Composition-API" class="headerlink" title="Composition API"></a>Composition API</h1><p>compositionAPI提供了以下几个函数，在当前vue版本中，想要使用这些api需要进行引入。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">import &#123; reactive, ref, toRef, toRefs &#125; from &quot;vue&quot;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>setup</li>
+<li>ref</li>
+<li>reactive</li>
+<li>watchEffect</li>
+<li>watch</li>
+<li>computed</li>
+<li>toRefs</li>
+<li>生命周期的hook</li>
+</ul>
+<h2 id="ref和reactive"><a href="#ref和reactive" class="headerlink" title="ref和reactive"></a>ref和reactive</h2><p><code>ref</code>和<code>reactive</code>都是用于定义响应式数据的API，其中</p>
+<ol>
+<li><code>ref</code>定义字符串、num、boolean、数组，<code>reactive</code>定义对象类型</li>
+<li>在<code>setup</code>中<code>ref</code>想要获取变量数据需要在变量名称后加上<code>.value</code>,<code>reactive</code>直接获取数据就可以</li>
+<li>在模板字符串中两者都可以直接获取数据</li>
+<li>在<code>setup</code>中定义的数据必须在最后return出去才能在模板中使用</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;h1&gt;&#123;&#123; title &#125;&#125;&lt;/h1&gt;</span><br><span class="line">  &lt;div&gt;HOME-&#123;&#123; user.name &#125;&#125; 今年 &#123;&#123; user.age &#125;&#125;了&lt;/div&gt;</span><br><span class="line">  &lt;button @click=&quot;alertUser&quot;&gt;点击我获取user&lt;/button&gt;</span><br><span class="line">  &lt;button @click=&quot;alertTitle&quot;&gt;点击我获取title&lt;/button&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; v-model=&quot;title&quot; /&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//注意，在composition API中使用方法需要引入</span><br><span class="line">import &#123; reactive, ref &#125; from &quot;vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;Home&quot;,</span><br><span class="line">  //composition api</span><br><span class="line">  setup(props) &#123;</span><br><span class="line">    //ref 定义子符串、num、boolean、数组</span><br><span class="line">    //reactive 定义响应式数据定义对象</span><br><span class="line">    var title = ref(&quot;我是一个标题&quot;);</span><br><span class="line">    var user = reactive(&#123;</span><br><span class="line">      name: &quot;lihua&quot;,</span><br><span class="line">      age: 18,</span><br><span class="line">    &#125;);</span><br><span class="line">    //获取ref中的数据需要获取数据的value</span><br><span class="line">    let alertTitle = () =&gt; &#123;</span><br><span class="line">      alert(title.value);</span><br><span class="line">      console.log(title);</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取reactive中的数据直接获取</span><br><span class="line">    let alertUser = () =&gt; &#123;</span><br><span class="line">      alert(user.name);</span><br><span class="line">      console.log(user);</span><br><span class="line">    &#125;;</span><br><span class="line">    //在composition api中想要模板能够使用定义的变量和方法必须返回这个名称</span><br><span class="line">    return &#123;</span><br><span class="line">      title,</span><br><span class="line">      user,</span><br><span class="line">      alertTitle,</span><br><span class="line">      alertUser,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="toRefs"><a href="#toRefs" class="headerlink" title="toRefs"></a>toRefs</h2><p><code>toRefs</code>是一个用于结构响应式对象的api，如果我们想在模板中直接使用解构后的对象，就需要用这个api解构，直接使用三点运算符解构会使对象内部失去响应式。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">return &#123;</span><br><span class="line">      title,</span><br><span class="line">      user,</span><br><span class="line">      alertTitle,</span><br><span class="line">      alertUser,</span><br><span class="line">      ...toRefs(user),</span><br><span class="line">    &#125;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="computed"><a href="#computed" class="headerlink" title="computed"></a>computed</h2><p><code>computed</code>这个APi接收一个回调函数，当这个回调函数中的变量发生变化的时候就会重新调用这个回调。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let pass = computed(() =&gt; &#123;</span><br><span class="line">      if (userinfo.score &gt;= 60) &#123;</span><br><span class="line">        return &quot;及格&quot;;</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        return &quot;不及格&quot;;</span><br><span class="line">      &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Readonly原始数据"><a href="#Readonly原始数据" class="headerlink" title="Readonly原始数据"></a>Readonly原始数据</h2><p>在setup中不使用<code>ref</code>或者<code>reactive</code>定义的变量就是原始数据，也就是不具备响应式的数据。</p>
+<p>当我们定义了像意识数据之后，可以使用<code>readonly</code>这个API返回一个原始原始的只读代理</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">let userinfo = reactive(&#123;</span><br><span class="line">      firstName: &quot;admin&quot;,</span><br><span class="line">      lastName: &quot;123456&quot;,</span><br><span class="line">      score: 123,</span><br><span class="line">    &#125;);</span><br><span class="line">    userinfo = readonly(userinfo);</span><br></pre></td></tr></table></figure>
+
+<h2 id="watch和watchEffect"><a href="#watch和watchEffect" class="headerlink" title="watch和watchEffect"></a>watch和watchEffect</h2><p><code>watch</code>和<code>watchEffect</code>都是用于监听函数变化的API，当然它们之间有一些区别</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">//watch的用法</span><br><span class="line">//接收第一个参数作为监听的对象，注意，只能是完整的reactive对象或者是ref</span><br><span class="line">//第二个回调函数传入两个参数旧的值和新的值</span><br><span class="line">watch(data, (newVal, oldVal) =&gt; &#123;</span><br><span class="line">    console.log(`num is $&#123;data.num&#125;`);</span><br><span class="line">    console.log(&quot;new Value is&quot; + newVal + &quot;,oldValue is &quot; + oldVal);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//watchEffect的用法</span><br><span class="line">//当方法里面的变量发生变化的时候执行</span><br><span class="line">watchEffect(() =&gt; &#123;</span><br><span class="line">    console.log(`num is $&#123;data.num&#125;`);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>watch和watchEffect的区别</strong></p>
+<ul>
+<li><code>watch</code>是懒执行的，只有监控的只改变的时候才会执行回调；<code>watchEffect</code>是在一开始就会执行至少一次的，用以收集依赖。</li>
+<li><code>watch</code>监听的对象只要有任意改变都会执行回调，而<code>watchEffect</code>只有在回调内部的值内产生改变才会执行</li>
+<li><code>watch</code>的回调可以拿到新值和旧值，<code>watchEffect</code>不能</li>
+</ul>
+<h2 id="watch、watchEffect与computed的区别"><a href="#watch、watchEffect与computed的区别" class="headerlink" title="watch、watchEffect与computed的区别"></a>watch、watchEffect与computed的区别</h2><p><code>computed</code>可以看作是一个用于自定义跟踪依赖回调的函数，它允许缓存数据，将它赋值给一个变量，就可以允许它在内部回调里面的依赖发生变化的时候计算。</p>
+<ol>
+<li>支持数据的缓存，就是可以用一个变量去存储它</li>
+<li>函数内部数据的改变也会触发。</li>
+<li>不支持异步，当<code>computed</code>内部有异步操作的时候<code>computed</code>无效</li>
+<li><code>computed</code>可以套娃，就是可以在别的<code>computed</code>中使用前面的<code>computed</code></li>
+</ol>
+<p><code>watch</code>是一个属性监听器，一半用来监听属性的变化（也可以用来监听计算属性函数）</p>
+<ol>
+<li>不支持缓存</li>
+<li>支持异步</li>
+<li>第一个参数是需要监听的数据，第二个参数是回调函数，可以获取旧值和新值</li>
+<li>监听的数据必须是data中声明的或者父组件传递过来的props中的数据。</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Vue3</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vue3+vite实战踩坑</title>
+    <url>/2022/05/06/vue3-vite%E5%AE%9E%E6%88%98%E8%B8%A9%E5%9D%91/</url>
+    <content><![CDATA[<h1 id="Vue3-vite实战踩坑"><a href="#Vue3-vite实战踩坑" class="headerlink" title="Vue3+vite实战踩坑"></a>Vue3+vite实战踩坑</h1><p>一开始的想法是目前个人博客使用的是hexo搭建的静态页面，相对方便但是不好自定义，也没有后台交互，于是想要改进一下，做一个前端vue后端nodejs的个人博客项目，下面就是踩坑记录。</p>
+<h2 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h2><p><strong>搭建vite项目</strong></p>
+<p>网上流行使用vite+vue3的开发模式，使用</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm init vite<span class="literal">-app</span> &lt;project<span class="literal">-name</span>&gt;</span><br></pre></td></tr></table></figure>
+
+<p>就可以轻松搭建一个vite项目</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220506095926769.png" alt="image-20220506095926769"></p>
+<p>当然，前面轻松后面会换回来的，注意看<code>package.json</code>中的信息，我们发现只有<code>@vue/compiler-sfc</code>这一个依赖，也就是说，这个项目目前只支持单页组件，其他所有的插件都不支持，我们需要自己引入支持。</p>
+<p>而且，由于vite版本较低，目前主流的组件库最新版都不兼容这个版本的vite了，所以最好还是将vite升级一下</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm uninstall vite</span><br><span class="line">npm install vite</span><br></pre></td></tr></table></figure>
+
+<p><strong>引入antd for vue，引入vue-router</strong></p>
+<p><code>antd for vue</code>( “^3.2.3”)按照官网上的指引引入就可以，当然，要先将vite(“^2.9.8”)和vue(“^3.0.4”)升级到最新版本。</p>
+<p><code>vue-router</code>最新版(^4.0.15)的写法发生了变化</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createRouter, createWebHistory &#125; <span class="keyword">from</span> <span class="string">&quot;vue-router&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> index <span class="keyword">from</span> <span class="string">&#x27;@/components/index&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = createRouter(&#123;</span><br><span class="line">    <span class="attr">history</span>: createWebHistory(),</span><br><span class="line">    <span class="attr">routes</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">            <span class="attr">redirect</span>: <span class="string">&#x27;/index&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;/index&#x27;</span>,</span><br><span class="line">            <span class="attr">component</span>: index,</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Vue3</category>
+      </categories>
+      <tags>
+        <tag>踩坑记录</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>API</title>
+    <url>/2022/04/30/vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%AE%89%E8%A3%85%E5%92%8C%E6%89%93%E5%8C%85/</url>
+    <content><![CDATA[<h1 id="Vue3安装和打包"><a href="#Vue3安装和打包" class="headerlink" title="Vue3安装和打包"></a>Vue3安装和打包</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Vue3支持<code>vue-cli</code>和<code>vite</code>安装方式进行本地部署,这里只演示Vite安装过程。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#以npm方式安装vite脚手架</span></span><br><span class="line">npm init vite<span class="literal">-app</span> &lt;project<span class="literal">-name</span>&gt;</span><br><span class="line"><span class="comment">#进入这个项目中</span></span><br><span class="line"><span class="built_in">cd</span> &lt;project<span class="literal">-name</span>&gt;</span><br><span class="line"><span class="comment">#安装依赖</span></span><br><span class="line">npm install</span><br><span class="line"><span class="comment">#运行项目</span></span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+
+<p>运行项目，打开本地网页能看到这个页面就说明运行成功了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/62FB6F27-456F-46CF-8892-93D6A3E6F341.jpg" alt="62FB6F27-456F-46CF-8892-93D6A3E6F341"></p>
+<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>Vue3</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
