@@ -128,12 +128,38 @@
     <title>Webpack学习笔记01</title>
     <url>/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/</url>
     <content><![CDATA[<h1 id="webpack是什么"><a href="#webpack是什么" class="headerlink" title="webpack是什么"></a>webpack是什么</h1><p>webpack是一种前端资源构建工具，一个静态的模块打包器（module bundler）。在webpack看来，前端的所有资源文件（js/json/css/img/less）都会作为模块处理。</p>
-<p>五个核心概念<br>   Entry<br>     入口：提示webpack以哪一个文件为入口起点打包，分析构建内部依赖图。<br>   Output<br>     输出：提示webpack打包后的资源bundles输出到哪里去，以及如何命名<br>   Loader<br>     Loader：相当于翻译官，让webpack能够取处理哪些非JavaScript文件（webpack本身只能理解JavaScript）<br>   Plugins<br>     插件：可以用于执行范围更广的任务。插件的范围包括从打包优化和压缩，一直到重新定义环境中的变量。<br>   Mode<br>     development<br>       会将DefinePlugin中process.env.NODE_ENV的值设置为development。<br>         能让代码本地调试运行的环境<br>     production<br>       会将DefinePlugin中process.env.NODE_ENV的值设置为production<br>         能让代码优化上线运行的环境</p>
+<p><strong>五个核心概念</strong></p>
+<ol>
+<li><p><strong>Entry</strong></p>
+<p>​    入口：提示webpack以哪一个文件为入口起点打包，分析构建内部依赖图。</p>
+</li>
+<li><p>   <strong>Output</strong></p>
+</li>
+</ol>
+<p>   ​     输出：提示webpack打包后的资源bundles输出到哪里去，以及如何命名</p>
+<ol start="3">
+<li>   <strong>Loader</strong></li>
+</ol>
+<p>   ​     Loader：相当于翻译官，让webpack能够取处理哪些非JavaScript文件（webpack本身只能理解JavaScript）</p>
+<ol start="4">
+<li>   <strong>Plugins</strong></li>
+</ol>
+<p>   ​     插件：可以用于执行范围更广的任务。插件的范围包括从打包优化和压缩，一直到重新定义环境中的变量。</p>
+<ol start="5">
+<li><p>   <strong>Mode</strong></p>
+</li>
+<li><p>development</p>
+<p>会将DefinePlugin中process.env.NODE_ENV的值设置为development能让代码本地调试运行的环境</p>
+</li>
+<li><p>production</p>
+</li>
+</ol>
+<p>   ​       会将DefinePlugin中process.env.NODE_ENV的值设置为production能让代码优化上线运行的环境</p>
 <h1 id="搭建一个基础开发环境"><a href="#搭建一个基础开发环境" class="headerlink" title="搭建一个基础开发环境"></a>搭建一个基础开发环境</h1><p>webpack.config.js<br>   webpack配置文件，webpack开发环境配置基本都在这里写</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/*</span><br><span class="line">  开发环境配置：能让代码运行</span><br><span class="line">    运行项目指令：</span><br><span class="line">      webpack 会将打包结果输出出去</span><br><span class="line">      npx webpack-dev-server 只会在内存中编译打包，没有输出</span><br><span class="line">*/</span><br><span class="line"></span><br><span class="line">const &#123; resolve &#125; = require(&#x27;path&#x27;);</span><br><span class="line">const HtmlWebpackPlugin = require(&#x27;html-webpack-plugin&#x27;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">  entry: &#x27;./src/js/index.js&#x27;,</span><br><span class="line">  output: &#123;</span><br><span class="line">    filename: &#x27;js/built.js&#x27;,</span><br><span class="line">    path: resolve(__dirname, &#x27;build&#x27;)</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      // loader的配置</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理less资源</span><br><span class="line">        test: /\.less$/,</span><br><span class="line">        use: [&#x27;style-loader&#x27;, &#x27;css-loader&#x27;, &#x27;less-loader&#x27;]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理css资源</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [&#x27;style-loader&#x27;, &#x27;css-loader&#x27;]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理图片资源</span><br><span class="line">        test: /\.(jpg|png|gif)$/,</span><br><span class="line">        loader: &#x27;url-loader&#x27;,</span><br><span class="line">        options: &#123;</span><br><span class="line">          limit: 8 * 1024,</span><br><span class="line">          name: &#x27;[hash:10].[ext]&#x27;,</span><br><span class="line">          // 关闭es6模块化</span><br><span class="line">          esModule: false,</span><br><span class="line">          outputPath: &#x27;imgs&#x27;</span><br><span class="line">        &#125;，</span><br><span class="line">        type: &#x27;javascript/auto&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理html中img资源</span><br><span class="line">        test: /\.html$/,</span><br><span class="line">        loader: &#x27;html-loader&#x27;</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        // 处理其他资源</span><br><span class="line">        exclude: /\.(html|js|css|less|jpg|png|gif)/,</span><br><span class="line">        loader: &#x27;file-loader&#x27;,</span><br><span class="line">        options: &#123;</span><br><span class="line">          name: &#x27;[hash:10].[ext]&#x27;,</span><br><span class="line">          outputPath: &#x27;media&#x27;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  plugins: [</span><br><span class="line">    // plugins的配置</span><br><span class="line">    new HtmlWebpackPlugin(&#123;</span><br><span class="line">      template: &#x27;./src/index.html&#x27;</span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  mode: &#x27;development&#x27;,</span><br><span class="line">  devServer: &#123;</span><br><span class="line">    static: resolve(__dirname, &#x27;build&#x27;),</span><br><span class="line">    //启动gzip压缩</span><br><span class="line">    compress: true,</span><br><span class="line">    port: 3000,</span><br><span class="line">    open: true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">  开发环境配置：能让代码运行</span></span><br><span class="line"><span class="comment">    运行项目指令：</span></span><br><span class="line"><span class="comment">      webpack 会将打包结果输出出去</span></span><br><span class="line"><span class="comment">      npx webpack-dev-server 只会在内存中编译打包，没有输出</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> &#123; resolve &#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> HtmlWebpackPlugin = <span class="built_in">require</span>(<span class="string">&#x27;html-webpack-plugin&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">module</span>.exports = &#123;</span><br><span class="line">  <span class="attr">entry</span>: <span class="string">&#x27;./src/js/index.js&#x27;</span>,</span><br><span class="line">  <span class="attr">output</span>: &#123;</span><br><span class="line">    <span class="attr">filename</span>: <span class="string">&#x27;js/built.js&#x27;</span>,</span><br><span class="line">    <span class="attr">path</span>: resolve(__dirname, <span class="string">&#x27;build&#x27;</span>)</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">    <span class="attr">rules</span>: [</span><br><span class="line">      <span class="comment">// loader的配置</span></span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 处理less资源</span></span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.less$/</span>,</span><br><span class="line">        use: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>, <span class="string">&#x27;less-loader&#x27;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 处理css资源</span></span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.css$/</span>,</span><br><span class="line">        use: [<span class="string">&#x27;style-loader&#x27;</span>, <span class="string">&#x27;css-loader&#x27;</span>]</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 处理图片资源</span></span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.(jpg|png|gif)$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;url-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">limit</span>: <span class="number">8</span> * <span class="number">1024</span>,</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[hash:10].[ext]&#x27;</span>,</span><br><span class="line">          <span class="comment">// 关闭es6模块化</span></span><br><span class="line">          <span class="attr">esModule</span>: <span class="literal">false</span>,</span><br><span class="line">          <span class="attr">outputPath</span>: <span class="string">&#x27;imgs&#x27;</span></span><br><span class="line">        &#125;，</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;javascript/auto&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 处理html中img资源</span></span><br><span class="line">        <span class="attr">test</span>: <span class="regexp">/\.html$/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;html-loader&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="comment">// 处理其他资源</span></span><br><span class="line">        <span class="attr">exclude</span>: <span class="regexp">/\.(html|js|css|less|jpg|png|gif)/</span>,</span><br><span class="line">        loader: <span class="string">&#x27;file-loader&#x27;</span>,</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">          <span class="attr">name</span>: <span class="string">&#x27;[hash:10].[ext]&#x27;</span>,</span><br><span class="line">          <span class="attr">outputPath</span>: <span class="string">&#x27;media&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">plugins</span>: [</span><br><span class="line">    <span class="comment">// plugins的配置</span></span><br><span class="line">    <span class="keyword">new</span> HtmlWebpackPlugin(&#123;</span><br><span class="line">      <span class="attr">template</span>: <span class="string">&#x27;./src/index.html&#x27;</span></span><br><span class="line">    &#125;)</span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">mode</span>: <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">  <span class="attr">devServer</span>: &#123;</span><br><span class="line">    <span class="attr">static</span>: resolve(__dirname, <span class="string">&#x27;build&#x27;</span>),</span><br><span class="line">    <span class="comment">//启动gzip压缩</span></span><br><span class="line">    <span class="attr">compress</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">port</span>: <span class="number">3000</span>,</span><br><span class="line">    <span class="attr">open</span>: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
 <p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>webpack5踩得坑<br>   在devServer配置中出口文件配置要使用static而不是contextBase<br>   使用devServer之后打包命令在Webpack5要用npx webpack serve而不是npx webpack-dev-server<br>   处理图片资源的时候要在rules的具体规则中加一句type: ‘javascript/auto’来阻止Webpack5自动打包</p>
+<p>webpack5踩坑<br>   在devServer配置中出口文件配置要使用static而不是contextBase<br>   使用devServer之后打包命令在Webpack5要用npx webpack serve而不是npx webpack-dev-server<br>   处理图片资源的时候要在rules的具体规则中加一句type: ‘javascript/auto’来阻止Webpack5自动打包</p>
 ]]></content>
       <categories>
         <category>Webpack</category>
@@ -4840,6 +4866,105 @@
 ]]></content>
       <categories>
         <category>Vue3</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>webpack学习笔记03打包文件探秘</title>
+    <url>/2022/05/07/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E6%8E%A2%E7%A7%98/</url>
+    <content><![CDATA[<h1 id="Webpack打包文件"><a href="#Webpack打包文件" class="headerlink" title="Webpack打包文件"></a>Webpack打包文件</h1><p>在webpack中打包文件的原理是从一个入口文件开始，将整个散落的js，html，css等文件整合打包到几个文件中去，而这个打包规则就是webpack的配置项。我们可以在webpack打包过后的文件中窥见webpack的打包机制和原理。</p>
+<p>首先我们将webpack配置文件设置打包模式为<code>none</code>这可以令webpack以最原始的打包方式进行打包，对于想要研究webpack打包产物的开发者比较友好。</p>
+<p>然后我们就可以愉快的阅读打包后的文件啦！</p>
+<p>这里以webpack<code>5.72.0</code>打包文件为例</p>
+<ol>
+<li><p>先看整体</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220507104634099.png" alt="image-20220507104634099"></p>
+<p>这是一个立即执行函数，内部包含了所有我们的业务逻辑</p>
+</li>
+<li><p>拆开看</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220507105447450.png" alt="image-20220507105447450"></p>
+</li>
+<li></li>
+</ol>
+]]></content>
+      <categories>
+        <category>Webpack</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nodejs学习笔记02架构</title>
+    <url>/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/</url>
+    <content><![CDATA[<h1 id="Nodejs架构"><a href="#Nodejs架构" class="headerlink" title="Nodejs架构"></a>Nodejs架构</h1><p>Nodejs是一个构建在Chrome浏览器V8引擎上的JavaScript运行环境，也是我们是使用过程中直接能调用的API。</p>
+<p>Nodejs在底层上其实是由c/c++实现的，也就是说，我们获得的API实际上是由c/c++编写的库提供的。当然JavaScript并不能直接和c/c++通信，因此需要一个“桥梁”。所以nodejs实际上是由三成架构组成的——<strong>nodejs API库，bindings（桥梁）和c/c++底层</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/nodejs%E6%9E%B6%E6%9E%84.png" alt="nodejs架构"></p>
+<p>Node bindings是JavaScript与C/C++库之间的桥梁，通过bindings将c/c++实现的库暴露给JavaScript，同时把js传入V8，解析后交给libuv发起非阻塞I/O，并等待事件循环调度。</p>
+<p>底层库：</p>
+<ol>
+<li>V8是JavaScript的虚拟机，为JavaScript提供了在非浏览器端运行的环境</li>
+<li>libuv为nodejs提供了跨平台，线程池，异步I/O能力，这是nodejs高效的主要原因</li>
+<li>c-ares提供了异步处理DNS相关的能力</li>
+<li>http_parser、OpenSSL、zlib提供包括http解析、SSL、数据压缩等能⼒。</li>
+</ol>
+<p><strong>Nodejs到底是单线程还是多线程</strong></p>
+<p>一般来说我们认为JavaScript是单线程的，但是nodejs的底层由c/c++参与，分为了一个主线程和多个子线程，所以我们认为Nodejs其实是多线程的。</p>
+<h2 id="nodejs高效的原因"><a href="#nodejs高效的原因" class="headerlink" title="nodejs高效的原因"></a>nodejs高效的原因</h2><ul>
+<li><p>非阻塞I/O</p>
+<p>I/O就是一个系统的输入与输出，<strong>阻塞I/O在系统接收输入到输出的过程中不可以接收其他输入，非阻塞I/O在系统接收输入到输出的过程中还可以接收其他输入。</strong></p>
+<p>实现原理：js执行单线程任务，把需要做的I/O交给libuv，自己马上返回做别的事情，然后libuv在指定的时刻回调就可以了。</p>
+</li>
+<li><p>事件驱动机制</p>
+</li>
+</ul>
+<h2 id="nodejs线程池"><a href="#nodejs线程池" class="headerlink" title="nodejs线程池"></a>nodejs线程池</h2><p>nodejs实际上是多线程的，默认有4个线程用以处理I/O任务。线程池的大小可以通过<code>UV_THREADPOOL_SIZE</code>这个环境变量来改变 或者在<strong>nodejs代码</strong>中通过 <code>process.env.UV_THREADPOOL_SIZE</code>来重新设置。</p>
+<h2 id="nodejs的优劣"><a href="#nodejs的优劣" class="headerlink" title="nodejs的优劣"></a>nodejs的优劣</h2><p>nodejs通过libuv来处理与操作系统的交互，并且因此具备了异步、非阻塞、事件驱动的能力。因此，nodejs能响应大量的并发请求。所以，<strong>nodejs适合运用在高并发、I/O密集、少量业务逻辑的场景（中台）。</strong></p>
+<p>如果是 I/O 任务，Node.js 就把任务交给线程池来异步处理，高效简单，因此 Node.js 适合处理I/O密集型任务。但不是所有的任务都是 I/O 密集型任务，当碰到CPU密集型任务时，即只用CPU计算的操作，比如要对数据加解密(node.bcrypt.js)，数据压缩和解压(node-tar)，这时 Node.js 就会亲自处理，一个一个的计算，前面的任务没有执行完，后面的任务就只能干等着 。我们看如下代码：</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> start = <span class="built_in">Date</span>.now();<span class="comment">//获取当前时间戳</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">Date</span>.now() - start);</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000000</span>; i++)&#123;<span class="comment">//执行长循环</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;, <span class="number">1000</span>);</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="built_in">Date</span>.now() - start);</span><br><span class="line">&#125;, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//1000	3738</span></span><br></pre></td></tr></table></figure>
+
+<p>现在大部分服务器都是多 CPU 或多核的，而 Node.js 只有一个 EventLoop，也就是只占用一个 CPU 内核，当 Node.js 被CPU 密集型任务占用，导致其他任务被阻塞时，却还有 CPU 内核处于闲置状态，造成资源浪费。因此nodejs并不适合CPU密集型任务。</p>
+]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nodejs学习笔记01事件循环</title>
+    <url>/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/</url>
+    <content><![CDATA[<h1 id="Nodejs中的事件循环"><a href="#Nodejs中的事件循环" class="headerlink" title="Nodejs中的事件循环"></a>Nodejs中的事件循环</h1><p>在浏览器环境中的JavaScript有一个事件循环，是一个比较简单的模型。而在Nodejs中也有一个事件循环，不同于浏览器，nodejs环境中的事件循环更为复杂。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/nodejs%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF.png" alt="nodejs事件循环"></p>
+<ol>
+<li><p>Timers：用于储存定时器的回调函数（setTImeout,setInterval）</p>
+</li>
+<li><p>Pending callbacks：执行与操作系统相关的回调函数，比如启动服务器端应用时监听端口的操作就是在这里调用</p>
+</li>
+<li><p>Idle，prepare：系统内部使用</p>
+</li>
+<li><p>IO Poll：存储I/O操作的回调函数队列，例如文件读写操作的回调函数</p>
+<p><strong>如果事件队列中有回调函数，就执行它们直到清空队列</strong></p>
+<p><strong>否则事件循环将在此阶段停留一段时间以等待新的回调函数进入，这个等待取决于以下两个条件：</strong></p>
+<ol>
+<li>setImmediate队列（check阶段中存在要执行的回调函数）</li>
+<li>timers队列中存在要执行的回调函数，在这种情况下，事件循环将一至check阶段，然后移至Closing callbacks阶段，并最终从timers阶段进入下一次循环</li>
+</ol>
+</li>
+<li><p>Check：存储setImmediate API的回调函数</p>
+</li>
+<li><p>Clonsing callbacks：执行与关闭事件相关的回调，比如关闭数据库链接的回调函数等。</p>
+</li>
+</ol>
+<h2 id="事件循环小测试"><a href="#事件循环小测试" class="headerlink" title="事件循环小测试"></a>事件循环小测试</h2><p>注意:在微任务中nextTick的优先级要比其他的更高</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">&#x27;./loading.html&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">    setImmediate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)          <span class="comment">//2 1</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">process.nextTick(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">5</span>)</span><br><span class="line">&#125;)</span><br><span class="line">setImmediate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">6</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//4 5 3 6 2 1</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>nodejs</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
