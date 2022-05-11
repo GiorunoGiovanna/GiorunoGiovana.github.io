@@ -186,6 +186,850 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/11/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%AE%97%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">时间复杂度和空间复杂度算法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-11 21:16:18 / 修改时间：22:00:06" itemprop="dateCreated datePublished" datetime="2022-04-11T21:16:18+08:00">2022-04-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/11/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/11/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="时间复杂度和空间复杂度"><a href="#时间复杂度和空间复杂度" class="headerlink" title="时间复杂度和空间复杂度"></a>时间复杂度和空间复杂度</h1><p>时间复杂度和空间复杂度是用来衡量一个算法计算消耗资源量级的一种方法。</p>
+<h2 id="大O符号表示法"><a href="#大O符号表示法" class="headerlink" title="大O符号表示法"></a>大O符号表示法</h2><ol>
+<li>用常数1取代运行时间中的所有加法常数</li>
+<li>在修改后的运行次数函数中，只保留最高阶项</li>
+<li>如果最高阶存在且不是1，那么我们就去除以这个项目相乘的常数</li>
+</ol>
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><h3 id="常数阶O-1"><a href="#常数阶O-1" class="headerlink" title="常数阶O(1)"></a>常数阶O(1)</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="线性阶O-n"><a href="#线性阶O-n" class="headerlink" title="线性阶O(n)"></a>线性阶O(n)</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">let</span> n = <span class="number">10</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">let</span> i=<span class="number">0</span>;i&lt;<span class="number">100</span>;i++)&#123;</span><br><span class="line">		n += <span class="number">1</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码中for循环中的代码会执行n遍，因此他消耗的时间是随着n的变化而变化的，因此这类代码都可以用O(n)来表示他的时间复杂度</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/11/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E5%92%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6%E7%AE%97%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/" class="post-title-link" itemprop="url">面经摘抄02</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-11 16:05:30" itemprop="dateCreated datePublished" datetime="2022-04-11T16:05:30+08:00">2022-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-10 15:36:15" itemprop="dateModified" datetime="2022-05-10T15:36:15+08:00">2022-05-10</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%84/" itemprop="url" rel="index"><span itemprop="name">面经摘抄</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面经摘抄02"><a href="#面经摘抄02" class="headerlink" title="面经摘抄02"></a>面经摘抄02</h1><ol>
+<li><h5 id="重绘和回流以及如何减少回流"><a href="#重绘和回流以及如何减少回流" class="headerlink" title="重绘和回流以及如何减少回流"></a>重绘和回流以及如何减少回流</h5><p>重绘：当前页面中元素样式的改变并不影响它在文档流中的位置，也就是说布局没有发生改变的时候</p>
+<p>回流：任何会改变元素几何信息的操作，都会触发回流，回流是影响浏览器新能的关键因素。</p>
+<ol>
+<li>js更改DOM元素（增删改）</li>
+<li>样式表的添加或者删除</li>
+<li>窗口大小改变</li>
+<li>字体大小改变</li>
+<li>激活伪类，如:hover(hover颜色除外)</li>
+<li>改变样式属性（颜色，透明度除外）</li>
+<li>更改元素的className</li>
+<li>位置的计算（对如offsetHeight或者getComputerdStyle之类的元素进行测量）</li>
+<li>修改页面上的内容，例如输入框中的文本、用户输入</li>
+</ol>
+<p>如何减少回流：</p>
+<p>css：</p>
+<ul>
+<li>避免设置多层内联样式</li>
+<li>如果需要设置动画效果，最好将元素脱离正常的文档流</li>
+<li>避免使用css表达式</li>
+</ul>
+<p>JavaScript</p>
+<ul>
+<li>避免频繁操作演示，最好将样式列表定义为class并一次性改变样式</li>
+<li>避免频繁操作DOM</li>
+<li>可以先将元素设置为不可见：display：none,操作结束后再把它显示出来。 </li>
+<li>通过硬件加速可以是渲染图层提升为复合图层。</li>
+</ul>
+</li>
+<li><h5 id="内存泄露的原因和解决方案"><a href="#内存泄露的原因和解决方案" class="headerlink" title="内存泄露的原因和解决方案"></a>内存泄露的原因和解决方案</h5><p>通俗点说就是指由于疏忽或者错误造成程序未能释放已经不再使用的内存，从而造成内存上的浪费。</p>
+<ol>
+<li><p>意外的全局变量：在函数内部没有使用var声明变量，导致创建一个全局变量。</p>
+<p>解决方案：使用严格模式编写，使用eslint纠错</p>
+</li>
+<li><p>计时器和回调函数timers：定时器在使用的时候会生成一个唯一的标识符用于操作这个计时器，如果调用了计时器之后不管他，就会导致标识符一直存在</p>
+<p>解决方案：当不需要再使用计时器的时候调用ckeartimeout或者clearInterval</p>
+</li>
+<li><p>js闭包</p>
+<p>闭包在IE6下会造成内存泄漏，但是现在已经无须考虑了。值得注意的是闭包本身不会造成内存泄漏，但闭包过多很容易导致内存泄漏。闭包会造成对象引用的生命周期脱离当前函数的上下文，如果闭包如果使用不当，可以导致环形引用（circular reference），类似于死锁，只能避免，无法发生之后解决，即使有垃圾回收也还是会内存泄露。</p>
+</li>
+<li><p>DOM泄露</p>
+<p>给DOM对象添加的熟悉感是一个对象的引用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;&#125;;</span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&#x27;id&#x27;</span>).diyProp = a;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><h5 id="JavaScript为什么是单线程的"><a href="#JavaScript为什么是单线程的" class="headerlink" title="JavaScript为什么是单线程的"></a>JavaScript为什么是单线程的</h5><p>这与JavaScript的用途有关，JavaScript最初是被设计为浏览器的脚本语言，而浏览器的作用就是和用户交互，以及操作DOM。这决定了它只能是单线程的，否则会带来很严重的冲突问题。比如，JavaScript在一个线程中删除了一个DOM节点，但是另一个线程却修改了这个DOM节点，浏览器应该以哪一个线程的结果为准？</p>
+<p>为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完 全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。</p>
+</li>
+<li><h5 id="事件委托的原理以及优缺点"><a href="#事件委托的原理以及优缺点" class="headerlink" title="事件委托的原理以及优缺点"></a>事件委托的原理以及优缺点</h5><p>原理：JavaScript事件代理是通过把事件处理器添加到上一个上级元素，这样就比米娜了将事件处理器添加到多个子级的元素上。当我们需要对很多元素添加事件的时候，可以通过将事件添加到它们的上级元素而将事件委托给上级元素来触发处理函数。这主要得益于浏览器的事件冒泡机制。</p>
+<p>优点：</p>
+<ol>
+<li>减少事件注册，节省内存。</li>
+<li>在table上代理所有td的click事件</li>
+<li>简化了DOM节点更新的时候，相应的事件的更新</li>
+<li>不用在新添加的li上绑定click事件</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>事件委托基于冒泡，对于不冒泡的事件不支持</li>
+<li>层级过多，冒泡过程中，可能会被某层阻止</li>
+<li>把所有事件都用代理就可能会出现事件误判。比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。、</li>
+</ol>
+</li>
+<li><h5 id="tree-shaking原理"><a href="#tree-shaking原理" class="headerlink" title="tree-shaking原理"></a>tree-shaking原理</h5><p>简单来说，tree-shaking的本质就是在打包过程中消除无用的代码。tree-shaking思想出现得很早，但在JavaScript中得到有效应用是ES6之后。</p>
+<p>因为在ES6之前，代码的引用是CommonJS规范的动态的<code>require</code>,这样的话代码是在被使用的时候才会引入，这样导致代码打包的时候编译器不好判断是否能删除。</p>
+<p>而ES6之后引入使用的ES6 Modules是<code>import</code>纯静态引入，代码在打包的时候就可以扫描代码，用到的留下，没有用到的就删除，从而优化打包后的体积。</p>
+<p>CommonJS和ES6 Module的主要区别</p>
+<p>1、CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</p>
+<p>2、CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
+<p>3、CommonJs 是单个值导出，ES6 Module可以导出多个</p>
+<p>4、CommonJs 是动态语法可以写在判断里，ES6 Module 静态语法只能写在顶层</p>
+<p>5、CommonJs 的 this 是当前模块，ES6 Module的 this 是 undefined</p>
+</li>
+<li><p><strong>文字跑马灯</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    * &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">font-size</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">color</span>:<span class="number">#fff</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.block</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">500px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#65b4ae</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">white-space</span>: nowrap;</span></span><br><span class="line"><span class="css">        <span class="attribute">overflow</span>: hidden;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.words</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">position</span>: relative;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: fit-content;</span></span><br><span class="line"><span class="css">        <span class="attribute">animation</span>:move <span class="number">10s</span> linear infinite;</span></span><br><span class="line"><span class="css">        <span class="attribute">padding-left</span>:<span class="number">50px</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.words</span><span class="selector-pseudo">::after</span>&#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">position</span>: absolute; </span></span><br><span class="line"><span class="css">        <span class="attribute">right</span>:<span class="number">100%</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">content</span>:<span class="built_in">attr</span>(text);</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="keyword">@keyframes</span> move &#123;</span></span><br><span class="line"><span class="css">        <span class="number">0%</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="attribute">transform</span>: <span class="built_in">translateX</span>(<span class="number">0</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">        <span class="number">100%</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="comment">/*将字幕完全隐藏*/</span></span></span><br><span class="line"><span class="css">            <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">100%</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--原理：利用单行文字可以设置超出部分隐藏，同时css中transform只对标签中的值起作用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;block&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;words&quot;</span> <span class="attr">text</span>=<span class="string">&quot;HOW YOU LIKE THAT&quot;</span>&gt;</span></span><br><span class="line">            HOW YOU LIKE THAT</span><br><span class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原理如下</p>
+<p><img src="C:\Users\Martin\Downloads\文字跑马灯原理.png" alt="文字跑马灯原理"></p>
+</li>
+<li><p><strong>环绕跑马灯</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* 页面初始化 */</span></span></span><br><span class="line"><span class="css">    * &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#414141</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">display</span>: flex;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-items</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">justify-content</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">100vh</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* content为内容部分 */</span></span></span><br><span class="line"><span class="css">    <span class="selector-class">.content</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">150px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#414141</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">line-height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">font-size</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">color</span>: wheat;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* cover为边框部分 */</span></span></span><br><span class="line"><span class="css">    <span class="selector-class">.cover</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">display</span>: inherit;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-items</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">justify-content</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">60px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">160px</span>;</span></span><br><span class="line"><span class="css">        <span class="comment">/* 圆角 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">border-radius</span>: <span class="number">15px</span>;</span></span><br><span class="line"><span class="css">        <span class="comment">/* background-color: pink; */</span></span></span><br><span class="line"><span class="css">        <span class="comment">/* transition: all 3s; */</span></span></span><br><span class="line"><span class="css">        <span class="comment">/* 核心代码 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">135deg</span>, <span class="built_in">rgb</span>(<span class="number">1</span>, <span class="number">255</span>, <span class="number">234</span>), <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">251</span>, <span class="number">14</span>), <span class="built_in">rgb</span>(<span class="number">0</span>, <span class="number">238</span>, <span class="number">255</span>));</span></span><br><span class="line"><span class="css">        <span class="comment">/*添加动画 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">animation</span>: color <span class="number">3s</span> linear infinite;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="keyword">@keyframes</span> <span class="attribute">color</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="selector-tag">to</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="attribute">filter</span>: <span class="built_in">hue-rotate</span>(<span class="number">360deg</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;cover&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>hello world!<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原理如下</p>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E7%8E%AF%E7%BB%95%E8%B7%91%E9%A9%AC%E7%81%AF%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt="环绕跑马灯原理图"></p>
+</li>
+<li><p><strong>如何区分箭头函数和普通函数</strong></p>
+<ul>
+<li>箭头函数不能用于构造函数，普通函数可以。所以只要new一下就可以知道是否是箭头函数。</li>
+<li>普通函数this指向可以被call/apply/bind修改，箭头函数的this指向在定义的时候就已经确定了。</li>
+<li>普通函数有具名函数和匿名函数，箭头函数只有匿名函数</li>
+</ul>
+</li>
+<li><p><strong>引起内存泄露的原因</strong></p>
+<ul>
+<li>意外的全局变量，在函数内部如果不使用关键字定义变量，会使这个变量默认挂载在全局中。</li>
+<li>没有及时清除的定时器，定时器在使用的时候会返回一个唯一标识，如果不计时清除的话，定时器会一直存在</li>
+<li>事件监听器，举例子在图片懒加载中使用到了<code>IntercetionObserver</code>这个监听器，如果不及时清除监视器的话，每次被监视的DOM经过窗口边缘都会执行回调。</li>
+<li>闭包，闭包会保存函数外部的变量，使用完闭包之后要清除</li>
+<li>缓存，浏览器允许我们缓存一些数据到内存中，但是我们不能无休止的加入</li>
+</ul>
+</li>
+<li><p><strong>try/catch能否捕捉到timeout内部的异常？</strong></p>
+<p> 一般情况下是不能的，因为try/catch能捕捉的异常只限于同步的，且在try/catch线程执行期间内的异常才能捕获。</p>
+   <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">    	<span class="comment">//异步线程，是在同步任务执行完毕之后才执行的，所以不会被捕获</span></span><br><span class="line">        <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            reject(<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;捕获错误！&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">func()</span><br></pre></td></tr></table></figure>
+
+<p>   当然，也不是一定不行，如果我们用async/await改造函数为同步的就可以解决了。</p>
+   <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            reject(<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;捕获错误！&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">func()</span><br></pre></td></tr></table></figure>
+
+<p>   引申：</p>
+<p>   用async/await+promise+timeout可以改造一个同步的休眠器</p>
+   <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">delay</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            resolve(delay)</span><br><span class="line">        &#125;, delay)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;开始执行&#x27;</span>)</span><br><span class="line">    <span class="keyword">await</span> sleep(<span class="number">5000</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;继续&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func()</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>浏览器从输入url到渲染页面的全过程</strong></p>
+<p>现代浏览器会去解析你的输入，如果不是url则会默认使用搜索引擎查询这个输入，这里只讨论正确url的情况。</p>
+<p>现代浏览器从输入url到渲染整个页面的过程可以分为三个部分：</p>
+<ol>
+<li>DNS解析URL过程</li>
+<li>浏览器发送请求到与服务器交互的过程</li>
+<li>浏览器对接收到的页面进行渲染的过程</li>
+</ol>
+<p>一、DNS解析URL过程</p>
+<p>我们都知道，域名其实不是一个服务器的真正地址，更像是一个方便人类查找和记忆的代号。根据计算机网络原理，服务器的地址是一串32位（ipv4）或者128位（ipv6）的二进制代码组成的ip地址。我们输入的域名并不能让浏览器找到服务器的位置，而是需要解析域名，查找其对应的ip地址。这就是DNS解析。</p>
+<p>DNS解析是一个渐进的过程，它会先访问浏览器缓存，本机host，本地DNS服务器查找。没有的话就会去网络上从顶级域名服务器，根域名服务器等一直递归查询。</p>
+<p>二、浏览器与服务器交互的过程</p>
+<ol>
+<li>浏览器先与服务器建立TCP链接，通过三次握手建立链接。</li>
+<li>浏览器发送一个get请求到服务器请求url对应的网页。</li>
+<li>服务器接收到http请求之后，如果有这个页面，就返回报文</li>
+<li>浏览器接收到页面后开始渲染</li>
+</ol>
+<p>三、浏览器页面渲染的过程（扩展，服务器端渲染，预渲染，浏览器渲染）</p>
+<ol>
+<li>浏览器将html节点解析为DOM树</li>
+<li>将css解析成CSS OM树</li>
+<li>将DOM树和CSS OM树构造成render树</li>
+<li>JavaScript根据得到的render树计算所有节点在屏幕中的位置，进行布局</li>
+<li>遍历render树并调用硬件API绘制所有节点（重绘）</li>
+</ol>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/11/%E6%89%8B%E5%86%99freeze/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E6%89%8B%E5%86%99freeze/" class="post-title-link" itemprop="url">手写freeze</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-11 13:49:26 / 修改时间：13:56:34" itemprop="dateCreated datePublished" datetime="2022-04-11T13:49:26+08:00">2022-04-11</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/11/%E6%89%8B%E5%86%99freeze/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/11/%E6%89%8B%E5%86%99freeze/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写Object-freeze"><a href="#手写Object-freeze" class="headerlink" title="手写Object.freeze"></a>手写Object.freeze</h1><p>有时候再JavaScript中我们期望一个对象的值不要被改变或删节，我们需要找到一个方法将这个对象“冻结”起来。</p>
+<p>我们需要：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.seal(object)</span><br></pre></td></tr></table></figure>
+
+<p>这个API能阻止对象中的属性被删除或者增加</p>
+<p>然而对于对象中已经存在的属性，我们也要阻止它们被修改，这个时候就需要：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(object,p,&#123;...&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个API允许我们为对象中的元素设置一些拦截器方法，我们可以再这个地方设置对象的属性为不可写的，这样对象就不会被改变啦。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _objectFreeze = <span class="function"><span class="params">object</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 判断传入参数是否为对象</span></span><br><span class="line">    <span class="keyword">if</span> (object <span class="keyword">instanceof</span> <span class="built_in">Object</span>) &#123;</span><br><span class="line">        <span class="comment">// Object.seal()方法可以让对象不能被扩展、删除属性等等。</span></span><br><span class="line">        <span class="comment">// 遍历对象中的属性</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">in</span> object) &#123;</span><br><span class="line">            <span class="comment">// 修改对象中属性的特性&#x27;可写&#x27;为false</span></span><br><span class="line">            <span class="built_in">Object</span>.defineProperty(object, p, &#123;</span><br><span class="line">                <span class="attr">writable</span>: <span class="literal">false</span>,</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="comment">// 实现深冻结</span></span><br><span class="line">            _objectFreeze(object[p]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Object.seal可以实现使这个对象不能添加或删除属性</span></span><br><span class="line">    <span class="built_in">Object</span>.seal(object);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/11/%E6%89%8B%E5%86%99freeze/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/10/%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/10/%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">首屏加载优化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-10 21:33:09" itemprop="dateCreated datePublished" datetime="2022-04-10T21:33:09+08:00">2022-04-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-11 09:30:15" itemprop="dateModified" datetime="2022-04-11T09:30:15+08:00">2022-04-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/10/%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/10/%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="首屏加载优化"><a href="#首屏加载优化" class="headerlink" title="首屏加载优化"></a>首屏加载优化</h1><p>首屏加载优化是前端开发中必须重视的一环，首屏加载时间太长会破坏用户体验，严重的甚至会导致客户的流失，所以要尽可能用各种方法去优化前端首屏加载的时间。</p>
+<h2 id="通用优化方法"><a href="#通用优化方法" class="headerlink" title="通用优化方法"></a>通用优化方法</h2><ol>
+<li><p>图片资源的压缩，使用雪碧图将一个页面所用到的图标用一张大图代替。</p>
+</li>
+<li><p>图片的懒加载，在首屏中一开始用户无法看见的地方的图片可以不优先加载，等到用户浏览这个地方的时候再加载。</p>
+<p>详情见手写<a target="_blank" rel="noopener" href="https://stoneocean.top/2022/04/06/%E6%89%8B%E5%86%99%E5%AE%9E%E7%8E%B0%E5%9B%BE%E7%89%87%E6%87%92%E5%8A%A0%E8%BD%BD/">图片懒加载</a></p>
+</li>
+<li><p>使用cdn加速，负载均衡，将一部分资源转移到cdn服务器上，减轻主服务器的压力。</p>
+<p>例如：</p>
+<ul>
+<li><p>在index中引入cdn服务器中的依赖</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 首屏优化，使用cdn引入外部文件 --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- vue主要的js文件--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/vue/2.6.11/vue.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- element-ui的文件 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">&quot;stylesheet&quot;</span> <span class="attr">href</span>=<span class="string">&quot;https://unpkg.com/element-ui/lib/theme-chalk/index.css&quot;</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--  组件库引入--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/element-ui/2.15.2/index.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/vue-router/3.5.1/vue-router.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;https://cdn.bootcss.com/axios/0.21.1/axios.min.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>在vue.config中引入外部文件</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">configureWebpack:&#123;</span><br><span class="line">    <span class="attr">externals</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;vue&#x27;</span>:<span class="string">&#x27;Vue&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;vue-router&#x27;</span>:<span class="string">&#x27;VueRouter&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;axios&#x27;</span>:<span class="string">&#x27;axios&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;element-ui&#x27;</span>:<span class="string">&#x27;Element&#x27;</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>main.js不用导入elementui，因为是全局引入，需要的直接使用就行</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// import ElementUI from &quot;element-ui&quot;;</span></span><br><span class="line"><span class="comment">// import &quot;element-ui/lib/theme-chalk/index.css&quot;;</span></span><br><span class="line"><span class="comment">// Vue.use(ElementUI);</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>使用服务器渲染或者预渲染</p>
+<p>服务器端渲染（SSR）、客户端渲染和预渲染的区别：</p>
+<ul>
+<li>服务器端渲染：在服务器端完成所有客户请求并直接返回一个已经可用的渲染完毕的html页面（早期常用）</li>
+<li>客户端渲染：客户请求后拿到一个空的html，再根据代码去渲染DOM和CSSOM。渲染压力分配到了客户端上，服务器的压力变小。缺点是首屏加载时间比较慢。</li>
+<li>预渲染：可以看成是服务器端渲染和客户端渲染的结合。客户第一次请求的时候，会由服务器直接返回一个可用的html首页，后续客户请求的时候再使用客户端渲染的方式进行。</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/c1fc061c88584d10a3bf1a01e033d371.png" alt="c1fc061c88584d10a3bf1a01e033d371"></p>
+</li>
+</ol>
+<h2 id="对于Vue的优化方法"><a href="#对于Vue的优化方法" class="headerlink" title="对于Vue的优化方法"></a>对于Vue的优化方法</h2><ol>
+<li>由于vue使用的是webpack框架进行资源打包，我们可以将打包后的资源使用Gzip进行压缩，使得依赖文件体积更小。</li>
+<li>路由懒加载，路由在需要用到的时候再进行加载。组件懒加载同理。</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/10/%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/07/%E6%89%8B%E5%86%99%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%A4%E6%96%AD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/07/%E6%89%8B%E5%86%99%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%A4%E6%96%AD/" class="post-title-link" itemprop="url">手写数据类型的判断</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-07 15:13:25 / 修改时间：15:22:31" itemprop="dateCreated datePublished" datetime="2022-04-07T15:13:25+08:00">2022-04-07</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/07/%E6%89%8B%E5%86%99%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%A4%E6%96%AD/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/07/%E6%89%8B%E5%86%99%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%A4%E6%96%AD/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写数据类型判断"><a href="#手写数据类型判断" class="headerlink" title="手写数据类型判断"></a>手写数据类型判断</h1><p>typeof可以正确识别包括：undefined、boolean，number、string、symbol、function等类型的数据，但是对于其他的数据会认为是object，所以仅通过typeof来判断数据类型是不太准确的。</p>
+<p>obj.toString()可以返回一个带有数据类型的字符串，但是toString大多数被重写过，为了正确的使用，使用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.prototype.toString.call()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">typeOf</span>(<span class="params">data</span>)</span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(<span class="keyword">typeof</span> data !== <span class="string">&quot;object&quot;</span>) <span class="keyword">return</span> <span class="keyword">typeof</span> data</span><br><span class="line">	<span class="comment">//Object.prototype.toString这个方法返回一个带对象类型的形如[object Array]字符串</span></span><br><span class="line">	<span class="comment">//直接使用obj.toString()的话，有可能方法被重写过</span></span><br><span class="line">	<span class="keyword">let</span> res = <span class="built_in">Object</span>.prototype.toString.call(data)</span><br><span class="line">	<span class="comment">//正则匹配转化为小写用toLowerCase()</span></span><br><span class="line">	<span class="keyword">return</span> res.match(<span class="regexp">/\ (.+)]$/</span>)[<span class="number">1</span>].toLowerCase()</span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">console</span>.log(typeOf([]))			<span class="comment">//Array</span></span><br><span class="line"><span class="built_in">console</span>.log(typeOf(<span class="keyword">new</span> <span class="built_in">Date</span>))	<span class="comment">//Date</span></span><br><span class="line"><span class="built_in">console</span>.log(typeOf(<span class="number">0</span>))			<span class="comment">//number</span></span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/07/%E6%89%8B%E5%86%99%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E5%88%A4%E6%96%AD/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/06/%E6%89%8B%E5%86%99jsonp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/06/%E6%89%8B%E5%86%99jsonp/" class="post-title-link" itemprop="url">手写jsonp</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-06 21:18:15 / 修改时间：21:39:33" itemprop="dateCreated datePublished" datetime="2022-04-06T21:18:15+08:00">2022-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/06/%E6%89%8B%E5%86%99jsonp/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/06/%E6%89%8B%E5%86%99jsonp/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写jsonp"><a href="#手写jsonp" class="headerlink" title="手写jsonp"></a>手写jsonp</h1><p>浏览器存在跨域限制，就是说在不同协议、不同域名、不同端口的情况下默认是不能访问跨域的接口的。但是有时有需要跨域访问，为了解决这个问题，产生了jsonp。</p>
+<p>jsonp的原理是浏览器中的script标签是不受跨域限制的，也就是说可以请求跨域的脚本文件。只要后端配合脚本文件上的url就可以实现跨域通信。</p>
+<h5 id="前端："><a href="#前端：" class="headerlink" title="前端："></a>前端：</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>jsonp 跨域<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;btnId&#x27;</span>&gt;</span>跨域请求按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="comment">//处理回调的数据</span></span></span><br><span class="line"><span class="javascript">	<span class="function"><span class="keyword">function</span> <span class="title">dataFn</span>(<span class="params">data</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">console</span>.log(data)</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript">	</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> _btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btnId&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="comment">//在请求的链接上加上回调函数的名称，后端直接向回调函数中传值</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> url = <span class="string">&#x27;http://localhost:8083/api?callback=dataFn&#x27;</span></span></span><br><span class="line"><span class="javascript">	_btn.onclick = <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">let</span> _script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>)</span></span><br><span class="line"><span class="javascript">		_script.setAttribute(<span class="string">&#x27;src&#x27;</span>,url)</span></span><br><span class="line"><span class="javascript">		_script.setAttribute(<span class="string">&#x27;type&#x27;</span>,<span class="string">&#x27;text/javascript&#x27;</span>)</span></span><br><span class="line"><span class="javascript">		<span class="built_in">document</span>.querySelector(<span class="string">&#x27;body&#x27;</span>).appendChild(_script)</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="后端："><a href="#后端：" class="headerlink" title="后端："></a>后端：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接收请求参数，拼接上数据，返回javascript脚本文件</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/api&#x27;</span>,<span class="function">(<span class="params">req,res</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="comment">// let _d = [1,2,3,4]</span></span><br><span class="line">	<span class="keyword">let</span> data = req.query.callback + <span class="string">&quot;(&#123;&#x27;name&#x27;:&#x27;lihua&#x27;&#125;)&quot;</span></span><br><span class="line">	<span class="comment">//拼接完成后返回的其实是&quot;dataFn(&#123;&#x27;name&#x27;:&#x27;lihua&#x27;&#125;)&quot;</span></span><br><span class="line">	<span class="comment">//在前端中被当成可执行的JavaScript代码，于是前端执行dataFn(&#123;&#x27;name&#x27;:&#x27;lihua&#x27;&#125;)</span></span><br><span class="line">	res.send(data)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8083</span>,<span class="function">() =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">&quot;8083,项目中间件&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将网页挂载在静态页面上</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">&#x27;/public&#x27;</span>,express.static(<span class="string">&#x27;public&#x27;</span>))</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8081</span>,<span class="function">() =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">&#x27;http server running at http://127.0.0.1:8081&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/06/%E6%89%8B%E5%86%99jsonp/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/06/%E6%89%8B%E5%86%99instanceof/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/06/%E6%89%8B%E5%86%99instanceof/" class="post-title-link" itemprop="url">手写instanceof</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-06 15:40:04 / 修改时间：15:47:28" itemprop="dateCreated datePublished" datetime="2022-04-06T15:40:04+08:00">2022-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/06/%E6%89%8B%E5%86%99instanceof/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/06/%E6%89%8B%E5%86%99instanceof/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写instanceof"><a href="#手写instanceof" class="headerlink" title="手写instanceof"></a>手写instanceof</h1><p>instanceof是JavaScript中一种检查构造函数的prototype属性是否在另一个实例对象上出现过的方法。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _instanceof = <span class="function">(<span class="params">left,right</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//获取实例对象的原型链</span></span><br><span class="line">	<span class="keyword">let</span> proto = left.__proto__</span><br><span class="line">	<span class="keyword">while</span>(<span class="literal">true</span>)&#123;</span><br><span class="line">		<span class="keyword">if</span>(proto===<span class="literal">null</span>) <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">        <span class="comment">//当构造函数的原型出现在实例对象的原型链中</span></span><br><span class="line">		<span class="keyword">if</span>(proto===right.prototype)&#123;</span><br><span class="line">			<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">		&#125;</span><br><span class="line">        <span class="comment">//向下查找实例对象的原型链</span></span><br><span class="line">		proto = proto.__proto__</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">B</span> <span class="keyword">extends</span> <span class="title">A</span></span>&#123;&#125;</span><br><span class="line"><span class="keyword">const</span> b = <span class="keyword">new</span> B</span><br><span class="line"><span class="built_in">console</span>.log(_instanceof(b,A))</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/06/%E6%89%8B%E5%86%99instanceof/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/06/%E6%89%8B%E5%86%99n%E4%B8%AA%E6%95%B0%E7%BB%84%E6%B1%82%E4%BA%A4%E9%9B%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -471,889 +1315,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-title-link" itemprop="url">正则表达式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-05 10:07:08" itemprop="dateCreated datePublished" datetime="2022-04-05T10:07:08+08:00">2022-04-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-06 09:04:44" itemprop="dateModified" datetime="2022-04-06T09:04:44+08:00">2022-04-06</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>正则表达式是一种文本模式，可以用于匹配字符串，由于高效简洁的规则学习之后可以极大的提高效率。</p>
-<h2 id="创建正则表达式"><a href="#创建正则表达式" class="headerlink" title="创建正则表达式"></a>创建正则表达式</h2><ol>
-<li><p><strong>调用RegExp</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;b&#x27;</span></span><br><span class="line"><span class="keyword">var</span> regexp = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">`<span class="subst">$&#123;a&#125;</span>`</span>,<span class="string">&#x27;g&#x27;</span>)<span class="comment">//第一个参数为匹配值，第二个参数为匹配规则</span></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">var</span> regexp = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/c/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
-<li><p><strong>使用字面量</strong>（推荐）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regexp = <span class="regexp">/abc/g</span></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">let</span> num = <span class="string">&#x27;aa&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="built_in">eval</span>(<span class="string">`/<span class="subst">$&#123;num&#125;</span>/g`</span>)</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="正则表达式相关的函数"><a href="#正则表达式相关的函数" class="headerlink" title="正则表达式相关的函数"></a>正则表达式相关的函数</h2><ol>
-<li><p><strong>test()</strong></p>
-<p>作用：检测一个字符串是否含有能够匹配的子串</p>
-<p>基本语法：</p>
-<p><strong>objReg.test(objStr)</strong><br><strong>objReg 必选项 RegExp对象名称</strong><br><strong>objStr 要进行匹配检测的字符串</strong> </p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如：</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;avs&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/a/</span>)</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(str))	<span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>match()</strong></p>
-<p>作用：使用正则表达式模式对字符串进行查找，并将包含所有查找结果作为数组返回</p>
-<p>基本语法：</p>
-<p><strong>stringObj.match(regExp)</strong></p>
-<p><strong>stringObj为字符串必选</strong></p>
-<p>**rgExp为正则表达式必选项 **</p>
-<p>返回值：能匹配返回结果数组，不能则返回null</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;abcbsdaabba&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/ab/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg))		<span class="comment">// [ &quot;ab&quot;, &quot;ab&quot; ]</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>replace()</strong></p>
-<p>作用：返回根据匹配规则进行文字替换后的字符串的复制（不改变原字符串）</p>
-<p>基本语法：</p>
-<p><strong>stringObj.replace(rgExp, replaceText)</strong> </p>
-<p><strong>字符串stringObj</strong></p>
-<p><strong>rgExp正则表达式</strong></p>
-<p>**replaceText所替换的内容 **</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;abcdefgab&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/ab/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str.replace(reg,<span class="string">&#x27;qq&#x27;</span>))		<span class="comment">// qqcdefgqq</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>search()</strong></p>
-<p>作用：返回于正则表达式查找内容匹配的第一个子字符串的位置</p>
-<p>基本语法：</p>
-<p><strong>stringObj.search(rgExp)</strong></p>
-<p><strong>stringObj 必选项</strong> </p>
-<p>**rgExp正则表达式 **</p>
-<p>返回值：如果找到匹配返回索引，找不到匹配返回-1</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如：</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aasddsa&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/s/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/f/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str.search(reg1))		<span class="comment">//2</span></span><br><span class="line"><span class="built_in">console</span>.log(str.search(reg2))		<span class="comment">//-1</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>exec()</strong></p>
-<p>作用：返回字符串中第一个匹配的内同和子匹配结果的数组。同时记录匹配的位置，每次匹配的时候都会从上一次匹配的位置开始</p>
-<p>基本语法：</p>
-<p>**objReg.exec(string) **</p>
-<p>**objReg.exec(string) **</p>
-<p>**string，要进行匹配的字符串 **</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aasddsa&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(?&lt;d&gt;\w&#123;2&#125;)/g</span><span class="regexp">//</span>(?&lt;d&gt;\w)中的?&lt;d&gt;指定这一个捕获组的名称为d</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str))</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str))</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str))</span><br><span class="line"><span class="comment">//[&quot;aa&quot;,groups: &#123;d:&#x27;aa&#x27;&#125;,index:0,input:&quot;aasddsa&quot;,length:2]</span></span><br><span class="line"><span class="comment">//[&quot;sd&quot;,groups: &#123;d:&#x27;sd&#x27;&#125;,index:0,input:&quot;aasddsa&quot;,length:2]</span></span><br><span class="line"><span class="comment">//[&quot;ds&quot;,groups: &#123;d:&#x27;ds&#x27;&#125;,index:0,input:&quot;aasddsa&quot;,length:2]</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>matchAll()</strong></p>
-<p>作用：全局匹配字符串</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//使用matchAll匹配全局的字符串</span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>你好<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>wokalimashita<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> reg = <span class="regexp">/&lt;(h[1-6])&gt;([\s\S]+?)&lt;\/\1&gt;/gi</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> match = <span class="built_in">document</span>.body.innerHTML.matchAll(reg)</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> count = []</span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span>(i <span class="keyword">of</span> match)&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(i[<span class="number">2</span>])</span></span><br><span class="line"><span class="javascript">        count.push(i[<span class="number">2</span>])</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.table(count)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220405172538220.png" alt="image-20220405172538220"></p>
-</li>
-</ol>
-<h2 id="正则表达式语法"><a href="#正则表达式语法" class="headerlink" title="正则表达式语法"></a>正则表达式语法</h2><ul>
-<li><p><strong>原子表[]和原子组()</strong></p>
-<p>在正则匹配中由原子表和原子组的匹配规则，它们的定义是</p>
-<p>原子表[]：在原子表中任意匹配一位（[^]在原子表开头加上^可以用于排除原子表中的匹配项）</p>
-<ol>
-<li><p>原子表字符不解析：放在原子表里面的所有字符都会被当成字符解析，而不具备原子表外的特殊含义</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aas.+a&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/[.+]/g</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/.+/g</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))	<span class="comment">//[ &quot;.&quot;, &quot;+&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg2))	<span class="comment">//[ &quot;aas.+a&quot; ]</span></span><br></pre></td></tr></table></figure></li>
-<li><p>匹配所有内容</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aas.+a&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/[\s\S]+/g</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))</span><br></pre></td></tr></table></figure></li>
-</ol>
-<p>原子组()：在原子组中匹配所有</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;121212&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/[12]/</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/(12|34)/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;1&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;12&quot;, &quot;12&quot; ]</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>字符边界^开头和$结尾</strong></p>
-<p>在正则匹配中如果想规定匹配是否从头开始或者到尾结束，可以使用^和$。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;123456123456&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d&#123;8&#125;/</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/\d&#123;8&#125;$/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;12345612&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;56123456&quot; ]</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>\w和\W的区别</strong></p>
-<p>在正则匹配中\w表示匹配任意数字字母或下划线，那么\W表示匹配任意非数字字母或下划线的字符。其他通配符同理</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;1515asd_@&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\W+/</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/\w+/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;@&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;1515asd_&quot; ]</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>汉字与字符属性</strong></p>
-<p>在正则匹配中是有不同的语言系统的，它们之间的匹配规则也不一样，一些同属性的符号也是可以通过属性来匹配的。使用\p{属性}进行匹配。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;我是李华,123&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\p&#123;sc=Han&#125;+/gu</span>  <span class="comment">//汉字是unicode系统要加u匹配</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/\p&#123;P&#125;/gu</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;我是李华&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;,&quot; ]</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>批量使用正则表达式校验</strong></p>
-<p>在正则匹配中我们可以同时对一个字符串匹配多个规则，达到多重独立验证的目的；</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">//使用正则批量匹配完成密码强度验证</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;input&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">&quot;note&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> input1 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#input&#x27;</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> note = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#note&#x27;</span>)</span></span><br><span class="line"><span class="javascript">input1.addEventListener(<span class="string">&quot;keyup&quot;</span>,<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">const</span> value = e.target.value;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">const</span> reg = [<span class="regexp">/[A-Z]/</span>,<span class="regexp">/[a-z]/</span>,<span class="regexp">/\p&#123;P&#125;/u</span>]</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> level = <span class="number">0</span>,str = <span class="string">&#x27;&#x27;</span></span></span><br><span class="line"><span class="javascript">	reg.map(<span class="function"><span class="params">m</span> =&gt;</span> m.test(value)?level++:<span class="number">0</span>)</span></span><br><span class="line"><span class="javascript">	<span class="keyword">switch</span>(level)&#123;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">0</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;弱唉&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">1</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;中&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">2</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;强啊&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">3</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;强啊&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">console</span>.log(value,level)</span></span><br><span class="line"><span class="javascript">	note.innerText = str</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>$和$&amp;(匹配的内容),$`(匹配的内容的之前的内容),$’(匹配的内容的之后的内容)</strong></p>
-<p>正则匹配中可以用$符号去指代匹配的内容。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;$$adsaa$$dsa $$3213$$fsdf&#x27;</span></span><br><span class="line"><span class="keyword">let</span> result = str.replace(<span class="regexp">/\$\$(\w+)\$\$(\w+)/g</span>,<span class="string">&quot;$1-$2&quot;</span>)<span class="comment">//其中$1$2指代的是第几个原子组的匹配内容</span></span><br><span class="line"><span class="built_in">console</span>.log(result)		<span class="comment">//adsaa-dsa 3213-fsdf</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> str1 = <span class="string">&#x27;==absc$$&#x27;</span>	</span><br><span class="line"><span class="keyword">let</span> result1 = str1.replace(<span class="regexp">/[a-z]+/g</span>,<span class="string">&quot;$`&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result1)	<span class="comment">//====$$</span></span><br><span class="line"><span class="keyword">let</span> result2 = str1.replace(<span class="regexp">/[a-z]+/g</span>,<span class="string">&quot;$&#x27;&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result2)	<span class="comment">//==$$$$</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>?=断言匹配,?&lt;=断言匹配,?!,断言匹配?&lt;!断言匹配</strong></p>
-<p>?=断言匹配是匹配内容后面的内容的，?&lt;=断言匹配时匹配内容前面的内容的</p>
-<p>?!匹配后面不是什么?&lt;=匹配前面不是什么</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;你好123你好&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/你好/g</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg))		<span class="comment">//[ &quot;你好&quot;, &quot;你好&quot; ]</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/你好(?=\d)/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))	<span class="comment">//[ &quot;你好&quot; ]</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/(?&lt;=\d)你好/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg2))	<span class="comment">//[ &quot;你好&quot; ]</span></span><br></pre></td></tr></table></figure></li>
-<li><p><strong>小测验</strong></p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://www.baidu.cn.com&quot;</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://baidu.com&quot;</span>&gt;</span>百度1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;http://baidu.com.cn&quot;</span>&gt;</span>百度2<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> arr = <span class="built_in">document</span>.body.innerHTML</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> result = arr.matchAll(<span class="regexp">/&lt;a.*href=([&quot;&#x27;])(.*?)\1&gt;(.*?)&lt;/g</span>)</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> count = []</span></span><br><span class="line"><span class="javascript">	<span class="keyword">for</span>(i <span class="keyword">of</span> result)&#123;</span></span><br><span class="line"><span class="javascript">		count.push(&#123;<span class="attr">link</span>:<span class="string">`<span class="subst">$&#123;i[<span class="number">2</span>]&#125;</span>`</span>,<span class="attr">title</span>:<span class="string">`<span class="subst">$&#123;i[<span class="number">3</span>]&#125;</span>`</span>&#125;)</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">console</span>.log(count)</span></span><br><span class="line"><span class="javascript">    <span class="comment">//[	Object &#123; link: &quot;https://www.baidu.cn.com&quot;, title: &quot;百度&quot; &#125;,</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">//	Object &#123; link: &quot;https://baidu.com&quot;, title: &quot;百度1&quot; &#125;,</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">//	Object &#123; link: &quot;http://baidu.com.cn&quot;, title: &quot;百度2&quot; &#125;]</span></span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/" class="post-title-link" itemprop="url">css学习笔记04动画</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-04 09:25:28 / 修改时间：10:35:37" itemprop="dateCreated datePublished" datetime="2022-04-04T09:25:28+08:00">2022-04-04</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="CSS3动画"><a href="#CSS3动画" class="headerlink" title="CSS3动画"></a>CSS3动画</h1><p>在CSS3之前前端动画实现基本上都靠JavaScriptAPI去动态改变元素样式属性来完成，这种方式虽然能够实现动画，但是在性能上存在一些问题。CSS3动画的出现很好地解决了这些问题。</p>
-<p>CSS动画属性主要有<strong>transform、transition、animation</strong></p>
-<h2 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h2><p>transform可以用来设置元素的形状改变，主要有以下几种变形：<code>rotate</code>（旋转）、<code>scale</code>（缩放）、<code>skew</code>（扭曲）、<code>translate</code>（移动）和<code>matrix</code>（矩阵变形），语法如下：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-class</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span> ： <span class="attribute">none</span> | &lt;<span class="attribute">transform</span>-function&gt; <span class="selector-attr">[ &lt;transform-function&gt; ]</span>*</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>none</code>表示不做变换；<code>&lt;transform-function&gt;</code>表示一个或多个变化函数，变化函数由函数名和参数组成，参数包含在<code>()</code>里面，用<strong>空格</strong>分开，例如：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-class</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span> ： rotate(<span class="number">30deg</span>) scale(<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="transform-origin基点"><a href="#transform-origin基点" class="headerlink" title="transform-origin基点"></a>transform-origin基点</h3><p>所有变形都是基于基点，基点默认为元素的中心点。用法：<code>transform-origin:(x,y)</code>其中x和y的值可以是百分比、rem或者px等等，也可以用表示位置的单词来表示例如：x可以用<code>left、center、right</code>；y可以用<code>top、center、bottom</code><strong>不要加括号也不要加逗号，空格就行</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">css常见布局方式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-30 10:46:55" itemprop="dateCreated datePublished" datetime="2022-03-30T10:46:55+08:00">2022-03-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-03 14:02:18" itemprop="dateModified" datetime="2022-04-03T14:02:18+08:00">2022-04-03</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="CSS中常见的几种布局方式"><a href="#CSS中常见的几种布局方式" class="headerlink" title="CSS中常见的几种布局方式"></a>CSS中常见的几种布局方式</h1><h2 id="两栏布局"><a href="#两栏布局" class="headerlink" title="两栏布局"></a>两栏布局</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：两栏布局*/</span></span><br><span class="line"><span class="comment">/*1.float*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;<span class="comment">/*清除浮动，可以用float:right代替*/</span></span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：两栏布局*/</span></span><br><span class="line"><span class="comment">/*2.flex*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：两栏布局*/</span></span><br><span class="line"><span class="comment">/*3.grid*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:grid;</span><br><span class="line">    grid-template-<span class="attribute">columns</span>:<span class="number">30%</span> <span class="number">70%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="三栏布局"><a href="#三栏布局" class="headerlink" title="三栏布局"></a>三栏布局</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：三栏布局*/</span></span><br><span class="line"><span class="comment">/*1.flex*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.middle</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">40%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:green;</span><br><span class="line">    <span class="attribute">flex</span>:<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：三栏布局*/</span></span><br><span class="line"><span class="comment">/*2.float*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.middle</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">40%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：三栏布局*/</span></span><br><span class="line"><span class="comment">/*3.grid*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:grid;</span><br><span class="line">    grid-template-<span class="attribute">columns</span>:<span class="number">20%</span> <span class="number">60%</span> <span class="number">20%</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.middle</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:green;</span><br><span class="line">    <span class="attribute">flex</span>:<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="九宫格布局"><a href="#九宫格布局" class="headerlink" title="九宫格布局"></a>九宫格布局</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/30/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/30/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">排序算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-03-30 10:20:28 / 修改时间：10:47:28" itemprop="dateCreated datePublished" datetime="2022-03-30T10:20:28+08:00">2022-03-30</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/30/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/30/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="列举一些常见的排序算法"><a href="#列举一些常见的排序算法" class="headerlink" title="列举一些常见的排序算法"></a>列举一些常见的排序算法</h1><h2 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h2><p>冒泡算法的原理：</p>
-<ol>
-<li>比较相邻的元素，如果第一个比第二个大（升序），就交换</li>
-<li>对每一对相邻元素做同样的工作，这样一次遍历，至少保证最后的数最大</li>
-<li>对所有元素重复这个步骤</li>
-</ol>
-<p>冒泡算法图解：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1640863-20190629100410328-1690166625.png" alt="1640863-20190629100410328-1690166625"></p>
-<p>代码如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> len = arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; len - <span class="number">1</span> - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j+<span class="number">1</span>]) &#123;        <span class="comment">//相邻元素两两对比</span></span><br><span class="line">                <span class="keyword">var</span> temp = arr[j+<span class="number">1</span>];        <span class="comment">//元素交换</span></span><br><span class="line">                arr[j+<span class="number">1</span>] = arr[j];</span><br><span class="line">                arr[j] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h2><p>选择排序原理：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/30/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/29/%E6%B5%85%E8%B0%88BFC/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/29/%E6%B5%85%E8%B0%88BFC/" class="post-title-link" itemprop="url">浅谈BFC</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-29 20:53:23" itemprop="dateCreated datePublished" datetime="2022-03-29T20:53:23+08:00">2022-03-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-11 16:24:26" itemprop="dateModified" datetime="2022-04-11T16:24:26+08:00">2022-04-11</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/29/%E6%B5%85%E8%B0%88BFC/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/29/%E6%B5%85%E8%B0%88BFC/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="什么是BFC"><a href="#什么是BFC" class="headerlink" title="什么是BFC"></a>什么是BFC</h2><p>BFC（Block Formatting Context），中文称块级格式化上下文，是页面中的一块渲染区域，有别于页面的其他地方，它有一套属于自己的渲染规则，它决定了元素如何对齐内容进行布局，以及与其他元素的关系和相互作用。</p>
-<p>简而言之：BFC就是一个独立的布局环境，BFC内部的元素布局与外部互不影响</p>
-<h2 id="如何触发BFC"><a href="#如何触发BFC" class="headerlink" title="如何触发BFC"></a>如何触发BFC</h2><table>
-<thead>
-<tr>
-<th>元素或属性</th>
-<th>属性值</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>根元素</td>
-<td></td>
-</tr>
-<tr>
-<td>float</td>
-<td>left、right</td>
-</tr>
-<tr>
-<td>position</td>
-<td>absolute、fixed</td>
-</tr>
-<tr>
-<td>overflow</td>
-<td>auto、scroll、hidden</td>
-</tr>
-<tr>
-<td>display</td>
-<td>inline-block、table-cell</td>
-</tr>
-</tbody></table>
-<h2 id="BFC布局规则"><a href="#BFC布局规则" class="headerlink" title="BFC布局规则"></a>BFC布局规则</h2><ol>
-<li>内部的BOX会在垂直方向上一个接着一个地放置</li>
-<li>BOX垂直方向上的距离由margin决定。属于同一个BFC的两个相邻的BOX的margin会重叠。</li>
-<li>每个盒子的左外边框紧挨着包含块的左边框，即使是浮动元素也是如此</li>
-<li>BFC就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素</li>
-<li>计算BFC的高度时候，浮动子元素也参与计算</li>
-</ol>
-<h2 id="BFC的应用"><a href="#BFC的应用" class="headerlink" title="BFC的应用"></a>BFC的应用</h2><ul>
-<li><p>解决子元素使用浮动父元素高度坍塌的问题</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">10px</span> solid pink;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">50px</span></span><br><span class="line">&#125;	</span><br><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305204614141.png" alt="image-20220305204614141"></p>
-<h4 id="使用BFC后"><a href="#使用BFC后" class="headerlink" title="使用BFC后"></a>使用BFC后</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    //触发BFC，规则上计算高度的时候浮动子元素也会被包含在内</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">10px</span> solid pink;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">50px</span></span><br><span class="line">&#125;	</span><br><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305204724251.png" alt="image-20220305204724251"></p>
-</li>
-<li><p>浮动元素覆盖正常元素（可用于实现两栏、三栏自适应布局）</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box2</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305211642477.png" alt="image-20220305211642477"></p>
-<h4 id="使用BFC后-1"><a href="#使用BFC后-1" class="headerlink" title="使用BFC后"></a>使用BFC后</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box2</span>&#123;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305211912897.png" alt="image-20220305211912897"></p>
-</li>
-<li><p>单行文本超出省略</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">	<span class="selector-tag">p</span> &#123;</span></span><br><span class="line"><span class="css">		<span class="attribute">width</span>:<span class="number">50vw</span>;</span></span><br><span class="line"><span class="css">		<span class="attribute">overflow</span>:hidden;</span></span><br><span class="line"><span class="css">		<span class="attribute">white-space</span>: nowrap;	<span class="comment">/*规定文本不进行换行*/</span></span></span><br><span class="line"><span class="css">		<span class="attribute">text-overflow</span>: ellipsis;	<span class="comment">/*当对象内文本溢出时显示省略标记（...）*/</span></span></span><br><span class="line"><span class="css">	&#125;	</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/29/%E6%B5%85%E8%B0%88BFC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">Vue生命周期</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-21 21:48:37" itemprop="dateCreated datePublished" datetime="2022-03-21T21:48:37+08:00">2022-03-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-13 10:59:50" itemprop="dateModified" datetime="2022-04-13T10:59:50+08:00">2022-04-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h1><p>每个Vue的实例创建的时候都有一系列的阶段，比如创建Vue实例，数据装载，渲染DOM数，渲染CSS等等，这些不同阶段就被成为Vue的生命周期。理解生命周期的概念和各个生命周期钩子的作用有助于对Vue项目的提升。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/11370083-f279314aef6741db.webp" alt="11370083-f279314aef6741db"></p>
-<p>这是大佬博客的图，很直观的展示了Vue生命周期和生命周期钩子的作用。</p>
-<ol>
-<li><p>beforeCreate（创建前）</p>
-<p>这个时候Vue对象刚刚创建，没有DOM和数据</p>
-</li>
-<li><p>created（已创建）</p>
-<p>这个时候已经开始监控Data数据变化，这个时候就<strong>可以获取到Data的内容了</strong></p>
-</li>
-<li><p>beforeMount</p>
-<p>这个阶段编译了虚拟DOM树，真实DOM树还没有渲染到页面上</p>
-</li>
-<li><p>mounted</p>
-<p>这个阶段已经将虚拟DOM编译为真实DOM，此时一般可以进行一些ajax操作，mouted只会执行一次</p>
-</li>
-<li><p>beforeUpdate</p>
-<p>这是响应式更新前的钩子，可以在虚拟DOM的基础上再次修改DOM</p>
-</li>
-<li><p>updated</p>
-<p>这是响应式更新后的钩子，此时真实DOM已经更新完毕，最好不要在这里才再次修改DOM</p>
-</li>
-<li><p>beforeDestroy</p>
-<p>实例销毁前的钩子，实例任然完全可用</p>
-</li>
-<li><p>destroyed</p>
-<p>实例已经销毁</p>
-</li>
-</ol>
-<p>问题一：Vue从创建到挂载这段时间内究竟发生了什么？</p>
-<p>从生命周期的角度去看：</p>
-<p>创建到挂载这段时间内发生的是beforeCreate、created、beforeMount、mounted</p>
-<p>那么发生了什么就很清晰了，发生了数据响应式更新的监控，同时获取了虚拟DOM并渲染了真实DOM到浏览器上。</p>
-<p>从源码的角度去看：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/19/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/19/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/" class="post-title-link" itemprop="url">函数柯里化</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-19 20:49:00" itemprop="dateCreated datePublished" datetime="2022-03-19T20:49:00+08:00">2022-03-19</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-03-20 14:21:17" itemprop="dateModified" datetime="2022-03-20T14:21:17+08:00">2022-03-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/19/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/19/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="函数柯里化"><a href="#函数柯里化" class="headerlink" title="函数柯里化"></a>函数柯里化</h1><blockquote>
-<p>维基百科上说柯里化（Currying）是将一个接收多个参数的函数转换为只接受一个参数（最初函数的第一个参数），并且返回接受余下的参数而且返回结果的新函数的技术。</p>
-</blockquote>
-<h2 id="通过一个例子解释"><a href="#通过一个例子解释" class="headerlink" title="通过一个例子解释"></a>通过一个例子解释</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 写一个 sum 方法，当使用下面的语法调用时，能正常工作</span></span><br><span class="line"><span class="built_in">console</span>.log(sum(<span class="number">2</span>, <span class="number">3</span>)); <span class="comment">// Outputs 5</span></span><br><span class="line"><span class="built_in">console</span>.log(sum(<span class="number">2</span>)(<span class="number">3</span>)); <span class="comment">// Outputs 5</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sum</span>(<span class="params">x</span>)</span>&#123;</span><br><span class="line">    <span class="comment">//正常写法</span></span><br><span class="line">	<span class="keyword">if</span>(<span class="built_in">arguments</span>.length === <span class="number">2</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">arguments</span>[<span class="number">0</span>] + <span class="built_in">arguments</span>[<span class="number">1</span>]</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//函数柯里化写法</span></span><br><span class="line">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">y</span>)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> x+y</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看出，函数柯里化将这个函数拆分成为多段的函数，每一个阶段都只接受一个参数，逐步得出最终答案。那么为什么需要这样做呢，这样做有什么好处吗？</p>
-<h2 id="柯里化的优点"><a href="#柯里化的优点" class="headerlink" title="柯里化的优点"></a>柯里化的优点</h2><ol>
-<li><p><strong>参数复用</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 正常正则验证字符串 reg.test(txt)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 函数封装后</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">check</span>(<span class="params">reg, txt</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> reg.test(txt)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">check(<span class="regexp">/\d+/g</span>, <span class="string">&#x27;test&#x27;</span>)       <span class="comment">//false</span></span><br><span class="line">check(<span class="regexp">/[a-z]+/g</span>, <span class="string">&#x27;test&#x27;</span>)    <span class="comment">//true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// Currying后</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">curryingCheck</span>(<span class="params">reg</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params">txt</span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> reg.test(txt)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> hasNumber = curryingCheck(<span class="regexp">/\d+/g</span>)</span><br><span class="line"><span class="keyword">var</span> hasLetter = curryingCheck(<span class="regexp">/[a-z]+/g</span>)</span><br><span class="line"></span><br><span class="line">hasNumber(<span class="string">&#x27;test1&#x27;</span>)      <span class="comment">// true</span></span><br><span class="line">hasNumber(<span class="string">&#x27;testtest&#x27;</span>)   <span class="comment">// false</span></span><br><span class="line">hasLetter(<span class="string">&#x27;21212&#x27;</span>)      <span class="comment">// false</span></span><br></pre></td></tr></table></figure>
-
-<p>上面的这种做法，正常来说直接调用check进行校验就可以了，但是如果我需要多次校验不同的规则就需要每次都定义规则，使用柯里化之后可以解决复用问题。</p>
-</li>
-<li><p><strong>提前确认</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> on = <span class="function"><span class="keyword">function</span>(<span class="params">element, event, handler</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">document</span>.addEventListener) &#123;</span><br><span class="line">        <span class="keyword">if</span> (element &amp;&amp; event &amp;&amp; handler) &#123;</span><br><span class="line">            element.addEventListener(event, handler, <span class="literal">false</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (element &amp;&amp; event &amp;&amp; handler) &#123;</span><br><span class="line">            element.attachEvent(<span class="string">&#x27;on&#x27;</span> + event, handler);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//就是把isSupport这个参数给先确定下来了，避免每次都要判断</span></span><br><span class="line"><span class="keyword">var</span> on = <span class="function"><span class="keyword">function</span>(<span class="params">isSupport, element, event, handler</span>) </span>&#123;</span><br><span class="line">    isSupport = isSupport || <span class="built_in">document</span>.addEventListener;</span><br><span class="line">    <span class="keyword">if</span> (isSupport) &#123;</span><br><span class="line">        <span class="keyword">return</span> element.addEventListener(event, handler, <span class="literal">false</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> element.attachEvent(<span class="string">&#x27;on&#x27;</span> + event, handler);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p><strong>延迟运行</strong></p>
-<p>最常见的就是bind，实现的机制就是利用柯里化的延迟运行</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Function</span>.prototype.myBind = <span class="function"><span class="keyword">function</span>(<span class="params">thisArg, arg</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> thisArg = thisArg || <span class="built_in">window</span></span><br><span class="line">    <span class="keyword">var</span> thisFunc = <span class="built_in">this</span></span><br><span class="line">    <span class="keyword">let</span> fBound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> thisFunc.apply(thisArg, arg)</span><br><span class="line">    &#125;</span><br><span class="line">    fBound.prototype = <span class="built_in">this</span>.prototype</span><br><span class="line">    <span class="keyword">return</span> fBound</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="面试题"><a href="#面试题" class="headerlink" title="面试题"></a>面试题</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 实现一个add方法，使计算结果能够满足如下预期：</span></span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>) = <span class="number">6</span>;</span><br><span class="line">add(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>)(<span class="number">4</span>) = <span class="number">10</span>;</span><br><span class="line">add(<span class="number">1</span>)(<span class="number">2</span>)(<span class="number">3</span>)(<span class="number">4</span>)(<span class="number">5</span>) = <span class="number">15</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add</span>(<span class="params">..._args</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 在内部声明一个函数，利用闭包的特性保存_args并收集所有的参数值</span></span><br><span class="line">    <span class="keyword">var</span> _adder = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">        _args.push(...arguments);</span><br><span class="line">        <span class="keyword">return</span> _adder;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 利用toString隐式转换的特性，当最后执行时隐式转换，并计算最终的值返回</span></span><br><span class="line">    _adder.toString = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> _args.reduce(<span class="function">(<span class="params">a, b</span>) =&gt;</span> a + b);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> _adder;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/19/%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1425,14 +1386,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">81</span>
+          <span class="site-state-item-count">88</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-count">18</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
