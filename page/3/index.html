@@ -186,6 +186,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/" class="post-title-link" itemprop="url">TS学习笔记04泛型</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-28 10:45:01" itemprop="dateCreated datePublished" datetime="2022-04-28T10:45:01+08:00">2022-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-04-29 09:11:04" itemprop="dateModified" datetime="2022-04-29T09:11:04+08:00">2022-04-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TypeScript中的泛型"><a href="#TypeScript中的泛型" class="headerlink" title="TypeScript中的泛型"></a>TypeScript中的泛型</h1><p>软件工程中，我们不仅要创建一致的定义良好的API，同时也要考虑可重用性。组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型，这在创建大型系统式为你提供了十分灵活的功能。</p>
+<p>通俗的理解，泛型就是解决类接口方法的复用性，以及对不特定数据类型的支持</p>
+<h2 id="泛型的基本使用"><a href="#泛型的基本使用" class="headerlink" title="泛型的基本使用"></a>泛型的基本使用</h2><p>可以支持不特定的数据类型，要求：传入的参数和返回的参数类型一致</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// T表示泛型，具体什么类型是调用这个方法的时候决定的</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getData</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getData&lt;<span class="built_in">number</span>&gt;(<span class="number">123</span>)	<span class="comment">//正确写法，参数要一致</span></span><br><span class="line">getData&lt;<span class="built_in">number</span>&gt;(<span class="string">&#x27;2121&#x27;</span>) <span class="comment">//错误写法</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="类的泛型"><a href="#类的泛型" class="headerlink" title="类的泛型"></a>类的泛型</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinClass</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> list: T[] = []</span><br><span class="line">    add(value: T): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.list.push(value)</span><br><span class="line">    &#125;</span><br><span class="line">    min(): T &#123;</span><br><span class="line">        <span class="keyword">var</span> minNum = <span class="built_in">this</span>.list[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.list.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (minNum &gt; <span class="built_in">this</span>.list[i]) &#123;</span><br><span class="line">                minNum = <span class="built_in">this</span>.list[i]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> minNum</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> m1 = <span class="keyword">new</span> MinClass&lt;<span class="built_in">number</span>&gt;() <span class="comment">/**实例化类，并且制定了类的T代表的类型是number */</span></span><br><span class="line">m1.add(<span class="number">1</span>)</span><br><span class="line">m1.add(<span class="number">2</span>)</span><br><span class="line">m1.add(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">console</span>.log(m1.min())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> m2 = <span class="keyword">new</span> MinClass&lt;<span class="built_in">string</span>&gt;() <span class="comment">/**实例化类，并且制定了类的T代表的类型是string */</span></span><br><span class="line">m2.add(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">m2.add(<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">m2.add(<span class="string">&#x27;c&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(m2.min())</span><br></pre></td></tr></table></figure>
+
+<h2 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h2><p>两种定义方式</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%8E%A5%E5%8F%A3/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -510,10 +612,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-26 15:01:20 / 修改时间：15:39:37" itemprop="dateCreated datePublished" datetime="2022-04-26T15:01:20+08:00">2022-04-26</time>
+              <time title="创建时间：2022-04-26 15:01:20" itemprop="dateCreated datePublished" datetime="2022-04-26T15:01:20+08:00">2022-04-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -551,7 +659,7 @@
       
           <h1 id="Javascript中的hook"><a href="#Javascript中的hook" class="headerlink" title="Javascript中的hook"></a>Javascript中的hook</h1><p>Hook在英文中意为“钩子”，是一种动态修改函数执行流程或返回结果的方法，在实际应用中非常广泛。</p>
 <h2 id="Hook是什么"><a href="#Hook是什么" class="headerlink" title="Hook是什么"></a>Hook是什么</h2><p>hook原理图</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/Hook.png" alt="Hook"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/Hook.png" alt="Hook"></p>
 <p>可以看出，Hook其实非常像是一个拦截器，只不过它是一个“开放的拦截器”。什么意思呢？就是它相当于来正常的流程中开了一个口，使得A—&gt;B的过程变成了A—&gt;Hook—&gt;B,而这个Hook允许你自行添加处理的逻辑，因此我称它为”开放的拦截器“。</p>
 <h3 id="HooK和拦截器的差别"><a href="#HooK和拦截器的差别" class="headerlink" title="HooK和拦截器的差别"></a>HooK和拦截器的差别</h3><p>Hook虽然十分像拦截器，但是还是有所不同的。</p>
 <ul>
@@ -701,10 +809,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-21 10:40:57 / 修改时间：11:01:07" itemprop="dateCreated datePublished" datetime="2022-04-21T10:40:57+08:00">2022-04-21</time>
+              <time title="创建时间：2022-04-21 10:40:57" itemprop="dateCreated datePublished" datetime="2022-04-21T10:40:57+08:00">2022-04-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -794,10 +908,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-21 09:58:04 / 修改时间：10:39:47" itemprop="dateCreated datePublished" datetime="2022-04-21T09:58:04+08:00">2022-04-21</time>
+              <time title="创建时间：2022-04-21 09:58:04" itemprop="dateCreated datePublished" datetime="2022-04-21T09:58:04+08:00">2022-04-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -835,7 +955,7 @@
       
           <h1 id="抽象语法树AST"><a href="#抽象语法树AST" class="headerlink" title="抽象语法树AST"></a>抽象语法树AST</h1><p>抽象语法树（）是VUE编译阶段中的一个重要概念，是作用是将Vue提供的模板语法编译HTML模板语法，这个时候如果直接编译会比较麻烦，而且后续还要将html再转译为虚拟DOM来进行diff，这样显然费时费力，所以就需要借助AST将模板语法间接编译，再通过渲染函数转换为虚拟节点再到真实DOM。</p>
 <h2 id="抽象语法树和虚拟节点的关系"><a href="#抽象语法树和虚拟节点的关系" class="headerlink" title="抽象语法树和虚拟节点的关系"></a>抽象语法树和虚拟节点的关系</h2><p>很多人觉得抽象语法树根虚拟节点很像，所以大概是一样的，其实不然。抽象语法树是Vue编译时的概念，只用于将Vue模板语法转化为真实DOM。而虚拟DOM是Vue运行时候的概念，用于优化DOM操作，提升DOM性能而使用的。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220421101608901.png" alt="image-20220421101608901"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220421101608901.png" alt="image-20220421101608901"></p>
 <p>Vue的模板语法结构</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;dd dasd&quot;</span> <span class="attr">id</span>=<span class="string">&#x27;das&#x27;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span> <span class="attr">class</span>=<span class="string">&quot;dd&quot;</span> <span class="attr">v-bind</span>=<span class="string">“dddsad”</span>&gt;</span>你好<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span> A f<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>B<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">li</span>&gt;</span>C<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
@@ -892,10 +1012,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-14 14:51:58 / 修改时间：15:26:38" itemprop="dateCreated datePublished" datetime="2022-04-14T14:51:58+08:00">2022-04-14</time>
+              <time title="创建时间：2022-04-14 14:51:58" itemprop="dateCreated datePublished" datetime="2022-04-14T14:51:58+08:00">2022-04-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -935,7 +1061,7 @@
 <h2 id="诞生"><a href="#诞生" class="headerlink" title="诞生"></a>诞生</h2><p>由于JavaScript中没有类的概念，为了实现继承已有的方法，JavaScript产生了一种模式叫构造函数模式，在这个模式中，通过构造一个新的函数，能够继承构造函数已经拥有的方法。</p>
 <p>但是这么做有一个缺陷，当我们创建了一百个新实例的时候，其实在JavaScript中创建了100个新的构造函数的副本，而一般来说，有很多部分都是重复的，我们能不能把这也重复的函数或属性放到一个地方，构造函数实例的时候只要保持对它的引用就可以了。于是原型与原型链诞生了。</p>
 <h2 id="原型"><a href="#原型" class="headerlink" title="原型"></a>原型</h2><p>在JavaScript中，每当定义一个函数数据类型（普通函数、类）的时候，都会自带一个prototype属性，这个属性指向函数的原型对象，并且这个属性是一个对象数据类型的值。</p>
-<p>![器材申请 (1)](<a target="_blank" rel="noopener" href="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E5%99%A8%E6%9D%90%E7%94%B3%E8%AF%B7">https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/器材申请</a> (1).png)</p>
+<p>![器材申请 (1)](<a target="_blank" rel="noopener" href="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E5%99%A8%E6%9D%90%E7%94%B3%E8%AF%B7">https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/器材申请</a> (1).png)</p>
 <p>原型对象就相当于一个公共的区域，所有同一个类的实例都可以访问到这个原型对象，我们可以将对象中共有的内容，同一设置到原型对象中。</p>
 <h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3>
           <!--noindex-->
@@ -1055,117 +1181,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/14/Vue%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/14/Vue%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">Vue事件机制</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-04-14 09:07:30 / 修改时间：09:47:55" itemprop="dateCreated datePublished" datetime="2022-04-14T09:07:30+08:00">2022-04-14</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/14/Vue%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/14/Vue%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue事件机制"><a href="#Vue事件机制" class="headerlink" title="Vue事件机制"></a>Vue事件机制</h1><p>在Vue中，事件绑定分为两种，</p>
-<p>一种是DOM原生的事件绑定，也就是<code>addEventListener</code>；</p>
-<p>另一种就是Vue的绑定机制<code>v-on,@</code>,通过这种方式添加的事件绑定，都会先经过Vue模板编译，生成抽象树（ast），在生成render函数，通过render函数生成我们的VDOM，最终生成真实DOM。</p>
-<p>那么Vue是如何自定义绑定事件的，而如果是在组件上绑定函数事件的时候又发生了什么。</p>
-<h2 id="简单点击事件"><a href="#简单点击事件" class="headerlink" title="简单点击事件"></a>简单点击事件</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;test1&quot;</span> @<span class="attr">click</span>=<span class="string">&quot;click1&quot;</span>&gt;</span>click1<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;test2&quot;</span> @<span class="attr">click.stop</span>=<span class="string">&quot;click2&quot;</span>&gt;</span>click2<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>类似于上面这种只涉及本组件的点击事件的绑定，我们将其称为简单点击事件。</p>
-<p>建立这样一个简单点击事件的步骤是：</p>
-<ol>
-<li><p>调用initState(Vue)方法</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initState</span> (<span class="params">vm</span>) </span>&#123;</span><br><span class="line"> vm._watchers = [];</span><br><span class="line"> <span class="keyword">var</span> opts = vm.$options;</span><br><span class="line"> <span class="keyword">if</span> (opts.props) &#123; initProps(vm, opts.props); &#125;</span><br><span class="line"> <span class="keyword">if</span> (opts.methods) &#123; initMethods(vm, opts.methods); &#125;<span class="comment">//因为绑定的是一个函数，使用这个初始化事件</span></span><br><span class="line"> <span class="keyword">if</span> (opts.data) &#123;</span><br><span class="line"> initData(vm);</span><br><span class="line"> &#125; <span class="keyword">else</span> &#123;</span><br><span class="line"> observe(vm._data = &#123;&#125;, <span class="literal">true</span> <span class="comment">/* asRootData */</span>);</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="keyword">if</span> (opts.computed) &#123; initComputed(vm, opts.computed); &#125;</span><br><span class="line"> <span class="keyword">if</span> (opts.watch) &#123; initWatch(vm, opts.watch); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>将methos方法代理到Vue[key]中</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接着看看initMethods</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initMethods</span> (<span class="params">vm, methods</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">var</span> props = vm.$options.props;</span><br><span class="line"> <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> methods) &#123;</span><br><span class="line"> vm[key] = methods[key] == <span class="literal">null</span> ? noop : bind(methods[key], vm);<span class="comment">//调用了bind方法，我们再看看bind</span></span><br><span class="line"> &#123;</span><br><span class="line">  <span class="keyword">if</span> (methods[key] == <span class="literal">null</span>) &#123;</span><br><span class="line">  warn(</span><br><span class="line">   <span class="string">&quot;method \&quot;&quot;</span> + key + <span class="string">&quot;\&quot; has an undefined value in the component definition. &quot;</span> +</span><br><span class="line">   <span class="string">&quot;Did you reference the function correctly?&quot;</span>,</span><br><span class="line">   vm</span><br><span class="line">  );</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (props &amp;&amp; hasOwn(props, key)) &#123;</span><br><span class="line">  warn(</span><br><span class="line">   (<span class="string">&quot;method \&quot;&quot;</span> + key + <span class="string">&quot;\&quot; has already been defined as a prop.&quot;</span>),</span><br><span class="line">   vm</span><br><span class="line">  );</span><br><span class="line">  &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>为每个函数绑定作用域和返回这个绑定了作用域的函数，准备随时调用（响应式）</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//我们接着看看bind</span></span><br><span class="line"> </span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span> (<span class="params">fn, ctx</span>) </span>&#123;</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">boundFn</span> (<span class="params">a</span>) </span>&#123;</span><br><span class="line"> <span class="keyword">var</span> l = <span class="built_in">arguments</span>.length;</span><br><span class="line"> <span class="keyword">return</span> l</span><br><span class="line">  ? l &gt; <span class="number">1</span></span><br><span class="line">  ? fn.apply(ctx, <span class="built_in">arguments</span>)<span class="comment">//通过返回函数修饰了事件的回调函数。绑定了事件回调函数的this。并且让参数自定义。更加的灵活</span></span><br><span class="line">  : fn.call(ctx, a)</span><br><span class="line">  : fn.call(ctx)</span><br><span class="line"> &#125;</span><br><span class="line"> <span class="comment">// record original fn length</span></span><br><span class="line"> boundFn._length = fn.length;</span><br><span class="line"> <span class="keyword">return</span> boundFn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>Vue在进入compile环节时需要将这个div变成抽象树（ast）当编译到该div时经过核心函数genHandler：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">genHandler</span> (<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">name,</span></span></span><br><span class="line"><span class="params"><span class="function"> handler</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!handler) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;function()&#123;&#125;&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">Array</span>.isArray(handler)) &#123;</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;[&quot;</span> + (handler.map(<span class="function"><span class="keyword">function</span> (<span class="params">handler</span>) </span>&#123; <span class="keyword">return</span> genHandler(name, handler); &#125;).join(<span class="string">&#x27;,&#x27;</span>)) + <span class="string">&quot;]&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> isMethodPath = simplePathRE.test(handler.value);</span><br><span class="line">    <span class="keyword">var</span> isFunctionExpression = fnExpRE.test(handler.value);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!handler.modifiers) &#123;</span><br><span class="line">        <span class="keyword">return</span> isMethodPath || isFunctionExpression<span class="comment">//假如没有修饰符。直接返回回调函数</span></span><br><span class="line">            ? handler.value</span><br><span class="line">        : (<span class="string">&quot;function($event)&#123;&quot;</span> + (handler.value) + <span class="string">&quot;&#125;&quot;</span>) <span class="comment">// inline statement</span></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> code = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        <span class="keyword">var</span> genModifierCode = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">        <span class="keyword">var</span> keys = [];</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> key <span class="keyword">in</span> handler.modifiers) &#123;</span><br><span class="line">            <span class="keyword">if</span> (modifierCode[key]) &#123;</span><br><span class="line">                genModifierCode += modifierCode[key];<span class="comment">//处理修饰符数组，例如.stop就在回调函数里加入event.stopPropagation()再返回。实现修饰的目的</span></span><br><span class="line">                <span class="comment">// left/right</span></span><br><span class="line">                <span class="keyword">if</span> (keyCodes[key]) &#123;</span><br><span class="line">                    keys.push(key);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                keys.push(key);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (keys.length) &#123;</span><br><span class="line">            code += genKeyFilter(keys);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Make sure modifiers like prevent and stop get executed after key filtering</span></span><br><span class="line">        <span class="keyword">if</span> (genModifierCode) &#123;</span><br><span class="line">            code += genModifierCode;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">var</span> handlerCode = isMethodPath</span><br><span class="line">        ? handler.value + <span class="string">&#x27;($event)&#x27;</span></span><br><span class="line">        : isFunctionExpression</span><br><span class="line">        ? (<span class="string">&quot;(&quot;</span> + (handler.value) + <span class="string">&quot;)($event)&quot;</span>)</span><br><span class="line">        : handler.value;</span><br><span class="line">        <span class="keyword">return</span> (<span class="string">&quot;function($event)&#123;&quot;</span> + code + handlerCode + <span class="string">&quot;&#125;&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>这一步很清晰了，对于可能存在的修饰符进行处理，绑定上真实DOM上的真实事件函数，全部处理完毕的话虚拟DOM就已经完成了，接下来只需要将这个虚拟DOM编译为真实DOM就可以了。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">_c(<span class="string">&#x27;div&#x27;</span>,&#123;<span class="attr">attrs</span>:&#123;<span class="string">&quot;id&quot;</span>:<span class="string">&quot;test1&quot;</span>&#125;,<span class="attr">on</span>:&#123;<span class="string">&quot;click&quot;</span>:click1&#125;&#125;,[_v(<span class="string">&quot;click1&quot;</span>)]),_v(<span class="string">&quot; &quot;</span>),_c(<span class="string">&#x27;div&#x27;</span>,&#123;<span class="attr">attrs</span>:&#123;<span class="string">&quot;id&quot;</span>:<span class="string">&quot;test2&quot;</span>&#125;,<span class="attr">on</span>:&#123;<span class="string">&quot;click&quot;</span>:<span class="function"><span class="keyword">function</span>(<span class="params">$event</span>)</span>&#123;$event.stopPropagation();click2($event)&#125;&#125;&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>调用核心函数，渲染真实DOM</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">add$1</span> (<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">event,</span></span></span><br><span class="line"><span class="params"><span class="function"> handler,</span></span></span><br><span class="line"><span class="params"><span class="function"> once$$<span class="number">1</span>,</span></span></span><br><span class="line"><span class="params"><span class="function"> capture,</span></span></span><br><span class="line"><span class="params"><span class="function"> passive</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (once$$1) &#123;</span><br><span class="line">        <span class="keyword">var</span> oldHandler = handler;</span><br><span class="line">        <span class="keyword">var</span> _target = target$<span class="number">1</span>; <span class="comment">// save current target element in closure</span></span><br><span class="line">        handler = <span class="function"><span class="keyword">function</span> (<span class="params">ev</span>) </span>&#123;</span><br><span class="line">            <span class="keyword">var</span> res = <span class="built_in">arguments</span>.length === <span class="number">1</span></span><br><span class="line">            ? oldHandler(ev)</span><br><span class="line">            : oldHandler.apply(<span class="literal">null</span>, <span class="built_in">arguments</span>);</span><br><span class="line">            <span class="keyword">if</span> (res !== <span class="literal">null</span>) &#123;</span><br><span class="line">                remove$<span class="number">2</span>(event, handler, capture, _target);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;</span><br><span class="line">    target$<span class="number">1.</span>addEventListener(</span><br><span class="line">        event,</span><br><span class="line">        handler,</span><br><span class="line">        supportsPassive</span><br><span class="line">        ? &#123; <span class="attr">capture</span>: capture, <span class="attr">passive</span>: passive &#125;<span class="comment">//此处绑定点击事件</span></span><br><span class="line">        : capture</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/14/Vue%E4%BA%8B%E4%BB%B6%E6%9C%BA%E5%88%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1237,7 +1252,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-count">93</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

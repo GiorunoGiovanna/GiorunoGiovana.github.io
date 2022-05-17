@@ -186,6 +186,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" class="post-title-link" itemprop="url">Vite学习笔记02底层原理手写</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-16 10:18:43" itemprop="dateCreated datePublished" datetime="2022-05-16T10:18:43+08:00">2022-05-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vite/" itemprop="url" rel="index"><span itemprop="name">vite</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vite底层原理手写"><a href="#Vite底层原理手写" class="headerlink" title="Vite底层原理手写"></a>Vite底层原理手写</h1><p>通过对<code>vite</code>底层原理的解析，我们可以发现<code>vite</code>其实是运行在一个服务器上的，浏览器解析入口<code>html</code>的时候遇到了依赖就会发起请求，<code>vite</code>进行回应。循环往复直到依赖全部加载完成。</p>
+<h2 id="建立web服务，返回宿主页"><a href="#建立web服务，返回宿主页" class="headerlink" title="建立web服务，返回宿主页"></a>建立web服务，返回宿主页</h2><p>这里使用express为例子进行web服务器的搭建</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line">app.use(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//组合拼接出请求文件的绝对地址</span></span><br><span class="line">    <span class="keyword">const</span> url = req.url</span><br><span class="line">    <span class="keyword">if</span> (url === <span class="string">&#x27;/&#x27;</span>) &#123;</span><br><span class="line">        <span class="comment">//如果是默认请求，则返回宿主页面</span></span><br><span class="line">        <span class="keyword">let</span> body = fs.readFileSync(path.join(__dirname, <span class="string">&#x27;./index.html&#x27;</span>), <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        res.send(body)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8081</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;http server running at http://127.0.0.1:8081&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="JS路径加载"><a href="#JS路径加载" class="headerlink" title="JS路径加载"></a>JS路径加载</h2><p>浏览器解析<code>html</code>到<code>script</code>标签的时候就会重新发起<code>url</code>请求，这个时候我们的<code>web</code>服务器就要返回对应的<code>js</code>文件。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (url.endsWith(<span class="string">&#x27;js&#x27;</span>)) &#123;</span><br><span class="line">    <span class="comment">// js文件加载处理</span></span><br><span class="line">    <span class="keyword">const</span> p = path.join(__dirname, url)</span><br><span class="line">    <span class="comment">//解析是否有裸模块加载</span></span><br><span class="line">    <span class="keyword">let</span> body = rewoteImport(fs.readFileSync(p, <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">    <span class="comment">//设置响应头</span></span><br><span class="line">    res.setHeader(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/javascript;charset=utf-8&quot;</span>)</span><br><span class="line">    res.send(body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="裸模块加载"><a href="#裸模块加载" class="headerlink" title="裸模块加载"></a>裸模块加载</h2><p>在我们的项目中存在一些第三方的依赖，它们的引入不是通过相对路径，而是裸模块的方式，就是</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%AE%9E%E7%8E%B0miniVuex/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -826,10 +928,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-10 10:32:50 / 修改时间：10:49:36" itemprop="dateCreated datePublished" datetime="2022-05-10T10:32:50+08:00">2022-05-10</time>
+              <time title="创建时间：2022-05-10 10:32:50" itemprop="dateCreated datePublished" datetime="2022-05-10T10:32:50+08:00">2022-05-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -870,7 +978,7 @@
 <h3 id="通过混合继承"><a href="#通过混合继承" class="headerlink" title="通过混合继承"></a>通过混合继承</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过混合继承</span></span><br><span class="line"><span class="selector-class">.center</span>() &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">25%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="selector-class">.b</span> &#123;</span><br><span class="line">     <span class="comment">//混合的写法</span></span><br><span class="line">    <span class="selector-class">.center</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: BLUE;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.c</span> &#123;</span><br><span class="line">    <span class="selector-class">.center</span>;</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p><strong>编译结果</strong>：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220510104103136.png" alt="image-20220510104103136"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220510104103136.png" alt="image-20220510104103136"></p>
 <h3 id="通过继承去继承"><a href="#通过继承去继承" class="headerlink" title="通过继承去继承"></a>通过继承去继承</h3><p><strong>使用继承写法后，所有继承了这段代码的属性都会共用这段代码</strong></p>
           <!--noindex-->
             <div class="post-button">
@@ -1092,107 +1200,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">js学习笔记15线程</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-08 20:25:38 / 修改时间：21:13:56" itemprop="dateCreated datePublished" datetime="2022-05-08T20:25:38+08:00">2022-05-08</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JavaScript线程"><a href="#JavaScript线程" class="headerlink" title="JavaScript线程"></a>JavaScript线程</h1><h2 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h2><p>我们都知道，JavaScript是一个单线程的语言，这是由它的用途决定的，一开始JavaScript只是作为网站的脚本语言存在，目的是为了和用户产生交互。如果JavaScript一开始就是多线程的，用户用一个线程删除了dom节点，另一个线程却修改了这个节点，就会产生矛盾。</p>
-<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>但是，在前端高速发展的今天，单纯的单线程同步方式已经不满足前端开发了，于是出现了异步、ajax、定时器等等非单线程的功能，但是JavaScript是一个单线程语言，是如何实现这些的呢？</p>
-<h3 id="运行环境是多线程的"><a href="#运行环境是多线程的" class="headerlink" title="运行环境是多线程的"></a>运行环境是多线程的</h3><p>JavaScript本身是单线程的，但是它的运行环境（V8，nodejs）却不是单线程的，这就为JavaScript多线程操作带来了可能。</p>
-<p>浏览器由很多的线程：</p>
-<ol>
-<li>GUI渲染线程</li>
-<li>JS引擎线程</li>
-<li>定时器触发线程（setTimeout）</li>
-<li>浏览器事件线程（onclick）</li>
-<li>http异步线程</li>
-<li>EventLoop轮询处理线程</li>
-</ol>
-<p>其中1、2、4为常驻线程。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1264,7 +1271,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-count">93</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

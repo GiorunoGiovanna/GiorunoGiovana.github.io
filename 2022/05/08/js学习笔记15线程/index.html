@@ -27,14 +27,14 @@
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
 <meta property="og:description" content="JavaScript线程单线程我们都知道，JavaScript是一个单线程的语言，这是由它的用途决定的，一开始JavaScript只是作为网站的脚本语言存在，目的是为了和用户产生交互。如果JavaScript一开始就是多线程的，用户用一个线程删除了dom节点，另一个线程却修改了这个节点，就会产生矛盾。 多线程但是，在前端高速发展的今天，单纯的单线程同步方式已经不满足前端开发了，于是出现了异步、aj">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508205736193.png">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/js%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508205736193.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/js%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5.png">
 <meta property="article:published_time" content="2022-05-08T12:25:38.000Z">
-<meta property="article:modified_time" content="2022-05-08T13:13:56.961Z">
+<meta property="article:modified_time" content="2022-05-17T02:54:23.321Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508205736193.png">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508205736193.png">
 
 <link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/">
 
@@ -215,10 +215,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-08 20:25:38 / 修改时间：21:13:56" itemprop="dateCreated datePublished" datetime="2022-05-08T20:25:38+08:00">2022-05-08</time>
+              <time title="创建时间：2022-05-08 20:25:38" itemprop="dateCreated datePublished" datetime="2022-05-08T20:25:38+08:00">2022-05-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -274,10 +280,10 @@
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;	</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">&#125;,<span class="number">2000</span>)</span><br><span class="line"></span><br><span class="line">fetch(url).then(	<span class="comment">//三秒后返回请求</span></span><br><span class="line">    <span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">dom.onclick = <span class="function">()=&gt;</span>&#123;	<span class="comment">//4秒后触发函数</span></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
 
 <p><strong>在同步执行阶段：</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508205736193.png" alt="image-20220508205736193"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508205736193.png" alt="image-20220508205736193"></p>
 <p>可以看出，JS引擎在这次执行中其实至运行了<code>console.log(1)</code>，其他的都交给对应的子线程去辅助执行了。</p>
 <p><strong>在异步执行阶段：</strong></p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/js%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5.png" alt="js异步执行阶段"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/js%E5%BC%82%E6%AD%A5%E6%89%A7%E8%A1%8C%E9%98%B6%E6%AE%B5.png" alt="js异步执行阶段"></p>
 <p>当异步的线程完成了之后，才会将对应的回调加入消息队列</p>
 
     </div>
@@ -297,7 +303,7 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/05/08/vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" rel="prev" title="vite学习笔记">
+    <a href="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" rel="prev" title="vite学习笔记">
       <i class="fa fa-chevron-left"></i> vite学习笔记
     </a></div>
       <div class="post-nav-item">
@@ -379,7 +385,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-count">93</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

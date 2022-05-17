@@ -27,13 +27,13 @@
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
 <meta property="og:description" content="浏览器的缓存机制目的为了节约网络的资源，加速浏览。浏览器会对最近请求过的一些文档进行存储，当访问者再次请求这个页面的时候，浏览器就可以从本地加载文档，而不用等待网络中的文档，可以加速页面的预览。 浏览器缓存缓存策略浏览器的缓存策略分为两种，强制缓存和协商缓存，并且缓存策略都是通过设置http Header来实现的 强制缓存Expires设置过期的具体时间，在这个时间内再次请求，则命中强缓存 Cac">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607.png">
 <meta property="article:published_time" content="2022-04-13T05:51:43.000Z">
-<meta property="article:modified_time" content="2022-04-13T06:57:09.722Z">
+<meta property="article:modified_time" content="2022-05-17T02:54:23.386Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607.png">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607.png">
 
 <link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
 
@@ -214,10 +214,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-04-13 13:51:43 / 修改时间：14:57:09" itemprop="dateCreated datePublished" datetime="2022-04-13T13:51:43+08:00">2022-04-13</time>
+              <time title="创建时间：2022-04-13 13:51:43" itemprop="dateCreated datePublished" datetime="2022-04-13T13:51:43+08:00">2022-04-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -279,7 +285,7 @@
 <li>下一次加载资源的时候，先比较当前时间和上一次返回200时的时间差，如果没有超过Cache-Control设置的max-age，则没有过期，命中强缓存，不发请求直接从本地缓存读取文件；如果过期，则向服务器发送header带有If-None-Match和If-Modified-Since的请求；</li>
 <li>服务器收到请求后，优先根据etag的值判断被请求的文件有没有做修改，没有则命中协商缓存，返回304；发生改变则返回新的文件和新的Etag</li>
 </ol>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607.png" alt="1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607.png" alt="1588986700552-360c5db2-a839-46c6-9ad2-66b9a2195607"></p>
 <h2 id="用户行为对于缓存机制的影响"><a href="#用户行为对于缓存机制的影响" class="headerlink" title="用户行为对于缓存机制的影响"></a>用户行为对于缓存机制的影响</h2><ul>
 <li>地址栏访问，链接跳转是正常用户行为，将会触发浏览器缓存机制</li>
 <li>F5刷新，浏览器会设置max-age=0,跳过强缓存判断，会进行协商缓存判断</li>
@@ -417,7 +423,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-count">93</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

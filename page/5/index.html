@@ -186,6 +186,103 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/06/%E6%89%8B%E5%86%99jsonp/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/06/%E6%89%8B%E5%86%99jsonp/" class="post-title-link" itemprop="url">手写jsonp</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-04-06 21:18:15 / 修改时间：21:39:33" itemprop="dateCreated datePublished" datetime="2022-04-06T21:18:15+08:00">2022-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/06/%E6%89%8B%E5%86%99jsonp/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/06/%E6%89%8B%E5%86%99jsonp/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写jsonp"><a href="#手写jsonp" class="headerlink" title="手写jsonp"></a>手写jsonp</h1><p>浏览器存在跨域限制，就是说在不同协议、不同域名、不同端口的情况下默认是不能访问跨域的接口的。但是有时有需要跨域访问，为了解决这个问题，产生了jsonp。</p>
+<p>jsonp的原理是浏览器中的script标签是不受跨域限制的，也就是说可以请求跨域的脚本文件。只要后端配合脚本文件上的url就可以实现跨域通信。</p>
+<h5 id="前端："><a href="#前端：" class="headerlink" title="前端："></a>前端：</h5><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">title</span>&gt;</span><span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">h1</span>&gt;</span>jsonp 跨域<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">&#x27;btnId&#x27;</span>&gt;</span>跨域请求按钮<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="comment">//处理回调的数据</span></span></span><br><span class="line"><span class="javascript">	<span class="function"><span class="keyword">function</span> <span class="title">dataFn</span>(<span class="params">data</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">		<span class="built_in">console</span>.log(data)</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript">	</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> _btn = <span class="built_in">document</span>.getElementById(<span class="string">&#x27;btnId&#x27;</span>)</span></span><br><span class="line"><span class="javascript">    <span class="comment">//在请求的链接上加上回调函数的名称，后端直接向回调函数中传值</span></span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> url = <span class="string">&#x27;http://localhost:8083/api?callback=dataFn&#x27;</span></span></span><br><span class="line"><span class="javascript">	_btn.onclick = <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">let</span> _script = <span class="built_in">document</span>.createElement(<span class="string">&#x27;script&#x27;</span>)</span></span><br><span class="line"><span class="javascript">		_script.setAttribute(<span class="string">&#x27;src&#x27;</span>,url)</span></span><br><span class="line"><span class="javascript">		_script.setAttribute(<span class="string">&#x27;type&#x27;</span>,<span class="string">&#x27;text/javascript&#x27;</span>)</span></span><br><span class="line"><span class="javascript">		<span class="built_in">document</span>.querySelector(<span class="string">&#x27;body&#x27;</span>).appendChild(_script)</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h5 id="后端："><a href="#后端：" class="headerlink" title="后端："></a>后端：</h5><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接收请求参数，拼接上数据，返回javascript脚本文件</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.get(<span class="string">&#x27;/api&#x27;</span>,<span class="function">(<span class="params">req,res</span>) =&gt;</span> &#123;</span><br><span class="line">	<span class="comment">// let _d = [1,2,3,4]</span></span><br><span class="line">	<span class="keyword">let</span> data = req.query.callback + <span class="string">&quot;(&#123;&#x27;name&#x27;:&#x27;lihua&#x27;&#125;)&quot;</span></span><br><span class="line">	<span class="comment">//拼接完成后返回的其实是&quot;dataFn(&#123;&#x27;name&#x27;:&#x27;lihua&#x27;&#125;)&quot;</span></span><br><span class="line">	<span class="comment">//在前端中被当成可执行的JavaScript代码，于是前端执行dataFn(&#123;&#x27;name&#x27;:&#x27;lihua&#x27;&#125;)</span></span><br><span class="line">	res.send(data)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8083</span>,<span class="function">() =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">&quot;8083,项目中间件&quot;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//将网页挂载在静态页面上</span></span><br><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"></span><br><span class="line">app.use(<span class="string">&#x27;/public&#x27;</span>,express.static(<span class="string">&#x27;public&#x27;</span>))</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8081</span>,<span class="function">() =&gt;</span> &#123;</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">&#x27;http server running at http://127.0.0.1:8081&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/06/%E6%89%8B%E5%86%99jsonp/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/06/%E6%89%8B%E5%86%99instanceof/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -400,7 +497,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-11 10:41:21" itemprop="dateModified" datetime="2022-04-11T10:41:21+08:00">2022-04-11</time>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -439,12 +536,12 @@
       
           <h1 id="手写图片的懒加载"><a href="#手写图片的懒加载" class="headerlink" title="手写图片的懒加载"></a>手写图片的懒加载</h1><p>在前端项目中，网页加载优化是一个很重要的能力，由于前端网页中往往存在大量的图片，而有些图片并不会在一开始就被用户看见，这些图片如果都在网页加载的时候渲染的话会拖慢渲染时间，我们可以对其设置，等到用户看见这张图片的时候（图片进入浏览器视图窗口）再进行加载。</p>
 <p>方式一：使用IntersectionObserver这个JavaScript API（推荐）</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> images = <span class="built_in">document</span>.querySelectorAll(<span class="string">&quot;img&quot;</span>)</span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(images)</span></span><br><span class="line"><span class="javascript"><span class="comment">//利用IntersectionObserver这个API去检测图片是否出现再视口内</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> observer = <span class="keyword">new</span> IntersectionObserver(<span class="function">(<span class="params">entries</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">//遍历每一个发生变化的观察者节点</span></span></span><br><span class="line"><span class="javascript">	entries.forEach(<span class="function"><span class="params">entry</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">if</span>(entry.isIntersecting)&#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">//找出对应的图片节点</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">const</span> image = entry.target</span></span><br><span class="line"><span class="javascript">			<span class="keyword">const</span> dataset = <span class="string">&#x27;https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg&#x27;</span></span></span><br><span class="line"><span class="javascript">            <span class="comment">//为图片添加地址</span></span></span><br><span class="line"><span class="javascript">			image.setAttribute(<span class="string">&#x27;src&#x27;</span>,dataset)</span></span><br><span class="line"><span class="javascript">			<span class="comment">//触发一次加载函数后取消观察者节约资源</span></span></span><br><span class="line"><span class="javascript">			observer.unobserve(image)</span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">	&#125;)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//为每一个图片节点注册观察者</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span>(image <span class="keyword">of</span> images)&#123;</span></span><br><span class="line"><span class="javascript">	observer.observe(image)</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">let</span> images = <span class="built_in">document</span>.querySelectorAll(<span class="string">&quot;img&quot;</span>)</span></span><br><span class="line"><span class="javascript"><span class="built_in">console</span>.log(images)</span></span><br><span class="line"><span class="javascript"><span class="comment">//利用IntersectionObserver这个API去检测图片是否出现再视口内</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> observer = <span class="keyword">new</span> IntersectionObserver(<span class="function">(<span class="params">entries</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="comment">//遍历每一个发生变化的观察者节点</span></span></span><br><span class="line"><span class="javascript">	entries.forEach(<span class="function"><span class="params">entry</span> =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">if</span>(entry.isIntersecting)&#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">//找出对应的图片节点</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">const</span> image = entry.target</span></span><br><span class="line"><span class="javascript">			<span class="keyword">const</span> dataset = <span class="string">&#x27;https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg&#x27;</span></span></span><br><span class="line"><span class="javascript">            <span class="comment">//为图片添加地址</span></span></span><br><span class="line"><span class="javascript">			image.setAttribute(<span class="string">&#x27;src&#x27;</span>,dataset)</span></span><br><span class="line"><span class="javascript">			<span class="comment">//触发一次加载函数后取消观察者节约资源</span></span></span><br><span class="line"><span class="javascript">			observer.unobserve(image)</span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">	&#125;)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//为每一个图片节点注册观察者</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">for</span>(image <span class="keyword">of</span> images)&#123;</span></span><br><span class="line"><span class="javascript">	observer.observe(image)</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
 
 
 <p>方式二：使用getBoundingClientRect检测元素于页面顶端的距离或者dom.offsetTop检测dom元素距离父元素的高度。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">	&lt;p&gt;本例调用的函数会执行一个计算，然后返回结果：&lt;/p&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">let</span> images = <span class="built_in">document</span>.querySelectorAll(<span class="string">&quot;img&quot;</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="function"><span class="keyword">function</span> <span class="title">getTop</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	 <span class="comment">// 可视窗口的高度</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">const</span> viewHeight = <span class="built_in">window</span>.innerHeight</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	<span class="keyword">for</span>(image <span class="keyword">of</span> images)&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="keyword">let</span> set = image.getBoundingClientRect()</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="keyword">if</span>(viewHeight&gt;=set.top)&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			<span class="built_in">console</span>.log(<span class="number">1</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			<span class="keyword">const</span> dataset = <span class="string">&#x27;https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="comment">//为图片添加地址</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">			image.setAttribute(<span class="string">&#x27;src&#x27;</span>,dataset)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="comment">//节流函数</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params">fn,delay</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	<span class="keyword">let</span> vaild = <span class="literal">true</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="keyword">if</span>(!vaild) <span class="keyword">return</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">		vaild = <span class="literal">false</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			fn()</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			vaild = <span class="literal">true</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">		&#125;,delay)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">const</span> getImageTop = save(getTop,<span class="number">300</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;scroll&#x27;</span>, getImageTop)</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">	&lt;p&gt;本例调用的函数会执行一个计算，然后返回结果：&lt;/p&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">img</span>/&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">let</span> images = <span class="built_in">document</span>.querySelectorAll(<span class="string">&quot;img&quot;</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="function"><span class="keyword">function</span> <span class="title">getTop</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	 <span class="comment">// 可视窗口的高度</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">const</span> viewHeight = <span class="built_in">window</span>.innerHeight</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	<span class="keyword">for</span>(image <span class="keyword">of</span> images)&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="keyword">let</span> set = image.getBoundingClientRect()</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="keyword">if</span>(viewHeight&gt;=set.top)&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			<span class="built_in">console</span>.log(<span class="number">1</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			<span class="keyword">const</span> dataset = <span class="string">&#x27;https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/e83bca5f1d1e6bf359d1f75727968c11_720w.jpg&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="comment">//为图片添加地址</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">			image.setAttribute(<span class="string">&#x27;src&#x27;</span>,dataset)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="comment">//节流函数</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="function"><span class="keyword">function</span> <span class="title">save</span>(<span class="params">fn,delay</span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	<span class="keyword">let</span> vaild = <span class="literal">true</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">	<span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="keyword">if</span>(!vaild) <span class="keyword">return</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">		vaild = <span class="literal">false</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">		<span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			fn()</span></span></span><br><span class="line"><span class="javascript"><span class="xml">			vaild = <span class="literal">true</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">		&#125;,delay)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">	&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">&#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="keyword">const</span> getImageTop = save(getTop,<span class="number">300</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;scroll&#x27;</span>, getImageTop)</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 
 
           <!--noindex-->
@@ -598,7 +695,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-06 09:04:44" itemprop="dateModified" datetime="2022-04-06T09:04:44+08:00">2022-04-06</time>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -683,7 +780,7 @@
 <p>作用：全局匹配字符串</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//使用matchAll匹配全局的字符串</span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>你好<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>wokalimashita<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> reg = <span class="regexp">/&lt;(h[1-6])&gt;([\s\S]+?)&lt;\/\1&gt;/gi</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> match = <span class="built_in">document</span>.body.innerHTML.matchAll(reg)</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> count = []</span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span>(i <span class="keyword">of</span> match)&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(i[<span class="number">2</span>])</span></span><br><span class="line"><span class="javascript">        count.push(i[<span class="number">2</span>])</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.table(count)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220405172538220.png" alt="image-20220405172538220"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220405172538220.png" alt="image-20220405172538220"></p>
 </li>
 </ol>
 <h2 id="正则表达式语法"><a href="#正则表达式语法" class="headerlink" title="正则表达式语法"></a>正则表达式语法</h2><ul>
@@ -978,10 +1075,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-03-30 10:20:28 / 修改时间：10:47:28" itemprop="dateCreated datePublished" datetime="2022-03-30T10:20:28+08:00">2022-03-30</time>
+              <time title="创建时间：2022-03-30 10:20:28" itemprop="dateCreated datePublished" datetime="2022-03-30T10:20:28+08:00">2022-03-30</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1024,7 +1127,7 @@
 <li>对所有元素重复这个步骤</li>
 </ol>
 <p>冒泡算法图解：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1640863-20190629100410328-1690166625.png" alt="1640863-20190629100410328-1690166625"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1640863-20190629100410328-1690166625.png" alt="1640863-20190629100410328-1690166625"></p>
 <p>代码如下：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">arr</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> len = arr.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">var</span> j = <span class="number">0</span>; j &lt; len - <span class="number">1</span> - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (arr[j] &gt; arr[j+<span class="number">1</span>]) &#123;        <span class="comment">//相邻元素两两对比</span></span><br><span class="line">                <span class="keyword">var</span> temp = arr[j+<span class="number">1</span>];        <span class="comment">//元素交换</span></span><br><span class="line">                arr[j+<span class="number">1</span>] = arr[j];</span><br><span class="line">                arr[j] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -1086,7 +1189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-11 16:24:26" itemprop="dateModified" datetime="2022-04-11T16:24:26+08:00">2022-04-11</time>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1164,18 +1267,18 @@
 <li><p>解决子元素使用浮动父元素高度坍塌的问题</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">10px</span> solid pink;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">50px</span></span><br><span class="line">&#125;	</span><br><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305204614141.png" alt="image-20220305204614141"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305204614141.png" alt="image-20220305204614141"></p>
 <h4 id="使用BFC后"><a href="#使用BFC后" class="headerlink" title="使用BFC后"></a>使用BFC后</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    //触发BFC，规则上计算高度的时候浮动子元素也会被包含在内</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;</span><br><span class="line">    <span class="attribute">border</span>:<span class="number">10px</span> solid pink;</span><br><span class="line">    <span class="attribute">top</span>:<span class="number">50px</span></span><br><span class="line">&#125;	</span><br><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305204724251.png" alt="image-20220305204724251"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305204724251.png" alt="image-20220305204724251"></p>
 </li>
 <li><p>浮动元素覆盖正常元素（可用于实现两栏、三栏自适应布局）</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box2</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305211642477.png" alt="image-20220305211642477"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305211642477.png" alt="image-20220305211642477"></p>
 <h4 id="使用BFC后-1"><a href="#使用BFC后-1" class="headerlink" title="使用BFC后"></a>使用BFC后</h4><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.box1</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.box2</span>&#123;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">200px</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305211912897.png" alt="image-20220305211912897"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220305211912897.png" alt="image-20220305211912897"></p>
 </li>
 <li><p>单行文本超出省略</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>本例调用的函数会执行一个计算，然后返回结果：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">	<span class="selector-tag">p</span> &#123;</span></span><br><span class="line"><span class="css">		<span class="attribute">width</span>:<span class="number">50vw</span>;</span></span><br><span class="line"><span class="css">		<span class="attribute">overflow</span>:hidden;</span></span><br><span class="line"><span class="css">		<span class="attribute">white-space</span>: nowrap;	<span class="comment">/*规定文本不进行换行*/</span></span></span><br><span class="line"><span class="css">		<span class="attribute">text-overflow</span>: ellipsis;	<span class="comment">/*当对象内文本溢出时显示省略标记（...）*/</span></span></span><br><span class="line"><span class="css">	&#125;	</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
@@ -1184,134 +1287,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/03/29/%E6%B5%85%E8%B0%88BFC/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">Vue生命周期</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-21 21:48:37" itemprop="dateCreated datePublished" datetime="2022-03-21T21:48:37+08:00">2022-03-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-04-13 10:59:50" itemprop="dateModified" datetime="2022-04-13T10:59:50+08:00">2022-04-13</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h1><p>每个Vue的实例创建的时候都有一系列的阶段，比如创建Vue实例，数据装载，渲染DOM数，渲染CSS等等，这些不同阶段就被成为Vue的生命周期。理解生命周期的概念和各个生命周期钩子的作用有助于对Vue项目的提升。</p>
-<p><img src="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/11370083-f279314aef6741db.webp" alt="11370083-f279314aef6741db"></p>
-<p>这是大佬博客的图，很直观的展示了Vue生命周期和生命周期钩子的作用。</p>
-<ol>
-<li><p>beforeCreate（创建前）</p>
-<p>这个时候Vue对象刚刚创建，没有DOM和数据</p>
-</li>
-<li><p>created（已创建）</p>
-<p>这个时候已经开始监控Data数据变化，这个时候就<strong>可以获取到Data的内容了</strong></p>
-</li>
-<li><p>beforeMount</p>
-<p>这个阶段编译了虚拟DOM树，真实DOM树还没有渲染到页面上</p>
-</li>
-<li><p>mounted</p>
-<p>这个阶段已经将虚拟DOM编译为真实DOM，此时一般可以进行一些ajax操作，mouted只会执行一次</p>
-</li>
-<li><p>beforeUpdate</p>
-<p>这是响应式更新前的钩子，可以在虚拟DOM的基础上再次修改DOM</p>
-</li>
-<li><p>updated</p>
-<p>这是响应式更新后的钩子，此时真实DOM已经更新完毕，最好不要在这里才再次修改DOM</p>
-</li>
-<li><p>beforeDestroy</p>
-<p>实例销毁前的钩子，实例任然完全可用</p>
-</li>
-<li><p>destroyed</p>
-<p>实例已经销毁</p>
-</li>
-</ol>
-<p>问题一：Vue从创建到挂载这段时间内究竟发生了什么？</p>
-<p>从生命周期的角度去看：</p>
-<p>创建到挂载这段时间内发生的是beforeCreate、created、beforeMount、mounted</p>
-<p>那么发生了什么就很清晰了，发生了数据响应式更新的监控，同时获取了虚拟DOM并渲染了真实DOM到浏览器上。</p>
-<p>从源码的角度去看：</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1402,7 +1377,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">92</span>
+          <span class="site-state-item-count">93</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
