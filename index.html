@@ -186,6 +186,112 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/" class="post-title-link" itemprop="url">React学习笔记02State</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-18 14:53:20 / 修改时间：15:09:25" itemprop="dateCreated datePublished" datetime="2022-05-18T14:53:20+08:00">2022-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="React组件三大核心属性之State"><a href="#React组件三大核心属性之State" class="headerlink" title="React组件三大核心属性之State"></a>React组件三大核心属性之State</h1><p>state是组件对象中最重要的属性，值是一个对象（可以包含多个key-value的组合）。组件被称为状态机，通过更新组件的state来更新对应的页面显示（重新渲染组件）</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们需要使用类式创建组件，这样才能给组件初始化状态。</p>
+<ol>
+<li><p>在构造器上挂载state，标准格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">constructor(props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;</span><br><span class="line">        isHot: false,</span><br><span class="line">        isWind: false</span><br><span class="line">    &#125;</span><br><span class="line">    this.changeState = this.changeState.bind(this)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>简写格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> state = &#123; isHot: true, isWind: false &#125;</span><br><span class="line">//原理，直接使用变量会默认创建挂载在类上的静态属性</span><br></pre></td></tr></table></figure></li>
+<li><p>定义render函数，返回一个jsx格式的类XML代码，作为模板代码，在render函数中的this指向组件实例对象</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">    const &#123; isHot, isWind &#125; = this.state</span><br><span class="line">    return (</span><br><span class="line">        &lt;div onClick=&#123;this.changeState&#125;&gt;</span><br><span class="line">            今天天气&#123;isHot ? &#x27;炎热&#x27; : &#x27;凉爽&#x27;&#125;,&#123;isWind ? &#x27;有风&#x27; : &#x27;无风&#x27;&#125;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>添加方法，标准格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//直接挂载在类的原型链上，注意，这种方法在实例中调用的时候会导致this的丢失，需要在构造器中绑定this</span><br><span class="line">changeState() &#123;</span><br><span class="line">    //注意！！！状态不可以直接更改！！</span><br><span class="line">    // this.state.isHot = !this.state.isHot</span><br><span class="line">    const isHot = this.state.isHot</span><br><span class="line">    //状态必须通过setState进行更改，并且更改是只更改选中项的</span><br><span class="line">    this.setState(&#123; isHot: !isHot &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>简写格式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//原理，利用箭头函数的this在定义的时候就已经绑定了</span><br><span class="line">changeState = () =&gt; &#123;</span><br><span class="line">    const isHot = this.state.isHot</span><br><span class="line">    this.setState(&#123; isHot: !isHot &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p><strong>在react中不允许直接修改状态，需要使用一个在react实例原型上的方法<code>setState</code>去间接修改变量。</strong></p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -311,10 +417,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-15 15:35:09 / 修改时间：16:11:25" itemprop="dateCreated datePublished" datetime="2022-05-15T15:35:09+08:00">2022-05-15</time>
+              <time title="创建时间：2022-05-15 15:35:09" itemprop="dateCreated datePublished" datetime="2022-05-15T15:35:09+08:00">2022-05-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -407,10 +519,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-15 09:53:13 / 修改时间：15:33:45" itemprop="dateCreated datePublished" datetime="2022-05-15T09:53:13+08:00">2022-05-15</time>
+              <time title="创建时间：2022-05-15 09:53:13" itemprop="dateCreated datePublished" datetime="2022-05-15T09:53:13+08:00">2022-05-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -516,7 +634,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-16 10:16:33" itemprop="dateModified" datetime="2022-05-16T10:16:33+08:00">2022-05-16</time>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -617,10 +735,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-13 14:47:04 / 修改时间：15:21:37" itemprop="dateCreated datePublished" datetime="2022-05-13T14:47:04+08:00">2022-05-13</time>
+              <time title="创建时间：2022-05-13 14:47:04" itemprop="dateCreated datePublished" datetime="2022-05-13T14:47:04+08:00">2022-05-13</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -723,7 +847,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-13 16:33:19" itemprop="dateModified" datetime="2022-05-13T16:33:19+08:00">2022-05-13</time>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -836,10 +960,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-10 10:57:20 / 修改时间：11:01:18" itemprop="dateCreated datePublished" datetime="2022-05-10T10:57:20+08:00">2022-05-10</time>
+              <time title="创建时间：2022-05-10 10:57:20" itemprop="dateCreated datePublished" datetime="2022-05-10T10:57:20+08:00">2022-05-10</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -1037,7 +1167,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-10 10:32:19" itemprop="dateModified" datetime="2022-05-10T10:32:19+08:00">2022-05-10</time>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1086,101 +1216,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/" class="post-title-link" itemprop="url">less学习笔记01变量</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-09 22:22:46 / 修改时间：22:31:06" itemprop="dateCreated datePublished" datetime="2022-05-09T22:22:46+08:00">2022-05-09</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/less/" itemprop="url" rel="index"><span itemprop="name">less</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Less"><a href="#Less" class="headerlink" title="Less"></a>Less</h1><p>less是一款预处理语言，可以允许我们以类似于js的方式去使用css。我们使用less去编写css会更加方便。</p>
-<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h3><p>less中可以将属性名，选择器和属性值定义为变量，就像js一样。</p>
-<p>注意：属性名和选择器定义的变量在使用的时候要以<code>@&#123;name&#125;</code>的方式使用，而属性值变量直接使用<code>@name</code>方式使用就可以了。</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@pos:</span> position;</span><br><span class="line"><span class="variable">@a:</span>.a;</span><br><span class="line"><span class="variable">@rel:</span>relative;</span><br><span class="line"><span class="variable">@&#123;a&#125;</span> &#123;</span><br><span class="line">  @&#123;pos&#125;: @<span class="selector-tag">rel</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">50vw</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50vh</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> black solid;</span><br><span class="line">  <span class="selector-class">.b</span> &#123;</span><br><span class="line">    @&#123;pos&#125;: <span class="selector-tag">absolute</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">margin</span>: auto;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="变量的延迟加载"><a href="#变量的延迟加载" class="headerlink" title="变量的延迟加载"></a>变量的延迟加载</h3><p>在less中变量都是块级作用域的，而且具有延迟加载的特点，即无论在同一个块级作用域中定义同一个变量即此，都以最后一次为标准</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@a:</span>red;</span><br><span class="line"><span class="selector-class">.a</span>&#123;</span><br><span class="line">  <span class="variable">@a:</span>pink;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="variable">@a</span>;</span><br><span class="line">  <span class="variable">@a:</span>blue;</span><br><span class="line">  <span class="selector-class">.b</span>&#123;</span><br><span class="line">    <span class="variable">@a:</span>yellow;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>:<span class="variable">@a</span>; </span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1271,14 +1306,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">93</span>
+          <span class="site-state-item-count">94</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">20</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
