@@ -186,6 +186,749 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">Vuex学习笔记01核心概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-15 09:53:13" itemprop="dateCreated datePublished" datetime="2022-05-15T09:53:13+08:00">2022-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vuex/" itemprop="url" rel="index"><span itemprop="name">Vuex</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h1><p>Vuex是Vue推荐使用的状态管理工具，它的功能强大，并且专门为Vue设计。</p>
+<p>在我们制作项目的时候，往往会遇到组件之间通信的问题，对于Vue而言，父子组件通信十分方便，但是兄弟组件或者没有什么联系的组件之间通信就比较麻烦了，因为它们之间的通信需要一个所谓的中间人，无法直接通信。因此诞生了<code>eventbus</code>事件总线的方式。</p>
+<p>Vue中的<code>eventbus</code>利用一个空的Vue组件作为中间人，从而使组件之间能够间接的通信，这在小型项目中是十分有用的，但是随着项目越来越大，<code>eventbus</code>的状态管理会越来越复杂。并且Vue3.0废除了<code>eventbus</code>依赖的一个API<code>$on</code>，因此<code>eventbus</code>的性价比变低了，这时候官方使用的Vuex就显得越来越重要了。</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p>vuex中有5个核心概念：</p>
+<ul>
+<li>State</li>
+<li>Getter</li>
+<li>Mutation</li>
+<li>Action</li>
+<li>Module</li>
+</ul>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>State是Vuex的单一状态树，所有的数据都存储在State上。</p>
+<h5 id="使用方式-以Vue3为例-："><a href="#使用方式-以Vue3为例-：" class="headerlink" title="使用方式(以Vue3为例)："></a>使用方式(以Vue3为例)：</h5>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" class="post-title-link" itemprop="url">Webpack底层原理手写</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-14 16:20:03" itemprop="dateCreated datePublished" datetime="2022-05-14T16:20:03+08:00">2022-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Webpack/" itemprop="url" rel="index"><span itemprop="name">Webpack</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Webpack底层原理手写"><a href="#Webpack底层原理手写" class="headerlink" title="Webpack底层原理手写"></a>Webpack底层原理手写</h1><p><code>webpack</code>是时下最受欢迎的前端打包工具之一。前端需要打包的原因在于现代浏览器不支持<code>CommonJS</code>的导入，也就是不支持<code>require()</code>和<code>export</code>。为此我们再运行前端项目的时候需要有一个服务器，并且将<code>nodejs</code>中以<code>CommonJS</code>格式书写的<code>js</code>代码进行编译打包，转移成浏览器能够理解的<code>ES Module</code>语法。</p>
+<h2 id="Part1-原型和boundle"><a href="#Part1-原型和boundle" class="headerlink" title="Part1.原型和boundle"></a>Part1.原型和boundle</h2><p>在整个<code>webpack</code>运行中，最先要做的就是编译，也就是将代码翻译成浏览器能够认识的代码。</p>
+<ol>
+<li>从入口开始解析整个项目，去收集依赖。</li>
+<li>将ES6语法通过<code>babel</code>转成ES5语法（现在已经不需要了，浏览器已经支持ES6）。</li>
+<li>替换require与exports，因为浏览器不支持这些语法。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//webpack原理</span></span><br><span class="line"><span class="comment">//建立自运行函数，保证变量不外泄</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">list</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">require</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//由于es Module没有exports这个方法函数，最简单的方法就是创建一个</span></span><br><span class="line">        <span class="keyword">var</span> <span class="built_in">exports</span> = &#123;&#125;;</span><br><span class="line">        </span><br><span class="line">        (<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">exports</span>, code</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">eval</span>(code)</span><br><span class="line">        &#125;)(<span class="built_in">exports</span>, list[file])</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">exports</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从入口开始解析</span></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&quot;index.js&quot;</span>)</span><br><span class="line">&#125;)(&#123;</span><br><span class="line">    <span class="comment">//1.从入口开始解析整个项目，收集依赖</span></span><br><span class="line">    <span class="comment">//2.ES6转ES5(bable)</span></span><br><span class="line">    <span class="comment">//3.替换require与exports，因为不支持commentJS，没有这些方法</span></span><br><span class="line">    <span class="string">&#x27;index.js&#x27;</span>: <span class="string">`</span></span><br><span class="line"><span class="string">            var add = require(&#x27;add.js&#x27;).default</span></span><br><span class="line"><span class="string">            console.log(add(1, 2))</span></span><br><span class="line"><span class="string">        `</span>,</span><br><span class="line">    <span class="string">&#x27;add.js&#x27;</span>: <span class="string">`</span></span><br><span class="line"><span class="string">            exports.default = function (a, b) &#123;</span></span><br><span class="line"><span class="string">                return a + b</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        `</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part2-AST与模块分析"><a href="#Part2-AST与模块分析" class="headerlink" title="Part2.AST与模块分析"></a>Part2.AST与模块分析</h2><p>在<code>webpack</code>编译过程中，会遇到两个问题：</p>
+<ol>
+<li>有哪些依赖被引入了</li>
+<li>将ES6转换成ES5代码（为了兼容）</li>
+</ol>
+<p>对于第一个问题，<code>webpack</code>的解决方法是先将文件转化为<code>AST</code>抽象语法树，然后再解析<code>AST</code>，分析依赖。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/" class="post-title-link" itemprop="url">webpack学习笔记04loader和plugin</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-13 14:47:04" itemprop="dateCreated datePublished" datetime="2022-05-13T14:47:04+08:00">2022-05-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Webpack/" itemprop="url" rel="index"><span itemprop="name">Webpack</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Loader和Plugin"><a href="#Loader和Plugin" class="headerlink" title="Loader和Plugin"></a>Loader和Plugin</h1><p>在<code>webpack</code>中有两个重要的概念，<code>loader</code>和<code>Plugin</code>,这两个概念有点类似但实际上并不一样。</p>
+<h2 id="Loader是什么"><a href="#Loader是什么" class="headerlink" title="Loader是什么"></a>Loader是什么</h2><p><code>loader</code>是一个用于让<code>webpack</code>处理非JavaScript的文件（<code>webpack</code>本身只能理解<code>JavaScript</code>）。<code>loader</code>可以将所有类型的文件转换为<code>webpack</code>能够处理的有效模块。</p>
+<p>因为<code>webpack</code>本身是由<code>JavaScript</code>编写的，并且只能识别js结尾的模块，<code>loader</code>就相当于一个翻译官，将其他类型的文件翻译成<code>webpack</code>能够识别的模块。</p>
+<h2 id="Plugin是什么"><a href="#Plugin是什么" class="headerlink" title="Plugin是什么"></a>Plugin是什么</h2><p><code>plugin</code>是插件的意思，它是<code>webpack</code>支柱功能，其目的在于解决<code>loader</code>无法实现的其他功能。</p>
+<p>我们注入<code>plugin</code>之后，会在<code>webpack</code>后续构建的某个时间节点上触发<code>plugin</code>定义的功能。就像是Vue中的生命周期一样，我们注入的<code>plugin</code>会被视为生命周期中某个钩子（视你使用的插件而定）的方法，当<code>webpack</code>打包程序到这个节点的时候，就会执行函数。</p>
+<h2 id="Loader和Plugin的区别是什么"><a href="#Loader和Plugin的区别是什么" class="headerlink" title="Loader和Plugin的区别是什么"></a>Loader和Plugin的区别是什么</h2><ul>
+<li>loader是专门处理文件转换的一个模块，比起plugin来说没有那么广泛；而plugin不止可以进行法宝，还可以优化打包和压缩，重新定义环境变量等。</li>
+<li>loader运行在打包文件之前(loader为在模块加载时的预处理文件)；plugins在整个编译的周期都起作用。</li>
+<li>在webpack运行的生命周期中会广播出许多事件，plugin会监听这些事件，在合适的时机通过webpack提供的API改变输出结果</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/10/Vue%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A2%9801/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/10/Vue%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A2%9801/" class="post-title-link" itemprop="url">Vue面试专题01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-10 21:49:43" itemprop="dateCreated datePublished" datetime="2022-05-10T21:49:43+08:00">2022-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">Vue面试</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/10/Vue%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A2%9801/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/10/Vue%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A2%9801/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vue面试专题"><a href="#Vue面试专题" class="headerlink" title="Vue面试专题"></a>Vue面试专题</h1><h2 id="1-组件间通信的方式有哪些？"><a href="#1-组件间通信的方式有哪些？" class="headerlink" title="1.组件间通信的方式有哪些？"></a>1.组件间通信的方式有哪些？</h2><ol>
+<li>大致有以下8中<ul>
+<li>props</li>
+<li>$emit/<del>$on</del></li>
+<li><del>$children</del>/$parent</li>
+<li>provide/inject</li>
+<li>$root</li>
+<li>ref</li>
+<li>eventbus(不推荐，因为$on被废弃了)</li>
+<li>vuex</li>
+</ul>
+</li>
+</ol>
+<p>父子：$emit，props，ref，provide，$parent</p>
+<p>兄弟：Vuex,$parents（中间人）</p>
+<p>任意：Vuex，eventBus，provide（不推荐）</p>
+<h2 id="2-v-if和v-for优先级？"><a href="#2-v-if和v-for优先级？" class="headerlink" title="2.v-if和v-for优先级？"></a>2.v-if和v-for优先级？</h2><ul>
+<li>从实际上说：不要把<code>v-if</code>和<code>v-if</code>写在一起，因为</li>
+<li>vue2中<code>v-for</code>优先级高于<code>v-if</code>，它的执行逻辑是先将列表渲染出来，然后在逐项比较是否删除，这样比较浪费资源。</li>
+<li>vue3中<code>v-if</code>优先级高于<code>v-for</code>，它的执行逻辑是先在虚拟dom中判断是否删除，然后再<code>v-for</code>，如果再使用vue2的写法会报错。</li>
+<li>vue3解决办法，在需要判断遍历的属性上使用<code>computed</code>计算属性</li>
+</ul>
+<h2 id="3-v-model作用以及原理"><a href="#3-v-model作用以及原理" class="headerlink" title="3.v-model作用以及原理"></a>3.v-model作用以及原理</h2><ul>
+<li>v-model的作用是提供数据的双向绑定，可以绑定一个动态值到视图，当动态值更新的时候视图也会更新。是一个语法糖，默认情况下相当于:value和@input。</li>
+<li>v-model起作用的原理是从模板编译开始的，vue将v-model解析出来之后，就为数据绑定上一个事件监听，在数据的属性发生改变的时候，执行对应的依赖跟踪作用。这说明v-model在编译完成的时候就已经具备这个功能了。</li>
+<li>通常在表单项中使用v-model，当然，在不同类型的表单中v-model输出的渲染函数是不同的。</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/10/Vue%E9%9D%A2%E8%AF%95%E4%B8%93%E9%A2%9801/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%85%B6%E4%BB%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%85%B6%E4%BB%96/" class="post-title-link" itemprop="url">less学习笔记04其他</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-10 10:57:20" itemprop="dateCreated datePublished" datetime="2022-05-10T10:57:20+08:00">2022-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/less/" itemprop="url" rel="index"><span itemprop="name">less</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%85%B6%E4%BB%96/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%85%B6%E4%BB%96/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Less"><a href="#Less" class="headerlink" title="Less"></a>Less</h1><h2 id="less计算"><a href="#less计算" class="headerlink" title="less计算"></a>less计算</h2><p>less中可以使用计算，规则与css一样</p>
+<h2 id="less避免编译"><a href="#less避免编译" class="headerlink" title="less避免编译"></a>less避免编译</h2><p>在less中如果使用了css原生的计算属性，且不希望编译器自动编译（即把这个计算留到浏览器中去编译）</p>
+<p>可以使用<code>~&quot;表达式&quot;</code>的方式将整个表达式直接传入css而不经过编译。</p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%85%B6%E4%BB%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/" class="post-title-link" itemprop="url">less学习笔记03继承</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-10 10:32:50" itemprop="dateCreated datePublished" datetime="2022-05-10T10:32:50+08:00">2022-05-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/less/" itemprop="url" rel="index"><span itemprop="name">less</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Less继承"><a href="#Less继承" class="headerlink" title="Less继承"></a>Less继承</h1><p>在less中有继承这个概念，可以类比混合，但是和混合有一定的区别。</p>
+<h2 id="继承是什么"><a href="#继承是什么" class="headerlink" title="继承是什么"></a>继承是什么</h2><p>我们通过混合去‘继承’一些代码的时候，如果去看看编译后的css代码就会发现一些问题，通过混合继承的代码会分别在每个标签中重复一遍。</p>
+<h3 id="通过混合继承"><a href="#通过混合继承" class="headerlink" title="通过混合继承"></a>通过混合继承</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过混合继承</span></span><br><span class="line"><span class="selector-class">.center</span>() &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">25%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="selector-class">.b</span> &#123;</span><br><span class="line">     <span class="comment">//混合的写法</span></span><br><span class="line">    <span class="selector-class">.center</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: BLUE;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.c</span> &#123;</span><br><span class="line">    <span class="selector-class">.center</span>;</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>编译结果</strong>：</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220510104103136.png" alt="image-20220510104103136"></p>
+<h3 id="通过继承去继承"><a href="#通过继承去继承" class="headerlink" title="通过继承去继承"></a>通过继承去继承</h3><p><strong>使用继承写法后，所有继承了这段代码的属性都会共用这段代码</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/" class="post-title-link" itemprop="url">less学习笔记02混合</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-09 22:32:02" itemprop="dateCreated datePublished" datetime="2022-05-09T22:32:02+08:00">2022-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/less/" itemprop="url" rel="index"><span itemprop="name">less</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Less混合（mixin）"><a href="#Less混合（mixin）" class="headerlink" title="Less混合（mixin）"></a>Less混合（mixin）</h1><p>less的混合是一个强大的工具，在css开发中往往涉及到很多标签需要用到相同或相似的一段代码，这个时候我们就可以使用mixin去定义一段可以复用的代码。</p>
+<h2 id="普通混合"><a href="#普通混合" class="headerlink" title="普通混合"></a>普通混合</h2><p>将一段可以复用的代码抽离出来单独命名，在需要使用的地方直接使用这个命名即可。</p>
+<p>在mixin中代码加上<code>()</code>可以避免被编译到css中</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.position-center</span> () &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">25%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">50vw</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50vh</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> black solid;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.b</span> &#123;</span><br><span class="line">    <span class="selector-class">.position-center</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">30vw</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">&amp;</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">      <span class="attribute">background-color</span>: rgb(<span class="number">197</span>, <span class="number">34</span>, <span class="number">61</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.c</span> &#123;</span><br><span class="line">    <span class="selector-class">.position-center</span>;</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">30vw</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: black;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">&amp;</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">      <span class="attribute">background-color</span>: rgb(<span class="number">197</span>, <span class="number">34</span>, <span class="number">61</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="带参数的混合"><a href="#带参数的混合" class="headerlink" title="带参数的混合"></a>带参数的混合</h2><p>可以在混合中使用参数，就像JavaScript一样，也可以给参数默认值，也可以在使用的时候指定参数传参</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.position-center</span> (<span class="variable">@left</span>: <span class="number">30vw</span>, <span class="variable">@color</span>: black) &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="variable">@left</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="variable">@color</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="匹配模式"><a href="#匹配模式" class="headerlink" title="匹配模式*"></a>匹配模式*</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -504,771 +1247,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/" class="post-title-link" itemprop="url">nodejs学习笔记02架构</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-07 21:11:15" itemprop="dateCreated datePublished" datetime="2022-05-07T21:11:15+08:00">2022-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index"><span itemprop="name">nodejs</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Nodejs架构"><a href="#Nodejs架构" class="headerlink" title="Nodejs架构"></a>Nodejs架构</h1><p>Nodejs是一个构建在Chrome浏览器V8引擎上的JavaScript运行环境，也是我们是使用过程中直接能调用的API。</p>
-<p>Nodejs在底层上其实是由c/c++实现的，也就是说，我们获得的API实际上是由c/c++编写的库提供的。当然JavaScript并不能直接和c/c++通信，因此需要一个“桥梁”。所以nodejs实际上是由三成架构组成的——<strong>nodejs API库，bindings（桥梁）和c/c++底层</strong></p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/nodejs%E6%9E%B6%E6%9E%84.png" alt="nodejs架构"></p>
-<p>Node bindings是JavaScript与C/C++库之间的桥梁，通过bindings将c/c++实现的库暴露给JavaScript，同时把js传入V8，解析后交给libuv发起非阻塞I/O，并等待事件循环调度。</p>
-<p>底层库：</p>
-<ol>
-<li>V8是JavaScript的虚拟机，为JavaScript提供了在非浏览器端运行的环境</li>
-<li>libuv为nodejs提供了跨平台，线程池，异步I/O能力，这是nodejs高效的主要原因</li>
-<li>c-ares提供了异步处理DNS相关的能力</li>
-<li>http_parser、OpenSSL、zlib提供包括http解析、SSL、数据压缩等能⼒。</li>
-</ol>
-<p><strong>Nodejs到底是单线程还是多线程</strong></p>
-<p>一般来说我们认为JavaScript是单线程的，但是nodejs的底层由c/c++参与，分为了一个主线程和多个子线程，所以我们认为Nodejs其实是多线程的。</p>
-<h2 id="nodejs高效的原因"><a href="#nodejs高效的原因" class="headerlink" title="nodejs高效的原因"></a>nodejs高效的原因</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">nodejs学习笔记01事件循环</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-07 15:58:07" itemprop="dateCreated datePublished" datetime="2022-05-07T15:58:07+08:00">2022-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index"><span itemprop="name">nodejs</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Nodejs中的事件循环"><a href="#Nodejs中的事件循环" class="headerlink" title="Nodejs中的事件循环"></a>Nodejs中的事件循环</h1><p>在浏览器环境中的JavaScript有一个事件循环，是一个比较简单的模型。而在Nodejs中也有一个事件循环，不同于浏览器，nodejs环境中的事件循环更为复杂。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/nodejs%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF(1).png" alt="nodejs事件循环(1)"></p>
-<ol>
-<li><p>Timers：用于储存定时器的回调函数（setTImeout,setInterval）</p>
-</li>
-<li><p>Pending callbacks：执行与操作系统相关的回调函数，比如启动服务器端应用时监听端口的操作就是在这里调用</p>
-</li>
-<li><p>Idle，prepare：系统内部使用</p>
-</li>
-<li><p>IO Poll：存储I/O操作的回调函数队列，例如文件读写操作的回调函数</p>
-<p><strong>如果事件队列中有回调函数，就执行它们直到清空队列</strong></p>
-<p><strong>否则事件循环将在此阶段停留一段时间以等待新的回调函数进入，这个等待取决于以下两个条件：</strong></p>
-<ol>
-<li>setImmediate队列（check阶段中存在要执行的回调函数）</li>
-<li>timers队列中存在要执行的回调函数，在这种情况下，事件循环将一至check阶段，然后移至Closing callbacks阶段，并最终从timers阶段进入下一次循环</li>
-</ol>
-</li>
-<li><p>Check：存储setImmediate API的回调函数</p>
-</li>
-<li><p>Clonsing callbacks：执行与关闭事件相关的回调，比如关闭数据库链接的回调函数等。</p>
-</li>
-</ol>
-<h2 id="事件循环小测试"><a href="#事件循环小测试" class="headerlink" title="事件循环小测试"></a>事件循环小测试</h2><p>注意:在微任务中nextTick的优先级要比其他的更高</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">&#x27;./loading.html&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">    setImmediate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)          <span class="comment">//2 1</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">process.nextTick(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">5</span>)</span><br><span class="line">&#125;)</span><br><span class="line">setImmediate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">6</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//4 5 3 6 2 1</span></span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/07/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E6%8E%A2%E7%A7%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/07/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E6%8E%A2%E7%A7%98/" class="post-title-link" itemprop="url">webpack学习笔记03打包文件探秘</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-07 10:35:16" itemprop="dateCreated datePublished" datetime="2022-05-07T10:35:16+08:00">2022-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Webpack/" itemprop="url" rel="index"><span itemprop="name">Webpack</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/07/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E6%8E%A2%E7%A7%98/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/07/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E6%8E%A2%E7%A7%98/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Webpack打包文件"><a href="#Webpack打包文件" class="headerlink" title="Webpack打包文件"></a>Webpack打包文件</h1><p>在webpack中打包文件的原理是从一个入口文件开始，将整个散落的js，html，css等文件整合打包到几个文件中去，而这个打包规则就是webpack的配置项。我们可以在webpack打包过后的文件中窥见webpack的打包机制和原理。</p>
-<p>首先我们将webpack配置文件设置打包模式为<code>none</code>这可以令webpack以最原始的打包方式进行打包，对于想要研究webpack打包产物的开发者比较友好。</p>
-<p>然后我们就可以愉快的阅读打包后的文件啦！</p>
-<p>这里以webpack<code>5.72.0</code>打包文件为例</p>
-<ol>
-<li><p>先看整体</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220507104634099.png" alt="image-20220507104634099"></p>
-<p>这是一个立即执行函数，内部包含了所有我们的业务逻辑</p>
-</li>
-<li><p>拆开看</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220507105447450.png" alt="image-20220507105447450"></p>
-</li>
-<li></li>
-</ol>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/07/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%89%93%E5%8C%85%E6%96%87%E4%BB%B6%E6%8E%A2%E7%A7%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/06/vue3-vite%E5%AE%9E%E6%88%98%E8%B8%A9%E5%9D%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/06/vue3-vite%E5%AE%9E%E6%88%98%E8%B8%A9%E5%9D%91/" class="post-title-link" itemprop="url">vue3+vite实战踩坑</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-06 09:53:41" itemprop="dateCreated datePublished" datetime="2022-05-06T09:53:41+08:00">2022-05-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue3/" itemprop="url" rel="index"><span itemprop="name">Vue3</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/06/vue3-vite%E5%AE%9E%E6%88%98%E8%B8%A9%E5%9D%91/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/06/vue3-vite%E5%AE%9E%E6%88%98%E8%B8%A9%E5%9D%91/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue3-vite实战踩坑"><a href="#Vue3-vite实战踩坑" class="headerlink" title="Vue3+vite实战踩坑"></a>Vue3+vite实战踩坑</h1><p>一开始的想法是目前个人博客使用的是hexo搭建的静态页面，相对方便但是不好自定义，也没有后台交互，于是想要改进一下，做一个前端vue后端nodejs的个人博客项目，下面就是踩坑记录。</p>
-<h2 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h2><p><strong>搭建vite项目</strong></p>
-<p>网上流行使用vite+vue3的开发模式，使用</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm init vite<span class="literal">-app</span> &lt;project<span class="literal">-name</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>就可以轻松搭建一个vite项目</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220506095926769.png" alt="image-20220506095926769"></p>
-<p>当然，前面轻松后面会换回来的，注意看<code>package.json</code>中的信息，我们发现只有<code>@vue/compiler-sfc</code>这一个依赖，也就是说，这个项目目前只支持单页组件，其他所有的插件都不支持，我们需要自己引入支持。</p>
-<p>而且，由于vite版本较低，目前主流的组件库最新版都不兼容这个版本的vite了，所以最好还是将vite升级一下</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/06/vue3-vite%E5%AE%9E%E6%88%98%E8%B8%A9%E5%9D%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/" class="post-title-link" itemprop="url">Vue3学习笔记02组合式API</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-30 09:33:58" itemprop="dateCreated datePublished" datetime="2022-04-30T09:33:58+08:00">2022-04-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue3/" itemprop="url" rel="index"><span itemprop="name">Vue3</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Composition-API"><a href="#Composition-API" class="headerlink" title="Composition API"></a>Composition API</h1><p>compositionAPI提供了以下几个函数，在当前vue版本中，想要使用这些api需要进行引入。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; reactive, ref, toRef, toRefs &#125; from &quot;vue&quot;;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>setup</li>
-<li>ref</li>
-<li>reactive</li>
-<li>watchEffect</li>
-<li>watch</li>
-<li>computed</li>
-<li>toRefs</li>
-<li>生命周期的hook</li>
-</ul>
-<h2 id="ref和reactive"><a href="#ref和reactive" class="headerlink" title="ref和reactive"></a>ref和reactive</h2><p><code>ref</code>和<code>reactive</code>都是用于定义响应式数据的API，其中</p>
-<ol>
-<li><code>ref</code>定义字符串、num、boolean、数组，<code>reactive</code>定义对象类型</li>
-<li>在<code>setup</code>中<code>ref</code>想要获取变量数据需要在变量名称后加上<code>.value</code>,<code>reactive</code>直接获取数据就可以</li>
-<li>在模板字符串中两者都可以直接获取数据</li>
-<li>在<code>setup</code>中定义的数据必须在最后return出去才能在模板中使用</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;h1&gt;&#123;&#123; title &#125;&#125;&lt;/h1&gt;</span><br><span class="line">  &lt;div&gt;HOME-&#123;&#123; user.name &#125;&#125; 今年 &#123;&#123; user.age &#125;&#125;了&lt;/div&gt;</span><br><span class="line">  &lt;button @click=&quot;alertUser&quot;&gt;点击我获取user&lt;/button&gt;</span><br><span class="line">  &lt;button @click=&quot;alertTitle&quot;&gt;点击我获取title&lt;/button&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; v-model=&quot;title&quot; /&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//注意，在composition API中使用方法需要引入</span><br><span class="line">import &#123; reactive, ref &#125; from &quot;vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;Home&quot;,</span><br><span class="line">  //composition api</span><br><span class="line">  setup(props) &#123;</span><br><span class="line">    //ref 定义子符串、num、boolean、数组</span><br><span class="line">    //reactive 定义响应式数据定义对象</span><br><span class="line">    var title = ref(&quot;我是一个标题&quot;);</span><br><span class="line">    var user = reactive(&#123;</span><br><span class="line">      name: &quot;lihua&quot;,</span><br><span class="line">      age: 18,</span><br><span class="line">    &#125;);</span><br><span class="line">    //获取ref中的数据需要获取数据的value</span><br><span class="line">    let alertTitle = () =&gt; &#123;</span><br><span class="line">      alert(title.value);</span><br><span class="line">      console.log(title);</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取reactive中的数据直接获取</span><br><span class="line">    let alertUser = () =&gt; &#123;</span><br><span class="line">      alert(user.name);</span><br><span class="line">      console.log(user);</span><br><span class="line">    &#125;;</span><br><span class="line">    //在composition api中想要模板能够使用定义的变量和方法必须返回这个名称</span><br><span class="line">    return &#123;</span><br><span class="line">      title,</span><br><span class="line">      user,</span><br><span class="line">      alertTitle,</span><br><span class="line">      alertUser,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-<h2 id="toRefs"><a href="#toRefs" class="headerlink" title="toRefs"></a>toRefs</h2><p><code>toRefs</code>是一个用于结构响应式对象的api，如果我们想在模板中直接使用解构后的对象，就需要用这个api解构，直接使用三点运算符解构会使对象内部失去响应式。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%AE%89%E8%A3%85%E5%92%8C%E6%89%93%E5%8C%85/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%AE%89%E8%A3%85%E5%92%8C%E6%89%93%E5%8C%85/" class="post-title-link" itemprop="url">API</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-30 09:08:31" itemprop="dateCreated datePublished" datetime="2022-04-30T09:08:31+08:00">2022-04-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue3/" itemprop="url" rel="index"><span itemprop="name">Vue3</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%AE%89%E8%A3%85%E5%92%8C%E6%89%93%E5%8C%85/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%AE%89%E8%A3%85%E5%92%8C%E6%89%93%E5%8C%85/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue3安装和打包"><a href="#Vue3安装和打包" class="headerlink" title="Vue3安装和打包"></a>Vue3安装和打包</h1><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Vue3支持<code>vue-cli</code>和<code>vite</code>安装方式进行本地部署,这里只演示Vite安装过程。</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#以npm方式安装vite脚手架</span></span><br><span class="line">npm init vite<span class="literal">-app</span> &lt;project<span class="literal">-name</span>&gt;</span><br><span class="line"><span class="comment">#进入这个项目中</span></span><br><span class="line"><span class="built_in">cd</span> &lt;project<span class="literal">-name</span>&gt;</span><br><span class="line"><span class="comment">#安装依赖</span></span><br><span class="line">npm install</span><br><span class="line"><span class="comment">#运行项目</span></span><br><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
-
-<p>运行项目，打开本地网页能看到这个页面就说明运行成功了。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/62FB6F27-456F-46CF-8892-93D6A3E6F341.jpg" alt="62FB6F27-456F-46CF-8892-93D6A3E6F341"></p>
-<h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%AE%89%E8%A3%85%E5%92%8C%E6%89%93%E5%8C%85/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%A3%85%E9%A5%B0%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://cdn.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%A3%85%E9%A5%B0%E5%99%A8/" class="post-title-link" itemprop="url">TS学习笔记06装饰器</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-29 10:33:23" itemprop="dateCreated datePublished" datetime="2022-04-29T10:33:23+08:00">2022-04-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%A3%85%E9%A5%B0%E5%99%A8/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%A3%85%E9%A5%B0%E5%99%A8/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="TypeScript中的装饰器"><a href="#TypeScript中的装饰器" class="headerlink" title="TypeScript中的装饰器"></a>TypeScript中的装饰器</h1><p>装饰器是一种特殊类型的声明，它能够被附加到类声明，方法，属性或参数上，可以修改类的行为。通俗的讲装饰器就是一个方法，可以注入到类、方法、属性参数来扩展类属性方法参数的功能</p>
-<p><strong>常见装饰器有：类装饰器、属性装饰器、方法装饰器、参数装饰器</strong></p>
-<p><strong>装饰器的写法：普通装饰器（无法传参）、装饰器工厂（可以传参）</strong></p>
-<p>装饰器是过去几年中js最大的成就之一，已经成为了ES7的标准特性之一</p>
-<h2 id="类装饰器"><a href="#类装饰器" class="headerlink" title="类装饰器"></a>类装饰器</h2><p>类装饰器在类声明之前被声明（紧靠着类声明）。类装饰器应用于类构造函数、可以用来监视，修改或者替换类定义。传入一个参数</p>
-<h4 id="普通装饰器："><a href="#普通装饰器：" class="headerlink" title="普通装饰器："></a><strong>普通装饰器：</strong></h4><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装饰器</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">logClass</span>(<span class="params">params: <span class="built_in">any</span></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(params)</span><br><span class="line">    <span class="comment">//params就是当前类</span></span><br><span class="line">    params.prototype.apiUrl = <span class="string">&#x27;xxxx&#x27;</span></span><br><span class="line">    params.prototype.run = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;run&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@logClass</span>   <span class="comment">//使用装饰器</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">HttpClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">getData</span>(<span class="params"></span>)</span> &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> http: <span class="built_in">any</span> = <span class="keyword">new</span> HttpClient()</span><br><span class="line"><span class="built_in">console</span>.log(http.apiUrl)	<span class="comment">//xxxx</span></span><br><span class="line"><span class="built_in">console</span>.log(http.run())		<span class="comment">//run</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="装饰器工厂（可传参）"><a href="#装饰器工厂（可传参）" class="headerlink" title="装饰器工厂（可传参）"></a><strong>装饰器工厂（可传参）</strong></h4>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%A3%85%E9%A5%B0%E5%99%A8/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1336,7 +1318,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">94</span>
+          <span class="site-state-item-count">101</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
