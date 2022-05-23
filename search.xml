@@ -3876,7 +3876,8 @@
     <title>vue3+vite实战踩坑</title>
     <url>/2022/05/06/vue3-vite%E5%AE%9E%E6%88%98%E8%B8%A9%E5%9D%91/</url>
     <content><![CDATA[<h1 id="Vue3-vite实战踩坑"><a href="#Vue3-vite实战踩坑" class="headerlink" title="Vue3+vite实战踩坑"></a>Vue3+vite实战踩坑</h1><p>一开始的想法是目前个人博客使用的是hexo搭建的静态页面，相对方便但是不好自定义，也没有后台交互，于是想要改进一下，做一个前端vue后端nodejs的个人博客项目，下面就是踩坑记录。</p>
-<h2 id="搭建"><a href="#搭建" class="headerlink" title="搭建"></a>搭建</h2><p><strong>搭建vite项目</strong></p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/Vue3+antD+nodejs.png" alt="Vue3+antD+nodejs"></p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p><strong>搭建vite项目</strong></p>
 <p>网上流行使用vite+vue3的开发模式，使用</p>
 <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">npm init vite<span class="literal">-app</span> &lt;project<span class="literal">-name</span>&gt;</span><br></pre></td></tr></table></figure>
 
@@ -3891,6 +3892,37 @@
 <p><code>vue-router</code>最新版(^4.0.15)的写法发生了变化</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createRouter, createWebHistory &#125; <span class="keyword">from</span> <span class="string">&quot;vue-router&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> index <span class="keyword">from</span> <span class="string">&#x27;@/components/index&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = createRouter(&#123;</span><br><span class="line">    <span class="attr">history</span>: createWebHistory(),</span><br><span class="line">    <span class="attr">routes</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">            <span class="attr">redirect</span>: <span class="string">&#x27;/index&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;/index&#x27;</span>,</span><br><span class="line">            <span class="attr">component</span>: index,</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router</span><br></pre></td></tr></table></figure>
 
+<h2 id="功能搭建"><a href="#功能搭建" class="headerlink" title="功能搭建"></a>功能搭建</h2><ol>
+<li><h4 id="开局大屏，具有伸缩透视效果。"><a href="#开局大屏，具有伸缩透视效果。" class="headerlink" title="开局大屏，具有伸缩透视效果。"></a>开局大屏，具有伸缩透视效果。</h4><p><strong>依赖</strong>：parallax.js(获取鼠标位置，实时计算每张图片的位移量，当然，缺点就是牺牲了性能，但是好看！)</p>
+<p><strong>实现</strong>：</p>
+<ul>
+<li><p>使用方式</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;ul id=&quot;scene&quot;&gt;</span><br><span class="line">    &lt;li class=&quot;layer&quot; data-depth=&quot;.1&quot;&gt;&lt;img src=&quot;./img/planet2.png&quot; /&gt;&lt;/li&gt;</span><br><span class="line">    &lt;li class=&quot;layer&quot; data-depth=&quot;.5&quot;&gt;&lt;img src=&quot;./img/earth.png&quot; /&gt;&lt;/li&gt;</span><br><span class="line">    &lt;!-- data-depth表示图片深度，深度越深相对唯一越大。 --&gt;</span><br><span class="line">    &lt;div class=&quot;arrowSS&quot; @click=&quot;toIndex&quot;&gt;</span><br><span class="line">        &lt;img href=&quot;#anchorSS&quot; class=&quot;arrow&quot; src=&quot;./img/arrow.png&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">&lt;/ul&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在script中创建实例</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> scene = <span class="built_in">document</span>.getElementById(<span class="string">&quot;scene&quot;</span>);</span><br><span class="line"><span class="keyword">var</span> parallax = <span class="keyword">new</span> Parallax(scene);</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><strong>踩坑</strong>：</p>
+<ol>
+<li><p>由于是全屏的组件，滚轮的存在会特别难看，所以使用<code>overflow-Y:hidden</code>清除滚轮，但是需要下拉到下一个主要内容页，于是定义了一个向下的按钮，还有监听鼠标滚轮。</p>
+<p><strong>向下的按钮</strong>：在<code>firefox</code>中，这个按钮的层级非常的低，设置了<code>z-index</code>也是没有用的，所以我们无法点击这个按钮，在<code>chorme</code>中却正常。</p>
+<p><strong>监听鼠标滚轮事件</strong>：通过封装<code>mousewheel</code>事件去监听鼠标是否向下滑动，然后使用<code>scrollIntoView</code>进行页面平滑滚动。注意要及时清除监听。</p>
+</li>
+</ol>
+</li>
+<li><h4 id="伸缩侧边栏"><a href="#伸缩侧边栏" class="headerlink" title="伸缩侧边栏"></a>伸缩侧边栏</h4><p><strong>依赖</strong>：阿里妈妈icon图标库（好东西），<code>flex</code>布局</p>
+<p><strong>实现</strong>：</p>
+<ul>
+<li>把侧边栏信息抽象出来，利用<code>v-for</code>遍历到页面上面。</li>
+</ul>
+<p><strong>效果</strong>：</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220523100721970.png" alt="image-20220523100721970"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220523100745667.png" alt="image-20220523100745667"></p>
+<p>踩坑：一开始的时候是按照静态页面搭建的，然后修改成使用DOM动态添加样式，虽然方便，代码少，但是vue就没有作用了，最后还是头铁改成了<code>v-for</code>。</p>
+</li>
+<li><p>展示博客页</p>
+</li>
+</ol>
 ]]></content>
       <categories>
         <category>Vue3</category>
