@@ -186,6 +186,340 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/" class="post-title-link" itemprop="url">js学习笔记13JSON</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-11 09:54:13" itemprop="dateCreated datePublished" datetime="2021-12-11T09:54:13+08:00">2021-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JSON"><a href="#JSON" class="headerlink" title="JSON"></a>JSON</h1><ol>
+<li>理解JSON最关键的一点就是要把它当成一种数据格式而不是编程语言</li>
+<li>语法<ol>
+<li>JSON语法支持三种类型的值<ul>
+<li>简单值（字符串，数值，布尔值，null，都可以在JSON中出现，undefined不可以）</li>
+<li>对象</li>
+<li>数组</li>
+</ul>
+</li>
+<li>JSON没有变量、函数或对象实例的概念。JSON的所有记号都只为标识结构化数据，虽然它借用了JavaScript的语法。</li>
+</ol>
+</li>
+<li>解析与序列化<ul>
+<li>JSON可以直接被解析为可用的JavaScript对象，与解析为DOM文档的XML相比，这个优势非常明显。为此，JavaScript开发者可以非常方便第使用JSON数据。</li>
+</ul>
+</li>
+<li>序列化选项<ul>
+<li>stringify()<ul>
+<li>过滤结果<ul>
+<li>如果第二个参数是一个数组，那么JSON.stringify()返回的结果只会包含该数组中列出的对象属性</li>
+<li>如果第二个参数是一个函数，提供的函数接受两个参数：属性名(key)和属性值(value)，可以根据这个key决定要对应属性做什么。<ul>
+<li>函数过滤器会应用到要序列化对象所包含的全部对象。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>字符串缩进<ul>
+<li>第三个参数可以控制缩进和空格<ul>
+<li>是数值是，表示缩进空格数</li>
+<li>是字符串时，表示要填充到每一行开头的字符串</li>
+<li>无论时那种，最大不超过10个</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>简单值<ul>
+<li>JavaScript字符串与JSON字符串的主要区别就是JSON字符串必须使用双引号（单引号会导致语法错误）</li>
+</ul>
+</li>
+<li>对象<ul>
+<li>有两处不同<ul>
+<li>JSON没有变量声明（JSON没有变量）</li>
+<li>最后没有分号（不需要，因为不是JavaScript语句）</li>
+</ul>
+</li>
+<li>同样，用引号将属性名包围起来才是有效的JSON。</li>
+</ul>
+</li>
+<li>数组<ul>
+<li>和对象差不多</li>
+</ul>
+</li>
+<li>JSON对象<ol>
+<li>因为JSON时JavaScript语法的子集，所以eval()可以解析、解释并将其作为JavaScript对象和数组返回。</li>
+<li>JSON对象<ul>
+<li>Stringify()<ul>
+<li>将JavaScript序列化为JSON字符串</li>
+</ul>
+</li>
+<li>parse()<ul>
+<li>将JSON解析为原生JavaScript值</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>扩展<ul>
+<li>JSON.Stringify(JSON.parse(str))可以实现深复制对象。</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B013JSON/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">js学习笔记12异步编程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-11 08:12:54" itemprop="dateCreated datePublished" datetime="2021-12-11T08:12:54+08:00">2021-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Promise-期约"><a href="#Promise-期约" class="headerlink" title="Promise(期约)"></a>Promise(期约)</h1><ol>
+<li><h4 id="promise基础"><a href="#promise基础" class="headerlink" title="promise基础"></a>promise基础</h4><ul>
+<li>可以通过new 操作符来实例化一个promise对象。创建新期约的时候需要传入执行器（executor）函数作为参数。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">() =&gt;</span> &#123;&#125;)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p)	<span class="comment">//Promise&lt;pending&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><h4 id="期约状态机"><a href="#期约状态机" class="headerlink" title="期约状态机"></a>期约状态机</h4><ol>
+<li>Peomise是一个有状态的对象，可能处于三种状态<ul>
+<li>待定（pedding）</li>
+<li>兑现（fulfilled），有时也叫解决，（resolved）</li>
+<li>拒绝（rejected）</li>
+</ul>
+</li>
+<li>待定（pending）是promise的初始状态，可以转换为另外两种状态，并且一旦转换就不可逆。</li>
+<li>另外，promise的状态也不能不被外部的JavaScript代码修改，也不能被外界读取（私有）。</li>
+</ol>
+</li>
+<li><h4 id="解决值、拒绝理由及期约用例"><a href="#解决值、拒绝理由及期约用例" class="headerlink" title="解决值、拒绝理由及期约用例"></a>解决值、拒绝理由及期约用例</h4><ul>
+<li>promise的用途是，抽象的标识一个异步操作，并且通知这个操作是否完成</li>
+<li>一些情况下，promise封装的异步操作会实际生成某个值，而程序期待promise状态改变的时候可以访问这个值。例如，如果请求范围为200-299的状态码，让promise状态转化为resolved，并且内部可以接受到一个JSON字符串。拒绝同理，只是接受的变成一个拒绝理由。</li>
+<li>为了支持这种用例，promise每次转换状态，就会有一个私有的内部值或理由。二者都是可选的，并且默认为undefined。</li>
+</ul>
+</li>
+<li><h4 id="同步-异步执行的二元性"><a href="#同步-异步执行的二元性" class="headerlink" title="同步/异步执行的二元性"></a>同步/异步执行的二元性</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;foo&#x27;</span>)</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e)	<span class="comment">//Error:foo</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;bar&#x27;</span>))</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Uncaught (in Promise) Error:bar</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上面的例子报错的原因是：try。。。catch捕获的是哦同步执行时抛出的错误，因此第一个错误可以捕获，但是第二个Promise中抛出的异常是以异步模式进行的，因此没有捕获。</li>
+<li>这个例子中可以看出promise的真正异步特性:他们时同步对象（在同步中执行使用），但是也是异步执行的媒介</li>
+<li>代码一旦开始以异步模式执行，则唯一与之交互的方式就是使用异步结构——更具体的说，就是promise方法。</li>
+</ul>
+</li>
+<li><h4 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve()"></a>Promise.resolve()</h4><ul>
+<li>通过调用一个Promise.resolve()方法，可以实例化一个已处于解决状态的promise。</li>
+<li>使用这个方法实际上可以把任何值转化为一个promise</li>
+<li>这是一个幂等的方法，即嵌套调用多少次结果都一样</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="built_in">Promise</span>.resolve(<span class="number">7</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p===<span class="built_in">Promise</span>.resolve(<span class="built_in">Promise</span>.resolve(p)))		<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意，这样会把抛出的错误都包装到已解决的promise中。</li>
+</ul>
+</li>
+<li><h4 id="Promise-rejected"><a href="#Promise-rejected" class="headerlink" title="Promise.rejected()"></a>Promise.rejected()</h4><ul>
+<li>和resolved类似，但是不是幂等的，给他传入一个resolve会把这个promise包装成拒绝理由。</li>
+</ul>
+</li>
+<li><h4 id="通过执行函数控制promise状态"><a href="#通过执行函数控制promise状态" class="headerlink" title="通过执行函数控制promise状态"></a>通过执行函数控制promise状态</h4><ul>
+<li>由于promise状态是私有的，所以只能在内部进行操作。内部操作在promise的执行器函数中完成。</li>
+<li>执行器的两个职责<ul>
+<li>初始化promise的异步行为</li>
+<li>控制状态的最终转换<ul>
+<li>转换是通过调用它的两个函数参数实现的<ul>
+<li>reslove()</li>
+<li>reject()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>执行器函数是同步执行的。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">() =&gt;</span> <span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,<span class="string">&#x27;executor&#x27;</span>));</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,<span class="string">&#x27;promise initialized&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//executor</span></span><br><span class="line"><span class="comment">//promise initialized</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加setTimeout可以推迟切换状态：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve,<span class="number">1000</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次强调，promise的状态只能改变一次，且不可逆。任何在状态改变后视图再次改变状态的操作都会无效。</li>
+</ul>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1489,340 +1823,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" class="post-title-link" itemprop="url">Js学习笔记03变量、作用域与内存</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 22:32:44" itemprop="dateCreated datePublished" datetime="2021-12-06T22:32:44+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="RegExp正则"><a href="#RegExp正则" class="headerlink" title="RegExp正则"></a>RegExp正则</h1><ol>
-<li><p>支持直接使用let patten = /a/g的方式定义正则表达式</p>
-</li>
-<li><p>支持使用构造函数let patten = new RegExp(“a”,”i”)定义正则表达式，第一个参数使匹配字符串，第二个参数使模式选择。</p>
-<p>注意：因为在构造函数中参数使字符串，所以某些情况下需要二次转义，可以看作每一个”\“前面都要加多一个”\”来转义它本身，才可以正常使用。</p>
-</li>
-<li><p>模式：</p>
-<ol>
-<li>i：忽略大小写</li>
-<li>g：全局查找</li>
-<li>m：多行查找</li>
-</ol>
-</li>
-<li><p>实例方法</p>
-<ol>
-<li><p>主要方法使exec()</p>
-<ol>
-<li><p>如果找到了匹配项，则返包含第一个匹配信息的数组。</p>
-<p>注意：返回的数组虽然是Array实例，但是包含两个额外的属性，index和input，index是字符串匹配模式的起始位置，input是要查找的字符串。这个数组的第一个元素是匹配整个模式的字符串，其他元素则是与表达式中捕获组匹配的字符串。</p>
-</li>
-<li><p>没找到则返回null</p>
-</li>
-<li><p>如果模式设置了全局标记（g），则每次调用exec（）都会在字符串中向前搜索下一个匹配项。</p>
-</li>
-<li><p>如果没有设置全局标记，则每次都只会返回第一个匹配字符串。</p>
-</li>
-<li><p>如果设置了黏附标记y，则每一次调用exec（）就只会在lastIndex的位置上寻找匹配项。会覆盖全局标记。通过向前设置lastindex可以查找下一个匹配项。</p>
-</li>
-</ol>
-</li>
-<li><p>还有一个是text（）</p>
-<ol>
-<li>只检测是否匹配，不关心为什么。</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h2 id="原始包装类型"><a href="#原始包装类型" class="headerlink" title="原始包装类型"></a>原始包装类型</h2><ol>
-<li>每当用到某个原始值的方法或者属性时，后台都会创建一个相应的原始值包装数据类型，从而暴露出操作原始值的各种方法。</li>
-</ol>
-<h2 id="Boolean"><a href="#Boolean" class="headerlink" title="Boolean"></a>Boolean</h2><ol>
-<li>要创建一个Boolean对象，就要使用构造函数并传入true或者false</li>
-<li>Boolean实例会重写valueOf（）方法，返回一个原始值true或者false</li>
-<li>创建一个值为false的Boolean对象，在一个布尔表达式中用&amp;&amp;将这个对象和一个原始值true结合起来，返回的结果是true，因为Boolean对象在被转换的时候被当成了对象，而所有对象转化为Boolean值时都为true。</li>
-</ol>
-<h2 id="Number"><a href="#Number" class="headerlink" title="Number"></a>Number</h2><ol>
-<li>创建方法直接使用数值赋值即可</li>
-<li>实例方法<ol>
-<li>toFixed()可以将数值格式化为字符串，接受参数为这个字符串有多少位小数。</li>
-<li>toExponential()可以返回以科学技术法表示的数值字符串</li>
-<li>isInteger()用于鉴别一个数组的值是否是整数</li>
-<li>isSafeInteger()检查是否安全整数，即在IEEE754编码中可以表示</li>
-</ol>
-</li>
-</ol>
-<h2 id="String"><a href="#String" class="headerlink" title="String"></a>String</h2><ol>
-<li><p>JavaScript字符</p>
-<ol>
-<li>JavaScript字符串有16位码元组成。字符串的length属性表示字符串包含多少位16位码元。</li>
-<li>chartAt()查找指定索引位置的16位码元，并返回码元对应的字符。</li>
-<li>chartCodeAt()方法可以查看指定码元的字符编码（局限：有些字符需要不止16位码元表示，但是这个方法只会每16位解析）</li>
-<li>fromChartCode()方法用于根据给定的UTF-16码元船舰字符串中的字符古。接受任意多的数值，并返回所有数值对应的字符凭借起来的字符串。</li>
-<li>codePointAt()方法可以突破16位码元的限制</li>
-</ol>
-</li>
-<li><p>字符串操作方法</p>
-<ol>
-<li>字符串截取<ol>
-<li>slice()接受一到两个参数，第一个参数表示起始位置，第二个参数表示结束位置。如果是负数，则当成是倒数。</li>
-<li>substr()接受一到两个参数，第一个参数表示起始位置，第二个参数表示从起始位置往后截取多少个字符。如果是负数，第一个参数当成倒数，第二个参数转换为零。</li>
-<li>subString()接受一到两个参数，第一个参数表示其实位置，第二个参数表示从起始位置往后截取多少个字符。如果为负数，全部转为0</li>
-</ol>
-</li>
-</ol>
-</li>
-<li><p>字符串位置方法</p>
-<ol>
-<li>indexOf()从前往后搜索字符串，返回第一个匹配的字符串索引。</li>
-<li>lastIndexOf()从后往前第一个匹配的字符串索引。</li>
-</ol>
-<p>都接受第二个参数表示开始搜索的位置。</p>
-</li>
-<li><p>字符串包含方法</p>
-<ol>
-<li>startWith()    开始于索引0的匹配项</li>
-<li>endWith()      结束于字符串末尾的匹配项</li>
-<li>includes()      任意位置的匹配项</li>
-</ol>
-</li>
-<li><p>trim()创建一个副本删除最前面和最后面的所有空格。</p>
-</li>
-<li><p>repeat()接受一个参数，表示要将字符串重复几次。</p>
-</li>
-<li><p>padStart()和padEnd()</p>
-<ol>
-<li>接受两个参数，从开头或者结尾填充第二个参数直到字符串长度达到第一个参数的长度。</li>
-</ol>
-</li>
-<li><p>字符串迭代与解构，for-of迭代</p>
-</li>
-<li><p>字符串大小写转换，toLowerCase(),toUpperCase()</p>
-</li>
-<li><p>字符串模式匹配方法</p>
-<ol>
-<li>查找匹配match：pattern.exec(text)等价于text.match(pattern)</li>
-<li>查找替换replace:接受两个参数，第一个参数如果是字符串，只会替换一次，如果是正则表达式，则会替换左右被匹配的字符串。</li>
-</ol>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%9F%BA%E6%9C%AC%E5%BC%95%E7%94%A8%E7%B1%BB%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" class="post-title-link" itemprop="url">Js学习笔记03变量、作用域与内存</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 21:36:53" itemprop="dateCreated datePublished" datetime="2021-12-06T21:36:53+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="原始值与引用值"><a href="#原始值与引用值" class="headerlink" title="原始值与引用值"></a>原始值与引用值</h1><ol>
-<li>原始值：最简单的数据</li>
-<li>引用值：由多个值构成的对象</li>
-<li>JavaScript不允许直接访问内存的位置，在操作对象的时候实际操作的时对该对象的引用，为此，保存引用值的变量是按引用访问的</li>
-</ol>
-<h2 id="动态属性"><a href="#动态属性" class="headerlink" title="动态属性"></a>动态属性</h2><ol>
-<li>原始值：原始值不能拥有属性，但尝试给它添加属性不会报错</li>
-<li>引用值：引用值可以动态添加属性</li>
-<li>原始值的初始化：<ol>
-<li>只使用原始字面量形式，如var a = 1</li>
-<li>使用new初始化，这会创建一个object类型的实例，但是行为上类似于原始值</li>
-</ol>
-</li>
-</ol>
-<h2 id="复制值"><a href="#复制值" class="headerlink" title="复制值"></a>复制值</h2><ol>
-<li><p>原始值：复制原始值得到的是一个相互独立的副本</p>
-</li>
-<li><p>引用值：引用值持有的其实是对堆内存中实际值的一个引用，复制引用值实际上是复制了指向堆内存的指针，所以原始引用值和复制的引用值是会互相影响的。（浅复制）</p>
-</li>
-<li><p>深复制：复制一份独立的副本。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//借用JSON方法：stringify和parse实现深复制</span><br><span class="line">function deepClone(obj)&#123;</span><br><span class="line">    let _obj = JSON.stringify(obj),</span><br><span class="line">        objClone = JSON.parse(_obj);</span><br><span class="line">    return objClone</span><br><span class="line">&#125;    </span><br><span class="line">let a=[0,1,[2,3],4],</span><br><span class="line">    b=deepClone(a);</span><br><span class="line">a[0]=1;</span><br><span class="line">a[2][0]=1;</span><br><span class="line">console.log(a,b);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><ol>
-<li>ECMAScript中所有函数都是按值传递的。</li>
-<li>原始值：和复制值行为一样</li>
-<li>引用值：注意！传递参数的时候不是按引用传递，而是按值传递。<ol>
-<li>区别在于，如果你在函数内重新定义传入的参数，修改它的属性。</li>
-<li>如果是按引用传递，在函数外查看参数的属性应该是会变的。</li>
-<li>但是按值传递，函数外的对象属性不会发生变化，对对象的引用没有发生改变。</li>
-</ol>
-</li>
-</ol>
-<h2 id="如何确定类型"><a href="#如何确定类型" class="headerlink" title="如何确定类型"></a>如何确定类型</h2><ol>
-<li>原始值用typeof确定类型比较好</li>
-<li>引用值使用instanceof操作符确定类型，例如：person instanceof Object</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1894,20 +1894,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">101</span>
+          <span class="site-state-item-count">103</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">20</span>
+        <span class="site-state-item-count">21</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">5</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

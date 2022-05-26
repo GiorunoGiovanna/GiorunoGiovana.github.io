@@ -778,7 +778,7 @@
   <entry>
     <title>Vue生命周期</title>
     <url>/2022/03/21/Vue%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
-    <content><![CDATA[<h1 id="Vue生命周期"><a href="#Vue生命周期" class="headerlink" title="Vue生命周期"></a>Vue生命周期</h1><p>每个Vue的实例创建的时候都有一系列的阶段，比如创建Vue实例，数据装载，渲染DOM数，渲染CSS等等，这些不同阶段就被成为Vue的生命周期。理解生命周期的概念和各个生命周期钩子的作用有助于对Vue项目的提升。</p>
+    <content><![CDATA[<h1 id="Vue2生命周期"><a href="#Vue2生命周期" class="headerlink" title="Vue2生命周期"></a>Vue2生命周期</h1><p>每个Vue的实例创建的时候都有一系列的阶段，比如创建Vue实例，数据装载，渲染DOM数，渲染CSS等等，这些不同阶段就被成为Vue的生命周期。理解生命周期的概念和各个生命周期钩子的作用有助于对Vue项目的提升。</p>
 <p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/11370083-f279314aef6741db.webp" alt="11370083-f279314aef6741db"></p>
 <p>这是大佬博客的图，很直观的展示了Vue生命周期和生命周期钩子的作用。</p>
 <ol>
@@ -825,6 +825,89 @@
 <li>执行_update,将虚拟DOM转化为真实DOM</li>
 </ul>
 <p>参考原帖：<a href="https://www.jianshu.com/p/672e967e201c">https://www.jianshu.com/p/672e967e201c</a></p>
+<h1 id="Vue3生命周期"><a href="#Vue3生命周期" class="headerlink" title="Vue3生命周期"></a>Vue3生命周期</h1><p>Vue3的生命周期与Vue2的生命周期有一些更新，但是总体区别不大。vue3中新增了三个用于调试和服务端渲染场景。</p>
+<table>
+<thead>
+<tr>
+<th>生命周期v2</th>
+<th>生命周期v3</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>beforeCreate</td>
+<td>beforeCreate</td>
+<td>组件实例被创建之初</td>
+</tr>
+<tr>
+<td>created</td>
+<td>created</td>
+<td>组件实例已经完全创建</td>
+</tr>
+<tr>
+<td>beforeMount</td>
+<td>beforeMount</td>
+<td>组件挂载之前</td>
+</tr>
+<tr>
+<td>mounted</td>
+<td>mounted</td>
+<td>组件挂载到实例上去之后</td>
+</tr>
+<tr>
+<td>beforeUpdate</td>
+<td>beforeUpdate</td>
+<td>组件数据发生变化，更新之前</td>
+</tr>
+<tr>
+<td>updated</td>
+<td>updated</td>
+<td>数据数据更新之后</td>
+</tr>
+<tr>
+<td>beforeDestroy</td>
+<td><strong>beforeUnmounted</strong></td>
+<td>组件实例销毁之前</td>
+</tr>
+<tr>
+<td>destroyed</td>
+<td><strong>unmounted</strong></td>
+<td>组件实例销毁之后</td>
+</tr>
+<tr>
+<td>activated</td>
+<td>activated</td>
+<td>keep-alive 缓存的组件激活时</td>
+</tr>
+<tr>
+<td>deactivated</td>
+<td>deactivated</td>
+<td>keep-alive 缓存的组件停用时调用</td>
+</tr>
+<tr>
+<td>errorCaptured</td>
+<td>errorCaptured</td>
+<td>捕获一个来自子孙组件的错误时被调用</td>
+</tr>
+<tr>
+<td>-</td>
+<td><strong>renderTracked</strong></td>
+<td>调试钩子，响应式依赖被收集时调用</td>
+</tr>
+<tr>
+<td>-</td>
+<td><strong>renderTriggered</strong></td>
+<td>调试钩子，响应式依赖被触发时调用</td>
+</tr>
+<tr>
+<td>-</td>
+<td><strong>serverPrefetch</strong></td>
+<td>ssr only，组件实例在服务器上被渲染前调用</td>
+</tr>
+</tbody></table>
+<h2 id="Vue3生命周期图示"><a href="#Vue3生命周期图示" class="headerlink" title="Vue3生命周期图示"></a>Vue3生命周期图示</h2><p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/68747470733a2f2f67697465652e636f6d2f3537636f64652f706963676f2f7261772f6d61737465722f6c6966656379636c652e63656331316463632e706e67.png" alt="68747470733a2f2f67697465652e636f6d2f3537636f64652f706963676f2f7261772f6d61737465722f6c6966656379636c652e63656331316463632e706e67"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>对于前端开发来说，Vue3生命周期的时间节点没什么变化，该用还是一样用，但是记得在setup中使用生命周期钩子时候要记得使用<code>onMounted</code>这种加上on的方式调用生命周期。</p>
+<h2 id="衍生问题"><a href="#衍生问题" class="headerlink" title="衍生问题"></a>衍生问题</h2><h4 id="setup中有created钩子吗"><a href="#setup中有created钩子吗" class="headerlink" title="setup中有created钩子吗"></a>setup中有created钩子吗</h4><p>没有，因为setup比created更早执行，所以直接在setup中定义的方法对于开发者来说时间节点是一样的，因此没有必要再setup中提供created钩子</p>
 ]]></content>
       <categories>
         <category>Vue源码</category>
@@ -955,6 +1038,32 @@
 <li>举例来说，我们如果在vue中更新了DOM的内容，vue是不能立刻获取到更新后DOM的内容的。这是与vue的更新策略有关。在Vue所有与DOM有关的操作不会立即更新DOM，而是开启一个队列，把组件更新函数保存在队列中，在同一事件循环中发生所有数据变更会异步的批量更新。这个策略确实优化了dom的操作次数，对资源要求更低，但同时也使得我们无法立刻获取更新后的DOM状态。</li>
 <li>$nextTick会将你的回调放到一个promise.then中（微任务，等待DOM更新完成之后再调用里面的回调函数，这样就能够异步地看到最新的DOM值了）</li>
 </ul>
+<h3 id="9-扩展组件方法"><a href="#9-扩展组件方法" class="headerlink" title="9.扩展组件方法"></a>9.扩展组件方法</h3><p>按照逻辑扩展和内容扩展来划分</p>
+<p>逻辑扩展：mixin、extend、composition api</p>
+<p>内容扩展：slots</p>
+<ol>
+<li><p>slots是一种组件插槽，用于直接在模板中插入其他组件的内容</p>
+<p>子组件Child</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">  &lt;slot&gt;这个内容会被父组件传递的内容替换&lt;/slot&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>父组件Parent</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;div&gt;</span><br><span class="line">	&lt;Child&gt;来自老爹的内容&lt;/Child&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果需要精确分发可以使用具名slot</p>
+</li>
+<li><p>mixin是一种比较强大的组件扩展手段</p>
+<ul>
+<li><p>在Vue2中使用</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 复用代码：它是一个配置对象，选项和组件里面一样</span></span><br><span class="line"><span class="keyword">const</span> mymixin = &#123;</span><br><span class="line">	<span class="attr">methods</span>: &#123;</span><br><span class="line">		<span class="function"><span class="title">dosomething</span>(<span class="params"></span>)</span>&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 全局混入：将混入对象传入</span></span><br><span class="line">Vue.mixin(mymixin)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 局部混入：做数组项设置到mixins选项，仅作用于当前组件</span></span><br><span class="line"><span class="keyword">const</span> Comp = &#123;</span><br><span class="line">	<span class="attr">mixins</span>: [mymixin]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>在Vue3中使用</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//定义组件扩展内容</span></span><br><span class="line"><span class="keyword">import</span> &#123; ref &#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> composition = &#123;</span><br><span class="line">    <span class="function"><span class="title">setup</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> count = ref(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">const</span> adder = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="built_in">setInterval</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(count.value++)</span><br><span class="line">            &#125;, <span class="number">1000</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            adder,</span><br><span class="line">            count,</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; composition &#125; <span class="keyword">from</span> <span class="string">&quot;./utils/mixin&quot;</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  <span class="function"><span class="title">setup</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">//获取混入</span></span><br><span class="line">    <span class="keyword">const</span> &#123; adder &#125; = composition.setup();</span><br><span class="line">    <span class="keyword">return</span> &#123;</span><br><span class="line">      adder,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+</li>
+<li><p>composition api是Vue3中新引入的组件扩展方式，可以利用独立出来的响应式模块组合使用逻辑（推荐）</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 复用逻辑1</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useXX</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="comment">// 复用逻辑2</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useYY</span>(<span class="params"></span>) </span>&#123;&#125;</span><br><span class="line"><span class="comment">// 逻辑组合</span></span><br><span class="line"><span class="keyword">const</span> Comp = &#123;</span><br><span class="line">	<span class="function"><span class="title">setup</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">		<span class="keyword">const</span> &#123;xx&#125; = useXX()</span><br><span class="line">		<span class="keyword">const</span> &#123;yy&#125; = useYY()</span><br><span class="line">		<span class="keyword">return</span> &#123;xx, yy&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
 ]]></content>
       <categories>
         <category>Vue面试</category>
@@ -3892,7 +4001,7 @@
 <p><code>vue-router</code>最新版(^4.0.15)的写法发生了变化</p>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createRouter, createWebHistory &#125; <span class="keyword">from</span> <span class="string">&quot;vue-router&quot;</span>;</span><br><span class="line"><span class="keyword">import</span> index <span class="keyword">from</span> <span class="string">&#x27;@/components/index&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> router = createRouter(&#123;</span><br><span class="line">    <span class="attr">history</span>: createWebHistory(),</span><br><span class="line">    <span class="attr">routes</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;/&#x27;</span>,</span><br><span class="line">            <span class="attr">redirect</span>: <span class="string">&#x27;/index&#x27;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;/index&#x27;</span>,</span><br><span class="line">            <span class="attr">component</span>: index,</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> router</span><br></pre></td></tr></table></figure>
 
-<h2 id="功能搭建"><a href="#功能搭建" class="headerlink" title="功能搭建"></a>功能搭建</h2><ol>
+<h2 id="前端功能搭建"><a href="#前端功能搭建" class="headerlink" title="前端功能搭建"></a>前端功能搭建</h2><ol>
 <li><h4 id="开局大屏，具有伸缩透视效果。"><a href="#开局大屏，具有伸缩透视效果。" class="headerlink" title="开局大屏，具有伸缩透视效果。"></a>开局大屏，具有伸缩透视效果。</h4><p><strong>依赖</strong>：parallax.js(获取鼠标位置，实时计算每张图片的位移量，当然，缺点就是牺牲了性能，但是好看！)</p>
 <p><strong>实现</strong>：</p>
 <ul>
@@ -3921,6 +4030,13 @@
 <p>踩坑：一开始的时候是按照静态页面搭建的，然后修改成使用DOM动态添加样式，虽然方便，代码少，但是vue就没有作用了，最后还是头铁改成了<code>v-for</code>。</p>
 </li>
 <li><p>展示博客页</p>
+</li>
+</ol>
+<h2 id="后端功能搭建"><a href="#后端功能搭建" class="headerlink" title="后端功能搭建"></a>后端功能搭建</h2><ol>
+<li><h4 id="更新博客到数据库接口实现"><a href="#更新博客到数据库接口实现" class="headerlink" title="更新博客到数据库接口实现"></a>更新博客到数据库接口实现</h4><p><strong>依赖</strong>：marked(md to html)，highlight.js，github-markdown-css</p>
+<p><strong>实现</strong>：通过<code>readFlieSync</code>去检索指定文件夹下的markdown，然后利用marked把markdown转成html，再通过正则修改，添加上样式cdn，在保存html到数据库里面。</p>
+<p><strong>踩坑</strong>：想要把转文件功能抽出来，结果太多函数嵌套，那啥山代码了属于是（流汗黄豆），改造成promise代码总算能看了。原来数据库可以放这么大的数据呀，速度还不慢，牛的。</p>
+<p><strong>后续</strong>：应该把数据库操作再抽出来会不会好看一些？</p>
 </li>
 </ol>
 ]]></content>
@@ -5848,6 +5964,58 @@
       </categories>
       <tags>
         <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>electron初探</title>
+    <url>/2022/05/26/electron%E5%88%9D%E6%8E%A2/</url>
+    <content><![CDATA[<h1 id="electron初探"><a href="#electron初探" class="headerlink" title="electron初探"></a>electron初探</h1><p>在冲浪的时候无意间看到的一个框架，据说能把web端应用编译成win、linux、mac端桌面应用，大名鼎鼎的vscode也是基于这个框架的。牛。</p>
+<p>于是小试一下，结果发现还是有一点坑，</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>这篇博客已经说明了大部分配置。<a href="https://blog.csdn.net/gesila2/article/details/121215230">https://blog.csdn.net/gesila2/article/details/121215230</a></p>
+<p>我再说明我遇到的问题，</p>
+<ol>
+<li><p>路由配置：electron不支持history路由模式，只能使用hash路由模式</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//electron配置</span></span><br><span class="line"><span class="attr">history</span>: createWebHashHistory(process.env.BASE_URL ? process.env.BASE_URL : <span class="literal">null</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>文件地址配置：electron与web应用的区别是，它不依靠服务器运行，所以文件索引地址应该是绝对地址文件，而不是web服务器中的相对地址。</p>
+</li>
+<li><p>关于依赖：electron只认生产环境依赖<code>devDependencies</code>，所以要把依赖放到生产环境依赖中</p>
+</li>
+</ol>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>打包后的体积有一点大，我只不过是一个小小demo就189mb了。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>electron就是给web应用套了个壳，让web运行在一个虚拟机上面，虽然还有很多不足，但是也挺牛掰的，再说一句，vscode永远滴神。</p>
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>实战</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>力扣前端页面抖动bug</title>
+    <url>/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/</url>
+    <content><![CDATA[<h2 id="力扣页面捉虫"><a href="#力扣页面捉虫" class="headerlink" title="力扣页面捉虫"></a>力扣页面捉虫</h2><p>作为一个菜鸟大三，今天在力扣上面看面经，结果给我发现一个无伤大雅的小bug。当我在看讨论区大佬的面经的时候，正想着给大佬点一个赞，结果发现我无论如何也看不清点赞按钮，难道是我学得太过深入导致眼花了？揉了揉眼睛，发现事情并没有那么简单。</p>
+<p><img src="C:\Users\Martin\Desktop\动画.gif" alt="动画"></p>
+<p>我们把页面滑动到帖子结束，讨论区开始的地方，经过细微的调试，就能复现这个bug。</p>
+<p>我定着这个抖动的框陷入了沉思，作为一个合格的菜鸟，我第一时间就按下了f12，选中了这个节点。果然class在疯狂的变换。我又换了火狐浏览器，发现bug依旧。如果不是浏览器的问题，那就是代码本身有问题吗？</p>
+<p>试着分析以下这个bug的原理，</p>
+<p>首先，在页面处于这个帖子本身的时候，也就是高于这个点赞评论框的时候，这个框是吸附在浏览器窗口底部的。<img src="C:\Users\Martin\Desktop\截图1.png" alt="截图1"></p>
+<p>其次，当页面处于这个帖子的评论区的时候，也就是低于点赞评论框，这个点赞评论框就是位于帖子底部的。</p>
+<p><img src="C:\Users\Martin\Desktop\截图2.png" alt="截图2"></p>
+<p>那么我们滑动窗口的时候，在某个时刻，就触发了样式的改变，所以很可能是使用了DOM监听器去监听帖子底部到页面顶端的距离，去判断这个框是吸附在底部还是正常表现。</p>
+<p>这怎么看着这么眼熟，这不就是图片懒加载的原理吗。于是尝试复现这个bug。</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    <span class="xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>尝试抖动复现<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span></span><br><span class="line"><span class="xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&lt;/body&gt;</span><br><span class="line"><span class="xml"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">let</span> _p = <span class="built_in">document</span>.createElement(<span class="string">&#x27;p&#x27;</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    _p.innerText = <span class="string">&quot;尝试抖动复现&quot;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">let</span> temp = <span class="string">&#x27;&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">30</span>; i++) &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        <span class="keyword">let</span> cloneDOM = _p.cloneNode(<span class="literal">true</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        temp += cloneDOM.outerHTML</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">let</span> _h1 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;h1&#x27;</span>)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    _h1.insertAdjacentHTML(<span class="string">&quot;beforebegin&quot;</span>, temp)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    <span class="keyword">let</span> observer = <span class="keyword">new</span> IntersectionObserver(<span class="function"><span class="params">entries</span> =&gt;</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        entries.forEach(<span class="function"><span class="params">entry</span> =&gt;</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="comment">// console.log(entry.boundingClientRect.top)</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">            <span class="keyword">if</span> (entry.isIntersecting) &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                _h1.style.position = <span class="string">&#x27;static&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125; <span class="keyword">else</span> &#123;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">                _h1.style.position = <span class="string">&#x27;relative&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">                _h1.style.top = <span class="string">&#x27;-50px&#x27;</span></span></span></span><br><span class="line"><span class="javascript"><span class="xml">            &#125;</span></span></span><br><span class="line"><span class="javascript"><span class="xml">        &#125;)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    &#125;)</span></span></span><br><span class="line"><span class="javascript"><span class="xml">    observer.observe(_h1);</span></span></span><br><span class="line"><span class="javascript"><span class="xml"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+
+<p><img src="C:\Users\Martin\Desktop\动画1.gif" alt="动画1"></p>
+<p>结果还真复现了一个差不多的，那么差不多可以得出结论了，就是监听器不断监听dom节点的位置，发现这个框应该改变样式，但是<strong>改变样式之后又因为高度变化导致监听器重新判断</strong>，给出了应该把样式该回去的判断，于是样式就开始上下横跳。</p>
+<p>既然问题明朗了有什么解决办法呢？</p>
+<p>我觉得有一个办法就是防抖(物理)，就是把监听器判定的高度调低一点，让它在这个临界区中只保持一种状态就好。</p>
+]]></content>
+      <categories>
+        <category>其他</category>
+      </categories>
+      <tags>
+        <tag>bug</tag>
       </tags>
   </entry>
 </search>
