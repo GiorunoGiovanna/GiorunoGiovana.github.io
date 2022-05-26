@@ -211,7 +211,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-05-26 10:38:34 / 修改时间：15:22:26" itemprop="dateCreated datePublished" datetime="2022-05-26T10:38:34+08:00">2022-05-26</time>
+              <time title="创建时间：2022-05-26 10:38:34 / 修改时间：20:01:31" itemprop="dateCreated datePublished" datetime="2022-05-26T10:38:34+08:00">2022-05-26</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -248,14 +248,13 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h2 id="力扣页面捉虫"><a href="#力扣页面捉虫" class="headerlink" title="力扣页面捉虫"></a>力扣页面捉虫</h2><p>作为一个菜鸟大三，今天在力扣上面看面经，结果给我发现一个无伤大雅的小bug。当我在看讨论区大佬的面经的时候，正想着给大佬点一个赞，结果发现我无论如何也看不清点赞按钮，难道是我学得太过深入导致眼花了？揉了揉眼睛，发现事情并没有那么简单。</p>
-<p><img src="https://pic.leetcode-cn.com/1653402475-YIbMXy-%E5%8A%A8%E7%94%BB.gif" alt="动画"></p>
+          <h1 id="力扣页面捉虫"><a href="#力扣页面捉虫" class="headerlink" title="力扣页面捉虫"></a>力扣页面捉虫</h1><p>作为一个菜鸟大三，今天在力扣上面看面经，结果给我发现一个无伤大雅的小bug。当我在看讨论区大佬的面经的时候，正想着给大佬点一个赞，结果发现我无论如何也看不清点赞按钮，难道是我学得太过深入导致眼花了？揉了揉眼睛，发现事情并没有那么简单。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E5%8A%A8%E7%94%BB.gif" alt="动画"></p>
 <p>我们把页面滑动到帖子结束，讨论区开始的地方，经过细微的调试，就能复现这个bug。</p>
 <p>我定着这个抖动的框陷入了沉思，作为一个合格的菜鸟，我第一时间就按下了f12，选中了这个节点。果然class在疯狂的变换。我又换了火狐浏览器，发现bug依旧。如果不是浏览器的问题，那就是代码本身有问题吗？</p>
-<p>试着分析以下这个bug的原理，</p>
-<p>首先，在页面处于这个帖子本身的时候，也就是高于这个点赞评论框的时候，这个框是吸附在浏览器窗口底部的。<img src="C:\Users\Martin\Desktop\截图1.png" alt="截图1"></p>
+<h2 id="分析bug原理"><a href="#分析bug原理" class="headerlink" title="分析bug原理"></a>分析bug原理</h2><p>首先，在页面处于这个帖子本身的时候，也就是高于这个点赞评论框的时候，这个框是吸附在浏览器窗口底部的。<img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E6%88%AA%E5%9B%BE1.png" alt="截图1"></p>
 <p>其次，当页面处于这个帖子的评论区的时候，也就是低于点赞评论框，这个点赞评论框就是位于帖子底部的。</p>
-<p><img src="C:\Users\Martin\Desktop\截图2.png" alt="截图2"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E6%88%AA%E5%9B%BE2.png" alt="截图2"></p>
 <p>那么我们滑动窗口的时候，在某个时刻，就触发了样式的改变，所以很可能是使用了DOM监听器去监听帖子底部到页面顶端的距离，去判断这个框是吸附在底部还是正常表现。</p>
           <!--noindex-->
             <div class="post-button">
