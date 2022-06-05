@@ -6019,4 +6019,66 @@
         <tag>bug</tag>
       </tags>
   </entry>
+  <entry>
+    <title>SSL/TLS原理</title>
+    <url>/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL/TLS原理"></a>SSL/TLS原理</h1><p>使用SSL/TLS加密的HTTP协议HTTPS是时下最流行的网页加密技术。主要任务是提供<strong>私密性，信息完整性和身份认证</strong>。SSL是一个不依赖于平台和运用程序的协议，位于TCP/IP协议与各种应用层协议之间，为数据通信提高安全支持。</p>
+<h2 id="SSL-TLS位置"><a href="#SSL-TLS位置" class="headerlink" title="SSL/TLS位置"></a>SSL/TLS位置</h2><p>SSL/TLS是位于应用层和TCP层之间的协议，一旦启用SSL/TLS协议，数据就先传递给SSL/TLS层再传递给TCP层。</p>
+<table>
+<thead>
+<tr>
+<th align="center">HTTP/FTP（应用层）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">SSL/TLS（加密协议）</td>
+</tr>
+<tr>
+<td align="center">TCP（传输层）</td>
+</tr>
+</tbody></table>
+<h2 id="前置知识："><a href="#前置知识：" class="headerlink" title="前置知识："></a>前置知识：</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>对称加密就是加密方和解密方都使用同一个密钥进行加密/解密。这种方法比较简单，性能也比较好，但是缺点就是密钥不能泄露，一旦泄露对话就不安全了。SSL/TLS的最终目的就是安全的在网络中发送对称加密密钥。</p>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>非对称加密就是加密方和解密方使用不同密钥。通常有一个密钥称为公钥，就是公布到网络中，任何人都可以访问，还有一个私钥。这种方式性能不如对称加密，但是更安全，可以用来安全交换对称加密密钥。</p>
+<p>非对称加密的基石是加密算法（RSA），它的特点就是有两个key。key1和key2，分别对应D（解密）运算和E（加密）运算。对于一个信息，无论是先进行E运算再进行D运算还是先进行D运算再进行E运算，得到的结果是一样的，都能得出原来的结果，并且中间产物（秘文）无法使用其他手段破解得到原始值（目前来说）。</p>
+<h3 id="证书颁发机构（CA）"><a href="#证书颁发机构（CA）" class="headerlink" title="证书颁发机构（CA）"></a>证书颁发机构（CA）</h3><p>在SSL/TLS通信中要对双方的身份进行验证，才能安全的进行通信，为了防止第三方伪造，我们需要一个可以信任的第三方通过颁发数字证书的方式对双方的身份进行验证。这就是CA。原理是通过CA自己内部的私钥对通信方的身份做一次加密，再加上未签名的身份信息，构成了数字证书。要验证身份的地方只要用公钥解密信息对比身份信息，只要一致就说明可以信任。</p>
+<h2 id="SSL-TLS原理-1"><a href="#SSL-TLS原理-1" class="headerlink" title="SSL/TLS原理"></a>SSL/TLS原理</h2><p>SSL/TLS的目的就是让不确定的通信双方最终能够建立对称加密方式的可信任的通信。</p>
+<p>原理图如下：</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/ssl.png" alt="ssltls"></p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浏览器完整生命周期</title>
+    <url>/2022/06/05/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/</url>
+    <content><![CDATA[<h1 id="浏览器完整生命周期"><a href="#浏览器完整生命周期" class="headerlink" title="浏览器完整生命周期"></a>浏览器完整生命周期</h1><p>浏览器是前端开发最重要的工具之一，那么浏览器从输入到页面加载中间到底经历了什么</p>
+<h2 id="浏览器内部逻辑分析"><a href="#浏览器内部逻辑分析" class="headerlink" title="浏览器内部逻辑分析"></a>浏览器内部逻辑分析</h2><p>在现代浏览器中我们在输入框如果输入不正确的url地址，浏览器会自动跳转到默认搜索引擎搜索你输入的内容。如果你输入的url没有错，则进行页面的跳转。</p>
+<h2 id="网络请求角度分析"><a href="#网络请求角度分析" class="headerlink" title="网络请求角度分析"></a>网络请求角度分析</h2><p>我们通过chrome的开发者工具抓取network请求包，分析第一个请求的时序。</p>
+<p><img src="C:\Users\Martin\AppData\Roaming\Typora\typora-user-images\image-20220605091710369.png" alt="image-20220605091710369"></p>
+<p>发现有如下顺序，</p>
+<ol>
+<li>预处理</li>
+<li>DNS解析</li>
+<li>建立链接（SSL）</li>
+<li>发起HTTP请求</li>
+<li>等待响应</li>
+<li>缓存处理（此处没有，但是一般对于某些大文件，第二次加载的时候会使用，等会解析）</li>
+<li>接收数据</li>
+</ol>
+<h3 id="DNS解析详细过程"><a href="#DNS解析详细过程" class="headerlink" title="DNS解析详细过程"></a>DNS解析详细过程</h3><p>我们都知道，域名其实不是一个服务器的真正地址，更像是一个方便人类查找和记忆的代号。根据计算机网络原理，服务器的地址是一串32位（ipv4）或者128位（ipv6）的二进制代码组成的ip地址。我们输入的域名并不能让浏览器找到服务器的位置，而是需要解析域名，查找其对应的ip地址。这就是DNS解析。</p>
+<p>DNS解析是一个渐进的过程，它会先访问浏览器缓存–&gt;本机host–&gt;本地DNS服务器查找–&gt;去网络上从顶级域名服务器–&gt;根域名服务器等一直递归查询。</p>
+<h3 id="建立链接（TLS-SSL）详细过程"><a href="#建立链接（TLS-SSL）详细过程" class="headerlink" title="建立链接（TLS/SSL）详细过程"></a>建立链接（TLS/SSL）详细过程</h3><p>首次与服务器建立链接的时候需要建立一个TCP链接（3次握手），然后根据服务器所使用的协议（http/https）来判断是否建立SSL链接。</p>
+<p>SSL链接是一种用于保密传输内容的协议，</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
 </search>
