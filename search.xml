@@ -813,18 +813,28 @@
 <p>那么发生了什么就很清晰了，发生了数据响应式更新的监控，同时获取了虚拟DOM并渲染了真实DOM到浏览器上。</p>
 <p>从源码的角度去看：</p>
 <ul>
-<li>vue本质上是一个构造函数，执行new Vue()的时候，会通过它的构造函数执行横夺函数，本质上就是为了给vue的prototype扩展一些方法，调用this._init。</li>
-<li>this._init干了什么<ul>
-<li>给每一个vue实例写一个唯一的uid</li>
-<li>合并options</li>
-<li>执行一堆initXXX的函数</li>
+<li><p>vue本质上是一个构造函数，执行new Vue()的时候，会通过它的构造函数执行很多函数，本质上就是为了给vue的prototype扩展一些方法，调用this._init。</p>
+</li>
+<li><p>this._init干了什么</p>
+<ul>
+<li><p>给每一个vue实例写一个唯一的uid</p>
+</li>
+<li><p>合并options</p>
+</li>
+<li><p>执行一堆initXXX的函数</p>
+<p>看源码</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">initMixin</span> (<span class="params">Vue: Class&lt;Component&gt;</span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 在原型上添加 _init 方法</span></span><br><span class="line">  Vue.prototype._init = <span class="function"><span class="keyword">function</span> (<span class="params">options?: <span class="built_in">Object</span></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 保存当前实例</span></span><br><span class="line">    <span class="keyword">const</span> vm: Component = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">// 合并配置</span></span><br><span class="line">    <span class="keyword">if</span> (options &amp;&amp; options._isComponent) &#123;</span><br><span class="line">      <span class="comment">// 把子组件依赖父组件的 props、listeners 挂载到 options 上，并指定组件的$options</span></span><br><span class="line">      initInternalComponent(vm, options)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 把我们传进来的 options 和当前构造函数和父级的 options 进行合并，并挂载到原型上</span></span><br><span class="line">      vm.$options = mergeOptions(</span><br><span class="line">        resolveConstructorOptions(vm.constructor),</span><br><span class="line">        options || &#123;&#125;,</span><br><span class="line">        vm</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line">    vm._self = vm</span><br><span class="line">    initLifecycle(vm) <span class="comment">// 初始化实例的属性、数据：$parent, $children, $refs, $root, _watcher...等</span></span><br><span class="line">    initEvents(vm) <span class="comment">// 初始化事件：$on, $off, $emit, $once</span></span><br><span class="line">    initRender(vm) <span class="comment">// 初始化渲染： render, mixin</span></span><br><span class="line">    callHook(vm, <span class="string">&#x27;beforeCreate&#x27;</span>) <span class="comment">// 调用生命周期钩子函数</span></span><br><span class="line">    initInjections(vm) <span class="comment">// 初始化 inject</span></span><br><span class="line">    initState(vm) <span class="comment">// 初始化组件数据：props, data, methods, watch, computed</span></span><br><span class="line">    initProvide(vm) <span class="comment">// 初始化 provide</span></span><br><span class="line">    callHook(vm, <span class="string">&#x27;created&#x27;</span>) <span class="comment">// 调用生命周期钩子函数</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (vm.$options.el) &#123;</span><br><span class="line">      <span class="comment">// 如果传了 el 就会调用 $mount 进入模板编译和挂载阶段</span></span><br><span class="line">      <span class="comment">// 如果没有传就需要手动执行 $mount 才会进入下一阶段</span></span><br><span class="line">      vm.$mount(vm.$options.el)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ul>
 </li>
-<li>执行vm.Smount,调用mountComponent，创建updateComponent</li>
-<li>执行_render,获取虚拟DOM</li>
-<li>执行_update,将虚拟DOM转化为真实DOM</li>
+<li><p>执行vm.$mount,调用mountComponent，创建updateComponent</p>
+</li>
+<li><p>执行_render,获取虚拟DOM</p>
+</li>
+<li><p>执行_update,将虚拟DOM转化为真实DOM</p>
+</li>
 </ul>
-<p>参考原帖：<a href="https://www.jianshu.com/p/672e967e201c">https://www.jianshu.com/p/672e967e201c</a></p>
+<p>参考博客：<a href="https://www.jianshu.com/p/672e967e201c">https://www.jianshu.com/p/672e967e201c</a></p>
+<p>​                    <a href="https://blog.csdn.net/a151681931/article/details/120704697">https://blog.csdn.net/a151681931/article/details/120704697</a></p>
 <h1 id="Vue3生命周期"><a href="#Vue3生命周期" class="headerlink" title="Vue3生命周期"></a>Vue3生命周期</h1><p>Vue3的生命周期与Vue2的生命周期有一些更新，但是总体区别不大。vue3中新增了三个用于调试和服务端渲染场景。</p>
 <table>
 <thead>
@@ -5633,7 +5643,32 @@
 </li>
 <li><p><strong>流体布局（左右固定中间可大可小）</strong></p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.left</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">float</span>: left;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: pink;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.right</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">float</span>: right;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: skyblue;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.main</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin-left</span>: <span class="number">120px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin-right</span>: <span class="number">220px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: wheat;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
-<li></li>
+<li><p><strong>路由全局守卫的三个参数</strong></p>
+<p>全局守卫有前置守卫和后置守卫，是vueRouter对象的两个钩子函数，分别是<code>befroeEach</code>和<code>afterEach</code></p>
+<p>前置守卫</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//  to: 目标路由</span></span><br><span class="line">    <span class="comment">//  from: 当前路由</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// next() 跳转  一定要调用</span></span><br><span class="line">    next(<span class="literal">false</span>);<span class="comment">//不让走</span></span><br><span class="line">    next(<span class="literal">true</span>);<span class="comment">//继续前行</span></span><br><span class="line">    next(<span class="string">&#x27;/login&#x27;</span>)<span class="comment">//走哪</span></span><br><span class="line">    next(&#123;<span class="attr">path</span>:<span class="string">&#x27;/detail/2&#x27;</span>,<span class="attr">params</span>:&#123;&#125;,<span class="attr">query</span>:&#123;&#125;&#125;)<span class="comment">//带点货</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>后置守卫</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">router.afterEach(<span class="function">(<span class="params">to,<span class="keyword">from</span></span>)=&gt;</span>&#123;</span><br><span class="line">   <span class="comment">//全局后置守卫业务</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>频繁使用eventbus的后果</strong></p>
+<p>$on事件是不会自动销毁的，需要我们手动销毁，如果我们一直触发又不进行销毁，就会造成内存泄露。</p>
+</li>
+<li><p><strong>keep-alive解释</strong></p>
+<p>keep-alive是Vue中内置的组件，用来缓存不活动动态组件的。</p>
+</li>
+<li><p><strong>Vue设置全局变量和全局函数</strong></p>
+<ol>
+<li><p>使用export default/module.exports</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> BASEURL = <span class="string">&quot;http://localhost:3333/&quot;</span></span><br><span class="line"><span class="keyword">const</span> URL = &#123;</span><br><span class="line">    <span class="attr">getCategory</span>:BASEURL+<span class="string">&#x27;category&#x27;</span>,</span><br><span class="line">    <span class="attr">getGoodsInfo</span>:BASEURL+<span class="string">&#x27;getGoodsInfo&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> URL</span><br><span class="line">在入口文件中引入</span><br><span class="line"><span class="keyword">import</span> url <span class="keyword">from</span> <span class="string">&#x27;./api/api&#x27;</span></span><br><span class="line">Vue.prototype.URL=url;</span><br></pre></td></tr></table></figure></li>
+<li><p>挂载在全局Vue实例上</p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//Vue2</span></span><br><span class="line">Vue.prototype.$store = <span class="keyword">new</span> Store()</span><br><span class="line"></span><br><span class="line"><span class="comment">//Vue3</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Store()</span><br><span class="line">Vue.use(store)</span><br></pre></td></tr></table></figure></li>
+<li><p>Vuex状态管理</p>
+</li>
+</ol>
+</li>
+<li><p><strong>解释Vue单项数据流</strong></p>
+<p>Vue中数据的流动是单项的，只能从父组件流向子组件，例如子组件可以通过props获得父组件的数据，但是子组件是不允许直接修改父组件的数据的，只能通过复制一份，或者$emit等方式通知父组件修改。</p>
+</li>
 </ol>
 ]]></content>
       <categories>
@@ -6058,7 +6093,7 @@
     <content><![CDATA[<h1 id="浏览器完整生命周期"><a href="#浏览器完整生命周期" class="headerlink" title="浏览器完整生命周期"></a>浏览器完整生命周期</h1><p>浏览器是前端开发最重要的工具之一，那么浏览器从输入到页面加载中间到底经历了什么</p>
 <h2 id="浏览器内部逻辑分析"><a href="#浏览器内部逻辑分析" class="headerlink" title="浏览器内部逻辑分析"></a>浏览器内部逻辑分析</h2><p>在现代浏览器中我们在输入框如果输入不正确的url地址，浏览器会自动跳转到默认搜索引擎搜索你输入的内容。如果你输入的url没有错，则进行页面的跳转。</p>
 <h2 id="网络请求角度分析"><a href="#网络请求角度分析" class="headerlink" title="网络请求角度分析"></a>网络请求角度分析</h2><p>我们通过chrome的开发者工具抓取network请求包，分析第一个请求的时序。</p>
-<p><img src="C:\Users\Martin\AppData\Roaming\Typora\typora-user-images\image-20220605091710369.png" alt="image-20220605091710369"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220605091710369.png" alt="image-20220605091710369"></p>
 <p>发现有如下顺序，</p>
 <ol>
 <li>预处理</li>
@@ -6072,10 +6107,76 @@
 <h3 id="DNS解析详细过程"><a href="#DNS解析详细过程" class="headerlink" title="DNS解析详细过程"></a>DNS解析详细过程</h3><p>我们都知道，域名其实不是一个服务器的真正地址，更像是一个方便人类查找和记忆的代号。根据计算机网络原理，服务器的地址是一串32位（ipv4）或者128位（ipv6）的二进制代码组成的ip地址。我们输入的域名并不能让浏览器找到服务器的位置，而是需要解析域名，查找其对应的ip地址。这就是DNS解析。</p>
 <p>DNS解析是一个渐进的过程，它会先访问浏览器缓存–&gt;本机host–&gt;本地DNS服务器查找–&gt;去网络上从顶级域名服务器–&gt;根域名服务器等一直递归查询。</p>
 <h3 id="建立链接（TLS-SSL）详细过程"><a href="#建立链接（TLS-SSL）详细过程" class="headerlink" title="建立链接（TLS/SSL）详细过程"></a>建立链接（TLS/SSL）详细过程</h3><p>首次与服务器建立链接的时候需要建立一个TCP链接（3次握手），然后根据服务器所使用的协议（http/https）来判断是否建立SSL链接。</p>
-<p>SSL链接是一种用于保密传输内容的协议，</p>
+<p>SSL链接是一种用于保密传输内容的协议，它是工作在应用层（HTTP）和传输层(TCP)之间的，通过可信任的第三方CA进行一次非对称加密传输拿到等等建立链接后所使用的对称加密密钥。具体可见<a href="https://stoneocean.top/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/">此处</a>。</p>
+<h3 id="缓存处理详细过程"><a href="#缓存处理详细过程" class="headerlink" title="缓存处理详细过程"></a>缓存处理详细过程</h3><p>缓存是一种用于避免重复传输不必要的文件的手段，例如我们第一次访问网站的时候加载了一个图片，第二次访问的时候没有必要又从服务器上请求数据，直接使用缓存在本地的图片就可以了。</p>
+<p>缓存分为强缓存和协商缓存。</p>
+<p>强缓存的资源会携带一个Expires或者cache-control，只要在缓存有效时间内，就直接从本地取数据</p>
+<p>协商缓存分为两种，一种是Etag文件唯一标识符，每次请求此资源时候带上Etag，当服务器的文件发生改变的时候，Etag更新与请求的Etag不一致则重新传输，一致则还是使用本地缓存。另一种的last-modified最后修改时间，于etag同理。具体可见<a href="https://stoneocean.top/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">此处</a>。</p>
+<h2 id="浏览器渲染角度分析"><a href="#浏览器渲染角度分析" class="headerlink" title="浏览器渲染角度分析"></a>浏览器渲染角度分析</h2><p>当浏览器接收到html文件后，尽管html文件中的其他资源可能还没有传输完成，浏览器依然会开始解析html。解析的过程是从上而下，顺序解析。HTML对应DOM树生成，CSS对应CSSOM树生成，最终合并生成render-tree。再根据布局计算，最后GPU进行绘制。</p>
+<p>PS：构建DOM树期间，如果遇到JS，阻塞DOM树以及CSSOM树的构建，优先加载JS文件，加载完毕，再继续构建DOM树及CSSOM树。因为js中可能操作了html，会导致DOM树的改变。</p>
+<p>渲染步骤如下：</p>
+<ol>
+<li>根据HTML解析出DOM树</li>
+<li>根据CSS解析出CSSOM树</li>
+<li>结合DOM树和CSSOM树生成渲染树</li>
+<li>布局计算</li>
+<li>根据计算好的信息绘制页面</li>
+</ol>
+<h3 id="根据HTML构建DOM树"><a href="#根据HTML构建DOM树" class="headerlink" title="根据HTML构建DOM树"></a>根据HTML构建DOM树</h3><p>浏览器拿到服务器提供的HTML后，会先根据顶部定义的类型进行对应的解析方式，HTML的解析会被交给内部的GUI渲染线程处理。</p>
+<p>渲染线程中的HTML解释器会从上到下解析HTML内容。</p>
+<p>如果遇到的节点是js代码节点，则会调用JS引擎对js代码进行解释执行，此时由于JS引擎和GUI线程是互斥的，GUI渲染线程会挂起直到js引擎解析完毕。</p>
+<p>如果遇到的是其他资源（图片，css），会调用网络模块来加载，不会阻塞GUI线程的执行。</p>
+<p>如果遇到的是JS资源URL（非异步的），则会阻塞GUI渲染线程，直到js资源加载并解析执行完毕后再执行。</p>
+<h3 id="根据CSS构建CSSOM树"><a href="#根据CSS构建CSSOM树" class="headerlink" title="根据CSS构建CSSOM树"></a>根据CSS构建CSSOM树</h3><p>CSS解释器会将CSS翻译成CSSOM树，这个过程和DOM解析类似。由于下一个阶段是render树构建，因此需要等待到DOM树和CSSOM树都构建完成之后才会推进</p>
+<h3 id="构建渲染树"><a href="#构建渲染树" class="headerlink" title="构建渲染树"></a>构建渲染树</h3><p>将CSSOM树种对应的样式交到DOM树对应的节点上，形成一颗完备的渲染树</p>
+<h3 id="布局（reflow）"><a href="#布局（reflow）" class="headerlink" title="布局（reflow）"></a>布局（reflow）</h3><p>渲染树同时包含了屏幕上的所有可见内容以及其详细信息，再这个阶段浏览器会详细计算每一个节点再视口内的确切位置和大小，这就是布局阶段，也被称为reflow（回流）。</p>
+<h3 id="绘制（repain）"><a href="#绘制（repain）" class="headerlink" title="绘制（repain）"></a>绘制（repain）</h3><p>这个阶段浏览器已经知道了各个节点的大小位置等等信息，可以将这些信息转化成屏幕上的实际像素。</p>
+<h3 id="合成（Composite）"><a href="#合成（Composite）" class="headerlink" title="合成（Composite）"></a>合成（Composite）</h3><p>把前面的所有信息发送给GPU，GPU将各层合成，显示在屏幕上。</p>
 ]]></content>
       <categories>
         <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>TS-challenge01</title>
+    <url>/2022/06/23/TS-challenge01/</url>
+    <content><![CDATA[<h1 id="TS-challenge"><a href="#TS-challenge" class="headerlink" title="TS-challenge"></a>TS-challenge</h1><p>这是一个在github上的开源<a href="https://github.com/type-challenges/type-challenges">项目</a>，可以用来练习TS的语法。</p>
+<h2 id="04-pick"><a href="#04-pick" class="headerlink" title="04-pick"></a>04-pick</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> MyPick&lt;T, K <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">    <span class="comment">//通过in遍历得到T（数组）中的每一个元素，再让它等于本身</span></span><br><span class="line">    [P <span class="keyword">in</span> K]: T[P]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="07-redaonly"><a href="#07-redaonly" class="headerlink" title="07-redaonly"></a>07-redaonly</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> MyReadonly&lt;T&gt; = &#123;</span><br><span class="line">    <span class="comment">//通过keyof可以遍历得到T（对象）中的键（key）</span></span><br><span class="line">    <span class="keyword">readonly</span> [p <span class="keyword">in</span> keyof T]: T[p]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="11-tuple-to-object"><a href="#11-tuple-to-object" class="headerlink" title="11-tuple to object"></a>11-tuple to object</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//通过extends关键字可以限定T（数组）中取出元素的类型</span></span><br><span class="line"><span class="keyword">type</span> TupleToObject&lt;T <span class="keyword">extends</span> <span class="keyword">readonly</span> (<span class="built_in">string</span> | <span class="built_in">number</span> | symbol )[]&gt; = &#123;</span><br><span class="line">    [P <span class="keyword">in</span> T[<span class="built_in">number</span>]]: P</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="14-first"><a href="#14-first" class="headerlink" title="14-first"></a>14-first</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//extends可以类比为js中==，这句话的意思就是看看T的类型是否是空的数组</span></span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T <span class="keyword">extends</span> [] ? <span class="built_in">never</span> : T[<span class="number">0</span>]</span><br><span class="line"><span class="comment">//在TS中可以使用[“key”]的方式指定对象的某个属性</span></span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T[<span class="string">&quot;length&quot;</span>] <span class="keyword">extends</span> <span class="number">0</span> ? <span class="built_in">never</span> : T[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T[<span class="number">0</span>] <span class="keyword">extends</span> T[<span class="built_in">number</span>] ? T[<span class="number">0</span>] : <span class="built_in">never</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//在TS中也可以使用解构赋值，但是要为解构的元素使用infer关键字</span></span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T <span class="keyword">extends</span> [infer first, ...infer other] ? first : <span class="built_in">never</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="18-tuple-length"><a href="#18-tuple-length" class="headerlink" title="18-tuple-length"></a>18-tuple-length</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//在TS中可以使用[“key”]的方式指定对象的某个属性</span></span><br><span class="line"><span class="keyword">type</span> Length&lt;T <span class="keyword">extends</span> <span class="keyword">readonly</span> <span class="built_in">any</span>[]&gt; = T[<span class="string">&quot;length&quot;</span>]</span><br></pre></td></tr></table></figure>
+
+<h2 id="43-exclude"><a href="#43-exclude" class="headerlink" title="43-exclude"></a>43-exclude</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//extends也可以判断类型是否被后面的类型包含</span></span><br><span class="line"><span class="keyword">type</span> MyExclude&lt;T, U&gt; = T <span class="keyword">extends</span> U ? <span class="built_in">never</span> : T</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>TypeScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>算法-二分查找</title>
+    <url>/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/</url>
+    <content><![CDATA[<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p><strong>使用二分查找的要求是确定数据上下界，并且数据是有顺序的</strong>。具体思路就是从数组的中间元素开始，如果中间的元素恰好是目标值，则搜索结束，如果目标值大于或小于中间元素，则在大于或小于的那一半重新二分。</p>
+<h4 id="704-二分查找"><a href="#704-二分查找" class="headerlink" title="704. 二分查找"></a><a href="https://leetcode.cn/problems/binary-search/">704. 二分查找</a></h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> search = <span class="function"><span class="keyword">function</span>(<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 二分</span></span><br><span class="line">    <span class="keyword">let</span> start = <span class="number">0</span>,end = nums.length-<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(start&lt;=end)&#123;</span><br><span class="line">        <span class="keyword">let</span> mid = <span class="built_in">Math</span>.floor((start+end)/<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">if</span>(nums[mid]&lt;target)&#123;</span><br><span class="line">            start = mid + <span class="number">1</span></span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[mid]&gt;target)&#123;</span><br><span class="line">            end = mid - <span class="number">1</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="69-x-的平方根"><a href="#69-x-的平方根" class="headerlink" title="69. x 的平方根 "></a><a href="https://leetcode.cn/problems/sqrtx/">69. x 的平方根 </a></h4><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> mySqrt = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x===<span class="number">1</span>)&#123;<span class="keyword">return</span> <span class="number">1</span>&#125;</span><br><span class="line">    <span class="keyword">let</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> right = x;</span><br><span class="line">    <span class="keyword">let</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        mid = <span class="built_in">Math</span>.floor((left+right)/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">if</span>(mid**<span class="number">2</span>===x)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(mid**<span class="number">2</span>&gt;x)&#123;</span><br><span class="line">            right=mid;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        mid2 = <span class="built_in">Math</span>.floor((left+right)/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">if</span>(mid===mid2)&#123;<span class="keyword">return</span> mid&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>算法</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>

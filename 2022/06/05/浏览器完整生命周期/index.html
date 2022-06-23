@@ -27,13 +27,13 @@
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
 <meta property="og:description" content="浏览器完整生命周期浏览器是前端开发最重要的工具之一，那么浏览器从输入到页面加载中间到底经历了什么 浏览器内部逻辑分析在现代浏览器中我们在输入框如果输入不正确的url地址，浏览器会自动跳转到默认搜索引擎搜索你输入的内容。如果你输入的url没有错，则进行页面的跳转。 网络请求角度分析我们通过chrome的开发者工具抓取network请求包，分析第一个请求的时序。  发现有如下顺序，  预处理 DNS解">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="c:/Users/Martin/AppData/Roaming/Typora/typora-user-images/image-20220605091710369.png">
+<meta property="og:image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220605091710369.png">
 <meta property="article:published_time" content="2022-06-05T01:09:14.000Z">
-<meta property="article:modified_time" content="2022-06-05T01:32:29.281Z">
+<meta property="article:modified_time" content="2022-06-05T06:21:01.821Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="c:/Users/Martin/AppData/Roaming/Typora/typora-user-images/image-20220605091710369.png">
+<meta name="twitter:image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220605091710369.png">
 
 <link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/05/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
 
@@ -216,7 +216,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-06-05 09:09:14 / 修改时间：09:32:29" itemprop="dateCreated datePublished" datetime="2022-06-05T09:09:14+08:00">2022-06-05</time>
+              <time title="创建时间：2022-06-05 09:09:14 / 修改时间：14:21:01" itemprop="dateCreated datePublished" datetime="2022-06-05T09:09:14+08:00">2022-06-05</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -256,7 +256,7 @@
         <h1 id="浏览器完整生命周期"><a href="#浏览器完整生命周期" class="headerlink" title="浏览器完整生命周期"></a>浏览器完整生命周期</h1><p>浏览器是前端开发最重要的工具之一，那么浏览器从输入到页面加载中间到底经历了什么</p>
 <h2 id="浏览器内部逻辑分析"><a href="#浏览器内部逻辑分析" class="headerlink" title="浏览器内部逻辑分析"></a>浏览器内部逻辑分析</h2><p>在现代浏览器中我们在输入框如果输入不正确的url地址，浏览器会自动跳转到默认搜索引擎搜索你输入的内容。如果你输入的url没有错，则进行页面的跳转。</p>
 <h2 id="网络请求角度分析"><a href="#网络请求角度分析" class="headerlink" title="网络请求角度分析"></a>网络请求角度分析</h2><p>我们通过chrome的开发者工具抓取network请求包，分析第一个请求的时序。</p>
-<p><img src="C:\Users\Martin\AppData\Roaming\Typora\typora-user-images\image-20220605091710369.png" alt="image-20220605091710369"></p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220605091710369.png" alt="image-20220605091710369"></p>
 <p>发现有如下顺序，</p>
 <ol>
 <li>预处理</li>
@@ -270,7 +270,31 @@
 <h3 id="DNS解析详细过程"><a href="#DNS解析详细过程" class="headerlink" title="DNS解析详细过程"></a>DNS解析详细过程</h3><p>我们都知道，域名其实不是一个服务器的真正地址，更像是一个方便人类查找和记忆的代号。根据计算机网络原理，服务器的地址是一串32位（ipv4）或者128位（ipv6）的二进制代码组成的ip地址。我们输入的域名并不能让浏览器找到服务器的位置，而是需要解析域名，查找其对应的ip地址。这就是DNS解析。</p>
 <p>DNS解析是一个渐进的过程，它会先访问浏览器缓存–&gt;本机host–&gt;本地DNS服务器查找–&gt;去网络上从顶级域名服务器–&gt;根域名服务器等一直递归查询。</p>
 <h3 id="建立链接（TLS-SSL）详细过程"><a href="#建立链接（TLS-SSL）详细过程" class="headerlink" title="建立链接（TLS/SSL）详细过程"></a>建立链接（TLS/SSL）详细过程</h3><p>首次与服务器建立链接的时候需要建立一个TCP链接（3次握手），然后根据服务器所使用的协议（http/https）来判断是否建立SSL链接。</p>
-<p>SSL链接是一种用于保密传输内容的协议，</p>
+<p>SSL链接是一种用于保密传输内容的协议，它是工作在应用层（HTTP）和传输层(TCP)之间的，通过可信任的第三方CA进行一次非对称加密传输拿到等等建立链接后所使用的对称加密密钥。具体可见<a target="_blank" rel="noopener" href="https://stoneocean.top/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/">此处</a>。</p>
+<h3 id="缓存处理详细过程"><a href="#缓存处理详细过程" class="headerlink" title="缓存处理详细过程"></a>缓存处理详细过程</h3><p>缓存是一种用于避免重复传输不必要的文件的手段，例如我们第一次访问网站的时候加载了一个图片，第二次访问的时候没有必要又从服务器上请求数据，直接使用缓存在本地的图片就可以了。</p>
+<p>缓存分为强缓存和协商缓存。</p>
+<p>强缓存的资源会携带一个Expires或者cache-control，只要在缓存有效时间内，就直接从本地取数据</p>
+<p>协商缓存分为两种，一种是Etag文件唯一标识符，每次请求此资源时候带上Etag，当服务器的文件发生改变的时候，Etag更新与请求的Etag不一致则重新传输，一致则还是使用本地缓存。另一种的last-modified最后修改时间，于etag同理。具体可见<a target="_blank" rel="noopener" href="https://stoneocean.top/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">此处</a>。</p>
+<h2 id="浏览器渲染角度分析"><a href="#浏览器渲染角度分析" class="headerlink" title="浏览器渲染角度分析"></a>浏览器渲染角度分析</h2><p>当浏览器接收到html文件后，尽管html文件中的其他资源可能还没有传输完成，浏览器依然会开始解析html。解析的过程是从上而下，顺序解析。HTML对应DOM树生成，CSS对应CSSOM树生成，最终合并生成render-tree。再根据布局计算，最后GPU进行绘制。</p>
+<p>PS：构建DOM树期间，如果遇到JS，阻塞DOM树以及CSSOM树的构建，优先加载JS文件，加载完毕，再继续构建DOM树及CSSOM树。因为js中可能操作了html，会导致DOM树的改变。</p>
+<p>渲染步骤如下：</p>
+<ol>
+<li>根据HTML解析出DOM树</li>
+<li>根据CSS解析出CSSOM树</li>
+<li>结合DOM树和CSSOM树生成渲染树</li>
+<li>布局计算</li>
+<li>根据计算好的信息绘制页面</li>
+</ol>
+<h3 id="根据HTML构建DOM树"><a href="#根据HTML构建DOM树" class="headerlink" title="根据HTML构建DOM树"></a>根据HTML构建DOM树</h3><p>浏览器拿到服务器提供的HTML后，会先根据顶部定义的类型进行对应的解析方式，HTML的解析会被交给内部的GUI渲染线程处理。</p>
+<p>渲染线程中的HTML解释器会从上到下解析HTML内容。</p>
+<p>如果遇到的节点是js代码节点，则会调用JS引擎对js代码进行解释执行，此时由于JS引擎和GUI线程是互斥的，GUI渲染线程会挂起直到js引擎解析完毕。</p>
+<p>如果遇到的是其他资源（图片，css），会调用网络模块来加载，不会阻塞GUI线程的执行。</p>
+<p>如果遇到的是JS资源URL（非异步的），则会阻塞GUI渲染线程，直到js资源加载并解析执行完毕后再执行。</p>
+<h3 id="根据CSS构建CSSOM树"><a href="#根据CSS构建CSSOM树" class="headerlink" title="根据CSS构建CSSOM树"></a>根据CSS构建CSSOM树</h3><p>CSS解释器会将CSS翻译成CSSOM树，这个过程和DOM解析类似。由于下一个阶段是render树构建，因此需要等待到DOM树和CSSOM树都构建完成之后才会推进</p>
+<h3 id="构建渲染树"><a href="#构建渲染树" class="headerlink" title="构建渲染树"></a>构建渲染树</h3><p>将CSSOM树种对应的样式交到DOM树对应的节点上，形成一颗完备的渲染树</p>
+<h3 id="布局（reflow）"><a href="#布局（reflow）" class="headerlink" title="布局（reflow）"></a>布局（reflow）</h3><p>渲染树同时包含了屏幕上的所有可见内容以及其详细信息，再这个阶段浏览器会详细计算每一个节点再视口内的确切位置和大小，这就是布局阶段，也被称为reflow（回流）。</p>
+<h3 id="绘制（repain）"><a href="#绘制（repain）" class="headerlink" title="绘制（repain）"></a>绘制（repain）</h3><p>这个阶段浏览器已经知道了各个节点的大小位置等等信息，可以将这些信息转化成屏幕上的实际像素。</p>
+<h3 id="合成（Composite）"><a href="#合成（Composite）" class="headerlink" title="合成（Composite）"></a>合成（Composite）</h3><p>把前面的所有信息发送给GPU，GPU将各层合成，显示在屏幕上。</p>
 
     </div>
 
@@ -292,7 +316,10 @@
     <a href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/" rel="prev" title="SSL/TLS原理">
       <i class="fa fa-chevron-left"></i> SSL/TLS原理
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" rel="next" title="算法-二分查找">
+      算法-二分查找 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -352,7 +379,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.</span> <span class="nav-text">浏览器完整生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E9%83%A8%E9%80%BB%E8%BE%91%E5%88%86%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">浏览器内部逻辑分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-number">1.2.</span> <span class="nav-text">网络请求角度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS%E8%A7%A3%E6%9E%90%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">DNS解析详细过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%EF%BC%88TLS-SSL%EF%BC%89%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">建立链接（TLS&#x2F;SSL）详细过程</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.</span> <span class="nav-text">浏览器完整生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E9%83%A8%E9%80%BB%E8%BE%91%E5%88%86%E6%9E%90"><span class="nav-number">1.1.</span> <span class="nav-text">浏览器内部逻辑分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-number">1.2.</span> <span class="nav-text">网络请求角度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#DNS%E8%A7%A3%E6%9E%90%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.1.</span> <span class="nav-text">DNS解析详细过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E9%93%BE%E6%8E%A5%EF%BC%88TLS-SSL%EF%BC%89%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.2.</span> <span class="nav-text">建立链接（TLS&#x2F;SSL）详细过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%93%E5%AD%98%E5%A4%84%E7%90%86%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B"><span class="nav-number">1.2.3.</span> <span class="nav-text">缓存处理详细过程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E6%B8%B2%E6%9F%93%E8%A7%92%E5%BA%A6%E5%88%86%E6%9E%90"><span class="nav-number">1.3.</span> <span class="nav-text">浏览器渲染角度分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AEHTML%E6%9E%84%E5%BB%BADOM%E6%A0%91"><span class="nav-number">1.3.1.</span> <span class="nav-text">根据HTML构建DOM树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B9%E6%8D%AECSS%E6%9E%84%E5%BB%BACSSOM%E6%A0%91"><span class="nav-number">1.3.2.</span> <span class="nav-text">根据CSS构建CSSOM树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9E%84%E5%BB%BA%E6%B8%B2%E6%9F%93%E6%A0%91"><span class="nav-number">1.3.3.</span> <span class="nav-text">构建渲染树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%83%E5%B1%80%EF%BC%88reflow%EF%BC%89"><span class="nav-number">1.3.4.</span> <span class="nav-text">布局（reflow）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%98%E5%88%B6%EF%BC%88repain%EF%BC%89"><span class="nav-number">1.3.5.</span> <span class="nav-text">绘制（repain）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%88%E6%88%90%EF%BC%88Composite%EF%BC%89"><span class="nav-number">1.3.6.</span> <span class="nav-text">合成（Composite）</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -368,7 +395,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">105</span>
+          <span class="site-state-item-count">107</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
