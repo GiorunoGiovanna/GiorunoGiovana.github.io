@@ -209,10 +209,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-06-23 16:01:00 / 修改时间：16:22:48" itemprop="dateCreated datePublished" datetime="2022-06-23T16:01:00+08:00">2022-06-23</time>
+              <time title="创建时间：2022-06-23 16:01:00" itemprop="dateCreated datePublished" datetime="2022-06-23T16:01:00+08:00">2022-06-23</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-24 15:04:41" itemprop="dateModified" datetime="2022-06-24T15:04:41+08:00">2022-06-24</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -249,13 +255,15 @@
 
       
           <h1 id="TS-challenge"><a href="#TS-challenge" class="headerlink" title="TS-challenge"></a>TS-challenge</h1><p>这是一个在github上的开源<a target="_blank" rel="noopener" href="https://github.com/type-challenges/type-challenges">项目</a>，可以用来练习TS的语法。</p>
+<h2 id="02-return-type"><a href="#02-return-type" class="headerlink" title="*02-return-type"></a>*02-return-type</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 限制T为function类型。再判断T是否是一个非空函数</span></span><br><span class="line"><span class="keyword">type</span> MyReturnType&lt;T <span class="keyword">extends</span> <span class="built_in">Function</span>&gt; = T <span class="keyword">extends</span> (...arg: <span class="built_in">any</span>[]) =&gt; infer x ? x : <span class="built_in">never</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="03-omit"><a href="#03-omit" class="headerlink" title="*03-omit"></a>*03-omit</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyOmit&lt;T, U <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">    <span class="comment">// 取出T中每一个键与U比较</span></span><br><span class="line">    [key <span class="keyword">in</span> keyof T <span class="keyword">as</span> key <span class="keyword">extends</span> U ? <span class="built_in">never</span> : key]: T[key]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
 <h2 id="04-pick"><a href="#04-pick" class="headerlink" title="04-pick"></a>04-pick</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyPick&lt;T, K <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">    <span class="comment">//通过in遍历得到T（数组）中的每一个元素，再让它等于本身</span></span><br><span class="line">    [P <span class="keyword">in</span> K]: T[P]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="07-redaonly"><a href="#07-redaonly" class="headerlink" title="07-redaonly"></a>07-redaonly</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyReadonly&lt;T&gt; = &#123;</span><br><span class="line">    <span class="comment">//通过keyof可以遍历得到T（对象）中的键（key）</span></span><br><span class="line">    <span class="keyword">readonly</span> [p <span class="keyword">in</span> keyof T]: T[p]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="11-tuple-to-object"><a href="#11-tuple-to-object" class="headerlink" title="11-tuple to object"></a>11-tuple to object</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过extends关键字可以限定T（数组）中取出元素的类型</span></span><br><span class="line"><span class="keyword">type</span> TupleToObject&lt;T <span class="keyword">extends</span> <span class="keyword">readonly</span> (<span class="built_in">string</span> | <span class="built_in">number</span> | symbol )[]&gt; = &#123;</span><br><span class="line">    [P <span class="keyword">in</span> T[<span class="built_in">number</span>]]: P</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="14-first"><a href="#14-first" class="headerlink" title="14-first"></a>14-first</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//extends可以类比为js中==，这句话的意思就是看看T的类型是否是空的数组</span></span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T <span class="keyword">extends</span> [] ? <span class="built_in">never</span> : T[<span class="number">0</span>]</span><br><span class="line"><span class="comment">//在TS中可以使用[“key”]的方式指定对象的某个属性</span></span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T[<span class="string">&quot;length&quot;</span>] <span class="keyword">extends</span> <span class="number">0</span> ? <span class="built_in">never</span> : T[<span class="number">0</span>]</span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T[<span class="number">0</span>] <span class="keyword">extends</span> T[<span class="built_in">number</span>] ? T[<span class="number">0</span>] : <span class="built_in">never</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//在TS中也可以使用解构赋值，但是要为解构的元素使用infer关键字</span></span><br><span class="line"><span class="keyword">type</span> First&lt;T <span class="keyword">extends</span> <span class="built_in">any</span>[]&gt; = T <span class="keyword">extends</span> [infer first, ...infer other] ? first : <span class="built_in">never</span></span><br></pre></td></tr></table></figure>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/06/23/TS-challenge01/#more" rel="contents">
@@ -784,6 +792,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/24/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B007watcher/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/24/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B007watcher/" class="post-title-link" itemprop="url">Vue源码笔记07watcher</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-24 15:32:17" itemprop="dateCreated datePublished" datetime="2022-05-24T15:32:17+08:00">2022-05-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-24 21:35:31" itemprop="dateModified" datetime="2022-06-24T21:35:31+08:00">2022-06-24</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/24/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B007watcher/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/24/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B007watcher/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Watcher"><a href="#Watcher" class="headerlink" title="Watcher"></a>Watcher</h1><p>在Vue中数据是响应式的，但是我们想要的不止于此，我们想要一套系统，可以监听数据的变化，并且通知我们，以便进行后续的处理，这就是watcher。</p>
+<h2 id="Watcher和watch的区别"><a href="#Watcher和watch的区别" class="headerlink" title="Watcher和watch的区别"></a>Watcher和watch的区别</h2><p>watch是Vue提供给用户的一个自定义监听数据的方法，而Watcher是watch的底层实现逻辑，watcher包含watch，但不止于watch。</p>
+<h2 id="三种Watcher"><a href="#三种Watcher" class="headerlink" title="三种Watcher"></a>三种Watcher</h2><p>按照在Vue optionApi中的执行顺序</p>
+<ul>
+<li>computed watcher：执行计算属性更新computed</li>
+<li>user Watcher：用户注册的普通Watcher</li>
+<li>render Watcher：视图更新watcher</li>
+</ul>
+<h2 id="Computed-Watcher"><a href="#Computed-Watcher" class="headerlink" title="Computed Watcher"></a>Computed Watcher</h2><p>在线查看源码<a target="_blank" rel="noopener" href="https://github1s.com/vuejs/vue/blob/2.6/src/core/instance/state.js#L170">https://github1s.com/vuejs/vue/blob/2.6/src/core/instance/state.js#L170</a></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> computedWatcherOptions = &#123; <span class="attr">lazy</span>: <span class="literal">true</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initComputed</span> (<span class="params">vm: Component, computed: <span class="built_in">Object</span></span>) </span>&#123;</span><br><span class="line">  <span class="comment">// 创建一个空的watcher用来接收所有computed</span></span><br><span class="line">  <span class="keyword">const</span> watchers = vm._computedWatchers = <span class="built_in">Object</span>.create(<span class="literal">null</span>)</span><br><span class="line">  <span class="comment">// computed properties are just getters during SSR</span></span><br><span class="line">  <span class="keyword">const</span> isSSR = isServerRendering()</span><br><span class="line"></span><br><span class="line">  <span class="comment">//遍历每一个computed</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> computed) &#123;</span><br><span class="line">    <span class="keyword">const</span> userDef = computed[key]</span><br><span class="line">    <span class="keyword">const</span> getter = <span class="keyword">typeof</span> userDef === <span class="string">&#x27;function&#x27;</span> ? userDef : userDef.get</span><br><span class="line">    <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">&#x27;production&#x27;</span> &amp;&amp; getter == <span class="literal">null</span>) &#123;</span><br><span class="line">      warn(</span><br><span class="line">        <span class="string">`Getter is missing for computed property &quot;<span class="subst">$&#123;key&#125;</span>&quot;.`</span>,</span><br><span class="line">        vm</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!isSSR) &#123;</span><br><span class="line">      <span class="comment">// 每一个computed都创建一个wathcer，因为computed不特定监听对象，所以要监听整个getter函数</span></span><br><span class="line">      watchers[key] = <span class="keyword">new</span> Watcher(</span><br><span class="line">        vm,</span><br><span class="line">        getter || noop,</span><br><span class="line">        noop,</span><br><span class="line">        computedWatcherOptions</span><br><span class="line">      )</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// component-defined computed properties are already defined on the</span></span><br><span class="line">    <span class="comment">// component prototype. We only need to define computed properties defined</span></span><br><span class="line">    <span class="comment">// at instantiation here.</span></span><br><span class="line">    <span class="keyword">if</span> (!(key <span class="keyword">in</span> vm)) &#123;</span><br><span class="line">      defineComputed(vm, key, userDef)</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (process.env.NODE_ENV !== <span class="string">&#x27;production&#x27;</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (key <span class="keyword">in</span> vm.$data) &#123;</span><br><span class="line">        warn(<span class="string">`The computed property &quot;<span class="subst">$&#123;key&#125;</span>&quot; is already defined in data.`</span>, vm)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (vm.$options.props &amp;&amp; key <span class="keyword">in</span> vm.$options.props) &#123;</span><br><span class="line">        warn(<span class="string">`The computed property &quot;<span class="subst">$&#123;key&#125;</span>&quot; is already defined as a prop.`</span>, vm)</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (vm.$options.methods &amp;&amp; key <span class="keyword">in</span> vm.$options.methods) &#123;</span><br><span class="line">        warn(<span class="string">`The computed property &quot;<span class="subst">$&#123;key&#125;</span>&quot; is already defined as a method.`</span>, vm)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createComputedGetter</span> (<span class="params">key</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">computedGetter</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="comment">//获取watcher，如果watcher监听到数据变化，就重新执行函数，返回执行结果</span></span><br><span class="line">    <span class="keyword">const</span> watcher = <span class="built_in">this</span>._computedWatchers &amp;&amp; <span class="built_in">this</span>._computedWatchers[key]</span><br><span class="line">    <span class="keyword">if</span> (watcher) &#123;</span><br><span class="line">      <span class="keyword">if</span> (watcher.dirty) &#123;</span><br><span class="line">        watcher.evaluate()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (Dep.target) &#123;</span><br><span class="line">        watcher.depend()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> watcher.value</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/24/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B007watcher/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008Redux/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1102,125 +1214,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">React学习笔记05生命周期</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-19 15:01:19 / 修改时间：15:36:58" itemprop="dateCreated datePublished" datetime="2022-05-19T15:01:19+08:00">2022-05-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="React生命周期详解（新）"><a href="#React生命周期详解（新）" class="headerlink" title="React生命周期详解（新）"></a>React生命周期详解（新）</h1><p>React16之后有三个生命周期被废弃：</p>
-<ul>
-<li><code>componentWillMount</code></li>
-<li><code>componentWillReceviceProps</code></li>
-<li><code>componentWillUpdate</code></li>
-</ul>
-<p>因为这些生命周期方法容易被误解和滥用</p>
-<p><strong>React16.8+的生命周期分为三个阶段，分别是挂载阶段、更新阶段、卸载阶段</strong></p>
-<h2 id="挂载阶段"><a href="#挂载阶段" class="headerlink" title="挂载阶段"></a>挂载阶段</h2><ul>
-<li><p><code>constructor</code>：构造函数，最先被执行，我们通常在构造函数里初始化state对象或者给自定义方法绑定this</p>
-</li>
-<li><p><code>getDerivedStateFromProps</code>：<code>static getDerivedStateFromProps(nextProps,prevState)</code>,这是一个静态方法，当我们接受到新的属性想要去修改state的时候，可以使用<code>getDerivedStateFromProps</code></p>
-</li>
-<li><p><code>render</code>：render函数是一个纯函数，只返回需要渲染的东西，不应该包括其他的业务逻辑，可以返回原生的DOM、React组件、Fragment、Portals、字符串和数字、Boolean和null等内容</p>
-</li>
-<li><p><code>componentDidMount</code>：组件挂载之后调用，类似于Vue中的mounted，这个时候可以获取DOM节点并操作，比如对canvas，svg等操作，服务器请求，订阅都可以写在这个里面，但是记得在<code>componentWillUnmount</code>中取消订阅。</p>
-</li>
-</ul>
-<h2 id="更新阶段"><a href="#更新阶段" class="headerlink" title="更新阶段"></a>更新阶段</h2><ul>
-<li><p><code>getDerivedStateFromProps</code>：这个方法在整个改在阶段都可能会调用</p>
-</li>
-<li><p><code>shouldComponentUpdate</code>：<code>shouldComponentUpdate(nextProps,nextState)</code>,有两个参数，分别是组件更新前已经发生变化的新props和新state，同时接收一个返回值，用来表示此次组件是否需要更新。</p>
-</li>
-<li><p><code>render</code>:更新阶段也会触发render生命周期</p>
-</li>
-<li><p><code>getSnapshotBeforeUpdate</code>：<code>getSnapshotBeforeUpdate(prevProps, prevState)</code>这个方法在render之后，<code>componentDidUpdate</code>之后调用。返回值会作为第三个参数会传给<code>componentDidUpdate</code>,可以为空。必须与<code>componentDidUpdate</code>搭配使用。</p>
-</li>
-<li><p><code>componentDidUpdate</code>：<code>componentDidUpdate(preProps,prevState,snapShot)</code>,第三个参数是<code>getSnapshotBeforeUpdate</code>返回的，如果触发某些回调函数时需要用到DOM元素的状态，则将对比或计算的过程迁移至<code>getSnapshotBeforeUpdate</code>,然后在<code>componentDidUpdate</code>中统一触发回调或更新状态。</p>
-</li>
-</ul>
-<h2 id="卸载阶段"><a href="#卸载阶段" class="headerlink" title="卸载阶段"></a>卸载阶段</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1292,7 +1285,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">107</span>
+          <span class="site-state-item-count">108</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
