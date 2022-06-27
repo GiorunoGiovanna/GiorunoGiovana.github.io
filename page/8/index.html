@@ -186,6 +186,207 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/19/js%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/19/js%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/" class="post-title-link" itemprop="url">js事件冒泡和捕获</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-19 09:39:07" itemprop="dateCreated datePublished" datetime="2022-03-19T09:39:07+08:00">2022-03-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:46" itemprop="dateModified" datetime="2022-05-17T10:54:46+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/19/js%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/19/js%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="javaScript事件"><a href="#javaScript事件" class="headerlink" title="javaScript事件"></a>javaScript事件</h1><h2 id="什么是事件？"><a href="#什么是事件？" class="headerlink" title="什么是事件？"></a>什么是事件？</h2><p>事件是文档和浏览器窗口中发生交互的瞬间，当我们对web页面进行某些类型的交互的时候，就发生了事件。</p>
+<h2 id="什么是事件流？"><a href="#什么是事件流？" class="headerlink" title="什么是事件流？"></a>什么是事件流？</h2><p>事件流是从页面中接收事件的顺序，有IE提出的事件冒泡流，也有网景提出的事件捕获流。</p>
+<h2 id="事件冒泡"><a href="#事件冒泡" class="headerlink" title="事件冒泡"></a>事件冒泡</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span> <span class="attr">onclick</span>=<span class="string">&quot;bodyClick()&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">onclick</span>=<span class="string">&quot;divClick()&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">button</span> <span class="attr">onclick</span>=<span class="string">&quot;btn()&quot;</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">p</span> <span class="attr">onclick</span>=<span class="string">&quot;p()&quot;</span>&gt;</span>点击冒泡<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">p</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">&#x27;p标签被点击&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">btn</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">&quot;button被点击&quot;</span>)</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">divClick</span>(<span class="params">event</span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">&#x27;div被点击&#x27;</span>);</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">        <span class="function"><span class="keyword">function</span> <span class="title">bodyClick</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">            <span class="built_in">console</span>.log(<span class="string">&#x27;body被点击&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>事件发生顺序</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220319094655872.png" alt="image-20220319094655872"></p>
+<p>可以看出冒泡流就是事件由最底层的文档先触发，再一步步向上触发，就像是冒泡一样从水底到水面。<strong>p=&gt;button=&gt;div=&gt;body</strong></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/19/js%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1%E5%92%8C%E6%8D%95%E8%8E%B7/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/" class="post-title-link" itemprop="url">浏览器跨域</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-03-10 14:56:38" itemprop="dateCreated datePublished" datetime="2022-03-10T14:56:38+08:00">2022-03-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="浏览器跨域"><a href="#浏览器跨域" class="headerlink" title="浏览器跨域"></a>浏览器跨域</h1><h3 id="跨域的定义"><a href="#跨域的定义" class="headerlink" title="跨域的定义"></a>跨域的定义</h3><p>跨域是指从一个域名的网页去请求另一个域名的资源，就会发生跨域。只要协议，域名，端口有任何一个不同就算做跨域。</p>
+<p>浏览器执行JavaScript脚本时，会检查这个脚本属于哪个页面，如果不是同源页面，就不会被执行。</p>
+<p>对于端口和协议的不同，只能通过后台来解决。</p>
+<h3 id="浏览器为什么要限制跨域"><a href="#浏览器为什么要限制跨域" class="headerlink" title="浏览器为什么要限制跨域"></a>浏览器为什么要限制跨域</h3><p><strong>安全问题</strong>：如果一个网页可以随意的访问另外一个网站的资源，那么就有可能再客户完全不知情的情况下获取客户的个人资料从而出现安全问题</p>
+<h3 id="为什么要进行跨域"><a href="#为什么要进行跨域" class="headerlink" title="为什么要进行跨域"></a>为什么要进行跨域</h3><p>设想一个场景，一个公司有很多的子域，这些子域之间进行访问资源的时候就需要进行跨域</p>
+<h3 id="跨域的解决办法"><a href="#跨域的解决办法" class="headerlink" title="跨域的解决办法"></a><strong>跨域的解决办法</strong></h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/03/10/%E6%B5%8F%E8%A7%88%E5%99%A8%E8%B7%A8%E5%9F%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1209,223 +1410,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/" class="post-title-link" itemprop="url">手写reduce、用reduce实现map</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-04 10:46:01" itemprop="dateCreated datePublished" datetime="2022-01-04T10:46:01+08:00">2022-01-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="手写reduce"><a href="#手写reduce" class="headerlink" title="手写reduce"></a>手写reduce</h1><p>reduce是JavaScript原生的数组操作方法，功能强大</p>
-<p><strong>reducer</strong> 函数接收4个参数:</p>
-<ol>
-<li>Accumulator (acc) (累计器)</li>
-<li>Current Value (cur) (当前值)</li>
-<li>Current Index (idx) (当前索引)</li>
-<li>Source Array (src) (源数组)</li>
-</ol>
-<p>您的 <strong>reducer</strong> 函数的返回值分配给累计器，该返回值在数组的每个迭代中被记住，并最后成为最终的单个结果值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//reduce用法</span></span><br><span class="line"><span class="keyword">let</span> arr = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>]</span><br><span class="line"><span class="built_in">console</span>.log(arr.reduce(<span class="function">(<span class="params">acc,cur,idx,arr</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> acc+cur</span><br><span class="line">&#125;,<span class="number">1</span>))</span><br><span class="line"><span class="comment">//22</span></span><br></pre></td></tr></table></figure>
-
-<p>原生实现</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init!=<span class="literal">null</span>?init:arr[<span class="number">0</span>]</span><br><span class="line">    <span class="comment">//这里要注意如果没有指定初始值和指定初始值为0是不同的</span></span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> i = (init!=<span class="literal">null</span>?<span class="number">0</span>:<span class="number">1</span>);i&lt;arr.length;i++)&#123;</span><br><span class="line">        total = func(total, arr[i], i, arr)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用map实现reduce</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//最好不要使用箭头函数，因为this指向会不正确</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.reduce = <span class="function"><span class="keyword">function</span>(<span class="params">func,init</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//this指向调用reduce方法的数组</span></span><br><span class="line">    <span class="keyword">var</span> arr = <span class="built_in">this</span></span><br><span class="line">    <span class="comment">//初始的累计器需要额外赋值，没有的话默认为数组的第一项</span></span><br><span class="line">    <span class="keyword">var</span> total = init || arr[<span class="number">0</span>]</span><br><span class="line">    arr.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">        i!=init?total = func(total, v, i, arr):<span class="number">0</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> total</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/04/%E6%89%8B%E5%86%99reduce%E3%80%81%E7%94%A8reduce%E5%AE%9E%E7%8E%B0map/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/" class="post-title-link" itemprop="url">手写Promise.all、Promise.Race</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-01-03 21:17:35" itemprop="dateCreated datePublished" datetime="2022-01-03T21:17:35+08:00">2022-01-03</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="手写Promise-all"><a href="#手写Promise-all" class="headerlink" title="手写Promise.all()"></a>手写Promise.all()</h1><p>分析：原生Promise.all的作用，接收一个数组，数组内为Promise，Promise.all会自动执行所有数组内的Promise，返回一个新的Promise实例。同时，成功和失败的返回值是不同的，成功的时候返回的是一个结果数组，而失败的时候则返回最先被reject失败状态的值。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;1&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220103213459296.png" alt="image-20220103213459296"></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> promise = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//resolve(&#x27;1&#x27;)</span></span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;错了&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> promise2 = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">    resolve(<span class="string">&#x27;2&#x27;</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">let</span> result = <span class="built_in">Promise</span>.all([promise,promise2]).then(</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result),</span><br><span class="line">    <span class="function"><span class="params">result</span> =&gt;</span> <span class="built_in">console</span>.log(result.message)</span><br><span class="line">)</span><br><span class="line"><span class="built_in">console</span>.log(result)</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220103214542617.png" alt="image-20220103214542617"></p>
-<p>思路：获取所有的Promise，都执行then，把结果放到数组，一起返回</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>._all = <span class="function"><span class="params">promises</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> results = [], promiseCount = <span class="number">0</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> &#123;</span><br><span class="line">        promises.map(<span class="function">(<span class="params">v,i</span>) =&gt;</span> &#123;</span><br><span class="line">            v.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                    promiseCount++</span><br><span class="line">                    results[i] = res</span><br><span class="line">                    <span class="keyword">if</span>(promiseCount === promises.length)&#123;</span><br><span class="line">                        <span class="keyword">return</span> resolve(results)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">return</span> reject(err)</span><br><span class="line">                &#125;</span><br><span class="line">            )</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h1 id="手写Promsie-race"><a href="#手写Promsie-race" class="headerlink" title="手写Promsie.race"></a>手写Promsie.race</h1><p>分析：race和all差不多，不过一个是获取所有结果，race是获取最早执行的结果</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/01/03/%E6%89%8B%E5%86%99Promise-all%E3%80%81Promise-Race/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1497,14 +1481,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">108</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

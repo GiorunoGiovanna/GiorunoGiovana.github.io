@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="Vue3源码-watch、watchEffect、computedVue3提供了三种不同的可以监听数据的方法，分别是watch、watchEffect、computed。他们之间的取别在于，  watch接收一个参数作为监听对象，同时能够执行回调，并且是默认懒启动的。 watchEffect直接接收回调函数，回调函数中使用的对象都会被监听，并且是立即执行的 computed和watchEffect">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue3源码学习笔记02">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/index.html">
+<meta property="og:site_name" content="StoneOcean&#39;s Blog">
+<meta property="og:description" content="Vue3源码-watch、watchEffect、computedVue3提供了三种不同的可以监听数据的方法，分别是watch、watchEffect、computed。他们之间的取别在于，  watch接收一个参数作为监听对象，同时能够执行回调，并且是默认懒启动的。 watchEffect直接接收回调函数，回调函数中使用的对象都会被监听，并且是立即执行的 computed和watchEffect">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-06-26T07:43:07.000Z">
+<meta property="article:modified_time" content="2022-06-26T08:35:25.897Z">
+<meta property="article:author" content="StoneOcean">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Vue3源码学习笔记02 | StoneOcean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">StoneOcean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">StoneOcean的个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/GiorunoGiovanna" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue3源码学习笔记02
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-26 15:43:07 / 修改时间：16:35:25" itemprop="dateCreated datePublished" datetime="2022-06-26T15:43:07+08:00">2022-06-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue3%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue3源码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="Vue3源码-watch、watchEffect、computed"><a href="#Vue3源码-watch、watchEffect、computed" class="headerlink" title="Vue3源码-watch、watchEffect、computed"></a>Vue3源码-watch、watchEffect、computed</h1><p>Vue3提供了三种不同的可以监听数据的方法，分别是watch、watchEffect、computed。他们之间的取别在于，</p>
+<ul>
+<li>watch接收一个参数作为监听对象，同时能够执行回调，并且是默认懒启动的。</li>
+<li>watchEffect直接接收回调函数，回调函数中使用的对象都会被监听，并且是立即执行的</li>
+<li>computed和watchEffect有一点像，直接监听回调函数中使用的对象，但是不同的是它返回一个值，这个值是回调函数计算出来的。</li>
+</ul>
+<p>由于Vue3支持了composition API，为了组件化所有功能，因此将watch、watchEffect拆分到一个模块中。</p>
+<h2 id="watch-amp-watchEffect"><a href="#watch-amp-watchEffect" class="headerlink" title="watch&amp;watchEffect"></a>watch&amp;watchEffect</h2><h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">watch</span>&lt;<span class="title">T</span> = <span class="title">any</span>, <span class="title">Immediate</span> <span class="title">extends</span> <span class="title">Readonly</span>&lt;<span class="title">boolean</span>&gt; = <span class="title">false</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  source: T | WatchSource&lt;T&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">  cb: <span class="built_in">any</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="comment">//watch的选项，是否深度观测，是否立即执行等</span></span></span></span><br><span class="line"><span class="params"><span class="function">  options?: WatchOptions&lt;Immediate&gt;</span></span></span><br><span class="line"><span class="params"><span class="function"></span>): <span class="title">WatchStopHandle</span> </span>&#123;</span><br><span class="line">  <span class="comment">//如果回调函数不存在或者格式错误，进行警告</span></span><br><span class="line">  <span class="keyword">if</span> (__DEV__ &amp;&amp; !isFunction(cb)) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      <span class="string">`\`watch(fn, options?)\` signature has been moved to a separate API. `</span> +</span><br><span class="line">        <span class="string">`Use \`watchEffect(fn, options?)\` instead. \`watch\` now only `</span> +</span><br><span class="line">        <span class="string">`supports \`watch(source, cb, options?) signature.`</span></span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//执行watcher创建</span></span><br><span class="line">  <span class="comment">//watch和watchEffect的核心都是这个dowatch，区别在于接收的参数是函数还是其他</span></span><br><span class="line">  <span class="keyword">return</span> doWatch(source <span class="keyword">as</span> <span class="built_in">any</span>, cb, options)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="watchEffect"><a href="#watchEffect" class="headerlink" title="watchEffect"></a>watchEffect</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">watchSyncEffect</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  effect: WatchEffect,</span></span></span><br><span class="line"><span class="params"><span class="function">  options?: DebuggerOptions</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doWatch(</span><br><span class="line">    effect,</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    (__DEV__</span><br><span class="line">      ? &#123; ...options, <span class="attr">flush</span>: <span class="string">&#x27;sync&#x27;</span> &#125;</span><br><span class="line">      : &#123; <span class="attr">flush</span>: <span class="string">&#x27;sync&#x27;</span> &#125;) <span class="keyword">as</span> WatchOptionsBase</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，watch和watchEffect其实是公用一个dowatch逻辑的，因为两个方法除了监听对象和启动时机之外的底层逻辑是相同的。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">doWatch</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="comment">//观察对象的类型</span></span></span></span><br><span class="line"><span class="params"><span class="function">  source: WatchSource | WatchSource[] | WatchEffect | <span class="built_in">object</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">  cb: WatchCallback | <span class="literal">null</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">  &#123; immediate, deep, flush, onTrack, onTrigger &#125;: WatchOptions = EMPTY_OBJ</span></span></span><br><span class="line"><span class="params"><span class="function"></span>): <span class="title">WatchStopHandle</span> </span>&#123;</span><br><span class="line">  <span class="comment">//。。。</span></span><br><span class="line">      </span><br><span class="line">  <span class="comment">//进行判断监听对象的类型，取得实际我们需要监听的数据</span></span><br><span class="line">  <span class="keyword">if</span> (isRef(source)) &#123;</span><br><span class="line">    <span class="comment">//ref直接获取值</span></span><br><span class="line">    getter = <span class="function">() =&gt;</span> source.value</span><br><span class="line">    forceTrigger = isShallow(source)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isReactive(source)) &#123;</span><br><span class="line">    <span class="comment">//reactive直接获取整个代理</span></span><br><span class="line">    getter = <span class="function">() =&gt;</span> source</span><br><span class="line">    deep = <span class="literal">true</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isArray(source)) &#123;</span><br><span class="line">    <span class="comment">//如果是数组，就遍历每一个数组元素进行细分</span></span><br><span class="line">    isMultiSource = <span class="literal">true</span></span><br><span class="line">    forceTrigger = source.some(isReactive)</span><br><span class="line">    getter = <span class="function">() =&gt;</span></span><br><span class="line">      source.map(<span class="function"><span class="params">s</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (isRef(s)) &#123;</span><br><span class="line">          <span class="keyword">return</span> s.value</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isReactive(s)) &#123;</span><br><span class="line">          <span class="keyword">return</span> traverse(s)</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isFunction(s)) &#123;</span><br><span class="line">          <span class="keyword">return</span> callWithErrorHandling(s, instance, ErrorCodes.WATCH_GETTER)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          __DEV__ &amp;&amp; warnInvalidSource(s)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;)</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isFunction(source)) &#123;</span><br><span class="line">    <span class="comment">//是函数，说明是watchEffect</span></span><br><span class="line">    <span class="keyword">if</span> (cb) &#123;</span><br><span class="line">      <span class="comment">// getter with cb</span></span><br><span class="line">      getter = <span class="function">() =&gt;</span></span><br><span class="line">        callWithErrorHandling(source, instance, ErrorCodes.WATCH_GETTER)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// no cb -&gt; simple effect</span></span><br><span class="line">      getter = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (instance &amp;&amp; instance.isUnmounted) &#123;</span><br><span class="line">          <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (cleanup) &#123;</span><br><span class="line">          cleanup()</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> callWithAsyncErrorHandling(</span><br><span class="line">          source,</span><br><span class="line">          instance,</span><br><span class="line">          ErrorCodes.WATCH_CALLBACK,</span><br><span class="line">          [onCleanup]</span><br><span class="line">        )</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    getter = NOOP</span><br><span class="line">    __DEV__ &amp;&amp; warnInvalidSource(source)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 2.x array mutation watch compat</span></span><br><span class="line">  <span class="keyword">if</span> (__COMPAT__ &amp;&amp; cb &amp;&amp; !deep) &#123;</span><br><span class="line">    <span class="keyword">const</span> baseGetter = getter</span><br><span class="line">    getter = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> val = baseGetter()</span><br><span class="line">      <span class="keyword">if</span> (</span><br><span class="line">        isArray(val) &amp;&amp;</span><br><span class="line">        checkCompatEnabled(DeprecationTypes.WATCH_ARRAY, instance)</span><br><span class="line">      ) &#123;</span><br><span class="line">        traverse(val)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> val</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">//重写getter完成effect关联</span></span><br><span class="line">  <span class="keyword">if</span> (cb &amp;&amp; deep) &#123;</span><br><span class="line">    <span class="keyword">const</span> baseGetter = getter</span><br><span class="line">    getter = <span class="function">() =&gt;</span> traverse(baseGetter())</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> cleanup: <span class="function">() =&gt;</span> <span class="built_in">void</span></span><br><span class="line">  <span class="keyword">let</span> onCleanup: OnCleanup = <span class="function">(<span class="params">fn: () =&gt; <span class="built_in">void</span></span>) =&gt;</span> &#123;</span><br><span class="line">    cleanup = effect.onStop = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      callWithErrorHandling(fn, instance, ErrorCodes.WATCH_CLEANUP)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// in SSR there is no need to setup an actual effect, and it should be noop</span></span><br><span class="line">  <span class="comment">// unless it&#x27;s eager</span></span><br><span class="line">  <span class="keyword">if</span> (__SSR__ &amp;&amp; isInSSRComponentSetup) &#123;</span><br><span class="line">    <span class="comment">// we will also not call the invalidate callback (+ runner is not set up)</span></span><br><span class="line">    onCleanup = NOOP</span><br><span class="line">    <span class="keyword">if</span> (!cb) &#123;</span><br><span class="line">      getter()</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (immediate) &#123;</span><br><span class="line">      callWithAsyncErrorHandling(cb, instance, ErrorCodes.WATCH_CALLBACK, [</span><br><span class="line">        getter(),</span><br><span class="line">        isMultiSource ? [] : <span class="literal">undefined</span>,</span><br><span class="line">        onCleanup</span><br><span class="line">      ])</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> NOOP</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> oldValue = isMultiSource ? [] : INITIAL_WATCHER_VALUE</span><br><span class="line">  <span class="keyword">const</span> job: SchedulerJob = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!effect.active) &#123;</span><br><span class="line">      <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (cb) &#123;</span><br><span class="line">      <span class="comment">// watch(source, cb)</span></span><br><span class="line">      <span class="keyword">const</span> newValue = effect.run()</span><br><span class="line">      <span class="keyword">if</span> (</span><br><span class="line">        deep ||</span><br><span class="line">        forceTrigger ||</span><br><span class="line">        (isMultiSource</span><br><span class="line">          ? (newValue <span class="keyword">as</span> <span class="built_in">any</span>[]).some(<span class="function">(<span class="params">v, i</span>) =&gt;</span></span><br><span class="line">              hasChanged(v, (oldValue <span class="keyword">as</span> <span class="built_in">any</span>[])[i])</span><br><span class="line">            )</span><br><span class="line">          : hasChanged(newValue, oldValue)) ||</span><br><span class="line">        (__COMPAT__ &amp;&amp;</span><br><span class="line">          isArray(newValue) &amp;&amp;</span><br><span class="line">          isCompatEnabled(DeprecationTypes.WATCH_ARRAY, instance))</span><br><span class="line">      ) &#123;</span><br><span class="line">        <span class="comment">// cleanup before running cb again</span></span><br><span class="line">        <span class="keyword">if</span> (cleanup) &#123;</span><br><span class="line">          cleanup()</span><br><span class="line">        &#125;</span><br><span class="line">        callWithAsyncErrorHandling(cb, instance, ErrorCodes.WATCH_CALLBACK, [</span><br><span class="line">          newValue,</span><br><span class="line">          <span class="comment">// pass undefined as the old value when it&#x27;s changed for the first time</span></span><br><span class="line">          oldValue === INITIAL_WATCHER_VALUE ? <span class="literal">undefined</span> : oldValue,</span><br><span class="line">          onCleanup</span><br><span class="line">        ])</span><br><span class="line">        oldValue = newValue</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// watchEffect</span></span><br><span class="line">      effect.run()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// important: mark the job as a watcher callback so that scheduler knows</span></span><br><span class="line">  <span class="comment">// it is allowed to self-trigger (#1727)</span></span><br><span class="line">  job.allowRecurse = !!cb</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> scheduler: EffectScheduler</span><br><span class="line">  <span class="keyword">if</span> (flush === <span class="string">&#x27;sync&#x27;</span>) &#123;</span><br><span class="line">    scheduler = job <span class="keyword">as</span> <span class="built_in">any</span> <span class="comment">// the scheduler function gets called directly</span></span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (flush === <span class="string">&#x27;post&#x27;</span>) &#123;</span><br><span class="line">    scheduler = <span class="function">() =&gt;</span> queuePostRenderEffect(job, instance &amp;&amp; instance.suspense)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// default: &#x27;pre&#x27;</span></span><br><span class="line">    scheduler = <span class="function">() =&gt;</span> queuePreFlushCb(job)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> effect = <span class="keyword">new</span> ReactiveEffect(getter, scheduler)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">    effect.onTrack = onTrack</span><br><span class="line">    effect.onTrigger = onTrigger</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// initial run</span></span><br><span class="line">  <span class="keyword">if</span> (cb) &#123;</span><br><span class="line">    <span class="comment">/*因为watch默认是惰性的，要改变之后才会触发，如果传入immediate为true就会立即执行调用job*/</span></span><br><span class="line">    <span class="keyword">if</span> (immediate) &#123;</span><br><span class="line">      job()</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">//执行旧值的依赖收集</span></span><br><span class="line">      oldValue = effect.run()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">else</span> <span class="keyword">if</span> (flush === <span class="string">&#x27;post&#x27;</span>) &#123;</span><br><span class="line">    <span class="comment">/*如果不是watch，并且flush是post，应该放在下一个&quot;tick&quot;中执行这个watchEffect</span></span><br><span class="line"><span class="comment">  这个方法，就是将effect推入到post队列中，在之后微任务执行会检查post队列，如果有</span></span><br><span class="line"><span class="comment">  任务就执行，那个时候就会执行这个effect去追踪依赖*/</span></span><br><span class="line">    queuePostRenderEffect(</span><br><span class="line">      effect.run.bind(effect),</span><br><span class="line">      instance &amp;&amp; instance.suspense</span><br><span class="line">    )</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    effect.run()</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    effect.stop()</span><br><span class="line">    <span class="keyword">if</span> (instance &amp;&amp; instance.scope) &#123;</span><br><span class="line">      remove(instance.scope.effects!, effect)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Computed"><a href="#Computed" class="headerlink" title="Computed"></a>Computed</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">computed</span>&lt;<span class="title">T</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  getterOrOptions: ComputedGetter&lt;T&gt; | WritableComputedOptions&lt;T&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">  debugOptions?: DebuggerOptions,</span></span></span><br><span class="line"><span class="params"><span class="function">  isSSR = <span class="literal">false</span></span></span></span><br><span class="line"><span class="params"><span class="function"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> getter: ComputedGetter&lt;T&gt;</span><br><span class="line">  <span class="keyword">let</span> setter: ComputedSetter&lt;T&gt;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//如果是只读的，就不设置setter</span></span><br><span class="line">  <span class="keyword">const</span> onlyGetter = isFunction(getterOrOptions)</span><br><span class="line">  <span class="keyword">if</span> (onlyGetter) &#123;</span><br><span class="line">    getter = getterOrOptions</span><br><span class="line">    setter = __DEV__</span><br><span class="line">      ? <span class="function">() =&gt;</span> &#123;</span><br><span class="line">          <span class="built_in">console</span>.warn(<span class="string">&#x27;Write operation failed: computed value is readonly&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">      : NOOP</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    getter = getterOrOptions.get</span><br><span class="line">    setter = getterOrOptions.set</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 传入 getter、setter、是否有setter 创建computed对象</span></span><br><span class="line">  <span class="keyword">const</span> cRef = <span class="keyword">new</span> ComputedRefImpl(getter, setter, onlyGetter || !setter, isSSR)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (__DEV__ &amp;&amp; debugOptions &amp;&amp; !isSSR) &#123;</span><br><span class="line">    <span class="comment">//收集依赖和依赖跟踪</span></span><br><span class="line">    cRef.effect.onTrack = debugOptions.onTrack</span><br><span class="line">    cRef.effect.onTrigger = debugOptions.onTrigger</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> cRef <span class="keyword">as</span> <span class="built_in">any</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">ComputedRefImpl</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">  <span class="keyword">public</span> dep?: Dep = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> _value!: T</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">readonly</span> effect: ReactiveEffect&lt;T&gt;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">readonly</span> __v_isRef = <span class="literal">true</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">readonly</span> [ReactiveFlags.IS_READONLY]: <span class="built_in">boolean</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> _dirty = <span class="literal">true</span></span><br><span class="line">  <span class="keyword">public</span> _cacheable: <span class="built_in">boolean</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    getter: ComputedGetter&lt;T&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">    <span class="keyword">private</span> <span class="keyword">readonly</span> _setter: ComputedSetter&lt;T&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">    isReadonly: <span class="built_in">boolean</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    isSSR: <span class="built_in">boolean</span></span></span></span><br><span class="line"><span class="params"><span class="function">  </span>)</span> &#123;</span><br><span class="line">    <span class="comment">// 创建effect对象，将当前getter当做监听函数，并附加调度器</span></span><br><span class="line">    <span class="built_in">this</span>.effect = <span class="keyword">new</span> ReactiveEffect(getter, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//此时依赖发生改变，将数据变脏，触发更改</span></span><br><span class="line">      <span class="keyword">if</span> (!<span class="built_in">this</span>._dirty) &#123;</span><br><span class="line">        <span class="built_in">this</span>._dirty = <span class="literal">true</span></span><br><span class="line">        triggerRefValue(<span class="built_in">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="built_in">this</span>.effect.computed = <span class="built_in">this</span></span><br><span class="line">    <span class="built_in">this</span>.effect.active = <span class="built_in">this</span>._cacheable = !isSSR</span><br><span class="line">    <span class="built_in">this</span>[ReactiveFlags.IS_READONLY] = isReadonly</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">get</span> <span class="title">value</span>() &#123;</span><br><span class="line">    <span class="comment">// 获取原始对象</span></span><br><span class="line">    <span class="keyword">const</span> self = toRaw(<span class="built_in">this</span>)</span><br><span class="line">    <span class="comment">// 收集依赖</span></span><br><span class="line">    trackRefValue(self)</span><br><span class="line">    <span class="comment">// 如果当前是脏数据，并且需要获取最新的值，就触发依赖</span></span><br><span class="line">    <span class="keyword">if</span> (self._dirty || !self._cacheable) &#123;</span><br><span class="line">      self._dirty = <span class="literal">false</span></span><br><span class="line">      self._value = self.effect.run()!</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//非脏数据直接返回</span></span><br><span class="line">    <span class="keyword">return</span> self._value</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">set</span> <span class="title">value</span>(<span class="params">newValue: T</span>) &#123;</span><br><span class="line">    <span class="built_in">this</span>._setter(newValue)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" rel="prev" title="Vue3源码学习笔记01">
+      <i class="fa fa-chevron-left"></i> Vue3源码学习笔记01
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Vue3%E6%BA%90%E7%A0%81-watch%E3%80%81watchEffect%E3%80%81computed"><span class="nav-number">1.</span> <span class="nav-text">Vue3源码-watch、watchEffect、computed</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#watch-amp-watchEffect"><span class="nav-number">1.1.</span> <span class="nav-text">watch&amp;watchEffect</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#watch"><span class="nav-number">1.1.1.</span> <span class="nav-text">watch</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#watchEffect"><span class="nav-number">1.2.</span> <span class="nav-text">watchEffect</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Computed"><span class="nav-number">1.3.</span> <span class="nav-text">Computed</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="StoneOcean"
+      src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">StoneOcean</p>
+  <div class="site-description" itemprop="description">记录自己的学习路程，以及一些有趣的事物</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">110</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GiorunoGiovanna" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GiorunoGiovanna" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:971615621@qq.com" title="E-Mail → mailto:971615621@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/joker_21" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;joker_21" rel="noopener" target="_blank">CSDN</a>
+        </li>
+    </ul>
+  </div>
+
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1383864027&auto=0&height=66"></iframe>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+<!--  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneOcean</span>-->
+
+<!---->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  本站总访问量<span id="busuanzi_value_site_pv"></span>次 |
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次 |
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'R4P3AYQnIg7nWijg9leQO1Q0-gzGzoHsz',
+      appKey     : 'uqUrNJX2Awrl6QNfEMelYYFH',
+      placeholder: "说些什么吧~",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":"true#是否在手机端显示"},"log":false});</script></body>
+</html>

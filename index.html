@@ -186,6 +186,208 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/" class="post-title-link" itemprop="url">Vue3源码学习笔记02</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-26 15:43:07 / 修改时间：16:35:25" itemprop="dateCreated datePublished" datetime="2022-06-26T15:43:07+08:00">2022-06-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue3%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue3源码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vue3源码-watch、watchEffect、computed"><a href="#Vue3源码-watch、watchEffect、computed" class="headerlink" title="Vue3源码-watch、watchEffect、computed"></a>Vue3源码-watch、watchEffect、computed</h1><p>Vue3提供了三种不同的可以监听数据的方法，分别是watch、watchEffect、computed。他们之间的取别在于，</p>
+<ul>
+<li>watch接收一个参数作为监听对象，同时能够执行回调，并且是默认懒启动的。</li>
+<li>watchEffect直接接收回调函数，回调函数中使用的对象都会被监听，并且是立即执行的</li>
+<li>computed和watchEffect有一点像，直接监听回调函数中使用的对象，但是不同的是它返回一个值，这个值是回调函数计算出来的。</li>
+</ul>
+<p>由于Vue3支持了composition API，为了组件化所有功能，因此将watch、watchEffect拆分到一个模块中。</p>
+<h2 id="watch-amp-watchEffect"><a href="#watch-amp-watchEffect" class="headerlink" title="watch&amp;watchEffect"></a>watch&amp;watchEffect</h2><h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">watch</span>&lt;<span class="title">T</span> = <span class="title">any</span>, <span class="title">Immediate</span> <span class="title">extends</span> <span class="title">Readonly</span>&lt;<span class="title">boolean</span>&gt; = <span class="title">false</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  source: T | WatchSource&lt;T&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">  cb: <span class="built_in">any</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="comment">//watch的选项，是否深度观测，是否立即执行等</span></span></span></span><br><span class="line"><span class="params"><span class="function">  options?: WatchOptions&lt;Immediate&gt;</span></span></span><br><span class="line"><span class="params"><span class="function"></span>): <span class="title">WatchStopHandle</span> </span>&#123;</span><br><span class="line">  <span class="comment">//如果回调函数不存在或者格式错误，进行警告</span></span><br><span class="line">  <span class="keyword">if</span> (__DEV__ &amp;&amp; !isFunction(cb)) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      <span class="string">`\`watch(fn, options?)\` signature has been moved to a separate API. `</span> +</span><br><span class="line">        <span class="string">`Use \`watchEffect(fn, options?)\` instead. \`watch\` now only `</span> +</span><br><span class="line">        <span class="string">`supports \`watch(source, cb, options?) signature.`</span></span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//执行watcher创建</span></span><br><span class="line">  <span class="comment">//watch和watchEffect的核心都是这个dowatch，区别在于接收的参数是函数还是其他</span></span><br><span class="line">  <span class="keyword">return</span> doWatch(source <span class="keyword">as</span> <span class="built_in">any</span>, cb, options)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="watchEffect"><a href="#watchEffect" class="headerlink" title="watchEffect"></a>watchEffect</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">watchSyncEffect</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  effect: WatchEffect,</span></span></span><br><span class="line"><span class="params"><span class="function">  options?: DebuggerOptions</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doWatch(</span><br><span class="line">    effect,</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    (__DEV__</span><br><span class="line">      ? &#123; ...options, <span class="attr">flush</span>: <span class="string">&#x27;sync&#x27;</span> &#125;</span><br><span class="line">      : &#123; <span class="attr">flush</span>: <span class="string">&#x27;sync&#x27;</span> &#125;) <span class="keyword">as</span> WatchOptionsBase</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，watch和watchEffect其实是公用一个dowatch逻辑的，因为两个方法除了监听对象和启动时机之外的底层逻辑是相同的。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" class="post-title-link" itemprop="url">Vue3源码学习笔记01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-25 21:18:12" itemprop="dateCreated datePublished" datetime="2022-06-25T21:18:12+08:00">2022-06-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-26 15:43:40" itemprop="dateModified" datetime="2022-06-26T15:43:40+08:00">2022-06-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue3%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue3源码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vue3源码—Effect，reactive，ref"><a href="#Vue3源码—Effect，reactive，ref" class="headerlink" title="Vue3源码—Effect，reactive，ref"></a>Vue3源码—Effect，reactive，ref</h1><p>Vue3相对于Vue2做出了很多重大的变革，其中有，使用proxy重写响应式原理，使用TS重写源码，使源码更加规范化。也全面支持了composition API，更加组件化，工程化的代码风格，其中为了适应composition API，Vue3将所有的功能函数全部模块化，以供我们按需引入，下面就来研究一下Vue3响应式原理发生的变化。</p>
+<h2 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h2><p>Effect是reactive和ref得以实现的核心模块之一，它的作用是实现收集依赖，和更新依赖。本质上就是一个发布/订阅模式。在get函数中收集涉及到的依赖，再在set函数中去触发前面收集到的依赖。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">effect</span>&lt;<span class="title">T</span> = <span class="title">any</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  fn: () =&gt; T,</span></span></span><br><span class="line"><span class="params"><span class="function">  options?: ReactiveEffectOptions</span></span></span><br><span class="line"><span class="params"><span class="function"></span>): <span class="title">ReactiveEffectRunner</span> </span>&#123;</span><br><span class="line">  <span class="comment">//检查传入参数，如果已经是ref对象，则重置为原始对象</span></span><br><span class="line">  <span class="keyword">if</span> ((fn <span class="keyword">as</span> ReactiveEffectRunner).effect) &#123;</span><br><span class="line">    fn = (fn <span class="keyword">as</span> ReactiveEffectRunner).effect.fn</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//这里才创建真正的effect</span></span><br><span class="line">  <span class="keyword">const</span> _effect = <span class="keyword">new</span> ReactiveEffect(fn)</span><br><span class="line">  <span class="keyword">if</span> (options) &#123;</span><br><span class="line">    extend(_effect, options)</span><br><span class="line">    <span class="keyword">if</span> (options.scope) recordEffectScope(_effect, options.scope)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果 lazy 不为真就直接执行一次 effect。计算属性的 lazy 为 true</span></span><br><span class="line">  <span class="keyword">if</span> (!options || !options.lazy) &#123;</span><br><span class="line">    _effect.run()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> runner = _effect.run.bind(_effect) <span class="keyword">as</span> ReactiveEffectRunner</span><br><span class="line">  runner.effect = _effect</span><br><span class="line">  <span class="keyword">return</span> runner</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ReactiveEffect"><a href="#ReactiveEffect" class="headerlink" title="ReactiveEffect"></a>ReactiveEffect</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">ReactiveEffect</span>&lt;<span class="title">T</span> </span>= any&gt; &#123;</span><br><span class="line">  active = <span class="literal">true</span></span><br><span class="line">  <span class="attr">deps</span>: Dep[] = []</span><br><span class="line">  <span class="attr">parent</span>: ReactiveEffect | <span class="literal">undefined</span> = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Can be attached after creation</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@internal</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  computed?: ComputedRefImpl&lt;T&gt;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@internal</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  allowRecurse?: boolean</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@internal</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  private deferStop?: boolean</span><br><span class="line"></span><br><span class="line">  onStop?: <span class="function">() =&gt;</span> <span class="keyword">void</span></span><br><span class="line">  <span class="comment">// dev only</span></span><br><span class="line">  onTrack?: <span class="function">(<span class="params">event: DebuggerEvent</span>) =&gt;</span> <span class="keyword">void</span></span><br><span class="line">  <span class="comment">// dev only</span></span><br><span class="line">  onTrigger?: <span class="function">(<span class="params">event: DebuggerEvent</span>) =&gt;</span> <span class="keyword">void</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    public fn: () =&gt; T,</span></span></span><br><span class="line"><span class="params"><span class="function">    public scheduler: EffectScheduler | <span class="literal">null</span> = <span class="literal">null</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    scope?: EffectScope</span></span></span><br><span class="line"><span class="params"><span class="function">  </span>)</span> &#123;</span><br><span class="line">    recordEffectScope(<span class="built_in">this</span>, scope)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">run</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>.active) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">this</span>.fn()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> parent: ReactiveEffect | <span class="literal">undefined</span> = activeEffect</span><br><span class="line">    <span class="keyword">let</span> lastShouldTrack = shouldTrack</span><br><span class="line">    <span class="comment">//遍历嵌套依赖，如果依赖有循环引用，则直接返回</span></span><br><span class="line">    <span class="keyword">while</span> (parent) &#123;</span><br><span class="line">      <span class="keyword">if</span> (parent === <span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">      parent = parent.parent</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">//记录这次嵌套的依赖</span></span><br><span class="line">      <span class="built_in">this</span>.parent = activeEffect</span><br><span class="line">      activeEffect = <span class="built_in">this</span></span><br><span class="line">      shouldTrack = <span class="literal">true</span></span><br><span class="line">	  <span class="comment">//依赖深度加一</span></span><br><span class="line">      trackOpBit = <span class="number">1</span> &lt;&lt; ++effectTrackDepth</span><br><span class="line">	  <span class="comment">//如果依赖深度过大，则清除依赖，一般不会</span></span><br><span class="line">      <span class="keyword">if</span> (effectTrackDepth &lt;= maxMarkerBits) &#123;</span><br><span class="line">        <span class="comment">//给每个_effect实例中的deps属性打标签，表示我已经遍历过这个属性的</span></span><br><span class="line">        initDepMarkers(<span class="built_in">this</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cleanupEffect(<span class="built_in">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//最后执行effect函数</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">this</span>.fn()</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (effectTrackDepth &lt;= maxMarkerBits) &#123;</span><br><span class="line">        finalizeDepMarkers(<span class="built_in">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//退回上一级依赖</span></span><br><span class="line">      trackOpBit = <span class="number">1</span> &lt;&lt; --effectTrackDepth</span><br><span class="line">        </span><br><span class="line">      activeEffect = <span class="built_in">this</span>.parent</span><br><span class="line">      shouldTrack = lastShouldTrack</span><br><span class="line">      <span class="built_in">this</span>.parent = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">this</span>.deferStop) &#123;</span><br><span class="line">        <span class="built_in">this</span>.stop()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">stop</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// stopped while running itself - defer the cleanup</span></span><br><span class="line">    <span class="keyword">if</span> (activeEffect === <span class="built_in">this</span>) &#123;</span><br><span class="line">      <span class="built_in">this</span>.deferStop = <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">this</span>.active) &#123;</span><br><span class="line">      cleanupEffect(<span class="built_in">this</span>)</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">this</span>.onStop) &#123;</span><br><span class="line">        <span class="built_in">this</span>.onStop()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">this</span>.active = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="track"><a href="#track" class="headerlink" title="track()"></a>track()</h4><p>track就是依赖收集器，负责把依赖收集起来放到一个统一管理中心。</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">track</span>(<span class="params">target: <span class="built_in">object</span>, <span class="keyword">type</span>: TrackOpTypes, key: unknown</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (shouldTrack &amp;&amp; activeEffect) &#123;</span><br><span class="line">    <span class="comment">//如果这个依赖是激活了的，就创建一个target</span></span><br><span class="line">    <span class="keyword">let</span> depsMap = targetMap.get(target)</span><br><span class="line">    <span class="keyword">if</span> (!depsMap) &#123;</span><br><span class="line">      targetMap.set(target, (depsMap = <span class="keyword">new</span> <span class="built_in">Map</span>()))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//来收集依赖函数，当监听的 key 值发生变化时，触发 dep 中的依赖函数</span></span><br><span class="line">    <span class="keyword">let</span> dep = depsMap.get(key)</span><br><span class="line">    <span class="keyword">if</span> (!dep) &#123;</span><br><span class="line">      depsMap.set(key, (dep = createDep()))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> eventInfo = __DEV__</span><br><span class="line">      ? &#123; <span class="attr">effect</span>: activeEffect, target, <span class="keyword">type</span>, key &#125;</span><br><span class="line">      : <span class="literal">undefined</span></span><br><span class="line">	<span class="comment">//收集依赖，生成dep放进集合中，用在后续依赖追踪</span></span><br><span class="line">    trackEffects(dep, eventInfo)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/23/TS-challenge01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -217,7 +419,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-24 15:04:41" itemprop="dateModified" datetime="2022-06-24T15:04:41+08:00">2022-06-24</time>
+                <time title="修改时间：2022-06-26 09:33:13" itemprop="dateModified" datetime="2022-06-26T09:33:13+08:00">2022-06-26</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -258,8 +460,6 @@
 <h2 id="02-return-type"><a href="#02-return-type" class="headerlink" title="*02-return-type"></a>*02-return-type</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 限制T为function类型。再判断T是否是一个非空函数</span></span><br><span class="line"><span class="keyword">type</span> MyReturnType&lt;T <span class="keyword">extends</span> <span class="built_in">Function</span>&gt; = T <span class="keyword">extends</span> (...arg: <span class="built_in">any</span>[]) =&gt; infer x ? x : <span class="built_in">never</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="03-omit"><a href="#03-omit" class="headerlink" title="*03-omit"></a>*03-omit</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyOmit&lt;T, U <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">    <span class="comment">// 取出T中每一个键与U比较</span></span><br><span class="line">    [key <span class="keyword">in</span> keyof T <span class="keyword">as</span> key <span class="keyword">extends</span> U ? <span class="built_in">never</span> : key]: T[key]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
 
 <h2 id="04-pick"><a href="#04-pick" class="headerlink" title="04-pick"></a>04-pick</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyPick&lt;T, K <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">    <span class="comment">//通过in遍历得到T（数组）中的每一个元素，再让它等于本身</span></span><br><span class="line">    [P <span class="keyword">in</span> K]: T[P]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -992,228 +1192,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/" class="post-title-link" itemprop="url">React学习笔记07代理的配置</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-20 16:17:39 / 修改时间：20:35:04" itemprop="dateCreated datePublished" datetime="2022-05-20T16:17:39+08:00">2022-05-20</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="React之代理配置"><a href="#React之代理配置" class="headerlink" title="React之代理配置"></a>React之代理配置</h1><p>在由webpack驱动的react项目中，我们如果遇到跨域的方法一般都由后端解决，例如cors，websocket，jsonp。由于webpack本身就启动了一个web服务器，我们可以利用react脚手架中的web服务器为我们转发请求从而在前端实现跨域。</p>
-<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>浏览器去请求后端的时候存在一种跨域限制，即前后端的url是不同协议，不同域名，不同端口的情况都属于跨域，这种情况下浏览器将阻止响应。</p>
-<p>代理是解决跨域的一种方式，它的原理是利用服务之间的请求是不受浏览器跨域影响的。先开启一台跟前端项目相同域名、协议、端口的服务器，而提供web服务的服务器本身刚好就符合这个条件，前端的请求先是到达web服务器，再由服务器转发到目标服务器，从而完成通信</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E4%BB%A3%E7%90%86%E5%8E%9F%E7%90%86.png" alt="代理原理"></p>
-<h2 id="第一种方式"><a href="#第一种方式" class="headerlink" title="第一种方式"></a>第一种方式</h2><p>在配置文件<code>package.json</code>中直接配置代理，然后重启项目</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">&quot;proxy&quot;</span>:<span class="string">&quot;http://localhost:8081&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>原理：这是webpack中为开发者留下的一个简单版的代理配置选项，如果用户发起请求，就会由webpack服务器代理到目标服务器，由于服务器之间没有跨域限制，所以可以完成跨域。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/" class="post-title-link" itemprop="url">React学习笔记06路由</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-20 16:04:42" itemprop="dateCreated datePublished" datetime="2022-05-20T16:04:42+08:00">2022-05-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-21 09:01:27" itemprop="dateModified" datetime="2022-05-21T09:01:27+08:00">2022-05-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="React之路由"><a href="#React之路由" class="headerlink" title="React之路由"></a>React之路由</h1><p>React中官方推荐使用<code>react-router-dom</code>作为路由插件。</p>
-<h2 id="什么是路由"><a href="#什么是路由" class="headerlink" title="什么是路由"></a>什么是路由</h2><p>在SPA（单页面应用）中，最重要的一个部分就是实现路由，即在不刷新页面的情况下进行跳转。路由就是一个用于实现这个目的工具。路由利用浏览器BOM自带的API<code>histroy</code>实现控制页面url的变化，同时监听url的变化，产生变化的时候进行对应的组件调用，这就是路由。</p>
-<h2 id="React-router-dom的基本使用"><a href="#React-router-dom的基本使用" class="headerlink" title="React-router-dom的基本使用"></a>React-router-dom的基本使用</h2><ol>
-<li><p>引入<code>react-router-dom</code></p>
-</li>
-<li><p>明确好界面中的导航区和展示区</p>
-</li>
-<li><p>导航区的a标签改为<code>Link</code>标签，用于触发路由跳转</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Link className=<span class="string">&#x27;list-group-item&#x27;</span> to=<span class="string">&#x27;/about&#x27;</span>&gt;About&lt;/Link&gt;</span><br></pre></td></tr></table></figure></li>
-<li><p>展示区写Route标签进行路径的匹配</p>
-<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Route path=<span class="string">&#x27;/home&#x27;</span> component=&#123;Home&#125; /&gt;</span><br></pre></td></tr></table></figure></li>
-<li><p>记得要在app根组件的外侧包裹一个路由器组件<code>&lt;BrowserRouter&gt;&lt;/BrowserRouter&gt;</code>,用于监听全局路由</p>
-</li>
-</ol>
-<h2 id="路由组件和普通组件的不同之处"><a href="#路由组件和普通组件的不同之处" class="headerlink" title="路由组件和普通组件的不同之处"></a>路由组件和普通组件的不同之处</h2><ul>
-<li>写法不同<ul>
-<li>普通组件的使用：<code>&lt;Demo /&gt;</code></li>
-<li>路由组件的使用：<code>&lt;Route path=&#39;/home&#39; component=&#123;Home&#125; /&gt;</code></li>
-</ul>
-</li>
-<li>存放位置不同<ul>
-<li>普通组件存放在<code>components</code></li>
-<li>路由组件存放在<code>pages</code></li>
-</ul>
-</li>
-<li>接收到的props不同<ul>
-<li>普通组件：写组件标签的时候传递了什么就收到什么</li>
-<li>路由组件：接受到三个固定的属性</li>
-</ul>
-</li>
-</ul>
-<h2 id="向路由组件传递参数"><a href="#向路由组件传递参数" class="headerlink" title="向路由组件传递参数"></a>向路由组件传递参数</h2><h3 id="params参数"><a href="#params参数" class="headerlink" title="params参数"></a>params参数</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1285,14 +1263,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">108</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">22</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
