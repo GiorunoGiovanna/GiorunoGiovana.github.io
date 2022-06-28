@@ -6170,9 +6170,19 @@
 
 <h2 id="108-trim"><a href="#108-trim" class="headerlink" title="*108-trim"></a>*108-trim</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Trimable = <span class="string">&quot; &quot;</span> | <span class="string">&quot;\t&quot;</span> | <span class="string">&quot;\n&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在ts中也可以使用模板字符串进行匹配</span></span><br><span class="line"><span class="keyword">type</span> TrimL&lt;S <span class="keyword">extends</span> <span class="built_in">string</span>&gt; = S <span class="keyword">extends</span> <span class="string">`<span class="subst">$&#123;Trimable&#125;</span><span class="subst">$&#123;infer U&#125;</span>`</span> ? TrimL&lt;U&gt; : S;</span><br><span class="line"><span class="keyword">type</span> TrimR&lt;S <span class="keyword">extends</span> <span class="built_in">string</span>&gt; = S <span class="keyword">extends</span> <span class="string">`<span class="subst">$&#123;infer U&#125;</span><span class="subst">$&#123;Trimable&#125;</span>`</span> ? TrimR&lt;U&gt; : S;</span><br><span class="line"></span><br><span class="line"><span class="keyword">type</span> Trim&lt;S <span class="keyword">extends</span> <span class="built_in">string</span>&gt; = TrimL&lt;TrimR&lt;S&gt;&gt;;</span><br></pre></td></tr></table></figure>
 
+<h2 id="110capitalize"><a href="#110capitalize" class="headerlink" title="*110capitalize"></a>*110capitalize</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> MyCapitalize&lt;S <span class="keyword">extends</span> <span class="built_in">string</span>&gt; = </span><br><span class="line">    S <span class="keyword">extends</span> <span class="string">`<span class="subst">$&#123;infer start&#125;</span><span class="subst">$&#123;infer rest&#125;</span>`</span> </span><br><span class="line">		<span class="comment">//使用uppercase将字符串转化为大写</span></span><br><span class="line">        ? <span class="string">`<span class="subst">$&#123;Uppercase&lt;start&gt;&#125;</span><span class="subst">$&#123;rest&#125;</span>`</span> </span><br><span class="line">        : <span class="string">&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="116-replace"><a href="#116-replace" class="headerlink" title="*116-replace"></a>*116-replace</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Replace&lt;S <span class="keyword">extends</span> <span class="built_in">string</span>, From <span class="keyword">extends</span> <span class="built_in">string</span>, To <span class="keyword">extends</span> <span class="built_in">string</span>&gt; =</span><br><span class="line">    S <span class="keyword">extends</span> <span class="string">`<span class="subst">$&#123;infer start&#125;</span><span class="subst">$&#123;From&#125;</span><span class="subst">$&#123;infer end&#125;</span>`</span></span><br><span class="line">		<span class="comment">//From判空处理</span></span><br><span class="line">        ? From <span class="keyword">extends</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">            ? S</span><br><span class="line">            : <span class="string">`<span class="subst">$&#123;start&#125;</span><span class="subst">$&#123;To&#125;</span><span class="subst">$&#123;end&#125;</span>`</span></span><br><span class="line">        : S</span><br></pre></td></tr></table></figure>
+
+<h2 id="119-replaceAll"><a href="#119-replaceAll" class="headerlink" title="*119-replaceAll"></a>*119-replaceAll</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> ReplaceAll&lt;S <span class="keyword">extends</span> <span class="built_in">string</span>, From <span class="keyword">extends</span> <span class="built_in">string</span>, To <span class="keyword">extends</span> <span class="built_in">string</span>&gt; =</span><br><span class="line">    S <span class="keyword">extends</span> <span class="string">`<span class="subst">$&#123;infer start&#125;</span><span class="subst">$&#123;From&#125;</span><span class="subst">$&#123;infer end&#125;</span>`</span></span><br><span class="line">        ? From <span class="keyword">extends</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">            ? S</span><br><span class="line">            <span class="comment">//为什么start不用？因为查询是按顺序的，start没有查出来那就肯定没有，不必找</span></span><br><span class="line">            : <span class="string">`<span class="subst">$&#123;start&#125;</span><span class="subst">$&#123;To&#125;</span><span class="subst">$&#123;ReplaceAll&lt;end, From, To&gt;&#125;</span>`</span></span><br><span class="line">        : S</span><br></pre></td></tr></table></figure>
+
 <h2 id="189-awaited"><a href="#189-awaited" class="headerlink" title="189-awaited"></a>189-awaited</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//infer可以用来表示一个类型中的位置类型</span></span><br><span class="line"><span class="keyword">type</span> MyAwaited&lt;T <span class="keyword">extends</span> <span class="built_in">Promise</span>&lt;unknown&gt;&gt; = T <span class="keyword">extends</span> <span class="built_in">Promise</span>&lt;infer X&gt;</span><br><span class="line">   ? X <span class="keyword">extends</span> <span class="built_in">Promise</span>&lt;unknown&gt;</span><br><span class="line">    ? MyAwaited&lt;X&gt;</span><br><span class="line">    : X</span><br><span class="line">   : <span class="built_in">never</span></span><br></pre></td></tr></table></figure>
 
+<h2 id="191-append-argument"><a href="#191-append-argument" class="headerlink" title="*191-append-argument"></a>*191-append-argument</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//判断是函数，接着解构参数，添加A</span></span><br><span class="line"><span class="keyword">type</span> AppendArgument&lt;Fn <span class="keyword">extends</span> (...args: <span class="built_in">any</span>) =&gt; <span class="built_in">any</span>, A&gt; =</span><br><span class="line">    Fn <span class="keyword">extends</span> (...args: infer Args) =&gt; infer x</span><br><span class="line">    ? <span class="function">(<span class="params">...args: [...Args, A]</span>) =&gt;</span> x</span><br><span class="line">    : <span class="built_in">void</span></span><br></pre></td></tr></table></figure>
+
 <h2 id="268-if"><a href="#268-if" class="headerlink" title="268-if"></a>268-if</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//extends可以作为js中的===符使用，去判断C的类型</span></span><br><span class="line"><span class="keyword">type</span> If&lt;C <span class="keyword">extends</span> <span class="built_in">boolean</span>, T, F&gt; = C <span class="keyword">extends</span> <span class="literal">true</span> ? T : F</span><br></pre></td></tr></table></figure>
+
+<h2 id="296-permutation"><a href="#296-permutation" class="headerlink" title="*296-permutation"></a>*296-permutation</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">type</span> Permutation&lt;T, U = T&gt; = [T] <span class="keyword">extends</span> [<span class="built_in">never</span>]</span><br><span class="line">    ? []</span><br><span class="line">    : T <span class="keyword">extends</span> U</span><br><span class="line">    ? [T, ...Permutation&lt;Exclude&lt;U, T&gt;&gt;]</span><br><span class="line">    : []</span><br></pre></td></tr></table></figure>
 
 <h2 id="533-concat"><a href="#533-concat" class="headerlink" title="533-concat"></a>533-concat</h2><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">//利用unknown可以安全地表示一个未知的数据类型</span></span><br><span class="line"><span class="keyword">type</span> Concat&lt;T <span class="keyword">extends</span> unknown[], U <span class="keyword">extends</span> unknown[]&gt; = [...T, ...U]</span><br></pre></td></tr></table></figure>
 
@@ -6319,6 +6329,36 @@
       </categories>
       <tags>
         <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>开发小工具01type-challenges-helper</title>
+    <url>/2022/06/28/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B701type-challenges-helper/</url>
+    <content><![CDATA[<h1 id="开发小工具01type-challenges-helper"><a href="#开发小工具01type-challenges-helper" class="headerlink" title="开发小工具01type-challenges-helper"></a>开发小工具01type-challenges-helper</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>最近在看Vue3的源码，但是源码用TS重写了，本人TS基础较为薄弱，为了更好的学习Vue，决定找些TS的相关学习资料，给我找到一个<a href="https://github.com/type-challenges/type-challenges">TS练习集</a>，真的很好用，是国内Vue大神写的。本来我就想在本地写的，但是写多了之后发现每次都要上github翻别人的答案，国内github的链接懂得都懂。而且我每次都要把题目文件夹中的无关文件其他语种的md删除，特别麻烦，于是写了一个小工具方便练习，也欢迎各位使用和提供建议。</p>
+<h2 id="地址"><a href="#地址" class="headerlink" title="地址"></a>地址</h2><p><a href="https://github.com/GiorunoGiovanna/ts-challenge-helper">https://github.com/GiorunoGiovanna/ts-challenge-helper</a></p>
+<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><ol>
+<li><p>为了使用方便，我决定采用全局安装，利用全局命令去指定题目</p>
+<p>找到一个库<code>commander</code></p>
+<p>通过这个库我就可以获取用户的输入命令后面的信息作为检索条件了。</p>
+</li>
+<li><p>一开始我的想法是去那个项目的地址去爬取数据的，刚开始时这样写的，写到一半让我发现原来github的API都是公开的，那我爬个der，直接用GitHub的API得了。</p>
+</li>
+<li><p><del>找github API文件的包去找</del></p>
+</li>
+<li><p>，<del>axios并发请求接口，解析base64</del></p>
+</li>
+<li><p><del>content文件路径问题</del></p>
+</li>
+<li><p>把参考答案分得再细一些，然后把文件打上注释</p>
+</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>整个项目其实没有什么难点，主要是没有想到giuhub API，写爬虫浪费了一些时间。</p>
+]]></content>
+      <categories>
+        <category>TypeScript</category>
+      </categories>
+      <tags>
+        <tag>开发小工具</tag>
       </tags>
   </entry>
 </search>
