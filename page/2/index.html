@@ -186,6 +186,111 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">SSL/TLS原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-02 09:38:47 / 修改时间：10:29:45" itemprop="dateCreated datePublished" datetime="2022-06-02T09:38:47+08:00">2022-06-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL/TLS原理"></a>SSL/TLS原理</h1><p>使用SSL/TLS加密的HTTP协议HTTPS是时下最流行的网页加密技术。主要任务是提供<strong>私密性，信息完整性和身份认证</strong>。SSL是一个不依赖于平台和运用程序的协议，位于TCP/IP协议与各种应用层协议之间，为数据通信提高安全支持。</p>
+<h2 id="SSL-TLS位置"><a href="#SSL-TLS位置" class="headerlink" title="SSL/TLS位置"></a>SSL/TLS位置</h2><p>SSL/TLS是位于应用层和TCP层之间的协议，一旦启用SSL/TLS协议，数据就先传递给SSL/TLS层再传递给TCP层。</p>
+<table>
+<thead>
+<tr>
+<th align="center">HTTP/FTP（应用层）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">SSL/TLS（加密协议）</td>
+</tr>
+<tr>
+<td align="center">TCP（传输层）</td>
+</tr>
+</tbody></table>
+<h2 id="前置知识："><a href="#前置知识：" class="headerlink" title="前置知识："></a>前置知识：</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>对称加密就是加密方和解密方都使用同一个密钥进行加密/解密。这种方法比较简单，性能也比较好，但是缺点就是密钥不能泄露，一旦泄露对话就不安全了。SSL/TLS的最终目的就是安全的在网络中发送对称加密密钥。</p>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>非对称加密就是加密方和解密方使用不同密钥。通常有一个密钥称为公钥，就是公布到网络中，任何人都可以访问，还有一个私钥。这种方式性能不如对称加密，但是更安全，可以用来安全交换对称加密密钥。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1116,113 +1221,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="post-title-link" itemprop="url">React学习笔记01JSX基本语法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-18 16:20:18 / 修改时间：16:25:55" itemprop="dateCreated datePublished" datetime="2022-05-18T16:20:18+08:00">2022-05-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="React"><a href="#React" class="headerlink" title="React"></a>React</h1><p>在React中运用了一种特殊的语法叫做JSX（JavaScript+XML），是一个看起来很像XML的JavaScript语法扩展。在React中可以选择JSX或者JavaScript语法进行编写，但是多数人推荐使用JSX。</p>
-<p>JSX跟XML很像，但还是有所不同，下面介绍一些简单的JSX语法规则。</p>
-<ol>
-<li>定义虚拟DOM的时候不要写引号，这不是个字符串</li>
-<li>标签中引入js表达式的时候要用<code>&#123;&#125;</code></li>
-<li>样式类名指定不要用class，因为在ES6中class被保留位创建类的关键字</li>
-<li>内联样式要用<code>style=&#123;&#123;key:value&#125;&#125;</code>的形式去写</li>
-<li>根标签只能有一个</li>
-<li>标签首字母<ul>
-<li>如果小写字母开头，则react转化位html</li>
-<li>如果大写开头，则转化为react组件</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//1.创建虚拟DOM</span><br><span class="line">const VDOM = (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h2 className=&quot;title&quot; id=&#123;myId.toLowerCase()&#125;&gt;</span><br><span class="line">            &lt;span style=&#123;&#123; color: &#x27;white&#x27;, fontSize: &#x27;30px&#x27; &#125;&#125;&gt;&#123;myContext.toLowerCase()&#125;&lt;/span&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">        &lt;h2 className=&quot;title&quot; id=&#123;myId.toUpperCase()&#125;&gt;</span><br><span class="line">            &lt;span style=&#123;&#123; color: &#x27;white&#x27;, fontSize: &#x27;30px&#x27; &#125;&#125;&gt;&#123;myContext.toLowerCase()&#125;&lt;/span&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">        &lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">)</span><br><span class="line">// 2.渲染虚拟DOM到页面</span><br><span class="line">ReactDOM.render(VDOM, document.getElementById(&#x27;test&#x27;))</span><br></pre></td></tr></table></figure>
-
-<h2 id="JSX小练习：使用JSX遍历一个动态表格"><a href="#JSX小练习：使用JSX遍历一个动态表格" class="headerlink" title="JSX小练习：使用JSX遍历一个动态表格"></a>JSX小练习：使用JSX遍历一个动态表格</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;!-- 准备好一个容器 --&gt;</span><br><span class="line">    &lt;div id=&quot;test&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入react核心库 --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/react.development.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 引入react-dom,用于支持react操作DOM --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/react-dom.development.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 引入babel，用于将jsx转为js --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/babel.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script type=&quot;text/babel&quot;&gt;</span><br><span class="line">    const arr = [&#x27;Vue&#x27;, &#x27;React&#x27;, &#x27;Angular&#x27;]</span><br><span class="line">    //1.创建虚拟DOM</span><br><span class="line">    const VDOM = (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;框架列表&lt;/h1&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">            &#123;arr.map((m, i) =&gt; &lt;li key=&#123;i&#125;&gt;&#123;m&#125;&lt;/li&gt;)&#125;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">    // 2.渲染虚拟DOM到页面</span><br><span class="line">    ReactDOM.render(VDOM, document.getElementById(&#x27;test&#x27;))</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1294,7 +1292,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1354,7 +1352,7 @@
 <div class="copyright">
 <!--  
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

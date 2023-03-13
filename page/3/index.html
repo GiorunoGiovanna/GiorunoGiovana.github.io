@@ -186,6 +186,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="post-title-link" itemprop="url">React学习笔记01JSX基本语法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-18 16:20:18 / 修改时间：16:25:55" itemprop="dateCreated datePublished" datetime="2022-05-18T16:20:18+08:00">2022-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="React"><a href="#React" class="headerlink" title="React"></a>React</h1><p>在React中运用了一种特殊的语法叫做JSX（JavaScript+XML），是一个看起来很像XML的JavaScript语法扩展。在React中可以选择JSX或者JavaScript语法进行编写，但是多数人推荐使用JSX。</p>
+<p>JSX跟XML很像，但还是有所不同，下面介绍一些简单的JSX语法规则。</p>
+<ol>
+<li>定义虚拟DOM的时候不要写引号，这不是个字符串</li>
+<li>标签中引入js表达式的时候要用<code>&#123;&#125;</code></li>
+<li>样式类名指定不要用class，因为在ES6中class被保留位创建类的关键字</li>
+<li>内联样式要用<code>style=&#123;&#123;key:value&#125;&#125;</code>的形式去写</li>
+<li>根标签只能有一个</li>
+<li>标签首字母<ul>
+<li>如果小写字母开头，则react转化位html</li>
+<li>如果大写开头，则转化为react组件</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//1.创建虚拟DOM</span><br><span class="line">const VDOM = (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h2 className=&quot;title&quot; id=&#123;myId.toLowerCase()&#125;&gt;</span><br><span class="line">            &lt;span style=&#123;&#123; color: &#x27;white&#x27;, fontSize: &#x27;30px&#x27; &#125;&#125;&gt;&#123;myContext.toLowerCase()&#125;&lt;/span&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">        &lt;h2 className=&quot;title&quot; id=&#123;myId.toUpperCase()&#125;&gt;</span><br><span class="line">            &lt;span style=&#123;&#123; color: &#x27;white&#x27;, fontSize: &#x27;30px&#x27; &#125;&#125;&gt;&#123;myContext.toLowerCase()&#125;&lt;/span&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">        &lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">)</span><br><span class="line">// 2.渲染虚拟DOM到页面</span><br><span class="line">ReactDOM.render(VDOM, document.getElementById(&#x27;test&#x27;))</span><br></pre></td></tr></table></figure>
+
+<h2 id="JSX小练习：使用JSX遍历一个动态表格"><a href="#JSX小练习：使用JSX遍历一个动态表格" class="headerlink" title="JSX小练习：使用JSX遍历一个动态表格"></a>JSX小练习：使用JSX遍历一个动态表格</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;!-- 准备好一个容器 --&gt;</span><br><span class="line">    &lt;div id=&quot;test&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入react核心库 --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/react.development.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 引入react-dom,用于支持react操作DOM --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/react-dom.development.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 引入babel，用于将jsx转为js --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/babel.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script type=&quot;text/babel&quot;&gt;</span><br><span class="line">    const arr = [&#x27;Vue&#x27;, &#x27;React&#x27;, &#x27;Angular&#x27;]</span><br><span class="line">    //1.创建虚拟DOM</span><br><span class="line">    const VDOM = (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;框架列表&lt;/h1&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">            &#123;arr.map((m, i) =&gt; &lt;li key=&#123;i&#125;&gt;&#123;m&#125;&lt;/li&gt;)&#125;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">    // 2.渲染虚拟DOM到页面</span><br><span class="line">    ReactDOM.render(VDOM, document.getElementById(&#x27;test&#x27;))</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1132,109 +1239,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/" class="post-title-link" itemprop="url">less学习笔记02混合</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-09 22:32:02" itemprop="dateCreated datePublished" datetime="2022-05-09T22:32:02+08:00">2022-05-09</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/less/" itemprop="url" rel="index"><span itemprop="name">less</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Less混合（mixin）"><a href="#Less混合（mixin）" class="headerlink" title="Less混合（mixin）"></a>Less混合（mixin）</h1><p>less的混合是一个强大的工具，在css开发中往往涉及到很多标签需要用到相同或相似的一段代码，这个时候我们就可以使用mixin去定义一段可以复用的代码。</p>
-<h2 id="普通混合"><a href="#普通混合" class="headerlink" title="普通混合"></a>普通混合</h2><p>将一段可以复用的代码抽离出来单独命名，在需要使用的地方直接使用这个命名即可。</p>
-<p>在mixin中代码加上<code>()</code>可以避免被编译到css中</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.position-center</span> () &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">25%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="attribute">position</span>: relative;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">50vw</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50vh</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> black solid;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.b</span> &#123;</span><br><span class="line">    <span class="selector-class">.position-center</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">30vw</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">&amp;</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">      <span class="attribute">background-color</span>: rgb(<span class="number">197</span>, <span class="number">34</span>, <span class="number">61</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.c</span> &#123;</span><br><span class="line">    <span class="selector-class">.position-center</span>;</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">30vw</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: black;</span><br><span class="line"></span><br><span class="line">    <span class="selector-tag">&amp;</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">      <span class="attribute">background-color</span>: rgb(<span class="number">197</span>, <span class="number">34</span>, <span class="number">61</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="带参数的混合"><a href="#带参数的混合" class="headerlink" title="带参数的混合"></a>带参数的混合</h2><p>可以在混合中使用参数，就像JavaScript一样，也可以给参数默认值，也可以在使用的时候指定参数传参</p>
-<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.position-center</span> (<span class="variable">@left</span>: <span class="number">30vw</span>, <span class="variable">@color</span>: black) &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="variable">@left</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50%</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="variable">@color</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="匹配模式"><a href="#匹配模式" class="headerlink" title="匹配模式*"></a>匹配模式*</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%B7%B7%E5%90%88/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1306,7 +1310,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">114</span>
+          <span class="site-state-item-count">115</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1366,7 +1370,7 @@
 <div class="copyright">
 <!--  
   &copy; 
-  <span itemprop="copyrightYear">2022</span>
+  <span itemprop="copyrightYear">2023</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
