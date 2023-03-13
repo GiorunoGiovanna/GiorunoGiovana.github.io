@@ -186,6 +186,328 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/" class="post-title-link" itemprop="url">less学习笔记01变量</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-09 22:22:46" itemprop="dateCreated datePublished" datetime="2022-05-09T22:22:46+08:00">2022-05-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/less/" itemprop="url" rel="index"><span itemprop="name">less</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Less"><a href="#Less" class="headerlink" title="Less"></a>Less</h1><p>less是一款预处理语言，可以允许我们以类似于js的方式去使用css。我们使用less去编写css会更加方便。</p>
+<h2 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h2><h3 id="定义变量"><a href="#定义变量" class="headerlink" title="定义变量"></a>定义变量</h3><p>less中可以将属性名，选择器和属性值定义为变量，就像js一样。</p>
+<p>注意：属性名和选择器定义的变量在使用的时候要以<code>@&#123;name&#125;</code>的方式使用，而属性值变量直接使用<code>@name</code>方式使用就可以了。</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@pos:</span> position;</span><br><span class="line"><span class="variable">@a:</span>.a;</span><br><span class="line"><span class="variable">@rel:</span>relative;</span><br><span class="line"><span class="variable">@&#123;a&#125;</span> &#123;</span><br><span class="line">  @&#123;pos&#125;: @<span class="selector-tag">rel</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">50vw</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">50vh</span>;</span><br><span class="line">  <span class="attribute">border</span>: <span class="number">1px</span> black solid;</span><br><span class="line">  <span class="selector-class">.b</span> &#123;</span><br><span class="line">    @&#123;pos&#125;: <span class="selector-tag">absolute</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">margin</span>: auto;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="变量的延迟加载"><a href="#变量的延迟加载" class="headerlink" title="变量的延迟加载"></a>变量的延迟加载</h3><p>在less中变量都是块级作用域的，而且具有延迟加载的特点，即无论在同一个块级作用域中定义同一个变量即此，都以最后一次为标准</p>
+<figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@a:</span>red;</span><br><span class="line"><span class="selector-class">.a</span>&#123;</span><br><span class="line">  <span class="variable">@a:</span>pink;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="variable">@a</span>;</span><br><span class="line">  <span class="variable">@a:</span>blue;</span><br><span class="line">  <span class="selector-class">.b</span>&#123;</span><br><span class="line">    <span class="variable">@a:</span>yellow;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">50px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>:<span class="variable">@a</span>; </span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/09/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%8F%98%E9%87%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">js学习笔记15线程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-08 20:25:38" itemprop="dateCreated datePublished" datetime="2022-05-08T20:25:38+08:00">2022-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JavaScript线程"><a href="#JavaScript线程" class="headerlink" title="JavaScript线程"></a>JavaScript线程</h1><h2 id="单线程"><a href="#单线程" class="headerlink" title="单线程"></a>单线程</h2><p>我们都知道，JavaScript是一个单线程的语言，这是由它的用途决定的，一开始JavaScript只是作为网站的脚本语言存在，目的是为了和用户产生交互。如果JavaScript一开始就是多线程的，用户用一个线程删除了dom节点，另一个线程却修改了这个节点，就会产生矛盾。</p>
+<h2 id="多线程"><a href="#多线程" class="headerlink" title="多线程"></a>多线程</h2><p>但是，在前端高速发展的今天，单纯的单线程同步方式已经不满足前端开发了，于是出现了异步、ajax、定时器等等非单线程的功能，但是JavaScript是一个单线程语言，是如何实现这些的呢？</p>
+<h3 id="运行环境是多线程的"><a href="#运行环境是多线程的" class="headerlink" title="运行环境是多线程的"></a>运行环境是多线程的</h3><p>JavaScript本身是单线程的，但是它的运行环境（V8，nodejs）却不是单线程的，这就为JavaScript多线程操作带来了可能。</p>
+<p>浏览器由很多的线程：</p>
+<ol>
+<li>GUI渲染线程</li>
+<li>JS引擎线程</li>
+<li>定时器触发线程（setTimeout）</li>
+<li>浏览器事件线程（onclick）</li>
+<li>http异步线程</li>
+<li>EventLoop轮询处理线程</li>
+</ol>
+<p>其中1、2、4为常驻线程。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/08/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B015%E7%BA%BF%E7%A8%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" class="post-title-link" itemprop="url">vite学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-08 15:08:28" itemprop="dateCreated datePublished" datetime="2022-05-08T15:08:28+08:00">2022-05-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vite/" itemprop="url" rel="index"><span itemprop="name">vite</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vite学习笔记"><a href="#Vite学习笔记" class="headerlink" title="Vite学习笔记"></a>Vite学习笔记</h1><h2 id="vite是什么"><a href="#vite是什么" class="headerlink" title="vite是什么"></a>vite是什么</h2><p>vite是一种新型的前端构建工具，能够显著提升前端开发体验。它主要由两个部分组成：</p>
+<ul>
+<li>一个开发服务器，它基于原生ES模块提供了丰富的内建功能，如速度快到惊人的模块热更新</li>
+<li>一套构建指令，它使用Rollup打包代码，并且它是预配置的，可以输出用于生产环境的高度优化过的静态资源</li>
+</ul>
+<h2 id="为什么要用vite"><a href="#为什么要用vite" class="headerlink" title="为什么要用vite"></a>为什么要用vite</h2><p>vite在打包速度上相比于webpack有明显的优势，当然，webpack作为当下最流行的打包工具，它的生态比vite优秀许多，不过我们可以看出vite的潜力。</p>
+<h2 id="vite和webpack的区别"><a href="#vite和webpack的区别" class="headerlink" title="vite和webpack的区别"></a>vite和webpack的区别</h2><ol>
+<li><p><strong>底层</strong></p>
+<p>从底层上说，vite是基于esbuild与构建依赖。而esbuild是采用go语言编写，操作以纳秒计，而js是以毫秒计。</p>
+</li>
+<li><p><strong>启动方式</strong></p>
+<h4 id="webpack："><a href="#webpack：" class="headerlink" title="webpack："></a><strong>webpack：</strong></h4><p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/webpack%E5%8E%9F%E7%90%86.png" alt="webpack原理"></p>
+<p>webpack的启动方式是先将所有用到的依赖收集，然后打包成boundle，即整合的依赖，再启动服务，我们查看由webpack构建的前端项目的时候会发现一些比较大的依赖文件，就是由webpack整合的。由于需要提前整合处理依赖，因此启动webpack是需要一定的时间的。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508152615681.png" alt="image-20220508152615681"></p>
+<h4 id="vite："><a href="#vite：" class="headerlink" title="vite："></a><strong>vite：</strong></h4><p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/vite%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86.png" alt="vite启动原理"></p>
+<p>vite的启动方式得益于ES Module的支持，也就是可以静态引入资源。vite是先启动服务器，在页面编译的时候如果对某个模块有请求，再动态编译。所以vite的启动特别快，因为webpack需要编译，而vite不需要，直接启动。在热更新方面，也因为只让浏览器重新请求这个模块，而不像webpack一样重新编译，所以更快。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-2022050815445089224.png" alt="image-2022050815445089224"></p>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -942,315 +1264,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" class="post-title-link" itemprop="url">TS学习笔记05模块化与命名空间</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-29 09:34:18" itemprop="dateCreated datePublished" datetime="2022-04-29T09:34:18+08:00">2022-04-29</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="TypeScript中的模块化与命名空间"><a href="#TypeScript中的模块化与命名空间" class="headerlink" title="TypeScript中的模块化与命名空间"></a>TypeScript中的模块化与命名空间</h1><h2 id="模块化"><a href="#模块化" class="headerlink" title="模块化"></a>模块化</h2><p>简单来说，模块化就是将原本写在一起的代码按照不同功能分开书写，进行解耦，然后再在需要的地方进行引入就好。</p>
-<p>语法格式如下：</p>
-<p>导出<code>export</code>：</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 文件名 : SomeInterface.ts </span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">interface</span> SomeInterface &#123; 		<span class="comment">//可多次导出</span></span><br><span class="line">   <span class="comment">// 代码部分</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span></span>&#123;</span><br><span class="line">	<span class="comment">//代码部分</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> User					<span class="comment">//只能导出一次，且必须待代码末尾进行</span></span><br></pre></td></tr></table></figure>
-
-<p>导入<code>import</code>：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import someInterfaceRef from &quot;./SomeInterface.ts &quot;</span><br></pre></td></tr></table></figure>
-
-<p>TS中几乎所有变量都能模块化开发，TS中的模块化与ES6中的模块化非常相似，都是纯静态的引入模式，这里就不作赘述。</p>
-<h2 id="命名空间"><a href="#命名空间" class="headerlink" title="命名空间"></a>命名空间</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/29/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E6%A8%A1%E5%9D%97%E5%8C%96%E4%B8%8E%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/" class="post-title-link" itemprop="url">TS学习笔记04泛型</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-28 10:45:01" itemprop="dateCreated datePublished" datetime="2022-04-28T10:45:01+08:00">2022-04-28</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="TypeScript中的泛型"><a href="#TypeScript中的泛型" class="headerlink" title="TypeScript中的泛型"></a>TypeScript中的泛型</h1><p>软件工程中，我们不仅要创建一致的定义良好的API，同时也要考虑可重用性。组件不仅能够支持当前的数据类型，同时也能支持未来的数据类型，这在创建大型系统式为你提供了十分灵活的功能。</p>
-<p>通俗的理解，泛型就是解决类接口方法的复用性，以及对不特定数据类型的支持</p>
-<h2 id="泛型的基本使用"><a href="#泛型的基本使用" class="headerlink" title="泛型的基本使用"></a>泛型的基本使用</h2><p>可以支持不特定的数据类型，要求：传入的参数和返回的参数类型一致</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// T表示泛型，具体什么类型是调用这个方法的时候决定的</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getData</span>&lt;<span class="title">T</span>&gt;(<span class="params">value: T</span>): <span class="title">T</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> value</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">getData&lt;<span class="built_in">number</span>&gt;(<span class="number">123</span>)	<span class="comment">//正确写法，参数要一致</span></span><br><span class="line">getData&lt;<span class="built_in">number</span>&gt;(<span class="string">&#x27;2121&#x27;</span>) <span class="comment">//错误写法</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="类的泛型"><a href="#类的泛型" class="headerlink" title="类的泛型"></a>类的泛型</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinClass</span>&lt;<span class="title">T</span>&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">public</span> list: T[] = []</span><br><span class="line">    add(value: T): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.list.push(value)</span><br><span class="line">    &#125;</span><br><span class="line">    min(): T &#123;</span><br><span class="line">        <span class="keyword">var</span> minNum = <span class="built_in">this</span>.list[<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="built_in">this</span>.list.length; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (minNum &gt; <span class="built_in">this</span>.list[i]) &#123;</span><br><span class="line">                minNum = <span class="built_in">this</span>.list[i]</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> minNum</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> m1 = <span class="keyword">new</span> MinClass&lt;<span class="built_in">number</span>&gt;() <span class="comment">/**实例化类，并且制定了类的T代表的类型是number */</span></span><br><span class="line">m1.add(<span class="number">1</span>)</span><br><span class="line">m1.add(<span class="number">2</span>)</span><br><span class="line">m1.add(<span class="number">3</span>)</span><br><span class="line"><span class="built_in">console</span>.log(m1.min())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> m2 = <span class="keyword">new</span> MinClass&lt;<span class="built_in">string</span>&gt;() <span class="comment">/**实例化类，并且制定了类的T代表的类型是string */</span></span><br><span class="line">m2.add(<span class="string">&#x27;a&#x27;</span>)</span><br><span class="line">m2.add(<span class="string">&#x27;b&#x27;</span>)</span><br><span class="line">m2.add(<span class="string">&#x27;c&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(m2.min())</span><br></pre></td></tr></table></figure>
-
-<h2 id="泛型接口"><a href="#泛型接口" class="headerlink" title="泛型接口"></a>泛型接口</h2><p>两种定义方式</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/28/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E6%B3%9B%E5%9E%8B/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%8E%A5%E5%8F%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%8E%A5%E5%8F%A3/" class="post-title-link" itemprop="url">TS学习笔记03接口</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-27 22:23:00" itemprop="dateCreated datePublished" datetime="2022-04-27T22:23:00+08:00">2022-04-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%8E%A5%E5%8F%A3/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%8E%A5%E5%8F%A3/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="TypeScript中的接口"><a href="#TypeScript中的接口" class="headerlink" title="TypeScript中的接口"></a>TypeScript中的接口</h1><p>在ES6中我们没有办法直接对函数的参数类型进行约束，只能通过在函数内部去判断参数的类型。TS中提供一种方式帮助我们约束函数传参的类型，这就是接口<code>interface</code></p>
-<h2 id="接口的基本写法"><a href="#接口的基本写法" class="headerlink" title="接口的基本写法"></a>接口的基本写法</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接口</span></span><br><span class="line"><span class="keyword">interface</span> name &#123;</span><br><span class="line">    <span class="attr">firstname</span>: <span class="built_in">string</span>;</span><br><span class="line">    secondname: <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callName</span>(<span class="params">obj: name</span>): <span class="title">void</span> </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;obj.firstname&#125;</span> <span class="subst">$&#123;obj.secondname&#125;</span>`</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callName(&#123; <span class="attr">firstname</span>: <span class="string">&#x27;li&#x27;</span>, <span class="attr">secondname</span>: <span class="string">&#x27;hua&#x27;</span> &#125;)</span><br></pre></td></tr></table></figure>
-
-<p>可以看出，接口的使用方式非常直接，在接口中定义参数的类型，然后声明传入参数的类型为接口的类型，就可以规定参数接收规定格式的参数了。</p>
-<p><strong>注意，在外部定义变量的时候可以比接口要求的参数多几个参数，但是如果是在函数入口定义参数的话形参和实参必须一致。</strong></p>
-<h2 id="函数类型的接口"><a href="#函数类型的接口" class="headerlink" title="函数类型的接口"></a>函数类型的接口</h2><p>接口也可以定义函数形参，和返回值的标准</p>
-<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">interface</span> encrypt &#123;</span><br><span class="line">    (key: <span class="built_in">string</span>, <span class="attr">value</span>: <span class="built_in">string</span>): <span class="built_in">string</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> md5: encrypt = (key: <span class="built_in">string</span>, <span class="attr">value</span>: <span class="built_in">string</span>): <span class="function"><span class="params">string</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> key + value</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="可索引的接口"><a href="#可索引的接口" class="headerlink" title="可索引的接口"></a>可索引的接口</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E6%8E%A5%E5%8F%A3/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1322,7 +1335,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">111</span>
+          <span class="site-state-item-count">114</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
