@@ -186,6 +186,102 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/" class="post-title-link" itemprop="url">React学习笔记03props</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-18 16:26:32 / 修改时间：19:51:46" itemprop="dateCreated datePublished" datetime="2022-05-18T16:26:32+08:00">2022-05-18</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="组件三大属性之props"><a href="#组件三大属性之props" class="headerlink" title="组件三大属性之props"></a>组件三大属性之props</h2><p>props是React中用于传递数据的一个概念。当我们需要向组件传入外部的值的时候就需要使用props进行传值。</p>
+<h2 id="props基本用法"><a href="#props基本用法" class="headerlink" title="props基本用法"></a>props基本用法</h2><p>在我们需要传入值的组件的render函数中函数标签中传入值，在组件类内部使用<code>this.props</code>进行访问</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//创建类式组件</span><br><span class="line">class Demo extends React.Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        const &#123; first, second, thrid &#125; = this.props</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;ul&gt;</span><br><span class="line">                    &lt;li&gt;&#123;first&#125;&lt;/li&gt;</span><br><span class="line">                    &lt;li&gt;&#123;second&#125;&lt;/li&gt;</span><br><span class="line">                    &lt;li&gt;&#123;thrid&#125;&lt;/li&gt;</span><br><span class="line">                &lt;/ul&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//渲染组件到页面上</span><br><span class="line">ReactDOM.render(&lt;Demo first=&quot;Vue&quot; second=&quot;React&quot; thrid=&quot;Angular&quot; /&gt;, document.getElementById(&#x27;test&#x27;))</span><br><span class="line">ReactDOM.render(&lt;Demo first=&quot;Vuex&quot; second=&quot;Vue-router&quot; thrid=&quot;axios&quot; /&gt;, document.getElementById(&#x27;test1&#x27;))</span><br><span class="line">ReactDOM.render(&lt;Demo first=&quot;State&quot; second=&quot;Props&quot; thrid=&quot;promise&quot; /&gt;, document.getElementById(&#x27;test2&#x27;))</span><br></pre></td></tr></table></figure>
+
+<h2 id="批量传入props"><a href="#批量传入props" class="headerlink" title="批量传入props"></a>批量传入props</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//简写批量传递参数</span><br><span class="line">const p = &#123; first: &#x27;Vue&#x27;, second: &#x27;React&#x27;, thrid: &#x27;Angular&#x27; &#125;</span><br><span class="line">//前提，所有参数一一对应，这里的&#123;..p&#125;和用于浅复制的&#123;..p&#125;不一样</span><br><span class="line">//这里的花括号指的是允许在花括号中使用js表达式，实际上的js语句是...p</span><br><span class="line">//用于浅复制的花括号指的是新建一个对象</span><br><span class="line">ReactDOM.render(&lt;Demo &#123;...p&#125; /&gt;, document.getElementById(&#x27;test&#x27;))</span><br></pre></td></tr></table></figure>
+
+<h2 id="对Props的传值进行约束"><a href="#对Props的传值进行约束" class="headerlink" title="对Props的传值进行约束"></a>对Props的传值进行约束</h2><p>在一些情况下，我们希望传入的值是一个固定类型的值，或者我们希望一个变量是有默认值的，这个时候我们就需要对Props进行约束。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//props属性类型限制</span><br><span class="line">Demo.propTypes = &#123;</span><br><span class="line">    first: PropTypes.string.isRequired,</span><br><span class="line">    second: PropTypes.number,</span><br><span class="line">&#125;</span><br><span class="line">//props默认值设置</span><br><span class="line">Demo.defaultProps = &#123;</span><br><span class="line">    first: &#x27;dada&#x27;，</span><br><span class="line">    second: 66</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -819,7 +915,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/13/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
@@ -833,7 +929,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/" class="post-title-link" itemprop="url">webpack学习笔记04loader和plugin</a>
+            <a href="/2022/05/13/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/" class="post-title-link" itemprop="url">webpack学习笔记04loader和plugin</a>
         </h2>
 
         <div class="post-meta">
@@ -850,7 +946,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+                <time title="修改时间：2023-03-14 14:25:36" itemprop="dateModified" datetime="2023-03-14T14:25:36+08:00">2023-03-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -871,8 +967,8 @@
       </span>
       <span class="post-meta-item-text">Valine：</span>
     
-    <a title="valine" href="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/" itemprop="commentCount"></span>
+    <a title="valine" href="/2022/05/13/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/13/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -899,7 +995,7 @@
 </ul>
           <!--noindex-->
             <div class="post-button">
-              <a class="btn" href="/2022/05/13/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/#more" rel="contents">
+              <a class="btn" href="/2022/05/13/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1138,107 +1234,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/" class="post-title-link" itemprop="url">less学习笔记03继承</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-10 10:32:50" itemprop="dateCreated datePublished" datetime="2022-05-10T10:32:50+08:00">2022-05-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/less/" itemprop="url" rel="index"><span itemprop="name">less</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Less继承"><a href="#Less继承" class="headerlink" title="Less继承"></a>Less继承</h1><p>在less中有继承这个概念，可以类比混合，但是和混合有一定的区别。</p>
-<h2 id="继承是什么"><a href="#继承是什么" class="headerlink" title="继承是什么"></a>继承是什么</h2><p>我们通过混合去‘继承’一些代码的时候，如果去看看编译后的css代码就会发现一些问题，通过混合继承的代码会分别在每个标签中重复一遍。</p>
-<h3 id="通过混合继承"><a href="#通过混合继承" class="headerlink" title="通过混合继承"></a>通过混合继承</h3><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//通过混合继承</span></span><br><span class="line"><span class="selector-class">.center</span>() &#123;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">margin</span>: auto;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">25%</span>;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">25%</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.a</span> &#123;</span><br><span class="line">  <span class="selector-class">.b</span> &#123;</span><br><span class="line">     <span class="comment">//混合的写法</span></span><br><span class="line">    <span class="selector-class">.center</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: BLUE;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.c</span> &#123;</span><br><span class="line">    <span class="selector-class">.center</span>;</span><br><span class="line">    <span class="attribute">left</span>: -<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: pink;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>编译结果</strong>：</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220510104103136.png" alt="image-20220510104103136"></p>
-<h3 id="通过继承去继承"><a href="#通过继承去继承" class="headerlink" title="通过继承去继承"></a>通过继承去继承</h3><p><strong>使用继承写法后，所有继承了这段代码的属性都会共用这段代码</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/10/less%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E7%BB%A7%E6%89%BF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1310,7 +1305,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">115</span>
+          <span class="site-state-item-count">116</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
