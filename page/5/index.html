@@ -186,6 +186,123 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/" class="post-title-link" itemprop="url">Vue3学习笔记02组合式API</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-30 09:33:58" itemprop="dateCreated datePublished" datetime="2022-04-30T09:33:58+08:00">2022-04-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue3/" itemprop="url" rel="index"><span itemprop="name">Vue3</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Composition-API"><a href="#Composition-API" class="headerlink" title="Composition API"></a>Composition API</h1><p>compositionAPI提供了以下几个函数，在当前vue版本中，想要使用这些api需要进行引入。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &#123; reactive, ref, toRef, toRefs &#125; from &quot;vue&quot;;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>setup</li>
+<li>ref</li>
+<li>reactive</li>
+<li>watchEffect</li>
+<li>watch</li>
+<li>computed</li>
+<li>toRefs</li>
+<li>生命周期的hook</li>
+</ul>
+<h2 id="ref和reactive"><a href="#ref和reactive" class="headerlink" title="ref和reactive"></a>ref和reactive</h2><p><code>ref</code>和<code>reactive</code>都是用于定义响应式数据的API，其中</p>
+<ol>
+<li><code>ref</code>定义字符串、num、boolean、数组，<code>reactive</code>定义对象类型</li>
+<li>在<code>setup</code>中<code>ref</code>想要获取变量数据需要在变量名称后加上<code>.value</code>,<code>reactive</code>直接获取数据就可以</li>
+<li>在模板字符串中两者都可以直接获取数据</li>
+<li>在<code>setup</code>中定义的数据必须在最后return出去才能在模板中使用</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;h1&gt;&#123;&#123; title &#125;&#125;&lt;/h1&gt;</span><br><span class="line">  &lt;div&gt;HOME-&#123;&#123; user.name &#125;&#125; 今年 &#123;&#123; user.age &#125;&#125;了&lt;/div&gt;</span><br><span class="line">  &lt;button @click=&quot;alertUser&quot;&gt;点击我获取user&lt;/button&gt;</span><br><span class="line">  &lt;button @click=&quot;alertTitle&quot;&gt;点击我获取title&lt;/button&gt;</span><br><span class="line">  &lt;input type=&quot;text&quot; v-model=&quot;title&quot; /&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">//注意，在composition API中使用方法需要引入</span><br><span class="line">import &#123; reactive, ref &#125; from &quot;vue&quot;;</span><br><span class="line">export default &#123;</span><br><span class="line">  name: &quot;Home&quot;,</span><br><span class="line">  //composition api</span><br><span class="line">  setup(props) &#123;</span><br><span class="line">    //ref 定义子符串、num、boolean、数组</span><br><span class="line">    //reactive 定义响应式数据定义对象</span><br><span class="line">    var title = ref(&quot;我是一个标题&quot;);</span><br><span class="line">    var user = reactive(&#123;</span><br><span class="line">      name: &quot;lihua&quot;,</span><br><span class="line">      age: 18,</span><br><span class="line">    &#125;);</span><br><span class="line">    //获取ref中的数据需要获取数据的value</span><br><span class="line">    let alertTitle = () =&gt; &#123;</span><br><span class="line">      alert(title.value);</span><br><span class="line">      console.log(title);</span><br><span class="line">    &#125;;</span><br><span class="line">    //获取reactive中的数据直接获取</span><br><span class="line">    let alertUser = () =&gt; &#123;</span><br><span class="line">      alert(user.name);</span><br><span class="line">      console.log(user);</span><br><span class="line">    &#125;;</span><br><span class="line">    //在composition api中想要模板能够使用定义的变量和方法必须返回这个名称</span><br><span class="line">    return &#123;</span><br><span class="line">      title,</span><br><span class="line">      user,</span><br><span class="line">      alertTitle,</span><br><span class="line">      alertUser,</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="toRefs"><a href="#toRefs" class="headerlink" title="toRefs"></a>toRefs</h2><p><code>toRefs</code>是一个用于结构响应式对象的api，如果我们想在模板中直接使用解构后的对象，就需要用这个api解构，直接使用三点运算符解构会使对象内部失去响应式。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%BB%84%E5%90%88%E5%BC%8FAPI/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/30/Vue3%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E5%AE%89%E8%A3%85%E5%92%8C%E6%89%93%E5%8C%85/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1108,105 +1225,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/" class="post-title-link" itemprop="url">虚拟DOM与Diff算法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-21 10:40:57" itemprop="dateCreated datePublished" datetime="2022-04-21T10:40:57+08:00">2022-04-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="虚拟DOM与DIff算法"><a href="#虚拟DOM与DIff算法" class="headerlink" title="虚拟DOM与DIff算法"></a>虚拟DOM与DIff算法</h1><h2 id="虚拟DOM"><a href="#虚拟DOM" class="headerlink" title="虚拟DOM"></a>虚拟DOM</h2><p>在Vue中虚拟DOM是一个重要的概念，是作为Vue响应式与真实DOM之间的‘桥梁’</p>
-<h3 id="什么是虚拟DOM"><a href="#什么是虚拟DOM" class="headerlink" title="什么是虚拟DOM"></a>什么是虚拟DOM</h3><p>虚拟DOM的本质就是一个对象，用以描述视图的界面结构。在Vue中，每个组件都有一个render函数，每个render函数都会返回一个虚拟DOM树，这也就意味着每个组件都有一个对应的虚拟DOM树</p>
-<h3 id="为什么要虚拟DOM"><a href="#为什么要虚拟DOM" class="headerlink" title="为什么要虚拟DOM"></a>为什么要虚拟DOM</h3><p>Vue的核心在于响应式，为了实现响应式，就必须要频繁地根据用户的操作去增删改真实DOM，但是频繁的对真实DOM修改会极大的影响性能，因此，我们先用比真实DOM轻量得多的虚拟DOM去获取用户的操作，再使用Diff算法实现对真实DOM的最小量更新，从而节约性能。</p>
-<h3 id="虚拟dom是如何转换为真实dom的？"><a href="#虚拟dom是如何转换为真实dom的？" class="headerlink" title="虚拟dom是如何转换为真实dom的？"></a>虚拟dom是如何转换为真实dom的？</h3><p>在一个组件实例首次被渲染时，它先生成虚拟dom树，然后根据虚拟dom树创建真实dom，并把真实dom挂载到页面中合适的位置，此时，每个虚拟dom便会对应一个真实的dom。</p>
-<p>如果一个组件受响应式数据变化的影响，需要重新渲染时，它仍然会重新调用render函数，创建出一个新的虚拟dom树，用新树和旧树对比，通过对比，vue会找到最小更新量，然后更新必要的真实dom节点</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/21/Vue%E8%99%9A%E6%8B%9FDOM%E4%B8%8EDiff%E7%AE%97%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1278,7 +1296,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">116</span>
+          <span class="site-state-item-count">117</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

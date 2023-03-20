@@ -6360,7 +6360,38 @@
   <entry>
     <title>ESM和CommonJS</title>
     <url>/2022/07/15/ESM%E5%92%8CCommonJS/</url>
-    <content><![CDATA[]]></content>
+    <content><![CDATA[<h1 id="ESM和CommonJS"><a href="#ESM和CommonJS" class="headerlink" title="ESM和CommonJS"></a>ESM和CommonJS</h1><p>在JavaScript的发展历史中，出现了多种模块化规范，这是由于js项目过于庞大的话可以进行解耦合，从而让JavaScript项目更加规范化的目的。其中最为常见的就是node本身实现的CommonJS和es6标准的ES Modules两种规范。</p>
+<p>总结主要区别有：</p>
+<ol>
+<li>commonjs输出的是值的拷贝和esm输出的是值的引用</li>
+<li>commonjs是运行时加载属于同步加载，esm是编译时加载属于异步加载</li>
+<li>esm 存在 export/import 提升</li>
+</ol>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h2><p>CommonJS是最常用的js模块化规范之一，也是nodejs支持的模块规范。其中最重要的概念是module对象和require函数。</p>
+<h3 id="module"><a href="#module" class="headerlink" title="module"></a>module</h3><p>module是一个对象，专门用于存储js输出的值。其中有三个属性</p>
+<ul>
+<li>exports：就是module.exports对应的值</li>
+<li>loaded：表示当前模块是否加载完成</li>
+<li>paths：node模块的加载路径</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">exports</span>.xxx = ‘a’</span><br><span class="line"><span class="keyword">const</span> obj = <span class="built_in">require</span>(./xxx.js)</span><br></pre></td></tr></table></figure>
+
+<h3 id="require"><a href="#require" class="headerlink" title="require"></a>require</h3><p>require是一个函数，可以在模块内的任何地方同步引入模块。用来引入其他模块使用的。其中</p>
+<ul>
+<li>main：指向当前引用自己的模块</li>
+<li>cache：表示node中模块的缓存，也就是说当一个模块加载一次了，之后require不会再加载一次，而是从缓存中读取</li>
+</ul>
+<h2 id="ESM"><a href="#ESM" class="headerlink" title="ESM"></a>ESM</h2><p>esm是es6的模块设计方案，其特点就是尽量静态化，在编译时就确定模块的依赖关系，以及输入输出的变量。其中输入输出的概念时import和rexport</p>
+<h3 id="export-amp-import"><a href="#export-amp-import" class="headerlink" title="export&amp;import"></a>export&amp;import</h3><p>esm的关键字并不是对象，只是用来指定输出的代码块的关键字。</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> ...</span><br><span class="line"><span class="keyword">import</span> ... <span class="keyword">from</span> <span class="string">&#x27;&#x27;</span></span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>JavaScript</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
   </entry>
   <entry>
     <title>Vue3源码学习笔记03</title>
@@ -6458,6 +6489,28 @@
 ]]></content>
       <categories>
         <category>手写系列</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>webpack学习笔记06热更新原理</title>
+    <url>/2023/03/19/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E7%83%AD%E6%9B%B4%E6%96%B0%E5%8E%9F%E7%90%86/</url>
+    <content><![CDATA[<h1 id="webpack热更新原理"><a href="#webpack热更新原理" class="headerlink" title="webpack热更新原理"></a>webpack热更新原理</h1><p>在我们传统webpack项目中，如果发生文件上的修改，那么webpack会做出这样的反应，首先会重新编译生成新的bundle文件，然后通知浏览器进行reload刷新重新请求bundle，达到更新web项目的目的。这样的方式在大型项目中会非常吃力，因为每次都要重新请求文件，并且导致当前状态丢失的问题。因此出现了webpack热更新的解决方案。</p>
+<p>一句话概括就是热更新允许浏览器在不刷新的前提下，通过替换某些需要被更新的模块来达到热更新的目的，从而不必让当前状态丢失。</p>
+<h2 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h2><ul>
+<li>在webpack中，每次对项目进行编译都会生成一个唯一的hash值，这个hash值可以用来判断文件是否发生了更新。</li>
+<li>基于这一点，webpack有一个webpack-dev-server服务器功能，可以开启一个链接webpack和浏览器的websocket链接，用来通知浏览器是否发生了修改。</li>
+<li>如果发生了修改，则发起带有新hash的请求，获得更新列表。</li>
+<li>再通过jsonp的方式获取到最新的模块代码</li>
+<li>webpack的HotModulePlugin会对比新旧模块，来决定是否更新</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>Webpack 的 webpack-dev-server 是 Webpack 生态链上很重要的一环，在我们日常的开发环境，我们可以使用 webpack-dev-server 启动本地服务器，而且能够实现 API 接口代理、静态资源服务器、HMR，甚至还能够通过编写 Express 中间件的方式来扩展功能。</p>
+<p>但是 webpack-dev-server 本身也有它的局限性，比如我们项目本身就有一个 Node.js 的业务服务，那么在使用 webpack-dev-server 来模拟接口数据就显得多此一举了。</p>
+]]></content>
+      <categories>
+        <category>Webpack</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>
