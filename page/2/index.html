@@ -186,6 +186,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/23/TS-challenge01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/23/TS-challenge01/" class="post-title-link" itemprop="url">TS-challenge01</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-23 16:01:00" itemprop="dateCreated datePublished" datetime="2022-06-23T16:01:00+08:00">2022-06-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-06-30 15:21:23" itemprop="dateModified" datetime="2022-06-30T15:21:23+08:00">2022-06-30</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/23/TS-challenge01/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/23/TS-challenge01/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TS-challenge"><a href="#TS-challenge" class="headerlink" title="TS-challenge"></a>TS-challenge</h1><p>这是一个在github上的开源<a target="_blank" rel="noopener" href="https://github.com/type-challenges/type-challenges">项目</a>，可以用来练习TS的语法。</p>
+<h2 id="02-return-type"><a href="#02-return-type" class="headerlink" title="*02-return-type"></a>*02-return-type</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 限制T为function类型。再判断T是否是一个非空函数</span></span><br><span class="line"><span class="keyword">type</span> MyReturnType&lt;T <span class="keyword">extends</span> <span class="built_in">Function</span>&gt; = T <span class="keyword">extends</span> (...arg: <span class="built_in">any</span>[]) =&gt; infer x ? x : <span class="built_in">never</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="03-omit"><a href="#03-omit" class="headerlink" title="*03-omit"></a>*03-omit</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyOmit&lt;T, U <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">    <span class="comment">// 取出T中每一个键与U比较</span></span><br><span class="line">    [key <span class="keyword">in</span> keyof T <span class="keyword">as</span> key <span class="keyword">extends</span> U ? <span class="built_in">never</span> : key]: T[key]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="04-pick"><a href="#04-pick" class="headerlink" title="04-pick"></a>04-pick</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyPick&lt;T, K <span class="keyword">extends</span> keyof T&gt; = &#123;</span><br><span class="line">    <span class="comment">//通过in遍历得到T（数组）中的每一个元素，再让它等于本身</span></span><br><span class="line">    [P <span class="keyword">in</span> K]: T[P]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="07-redaonly"><a href="#07-redaonly" class="headerlink" title="07-redaonly"></a>07-redaonly</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> MyReadonly&lt;T&gt; = &#123;</span><br><span class="line">    <span class="comment">//通过keyof可以遍历得到T（对象）中的键（key）</span></span><br><span class="line">    <span class="keyword">readonly</span> [p <span class="keyword">in</span> keyof T]: T[p]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/23/TS-challenge01/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1110,125 +1212,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">React学习笔记05生命周期</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-19 15:01:19 / 修改时间：15:36:58" itemprop="dateCreated datePublished" datetime="2022-05-19T15:01:19+08:00">2022-05-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="React生命周期详解（新）"><a href="#React生命周期详解（新）" class="headerlink" title="React生命周期详解（新）"></a>React生命周期详解（新）</h1><p>React16之后有三个生命周期被废弃：</p>
-<ul>
-<li><code>componentWillMount</code></li>
-<li><code>componentWillReceviceProps</code></li>
-<li><code>componentWillUpdate</code></li>
-</ul>
-<p>因为这些生命周期方法容易被误解和滥用</p>
-<p><strong>React16.8+的生命周期分为三个阶段，分别是挂载阶段、更新阶段、卸载阶段</strong></p>
-<h2 id="挂载阶段"><a href="#挂载阶段" class="headerlink" title="挂载阶段"></a>挂载阶段</h2><ul>
-<li><p><code>constructor</code>：构造函数，最先被执行，我们通常在构造函数里初始化state对象或者给自定义方法绑定this</p>
-</li>
-<li><p><code>getDerivedStateFromProps</code>：<code>static getDerivedStateFromProps(nextProps,prevState)</code>,这是一个静态方法，当我们接受到新的属性想要去修改state的时候，可以使用<code>getDerivedStateFromProps</code></p>
-</li>
-<li><p><code>render</code>：render函数是一个纯函数，只返回需要渲染的东西，不应该包括其他的业务逻辑，可以返回原生的DOM、React组件、Fragment、Portals、字符串和数字、Boolean和null等内容</p>
-</li>
-<li><p><code>componentDidMount</code>：组件挂载之后调用，类似于Vue中的mounted，这个时候可以获取DOM节点并操作，比如对canvas，svg等操作，服务器请求，订阅都可以写在这个里面，但是记得在<code>componentWillUnmount</code>中取消订阅。</p>
-</li>
-</ul>
-<h2 id="更新阶段"><a href="#更新阶段" class="headerlink" title="更新阶段"></a>更新阶段</h2><ul>
-<li><p><code>getDerivedStateFromProps</code>：这个方法在整个改在阶段都可能会调用</p>
-</li>
-<li><p><code>shouldComponentUpdate</code>：<code>shouldComponentUpdate(nextProps,nextState)</code>,有两个参数，分别是组件更新前已经发生变化的新props和新state，同时接收一个返回值，用来表示此次组件是否需要更新。</p>
-</li>
-<li><p><code>render</code>:更新阶段也会触发render生命周期</p>
-</li>
-<li><p><code>getSnapshotBeforeUpdate</code>：<code>getSnapshotBeforeUpdate(prevProps, prevState)</code>这个方法在render之后，<code>componentDidUpdate</code>之后调用。返回值会作为第三个参数会传给<code>componentDidUpdate</code>,可以为空。必须与<code>componentDidUpdate</code>搭配使用。</p>
-</li>
-<li><p><code>componentDidUpdate</code>：<code>componentDidUpdate(preProps,prevState,snapShot)</code>,第三个参数是<code>getSnapshotBeforeUpdate</code>返回的，如果触发某些回调函数时需要用到DOM元素的状态，则将对比或计算的过程迁移至<code>getSnapshotBeforeUpdate</code>,然后在<code>componentDidUpdate</code>中统一触发回调或更新状态。</p>
-</li>
-</ul>
-<h2 id="卸载阶段"><a href="#卸载阶段" class="headerlink" title="卸载阶段"></a>卸载阶段</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1300,7 +1283,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">118</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

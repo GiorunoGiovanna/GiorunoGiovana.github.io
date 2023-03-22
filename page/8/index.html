@@ -186,6 +186,186 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" class="post-title-link" itemprop="url">正则表达式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-05 10:07:08" itemprop="dateCreated datePublished" datetime="2022-04-05T10:07:08+08:00">2022-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>正则表达式是一种文本模式，可以用于匹配字符串，由于高效简洁的规则学习之后可以极大的提高效率。</p>
+<h2 id="创建正则表达式"><a href="#创建正则表达式" class="headerlink" title="创建正则表达式"></a>创建正则表达式</h2><ol>
+<li><p><strong>调用RegExp</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;b&#x27;</span></span><br><span class="line"><span class="keyword">var</span> regexp = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="string">`<span class="subst">$&#123;a&#125;</span>`</span>,<span class="string">&#x27;g&#x27;</span>)<span class="comment">//第一个参数为匹配值，第二个参数为匹配规则</span></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">var</span> regexp = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/c/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>使用字面量</strong>（推荐）</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> regexp = <span class="regexp">/abc/g</span></span><br><span class="line"><span class="comment">//或者</span></span><br><span class="line"><span class="keyword">let</span> num = <span class="string">&#x27;aa&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="built_in">eval</span>(<span class="string">`/<span class="subst">$&#123;num&#125;</span>/g`</span>)</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="正则表达式相关的函数"><a href="#正则表达式相关的函数" class="headerlink" title="正则表达式相关的函数"></a>正则表达式相关的函数</h2><ol>
+<li><p><strong>test()</strong></p>
+<p>作用：检测一个字符串是否含有能够匹配的子串</p>
+<p>基本语法：</p>
+<p><strong>objReg.test(objStr)</strong><br><strong>objReg 必选项 RegExp对象名称</strong><br><strong>objStr 要进行匹配检测的字符串</strong> </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如：</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;avs&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/a/</span>)</span><br><span class="line"><span class="built_in">console</span>.log(reg.test(str))	<span class="comment">//true</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>match()</strong></p>
+<p>作用：使用正则表达式模式对字符串进行查找，并将包含所有查找结果作为数组返回</p>
+<p>基本语法：</p>
+<p><strong>stringObj.match(regExp)</strong></p>
+<p><strong>stringObj为字符串必选</strong></p>
+<p>**rgExp为正则表达式必选项 **</p>
+<p>返回值：能匹配返回结果数组，不能则返回null</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;abcbsdaabba&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/ab/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg))		<span class="comment">// [ &quot;ab&quot;, &quot;ab&quot; ]</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>replace()</strong></p>
+<p>作用：返回根据匹配规则进行文字替换后的字符串的复制（不改变原字符串）</p>
+<p>基本语法：</p>
+<p><strong>stringObj.replace(rgExp, replaceText)</strong> </p>
+<p><strong>字符串stringObj</strong></p>
+<p><strong>rgExp正则表达式</strong></p>
+<p>**replaceText所替换的内容 **</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;abcdefgab&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/ab/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str.replace(reg,<span class="string">&#x27;qq&#x27;</span>))		<span class="comment">// qqcdefgqq</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>search()</strong></p>
+<p>作用：返回于正则表达式查找内容匹配的第一个子字符串的位置</p>
+<p>基本语法：</p>
+<p><strong>stringObj.search(rgExp)</strong></p>
+<p><strong>stringObj 必选项</strong> </p>
+<p>**rgExp正则表达式 **</p>
+<p>返回值：如果找到匹配返回索引，找不到匹配返回-1</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如：</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aasddsa&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/s/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="keyword">new</span> <span class="built_in">RegExp</span>(<span class="regexp">/f/</span>,<span class="string">&#x27;g&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(str.search(reg1))		<span class="comment">//2</span></span><br><span class="line"><span class="built_in">console</span>.log(str.search(reg2))		<span class="comment">//-1</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>exec()</strong></p>
+<p>作用：返回字符串中第一个匹配的内同和子匹配结果的数组。同时记录匹配的位置，每次匹配的时候都会从上一次匹配的位置开始</p>
+<p>基本语法：</p>
+<p>**objReg.exec(string) **</p>
+<p>**objReg.exec(string) **</p>
+<p>**string，要进行匹配的字符串 **</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//例如</span></span><br><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aasddsa&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/(?&lt;d&gt;\w&#123;2&#125;)/g</span><span class="regexp">//</span>(?&lt;d&gt;\w)中的?&lt;d&gt;指定这一个捕获组的名称为d</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str))</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str))</span><br><span class="line"><span class="built_in">console</span>.log(reg.exec(str))</span><br><span class="line"><span class="comment">//[&quot;aa&quot;,groups: &#123;d:&#x27;aa&#x27;&#125;,index:0,input:&quot;aasddsa&quot;,length:2]</span></span><br><span class="line"><span class="comment">//[&quot;sd&quot;,groups: &#123;d:&#x27;sd&#x27;&#125;,index:0,input:&quot;aasddsa&quot;,length:2]</span></span><br><span class="line"><span class="comment">//[&quot;ds&quot;,groups: &#123;d:&#x27;ds&#x27;&#125;,index:0,input:&quot;aasddsa&quot;,length:2]</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>matchAll()</strong></p>
+<p>作用：全局匹配字符串</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//使用matchAll匹配全局的字符串</span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>你好<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>hello<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>wokalimashita<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> reg = <span class="regexp">/&lt;(h[1-6])&gt;([\s\S]+?)&lt;\/\1&gt;/gi</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> match = <span class="built_in">document</span>.body.innerHTML.matchAll(reg)</span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> count = []</span></span><br><span class="line"><span class="javascript">    <span class="keyword">for</span>(i <span class="keyword">of</span> match)&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">console</span>.log(i[<span class="number">2</span>])</span></span><br><span class="line"><span class="javascript">        count.push(i[<span class="number">2</span>])</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">    <span class="built_in">console</span>.table(count)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220405172538220.png" alt="image-20220405172538220"></p>
+</li>
+</ol>
+<h2 id="正则表达式语法"><a href="#正则表达式语法" class="headerlink" title="正则表达式语法"></a>正则表达式语法</h2><ul>
+<li><p><strong>原子表[]和原子组()</strong></p>
+<p>在正则匹配中由原子表和原子组的匹配规则，它们的定义是</p>
+<p>原子表[]：在原子表中任意匹配一位（[^]在原子表开头加上^可以用于排除原子表中的匹配项）</p>
+<ol>
+<li><p>原子表字符不解析：放在原子表里面的所有字符都会被当成字符解析，而不具备原子表外的特殊含义</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aas.+a&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/[.+]/g</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/.+/g</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))	<span class="comment">//[ &quot;.&quot;, &quot;+&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg2))	<span class="comment">//[ &quot;aas.+a&quot; ]</span></span><br></pre></td></tr></table></figure></li>
+<li><p>匹配所有内容</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;aas.+a&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/[\s\S]+/g</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p>原子组()：在原子组中匹配所有</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;121212&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/[12]/</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/(12|34)/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;1&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;12&quot;, &quot;12&quot; ]</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>字符边界^开头和$结尾</strong></p>
+<p>在正则匹配中如果想规定匹配是否从头开始或者到尾结束，可以使用^和$。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;123456123456&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\d&#123;8&#125;/</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/\d&#123;8&#125;$/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;12345612&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;56123456&quot; ]</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>\w和\W的区别</strong></p>
+<p>在正则匹配中\w表示匹配任意数字字母或下划线，那么\W表示匹配任意非数字字母或下划线的字符。其他通配符同理</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;1515asd_@&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\W+/</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/\w+/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;@&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;1515asd_&quot; ]</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>汉字与字符属性</strong></p>
+<p>在正则匹配中是有不同的语言系统的，它们之间的匹配规则也不一样，一些同属性的符号也是可以通过属性来匹配的。使用\p{属性}进行匹配。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;我是李华,123&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/\p&#123;sc=Han&#125;+/gu</span>  <span class="comment">//汉字是unicode系统要加u匹配</span></span><br><span class="line"><span class="keyword">let</span> reg3 = <span class="regexp">/\p&#123;P&#125;/gu</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))		<span class="comment">//[ &quot;我是李华&quot; ]</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg3))		<span class="comment">//[ &quot;,&quot; ]</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>批量使用正则表达式校验</strong></p>
+<p>在正则匹配中我们可以同时对一个字符串匹配多个规则，达到多重独立验证的目的；</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">//使用正则批量匹配完成密码强度验证</span><br><span class="line"><span class="tag">&lt;<span class="name">input</span> <span class="attr">id</span>=<span class="string">&quot;input&quot;</span>/&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">id</span>=<span class="string">&quot;note&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> input1 = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#input&#x27;</span>)</span></span><br><span class="line"><span class="javascript"><span class="keyword">var</span> note = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;#note&#x27;</span>)</span></span><br><span class="line"><span class="javascript">input1.addEventListener(<span class="string">&quot;keyup&quot;</span>,<span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">const</span> value = e.target.value;</span></span><br><span class="line"><span class="javascript">	<span class="keyword">const</span> reg = [<span class="regexp">/[A-Z]/</span>,<span class="regexp">/[a-z]/</span>,<span class="regexp">/\p&#123;P&#125;/u</span>]</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> level = <span class="number">0</span>,str = <span class="string">&#x27;&#x27;</span></span></span><br><span class="line"><span class="javascript">	reg.map(<span class="function"><span class="params">m</span> =&gt;</span> m.test(value)?level++:<span class="number">0</span>)</span></span><br><span class="line"><span class="javascript">	<span class="keyword">switch</span>(level)&#123;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">0</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;弱唉&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">1</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;中&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">2</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;强啊&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">		<span class="keyword">case</span> <span class="number">3</span> :&#123;</span></span><br><span class="line"><span class="javascript">			str=<span class="string">&quot;强啊&quot;</span></span></span><br><span class="line"><span class="javascript">			<span class="keyword">break</span></span></span><br><span class="line"><span class="javascript">		&#125;</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">console</span>.log(value,level)</span></span><br><span class="line"><span class="javascript">	note.innerText = str</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>$和$&amp;(匹配的内容),$`(匹配的内容的之前的内容),$’(匹配的内容的之后的内容)</strong></p>
+<p>正则匹配中可以用$符号去指代匹配的内容。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;$$adsaa$$dsa $$3213$$fsdf&#x27;</span></span><br><span class="line"><span class="keyword">let</span> result = str.replace(<span class="regexp">/\$\$(\w+)\$\$(\w+)/g</span>,<span class="string">&quot;$1-$2&quot;</span>)<span class="comment">//其中$1$2指代的是第几个原子组的匹配内容</span></span><br><span class="line"><span class="built_in">console</span>.log(result)		<span class="comment">//adsaa-dsa 3213-fsdf</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> str1 = <span class="string">&#x27;==absc$$&#x27;</span>	</span><br><span class="line"><span class="keyword">let</span> result1 = str1.replace(<span class="regexp">/[a-z]+/g</span>,<span class="string">&quot;$`&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result1)	<span class="comment">//====$$</span></span><br><span class="line"><span class="keyword">let</span> result2 = str1.replace(<span class="regexp">/[a-z]+/g</span>,<span class="string">&quot;$&#x27;&quot;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(result2)	<span class="comment">//==$$$$</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>?=断言匹配,?&lt;=断言匹配,?!,断言匹配?&lt;!断言匹配</strong></p>
+<p>?=断言匹配是匹配内容后面的内容的，?&lt;=断言匹配时匹配内容前面的内容的</p>
+<p>?!匹配后面不是什么?&lt;=匹配前面不是什么</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> str = <span class="string">&#x27;你好123你好&#x27;</span></span><br><span class="line"><span class="keyword">let</span> reg = <span class="regexp">/你好/g</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg))		<span class="comment">//[ &quot;你好&quot;, &quot;你好&quot; ]</span></span><br><span class="line"><span class="keyword">let</span> reg1 = <span class="regexp">/你好(?=\d)/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg1))	<span class="comment">//[ &quot;你好&quot; ]</span></span><br><span class="line"><span class="keyword">let</span> reg2 = <span class="regexp">/(?&lt;=\d)你好/</span></span><br><span class="line"><span class="built_in">console</span>.log(str.match(reg2))	<span class="comment">//[ &quot;你好&quot; ]</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>小测验</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://www.baidu.cn.com&quot;</span>&gt;</span>百度<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;https://baidu.com&quot;</span>&gt;</span>百度1<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;http://baidu.com.cn&quot;</span>&gt;</span>百度2<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> arr = <span class="built_in">document</span>.body.innerHTML</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> result = arr.matchAll(<span class="regexp">/&lt;a.*href=([&quot;&#x27;])(.*?)\1&gt;(.*?)&lt;/g</span>)</span></span><br><span class="line"><span class="javascript">	<span class="keyword">let</span> count = []</span></span><br><span class="line"><span class="javascript">	<span class="keyword">for</span>(i <span class="keyword">of</span> result)&#123;</span></span><br><span class="line"><span class="javascript">		count.push(&#123;<span class="attr">link</span>:<span class="string">`<span class="subst">$&#123;i[<span class="number">2</span>]&#125;</span>`</span>,<span class="attr">title</span>:<span class="string">`<span class="subst">$&#123;i[<span class="number">3</span>]&#125;</span>`</span>&#125;)</span></span><br><span class="line"><span class="javascript">	&#125;</span></span><br><span class="line"><span class="javascript">	<span class="built_in">console</span>.log(count)</span></span><br><span class="line"><span class="javascript">    <span class="comment">//[	Object &#123; link: &quot;https://www.baidu.cn.com&quot;, title: &quot;百度&quot; &#125;,</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">//	Object &#123; link: &quot;https://baidu.com&quot;, title: &quot;百度1&quot; &#125;,</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">//	Object &#123; link: &quot;http://baidu.com.cn&quot;, title: &quot;百度2&quot; &#125;]</span></span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/05/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1204,109 +1384,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/" class="post-title-link" itemprop="url">手写fetch控制并发数</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-10 09:35:28" itemprop="dateCreated datePublished" datetime="2022-03-10T09:35:28+08:00">2022-03-10</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="fecth控制并发数"><a href="#fecth控制并发数" class="headerlink" title="fecth控制并发数"></a>fecth控制并发数</h1><p>面试题，实现一个带并发数限制的fetch请求函数</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sendResquest</span>(<span class="params">urls, max</span>) </span>&#123; </span><br><span class="line">    <span class="keyword">let</span> pending_count = <span class="number">0</span>, <span class="comment">//并发数</span></span><br><span class="line">    idx = <span class="number">0</span>;<span class="comment">//当前请求的位置</span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//先把请求池填满</span></span><br><span class="line">    <span class="keyword">while</span> (pending_count &lt; max) &#123; </span><br><span class="line">        _fetch(urls[idx++])</span><br><span class="line">    &#125; </span><br><span class="line">	</span><br><span class="line">	<span class="comment">//为了实现并发，需要嵌套调用fetch</span></span><br><span class="line">    <span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">_fetch</span>(<span class="params">url</span>) </span>&#123; </span><br><span class="line">        <span class="keyword">if</span> (!url) <span class="keyword">return</span>; </span><br><span class="line">        pending_count++; </span><br><span class="line">		<span class="built_in">console</span>.log(url+<span class="string">&#x27;:start，并发数:&#x27;</span>+pending_count)</span><br><span class="line">		<span class="keyword">await</span> fetch(url)</span><br><span class="line">		pending_count--</span><br><span class="line">		<span class="built_in">console</span>.log(url+<span class="string">&#x27;:end，并发数:&#x27;</span>+pending_count)</span><br><span class="line">		<span class="comment">//此fetch执行完毕，切换下一个fetch</span></span><br><span class="line">		_fetch(urls[idx++])</span><br><span class="line">		<span class="keyword">if</span>(!pending_count)&#123;</span><br><span class="line">			<span class="built_in">console</span>.log(<span class="string">&quot;执行完毕&quot;</span>)</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//验证</span></span><br><span class="line"><span class="keyword">let</span> urls = <span class="built_in">Array</span>.from(&#123;<span class="attr">length</span>:<span class="number">7</span>&#125;, <span class="function">(<span class="params">v, k</span>) =&gt;</span> k);</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> fetch = <span class="function"><span class="keyword">function</span> (<span class="params">idx</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function"><span class="params">resolve</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> timeout = <span class="built_in">parseInt</span>(<span class="built_in">Math</span>.random() * <span class="number">1e4</span>);</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            resolve(idx)</span><br><span class="line">        &#125;, timeout)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> max = <span class="number">4</span>;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">let</span> callback = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;run callback&#x27;</span>);</span><br><span class="line">&#125;;</span><br><span class="line"><span class="comment">//执行</span></span><br><span class="line">sendResquest(urls, max, callback)</span><br></pre></td></tr></table></figure>
-
-
-
-<p>promise.all版本</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.myall = <span class="function">(<span class="params">promises, target</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//定义当前并发数，和计数器</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> pendingCount = <span class="number">0</span>, idx = <span class="number">0</span>, result = []</span><br><span class="line">        <span class="comment">//先将请求池填满</span></span><br><span class="line">        <span class="keyword">while</span> (pendingCount &lt; target) &#123;</span><br><span class="line">            _promise(promises[idx++])</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//请求promise函数</span></span><br><span class="line">        <span class="function"><span class="keyword">function</span> <span class="title">_promise</span>(<span class="params">promise</span>) </span>&#123;</span><br><span class="line">            <span class="comment">//递归终止条件</span></span><br><span class="line">            <span class="keyword">if</span> (!promise) <span class="keyword">return</span></span><br><span class="line">            <span class="comment">//当前请求开始，并发数+1</span></span><br><span class="line">            pendingCount++</span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">&#x27;请求&#x27;</span> + promise + <span class="string">&#x27;开始,当前并发数&#x27;</span> + pendingCount)</span><br><span class="line">            <span class="comment">//使用Prmise.then去异步完成Promise</span></span><br><span class="line">            promise.then(</span><br><span class="line">                <span class="function"><span class="params">res</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//这一个Promise决议成功，将它加入结果数组</span></span><br><span class="line">                    result.push(res)</span><br><span class="line">                    <span class="comment">//当前请求结束，并发数-1</span></span><br><span class="line">                    pendingCount--</span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">&#x27;请求&#x27;</span> + promise + <span class="string">&#x27;结束,当前并发数&#x27;</span> + pendingCount)</span><br><span class="line">                    <span class="comment">//当前请求结束，下一个请求开始</span></span><br><span class="line">                    _promise(promises[idx++])</span><br><span class="line">                    <span class="comment">//如果并发数归零，说明全部决议，返回结果数组</span></span><br><span class="line">                    <span class="keyword">if</span> (pendingCount === <span class="number">0</span>) &#123;</span><br><span class="line">                        <span class="built_in">console</span>.log(<span class="string">&#x27;请求全部结束&#x27;</span>)</span><br><span class="line">                        resolve(result)</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;, <span class="function"><span class="params">err</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="comment">//这个Promise拒绝，直接返回reject</span></span><br><span class="line">                    <span class="built_in">console</span>.log(<span class="string">&#x27;请求&#x27;</span> + promise + <span class="string">&#x27;异常！&#x27;</span>)</span><br><span class="line">                    reject(err)</span><br><span class="line">                &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/10/%E6%89%8B%E5%86%99fetch%E6%8E%A7%E5%88%B6%E5%B9%B6%E5%8F%91%E6%95%B0/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1378,7 +1455,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">118</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

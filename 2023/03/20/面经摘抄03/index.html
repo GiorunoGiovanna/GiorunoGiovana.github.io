@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="面经摘抄03 怎么知道点击的横纵坐标首先给点击绑定事件监听，然后根据回调中的事件对象中的offsetX和offsetY判断点击发生位置 1234document.addEventListener(&amp;#x27;click&amp;#x27;, (e) &#x3D;&gt; &amp;#123;    console.log(e.offsetX)    console.log(e.offsetY)&amp;#125;) vue依赖收集">
+<meta property="og:type" content="article">
+<meta property="og:title" content="面经摘抄03">
+<meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/index.html">
+<meta property="og:site_name" content="StoneOcean&#39;s Blog">
+<meta property="og:description" content="面经摘抄03 怎么知道点击的横纵坐标首先给点击绑定事件监听，然后根据回调中的事件对象中的offsetX和offsetY判断点击发生位置 1234document.addEventListener(&amp;#x27;click&amp;#x27;, (e) &#x3D;&gt; &amp;#123;    console.log(e.offsetX)    console.log(e.offsetY)&amp;#125;) vue依赖收集">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-03-20T06:49:20.000Z">
+<meta property="article:modified_time" content="2023-03-22T09:10:32.508Z">
+<meta property="article:author" content="StoneOcean">
+<meta property="article:tag" content="学习笔记">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>面经摘抄03 | StoneOcean's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">StoneOcean's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">StoneOcean的个人博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+    <a target="_blank" rel="noopener" href="https://github.com/GiorunoGiovanna" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          面经摘抄03
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-03-20 14:49:20" itemprop="dateCreated datePublished" datetime="2023-03-20T14:49:20+08:00">2023-03-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-22 17:10:32" itemprop="dateModified" datetime="2023-03-22T17:10:32+08:00">2023-03-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%84/" itemprop="url" rel="index"><span itemprop="name">面经摘抄</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="面经摘抄03"><a href="#面经摘抄03" class="headerlink" title="面经摘抄03"></a>面经摘抄03</h1><ol>
+<li><h5 id="怎么知道点击的横纵坐标"><a href="#怎么知道点击的横纵坐标" class="headerlink" title="怎么知道点击的横纵坐标"></a>怎么知道点击的横纵坐标</h5><p>首先给点击绑定事件监听，然后根据回调中的事件对象中的offsetX和offsetY判断点击发生位置</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e.offsetX)</span><br><span class="line">    <span class="built_in">console</span>.log(e.offsetY)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="vue依赖收集在什么时候发生，父子组件都会更新吗"><a href="#vue依赖收集在什么时候发生，父子组件都会更新吗" class="headerlink" title="vue依赖收集在什么时候发生，父子组件都会更新吗"></a>vue依赖收集在什么时候发生，父子组件都会更新吗</h5><p>vue依赖收集是为了在接受到数据更改的时候能够通知到其他使用了这个数据的组件的一种手段，通常在初始化阶段就发生依赖收集，在Vue2中，由于响应式原理的限制，vue2对于一些能增改数组的方法没有很好的监听手段，于是需要重写数组方法，在这个过程中也会发生依赖收集。</p>
+<p>父子组件都会进行依赖收集和更新，但是更新的顺序和具体实现有关，不一定是所有的父组件都会在所有的子组件更新之前更新。通常情况下，父组件会在子组件之前更新，但也可以通过一些特殊的方式来改变更新的顺序。</p>
+</li>
+<li><h5 id="for循环1000次，组件会更新多少次"><a href="#for循环1000次，组件会更新多少次" class="headerlink" title="for循环1000次，组件会更新多少次"></a>for循环1000次，组件会更新多少次</h5><p>会更新1次，因为Vue更新视图不是同步的而是异步更新，这个是根据当前浏览器是否支持promise或setTimeout来决定的。由于for是同步的，那么会等到同步代码全部结束后再根据最后的结果触发watcher走响应式更新的一套操作。</p>
+</li>
+<li><h5 id="框架是怎么知道什么时候生成虚拟dom"><a href="#框架是怎么知道什么时候生成虚拟dom" class="headerlink" title="框架是怎么知道什么时候生成虚拟dom"></a>框架是怎么知道什么时候生成虚拟dom</h5></li>
+<li><h5 id="如何终止forEach遍历？"><a href="#如何终止forEach遍历？" class="headerlink" title="如何终止forEach遍历？"></a>如何终止forEach遍历？</h5><ol>
+<li><p>break(X)</p>
+</li>
+<li><p>return false(X)</p>
+</li>
+<li><p>抛出异常</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">    arr.forEach(<span class="function"><span class="params">m</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (m === <span class="number">4</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;break&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">console</span>.log(m)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;is break&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><p>for…in和for…of的区别</p>
+<p>for…in是用于遍历可枚举属性，包括它原型链上新增的可枚举属性</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新增原型链上的可枚举属性可导致for in遍历问题</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.mykey = <span class="string">&#x27;value&#x27;</span></span><br><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1</span>).fill(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">for</span> (key <span class="keyword">in</span> arr) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>for…of本质上是遍历拥有迭代器iterator的对象，而普通对象没有迭代器，因此可以给普通对象添加一个迭代器来使其可以被遍历</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">b</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">c</span>: <span class="number">3</span>,</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> keys = <span class="built_in">Object</span>.keys(<span class="built_in">this</span>)</span><br><span class="line">        <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="function"><span class="title">next</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> index === keys.length ? &#123; <span class="attr">done</span>: <span class="literal">true</span> &#125; : &#123; <span class="attr">done</span>: <span class="literal">false</span>, <span class="attr">value</span>: obj[keys[index++]] &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (item <span class="keyword">of</span> obj) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)<span class="comment">// 1，2，3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="sessionStorage真的不能在页面之间共享状态吗？"><a href="#sessionStorage真的不能在页面之间共享状态吗？" class="headerlink" title="sessionStorage真的不能在页面之间共享状态吗？"></a>sessionStorage真的不能在页面之间共享状态吗？</h5><p>标准答案是不能，但是在标签或窗口中打开一个<strong>同源</strong>新页面时会<strong>复制</strong>，注意是复制一份全新的副本作为新会话窗口的上下文，也就是说在打开之前的状态是保持一致的，但是打开之后就<strong>不能共享实时的状态</strong>了</p>
+</li>
+<li><h5 id="跨页面通信方法"><a href="#跨页面通信方法" class="headerlink" title="跨页面通信方法"></a>跨页面通信方法</h5><ol>
+<li><p>使用localStorage进行同源页面跨页面通信</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个窗口的设值代码</span></span><br><span class="line"><span class="built_in">localStorage</span>.setItem(<span class="string">&#x27;aaa&#x27;</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 其他窗口监听storage事件</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&quot;storage&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e)</span><br><span class="line">  <span class="built_in">console</span>.log(e.newValue)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p>使用BroadCast Channel进行同源页面跨页面通信</p>
+<p>可以创建一个用于广播的通信频道。类似于localStroage。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const bc = new BroadcastChannel(’channelName‘);</span><br><span class="line"></span><br><span class="line">// 监听这个频道</span><br><span class="line">bc.onmessage = function (e) &#123;</span><br><span class="line">    const data = e.data;</span><br><span class="line">    const text = &#x27;[receive] &#x27; + data.msg + &#x27; —— tab &#x27; + data.from;</span><br><span class="line">    console.log(&#x27;[BroadcastChannel] receive message:&#x27;, text);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 像这个频道发送消息</span><br><span class="line">bc.postMessage(mydata);</span><br></pre></td></tr></table></figure></li>
+<li><p>使用Service Worker进行同源页面跨页面通信</p>
+</li>
+<li><p>使用iframe桥进行<strong>非同源</strong>页面跨页面通信</p>
+<p>要实现该功能，可以使用一个用户不可见的 iframe 作为“桥”。由于 iframe 与父页面间可以通过指定<code>origin</code>来忽略同源限制，因此可以在每个页面中嵌入一个 iframe （例如：<code>http://sample.com/bridge.html</code>），而这些 iframe 由于使用的是一个 url，因此属于同源页面，其通信方式可以复用上面第一部分提到的各种方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 业务页面代码 */</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// …… do something</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//先由页面发送给自己的iframe</span></span><br><span class="line"><span class="built_in">window</span>.frames[<span class="number">0</span>].window.postMessage(mydata, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* iframe 内代码 */</span></span><br><span class="line"><span class="keyword">const</span> bc = <span class="keyword">new</span> BroadcastChannel(<span class="string">&#x27;AlienZHOU&#x27;</span>);</span><br><span class="line"><span class="comment">// 收到来自页面的消息后，在 iframe 间进行广播</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    bc.postMessage(e.data);</span><br><span class="line">&#125;);    </span><br><span class="line"></span><br><span class="line"><span class="comment">/* iframe 内代码 */</span></span><br><span class="line"><span class="comment">// 对于收到的（iframe）广播消息，通知给所属的业务页面</span></span><br><span class="line">bc.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.parent.postMessage(e.data, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
+<li><p>使用webSocket进行跨页面通信</p>
+</li>
+</ol>
+</li>
+<li><h5 id="不使用额外变量交换a，b值"><a href="#不使用额外变量交换a，b值" class="headerlink" title="不使用额外变量交换a，b值"></a>不使用额外变量交换a，b值</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = a+b</span><br><span class="line">b = a-b</span><br><span class="line">a = a-b</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="JavaScript死锁和死锁检查"><a href="#JavaScript死锁和死锁检查" class="headerlink" title="JavaScript死锁和死锁检查"></a>JavaScript死锁和死锁检查</h5><p>一般情况下，认为死锁是两个或以上的进程发生冲突导致不断等待的情况产生的。但是JavaScript作为经典的单线程语言也可以发生死锁。利用Promise没有决议就会一直阻塞的原理，可以实现阻塞部分代码形成死锁</p>
+</li>
+<li><h5 id="检查内存泄漏"><a href="#检查内存泄漏" class="headerlink" title="检查内存泄漏"></a>检查内存泄漏</h5><p>使用chrome浏览器开发者工具中的memory或者performance检查浏览器变量情况。</p>
+</li>
+<li><h5 id="如何实现组件按需引入"><a href="#如何实现组件按需引入" class="headerlink" title="如何实现组件按需引入"></a>如何实现组件按需引入</h5><ul>
+<li>TreeShaking（antD）基于webpack打包过程的treeShaking操作除掉多余的无用代码达到按需引入的目的，好处是不需要额外配置，坏处是由于基于webpacck，无法对css做按需引入处理。</li>
+<li>Babel-plugin-import（elementui、vant）借助Babel解析编辑ATS的能力实现了一种成熟的组件按需引入方式，目前很多的组件库都是依靠这种方式进行了实现，例如Element-UI等。这种方式的优点是不需要库使用者了解原理，只需按照文档说明配置即可。缺点是使用者仍旧需要为了按需引入来增加可能本来无需使用的Babel及其相关配置（这点也是目前仍然有大量程序员不使用组件按需引入功能的原因，不是所有人都想触碰Babel配置的，尤其当他还不够了解Babel机制的时候）。</li>
+<li>最后，我们进入到实现按需引入的终极方式——Monorepo！为什么说它是终极方式呢？因为通过Monorepo形式组织的组件库在发布时每个组件都是一个单独的NPM包，用户可以自己选择希望使用的组件并安装（你没听错，甚至都不用安装整个组件库），这样自然做到了完完全全的按需引入（甚至可以说从根本上干掉了这个概念）！</li>
+</ul>
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="tag"># 学习笔记</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/03/19/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E7%83%AD%E6%9B%B4%E6%96%B0%E5%8E%9F%E7%90%86/" rel="prev" title="webpack学习笔记06热更新原理">
+      <i class="fa fa-chevron-left"></i> webpack学习笔记06热更新原理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403"><span class="nav-number">1.</span> <span class="nav-text">面经摘抄03</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E7%9F%A5%E9%81%93%E7%82%B9%E5%87%BB%E7%9A%84%E6%A8%AA%E7%BA%B5%E5%9D%90%E6%A0%87"><span class="nav-number">1.0.0.0.1.</span> <span class="nav-text">怎么知道点击的横纵坐标</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#vue%E4%BE%9D%E8%B5%96%E6%94%B6%E9%9B%86%E5%9C%A8%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E5%8F%91%E7%94%9F%EF%BC%8C%E7%88%B6%E5%AD%90%E7%BB%84%E4%BB%B6%E9%83%BD%E4%BC%9A%E6%9B%B4%E6%96%B0%E5%90%97"><span class="nav-number">1.0.0.0.2.</span> <span class="nav-text">vue依赖收集在什么时候发生，父子组件都会更新吗</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#for%E5%BE%AA%E7%8E%AF1000%E6%AC%A1%EF%BC%8C%E7%BB%84%E4%BB%B6%E4%BC%9A%E6%9B%B4%E6%96%B0%E5%A4%9A%E5%B0%91%E6%AC%A1"><span class="nav-number">1.0.0.0.3.</span> <span class="nav-text">for循环1000次，组件会更新多少次</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A1%86%E6%9E%B6%E6%98%AF%E6%80%8E%E4%B9%88%E7%9F%A5%E9%81%93%E4%BB%80%E4%B9%88%E6%97%B6%E5%80%99%E7%94%9F%E6%88%90%E8%99%9A%E6%8B%9Fdom"><span class="nav-number">1.0.0.0.4.</span> <span class="nav-text">框架是怎么知道什么时候生成虚拟dom</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E7%BB%88%E6%AD%A2forEach%E9%81%8D%E5%8E%86%EF%BC%9F"><span class="nav-number">1.0.0.0.5.</span> <span class="nav-text">如何终止forEach遍历？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sessionStorage%E7%9C%9F%E7%9A%84%E4%B8%8D%E8%83%BD%E5%9C%A8%E9%A1%B5%E9%9D%A2%E4%B9%8B%E9%97%B4%E5%85%B1%E4%BA%AB%E7%8A%B6%E6%80%81%E5%90%97%EF%BC%9F"><span class="nav-number">1.0.0.0.6.</span> <span class="nav-text">sessionStorage真的不能在页面之间共享状态吗？</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B7%A8%E9%A1%B5%E9%9D%A2%E9%80%9A%E4%BF%A1%E6%96%B9%E6%B3%95"><span class="nav-number">1.0.0.0.7.</span> <span class="nav-text">跨页面通信方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8%E9%A2%9D%E5%A4%96%E5%8F%98%E9%87%8F%E4%BA%A4%E6%8D%A2a%EF%BC%8Cb%E5%80%BC"><span class="nav-number">1.0.0.0.8.</span> <span class="nav-text">不使用额外变量交换a，b值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JavaScript%E6%AD%BB%E9%94%81%E5%92%8C%E6%AD%BB%E9%94%81%E6%A3%80%E6%9F%A5"><span class="nav-number">1.0.0.0.9.</span> <span class="nav-text">JavaScript死锁和死锁检查</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%86%85%E5%AD%98%E6%B3%84%E6%BC%8F"><span class="nav-number">1.0.0.0.10.</span> <span class="nav-text">检查内存泄漏</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%AE%9E%E7%8E%B0%E7%BB%84%E4%BB%B6%E6%8C%89%E9%9C%80%E5%BC%95%E5%85%A5"><span class="nav-number">1.0.0.0.11.</span> <span class="nav-text">如何实现组件按需引入</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="StoneOcean"
+      src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+  <p class="site-author-name" itemprop="name">StoneOcean</p>
+  <div class="site-description" itemprop="description">记录自己的学习路程，以及一些有趣的事物</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">118</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/GiorunoGiovanna" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;GiorunoGiovanna" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:971615621@qq.com" title="E-Mail → mailto:971615621@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+  <div class="links-of-blogroll motion-element">
+    <div class="links-of-blogroll-title"><i class="fa fa-link fa-fw"></i>
+      Links
+    </div>
+    <ul class="links-of-blogroll-list">
+        <li class="links-of-blogroll-item">
+          <a href="https://blog.csdn.net/joker_21" title="https:&#x2F;&#x2F;blog.csdn.net&#x2F;joker_21" rel="noopener" target="_blank">CSDN</a>
+        </li>
+    </ul>
+  </div>
+
+        
+        <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=1383864027&auto=0&height=66"></iframe>
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+<!--  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">StoneOcean</span>-->
+
+<!---->
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js">
+  </script>
+  本站总访问量<span id="busuanzi_value_site_pv"></span>次 |
+  本站访客数<span id="busuanzi_value_site_uv"></span>人次 |
+  本文总阅读量<span id="busuanzi_value_page_pv"></span>次
+</div>
+
+<!--
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>-->
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//unpkg.com/valine/dist/Valine.min.js', () => {
+    var GUEST = ['nick', 'mail', 'link'];
+    var guest = 'nick,mail,link';
+    guest = guest.split(',').filter(item => {
+      return GUEST.includes(item);
+    });
+    new Valine({
+      el         : '#valine-comments',
+      verify     : false,
+      notify     : false,
+      appId      : 'R4P3AYQnIg7nWijg9leQO1Q0-gzGzoHsz',
+      appKey     : 'uqUrNJX2Awrl6QNfEMelYYFH',
+      placeholder: "说些什么吧~",
+      avatar     : 'mm',
+      meta       : guest,
+      pageSize   : '10' || 10,
+      visitor    : false,
+      lang       : '' || 'zh-cn',
+      path       : location.pathname,
+      recordIP   : false,
+      serverURLs : ''
+    });
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":200,"height":400},"mobile":{"show":"true#是否在手机端显示"},"log":false});</script></body>
+</html>
