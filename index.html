@@ -186,6 +186,223 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/29/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B1%82%E5%90%88%E6%88%90%E4%B8%8E%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/29/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B1%82%E5%90%88%E6%88%90%E4%B8%8E%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96/" class="post-title-link" itemprop="url">浏览器层合成与页面渲染优化</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-03-29 09:26:45 / 修改时间：14:52:52" itemprop="dateCreated datePublished" datetime="2023-03-29T09:26:45+08:00">2023-03-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">浏览器</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/03/29/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B1%82%E5%90%88%E6%88%90%E4%B8%8E%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/29/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B1%82%E5%90%88%E6%88%90%E4%B8%8E%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="浏览器层合成与页面渲染优化"><a href="#浏览器层合成与页面渲染优化" class="headerlink" title="浏览器层合成与页面渲染优化"></a>浏览器层合成与页面渲染优化</h1><h2 id="浏览器渲染流程"><a href="#浏览器渲染流程" class="headerlink" title="浏览器渲染流程"></a>浏览器渲染流程</h2><p>对于浏览器如何将一个网页渲染到页面上的，一般可以分为<code>构建DOM树</code>、<code>构建CSSOM渲染树</code>、<code>布局</code>、<code>绘制</code>、<code>渲染层合成</code>这几个步骤</p>
+<ul>
+<li>构建DOM树：浏览器将html解析成一个树形结构的DOM树，一般来说，这个过程发生在页面初次加载，或者页面JavaScript修改了节点结构的时候。</li>
+<li>构建CSSOM渲染树：浏览器将CSS解析成树形结构的CSSOM树，再和DOM树合成渲染树。</li>
+<li>布局（Layout）：浏览器将根据渲染树各个节点的位置和元素信息进行相对位置的计算。一般发生在页面元素几何信息发生改变的时候，也被称为回流。</li>
+<li>绘制（Paint）：遍历渲染树，调用渲染期的<code>paint</code>方法在屏幕上绘制出节点内容，本质上是一个像素填充的过程。一般发生在页面初始化和一些不影响布局的css改变中，也被称为重绘。</li>
+<li>渲染层合成（Composite）：多个绘制完成后的渲染层按照恰当的重叠顺序进行合并，最后生成位图。</li>
+</ul>
+<h2 id="渲染层合成"><a href="#渲染层合成" class="headerlink" title="渲染层合成"></a>渲染层合成</h2><ul>
+<li><h3 id="什么是渲染层合成"><a href="#什么是渲染层合成" class="headerlink" title="什么是渲染层合成"></a>什么是渲染层合成</h3><p>由于在浏览器中，页面的堆叠是依靠类似ps一样的一层层堆叠起来达到层次的效果。在DOM树中每个节点都会对应一个渲染对象，每一层（z-index相同）都是一层渲染层。为了保证页面元素以正确的顺序堆叠，就会出现渲染层合成。</p>
+</li>
+<li><h3 id="浏览器的渲染原理"><a href="#浏览器的渲染原理" class="headerlink" title="浏览器的渲染原理"></a>浏览器的渲染原理</h3><p>从浏览器的DOM树转化为一个个渲染层，最终合并的过程中，出现了渲染对象、渲染层、图形层、合成层的过渡结构</p>
+<ol>
+<li><p>渲染对象</p>
+<p>一个 DOM 节点对应了一个渲染对象，渲染对象依然维持着 DOM 树的树形结构。一个渲染对象知道如何绘制一个 DOM 节点的内容，它通过向一个绘图上下文（GraphicsContext）发出必要的绘制调用来绘制 DOM 节点。</p>
+</li>
+<li><p>渲染层</p>
+<p>这是浏览器渲染期间构建的第一个层模型，处于相同坐标空间（z轴空间）的渲染对象，都将归并到同一个渲染层中，因此根据层叠上下文，不同坐标空间的的渲染对象将形成多个渲染层，以体现它们的层叠关系。所以，对于满足形成层叠上下文条件的渲染对象，浏览器会自动为其创建新的渲染层。</p>
+</li>
+<li><p>图形层</p>
+<p>GraphicsLayer 其实是一个负责生成最终准备呈现的内容图形的层模型，它拥有一个图形上下文（GraphicsContext），GraphicsContext 会负责输出该层的位图。存储在共享内存中的位图将作为纹理上传到 GPU，最后由 GPU 将多个位图进行合成，然后绘制到屏幕上，此时，我们的页面也就展现到了屏幕上。</p>
+</li>
+<li><p>合成层</p>
+<p>满足某些特殊条件的渲染层，会被浏览器自动提升为合成层。合成层拥有单独的 GraphicsLayer，而其他不是合成层的渲染层，则和其第一个拥有 GraphicsLayer 的父层共用一个。</p>
+<h6 id="3D-transforms：translate3d、translateZ-等"><a href="#3D-transforms：translate3d、translateZ-等" class="headerlink" title="3D transforms：translate3d、translateZ 等"></a>3D transforms：translate3d、translateZ 等</h6><h6 id="video、canvas、iframe-等元素"><a href="#video、canvas、iframe-等元素" class="headerlink" title="video、canvas、iframe 等元素"></a>video、canvas、iframe 等元素</h6><h6 id="通过-Element-animate-实现的-opacity-动画转换"><a href="#通过-Element-animate-实现的-opacity-动画转换" class="headerlink" title="通过 Element.animate() 实现的 opacity 动画转换"></a>通过 Element.animate() 实现的 opacity 动画转换</h6><h6 id="通过-СSS-动画实现的-opacity-动画转换"><a href="#通过-СSS-动画实现的-opacity-动画转换" class="headerlink" title="通过 СSS 动画实现的 opacity 动画转换"></a>通过 СSS 动画实现的 opacity 动画转换</h6><h6 id="position-fixed"><a href="#position-fixed" class="headerlink" title="position: fixed"></a>position: fixed</h6><h6 id="具有-will-change-属性"><a href="#具有-will-change-属性" class="headerlink" title="具有 will-change 属性"></a>具有 will-change 属性</h6><h6 id="对-opacity、transform、fliter、backdropfilter-应用了-animation-或者-transition"><a href="#对-opacity、transform、fliter、backdropfilter-应用了-animation-或者-transition" class="headerlink" title="对 opacity、transform、fliter、backdropfilter 应用了 animation 或者 transition"></a>对 opacity、transform、fliter、backdropfilter 应用了 animation 或者 transition</h6></li>
+</ol>
+</li>
+</ul>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/29/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%B1%82%E5%90%88%E6%88%90%E4%B8%8E%E9%A1%B5%E9%9D%A2%E6%B8%B2%E6%9F%93%E4%BC%98%E5%8C%96/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" class="post-title-link" itemprop="url">js学习笔记16作用域链</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-03-27 15:46:31 / 修改时间：16:13:11" itemprop="dateCreated datePublished" datetime="2023-03-27T15:46:31+08:00">2023-03-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="JavaScript作用域链"><a href="#JavaScript作用域链" class="headerlink" title="JavaScript作用域链"></a>JavaScript作用域链</h1><h2 id="什么是作用域链"><a href="#什么是作用域链" class="headerlink" title="什么是作用域链"></a>什么是作用域链</h2><p>JavaScript中作用域链是说变量的可访问性和可见性。也就是说整个程序中那些部分可以访问这个变量，或者说这个变量在那些地方可见。</p>
+<h2 id="为什么作用域很重要"><a href="#为什么作用域很重要" class="headerlink" title="为什么作用域很重要"></a>为什么作用域很重要</h2><ul>
+<li>安全，特定的变量只有在特定的区域中才能被访问，有了作用域我们就i可以避免在程序其他位置意外对某个变量做出修改</li>
+<li>命名问题，不同的作用域中允许存在定义相同的变量名称</li>
+</ul>
+<h2 id="作用域类型"><a href="#作用域类型" class="headerlink" title="作用域类型"></a>作用域类型</h2><ol>
+<li>全局作用域</li>
+<li>函数作用域</li>
+<li>块级作用域</li>
+</ol>
+<h4 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h4><p>任何不在函数中或者是大括号中声明的变量，都是在全局作用域下，全局作用域下声明的变量可以在程序的任意位置访问。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;b&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">read</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">&#125;</span><br><span class="line">read() <span class="comment">//b</span></span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -217,7 +434,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-22 17:10:32" itemprop="dateModified" datetime="2023-03-22T17:10:32+08:00">2023-03-22</time>
+                <time title="修改时间：2023-03-30 14:03:05" itemprop="dateModified" datetime="2023-03-30T14:03:05+08:00">2023-03-30</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -305,6 +522,120 @@
 <li>Babel-plugin-import（elementui、vant）借助Babel解析编辑ATS的能力实现了一种成熟的组件按需引入方式，目前很多的组件库都是依靠这种方式进行了实现，例如Element-UI等。这种方式的优点是不需要库使用者了解原理，只需按照文档说明配置即可。缺点是使用者仍旧需要为了按需引入来增加可能本来无需使用的Babel及其相关配置（这点也是目前仍然有大量程序员不使用组件按需引入功能的原因，不是所有人都想触碰Babel配置的，尤其当他还不够了解Babel机制的时候）。</li>
 <li>最后，我们进入到实现按需引入的终极方式——Monorepo！为什么说它是终极方式呢？因为通过Monorepo形式组织的组件库在发布时每个组件都是一个单独的NPM包，用户可以自己选择希望使用的组件并安装（你没听错，甚至都不用安装整个组件库），这样自然做到了完完全全的按需引入（甚至可以说从根本上干掉了这个概念）！</li>
 </ul>
+</li>
+<li><h5 id="正向代理和反向代理"><a href="#正向代理和反向代理" class="headerlink" title="正向代理和反向代理"></a>正向代理和反向代理</h5><p>正向代理：由客户端进行代理，对于服务器来说，是不知道它的实际客户是谁的，服务器不用进行任何处理。相当于客户端自带一个服务器，服务器直接于这个客户端的代理服务器进行交互，然后客户端的代理服务器再与服务器交互。</p>
+<p>反向代理：由服务器进行代理，对于客户端而言，不用进行任何处理，与上面相反。</p>
+</li>
+<li><h5 id="webSocket为什么依赖于Http链接"><a href="#webSocket为什么依赖于Http链接" class="headerlink" title="webSocket为什么依赖于Http链接"></a>webSocket为什么依赖于Http链接</h5><ul>
+<li>webSocket在第一次握手时，需要借助http将链接通过请求头Upgrade等字段将http请求升级成webSocket</li>
+<li>webSocket设计上就是天生为了增强http通信能力（全双工）</li>
+<li>可以获得一个兼容的支持，如果服务器不支持webSocket也可以建立http通信，返回onError，比服务器完全无响应好得多</li>
+</ul>
+</li>
+<li><h5 id="DocumentFragment用在哪里"><a href="#DocumentFragment用在哪里" class="headerlink" title="DocumentFragment用在哪里"></a>DocumentFragment用在哪里</h5><p>documentFragment是一个没有父对象的最小文档对象，可以理解为一个轻量版的dom，由于不是真实dom的一部分，变化不会触发回流。</p>
+<p>基于这一点，我们在需要渲染非常多节点的时候，如果一个个插入dom节点，会导致多次回流，严重损耗资源。可以先将dom节点插入这个DocumentFragment，再将DocumentFragment插入真实dom中，只进行一次回流。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> app = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.app&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> fragement = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">let</span> div = <span class="built_in">document</span>.createElement(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line">    div.setAttribute(<span class="string">&#x27;class&#x27;</span>,<span class="string">&#x27;item&#x27;</span>)</span><br><span class="line">    div.innerText = <span class="number">6666</span></span><br><span class="line">    fragement.appendChild(div)</span><br><span class="line">&#125;</span><br><span class="line">app.appendChild(fragement)</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="JS类中的static，public，private，protected区别"><a href="#JS类中的static，public，private，protected区别" class="headerlink" title="JS类中的static，public，private，protected区别"></a>JS类中的static，public，private，protected区别</h5><ul>
+<li><p>static(静态)</p>
+<p>静态成员只能通过这个类本身去访问，外部无法获取。</p>
+</li>
+<li><p>public(公有)</p>
+<p>任何对象都可以访问，修改，删除这些共有的成员。</p>
+</li>
+<li><p>private(私有)</p>
+<p>私有成员由构造函数产生。只能由私有方法去访问。</p>
+</li>
+<li><p>protected(保护)</p>
+<p>保护对象只能由私有方法或者子类的私有方法访问</p>
+</li>
+</ul>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38045106/article/details/84666638">参考</a></p>
+<table>
+<thead>
+<tr>
+<th align="center">关键字</th>
+<th align="center">类本身</th>
+<th align="center">类的方法</th>
+<th align="center">类的实例</th>
+<th align="center">子类</th>
+<th align="center">子类方法</th>
+<th align="center">子类实例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">static</td>
+<td align="center">+</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">+</td>
+<td align="center">-</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">public</td>
+<td align="center">-</td>
+<td align="center">+</td>
+<td align="center">+</td>
+<td align="center">-</td>
+<td align="center">+</td>
+<td align="center">+</td>
+</tr>
+<tr>
+<td align="center">private</td>
+<td align="center">-</td>
+<td align="center">+</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">-</td>
+</tr>
+<tr>
+<td align="center">protected</td>
+<td align="center">-</td>
+<td align="center">+</td>
+<td align="center">-</td>
+<td align="center">-</td>
+<td align="center">+</td>
+<td align="center">-</td>
+</tr>
+</tbody></table>
+</li>
+<li><h5 id="scroll、client、offset的区别"><a href="#scroll、client、offset的区别" class="headerlink" title="scroll、client、offset的区别"></a>scroll、client、offset的区别</h5><ul>
+<li><p>offset偏移</p>
+<p>相对于父元素的偏移量</p>
+</li>
+<li><p>client可视区</p>
+<p>相对于可视区的偏移量</p>
+</li>
+<li><p>scroll滚动</p>
+<p>相对于完整页面实际占有面积与可视区占有面积的偏移量</p>
+</li>
+</ul>
+<p><img src="https://github.com/GiorunoGiovanna/Blog-Drawingbed/raw/main/pic/%E8%B7%9D%E7%A6%BB%E5%85%B3%E7%B3%BB.png" alt="距离关系"></p>
+<p><img src="https://github.com/GiorunoGiovanna/Blog-Drawingbed/raw/main/pic/scroll.png" alt="scroll"></p>
+</li>
+<li><h5 id="iframe嵌入页面的优缺点"><a href="#iframe嵌入页面的优缺点" class="headerlink" title="iframe嵌入页面的优缺点"></a>iframe嵌入页面的优缺点</h5><p>优点：可以原封不动展现页面，不会阻塞主页面渲染。</p>
+<p>缺点：增加服务器http请求，会阻塞页面onload事件。</p>
+</li>
+<li><h5 id="base64传输图片的优缺点"><a href="#base64传输图片的优缺点" class="headerlink" title="base64传输图片的优缺点"></a>base64传输图片的优缺点</h5><p>优点：可以将二进制数据转换成字符串，不必通过文件流方式传输，可以简单加密</p>
+<p>缺点：编码后体积更大，编解码耗费资源</p>
+</li>
+<li><h5 id="为什么由ASCII，Unicode和UTF-8等字符编码格式"><a href="#为什么由ASCII，Unicode和UTF-8等字符编码格式" class="headerlink" title="为什么由ASCII，Unicode和UTF-8等字符编码格式"></a>为什么由ASCII，Unicode和UTF-8等字符编码格式</h5><p>计算机兴起之初，只有ASCII码，用8字节二进制编码可以标识约256个字符，表达英文字符够用了。</p>
+<p>但是随着计算机的发展，ASCII码不够用标识全世界的字符了，于是出现了Unicode，Unicode是一个符号集合。具体可以由UTF-8，UTF-16，UTF-32等具体实现方法。</p>
+<p>以UTF-8举例：</p>
+<ul>
+<li>对于单字节符号，第一位为0，后面7位为这个符号的Unicode。</li>
+<li>对于n字节的符号，第一个字节的前n位都设为1，第n+1位设为0，后面字节的前两位一律设为10.剩下的就是这个符号的Unicode码。</li>
+</ul>
+</li>
+<li><h5 id="如何实现0-5px"><a href="#如何实现0-5px" class="headerlink" title="如何实现0.5px"></a>如何实现0.5px</h5><ol>
+<li><h6 id="伪元素-scale-兼容性最好，推荐"><a href="#伪元素-scale-兼容性最好，推荐" class="headerlink" title="伪元素+scale (兼容性最好，推荐)"></a>伪元素+<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=scale&spm=1001.2101.3001.7020">scale</a> (兼容性最好，推荐)</h6><p>实现方式：给容器设置伪元素，设置绝对定位，宽高都是200%，边框是1px，然后使用transform:scale(0.5) 让伪元素缩小原来的一半，此时伪元素的边框和容器的边缘重合。</p>
+</li>
+<li><h6 id="利用阴影代替边框"><a href="#利用阴影代替边框" class="headerlink" title="利用阴影代替边框"></a>利用阴影代替边框</h6><p>特点：方便，能正常展示圆角，而且能实现0.1px等更细的边框，兼容性还行。</p>
+</li>
+</ol>
+</li>
+<li><h5 id="Promise-then内能用try-catch捕获错误吗"><a href="#Promise-then内能用try-catch捕获错误吗" class="headerlink" title="Promise.then内能用try catch捕获错误吗"></a>Promise.then内能用try catch捕获错误吗</h5><p>Promise.then或者async/await写法，发生异常的时候都不能捕获。</p>
 </li>
 </ol>
 
@@ -1035,208 +1366,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/" class="post-title-link" itemprop="url">Vue3源码学习笔记02</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-26 15:43:07 / 修改时间：16:35:25" itemprop="dateCreated datePublished" datetime="2022-06-26T15:43:07+08:00">2022-06-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue3%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue3源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue3源码-watch、watchEffect、computed"><a href="#Vue3源码-watch、watchEffect、computed" class="headerlink" title="Vue3源码-watch、watchEffect、computed"></a>Vue3源码-watch、watchEffect、computed</h1><p>Vue3提供了三种不同的可以监听数据的方法，分别是watch、watchEffect、computed。他们之间的取别在于，</p>
-<ul>
-<li>watch接收一个参数作为监听对象，同时能够执行回调，并且是默认懒启动的。</li>
-<li>watchEffect直接接收回调函数，回调函数中使用的对象都会被监听，并且是立即执行的</li>
-<li>computed和watchEffect有一点像，直接监听回调函数中使用的对象，但是不同的是它返回一个值，这个值是回调函数计算出来的。</li>
-</ul>
-<p>由于Vue3支持了composition API，为了组件化所有功能，因此将watch、watchEffect拆分到一个模块中。</p>
-<h2 id="watch-amp-watchEffect"><a href="#watch-amp-watchEffect" class="headerlink" title="watch&amp;watchEffect"></a>watch&amp;watchEffect</h2><h3 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h3><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">watch</span>&lt;<span class="title">T</span> = <span class="title">any</span>, <span class="title">Immediate</span> <span class="title">extends</span> <span class="title">Readonly</span>&lt;<span class="title">boolean</span>&gt; = <span class="title">false</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  source: T | WatchSource&lt;T&gt;,</span></span></span><br><span class="line"><span class="params"><span class="function">  cb: <span class="built_in">any</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="comment">//watch的选项，是否深度观测，是否立即执行等</span></span></span></span><br><span class="line"><span class="params"><span class="function">  options?: WatchOptions&lt;Immediate&gt;</span></span></span><br><span class="line"><span class="params"><span class="function"></span>): <span class="title">WatchStopHandle</span> </span>&#123;</span><br><span class="line">  <span class="comment">//如果回调函数不存在或者格式错误，进行警告</span></span><br><span class="line">  <span class="keyword">if</span> (__DEV__ &amp;&amp; !isFunction(cb)) &#123;</span><br><span class="line">    warn(</span><br><span class="line">      <span class="string">`\`watch(fn, options?)\` signature has been moved to a separate API. `</span> +</span><br><span class="line">        <span class="string">`Use \`watchEffect(fn, options?)\` instead. \`watch\` now only `</span> +</span><br><span class="line">        <span class="string">`supports \`watch(source, cb, options?) signature.`</span></span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//执行watcher创建</span></span><br><span class="line">  <span class="comment">//watch和watchEffect的核心都是这个dowatch，区别在于接收的参数是函数还是其他</span></span><br><span class="line">  <span class="keyword">return</span> doWatch(source <span class="keyword">as</span> <span class="built_in">any</span>, cb, options)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="watchEffect"><a href="#watchEffect" class="headerlink" title="watchEffect"></a>watchEffect</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">watchSyncEffect</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  effect: WatchEffect,</span></span></span><br><span class="line"><span class="params"><span class="function">  options?: DebuggerOptions</span></span></span><br><span class="line"><span class="params"><span class="function"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> doWatch(</span><br><span class="line">    effect,</span><br><span class="line">    <span class="literal">null</span>,</span><br><span class="line">    (__DEV__</span><br><span class="line">      ? &#123; ...options, <span class="attr">flush</span>: <span class="string">&#x27;sync&#x27;</span> &#125;</span><br><span class="line">      : &#123; <span class="attr">flush</span>: <span class="string">&#x27;sync&#x27;</span> &#125;) <span class="keyword">as</span> WatchOptionsBase</span><br><span class="line">  )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，watch和watchEffect其实是公用一个dowatch逻辑的，因为两个方法除了监听对象和启动时机之外的底层逻辑是相同的。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/26/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" class="post-title-link" itemprop="url">Vue3源码学习笔记01</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-06-25 21:18:12" itemprop="dateCreated datePublished" datetime="2022-06-25T21:18:12+08:00">2022-06-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-06-26 15:43:40" itemprop="dateModified" datetime="2022-06-26T15:43:40+08:00">2022-06-26</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue3%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue3源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue3源码—Effect，reactive，ref"><a href="#Vue3源码—Effect，reactive，ref" class="headerlink" title="Vue3源码—Effect，reactive，ref"></a>Vue3源码—Effect，reactive，ref</h1><p>Vue3相对于Vue2做出了很多重大的变革，其中有，使用proxy重写响应式原理，使用TS重写源码，使源码更加规范化。也全面支持了composition API，更加组件化，工程化的代码风格，其中为了适应composition API，Vue3将所有的功能函数全部模块化，以供我们按需引入，下面就来研究一下Vue3响应式原理发生的变化。</p>
-<h2 id="Effect"><a href="#Effect" class="headerlink" title="Effect"></a>Effect</h2><p>Effect是reactive和ref得以实现的核心模块之一，它的作用是实现收集依赖，和更新依赖。本质上就是一个发布/订阅模式。在get函数中收集涉及到的依赖，再在set函数中去触发前面收集到的依赖。</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">effect</span>&lt;<span class="title">T</span> = <span class="title">any</span>&gt;(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  fn: () =&gt; T,</span></span></span><br><span class="line"><span class="params"><span class="function">  options?: ReactiveEffectOptions</span></span></span><br><span class="line"><span class="params"><span class="function"></span>): <span class="title">ReactiveEffectRunner</span> </span>&#123;</span><br><span class="line">  <span class="comment">//检查传入参数，如果已经是ref对象，则重置为原始对象</span></span><br><span class="line">  <span class="keyword">if</span> ((fn <span class="keyword">as</span> ReactiveEffectRunner).effect) &#123;</span><br><span class="line">    fn = (fn <span class="keyword">as</span> ReactiveEffectRunner).effect.fn</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//这里才创建真正的effect</span></span><br><span class="line">  <span class="keyword">const</span> _effect = <span class="keyword">new</span> ReactiveEffect(fn)</span><br><span class="line">  <span class="keyword">if</span> (options) &#123;</span><br><span class="line">    extend(_effect, options)</span><br><span class="line">    <span class="keyword">if</span> (options.scope) recordEffectScope(_effect, options.scope)</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果 lazy 不为真就直接执行一次 effect。计算属性的 lazy 为 true</span></span><br><span class="line">  <span class="keyword">if</span> (!options || !options.lazy) &#123;</span><br><span class="line">    _effect.run()</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> runner = _effect.run.bind(_effect) <span class="keyword">as</span> ReactiveEffectRunner</span><br><span class="line">  runner.effect = _effect</span><br><span class="line">  <span class="keyword">return</span> runner</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="ReactiveEffect"><a href="#ReactiveEffect" class="headerlink" title="ReactiveEffect"></a>ReactiveEffect</h3><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="class"><span class="keyword">class</span> <span class="title">ReactiveEffect</span>&lt;<span class="title">T</span> </span>= any&gt; &#123;</span><br><span class="line">  active = <span class="literal">true</span></span><br><span class="line">  <span class="attr">deps</span>: Dep[] = []</span><br><span class="line">  <span class="attr">parent</span>: ReactiveEffect | <span class="literal">undefined</span> = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * Can be attached after creation</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@internal</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  computed?: ComputedRefImpl&lt;T&gt;</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@internal</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  allowRecurse?: boolean</span><br><span class="line">  <span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@internal</span></span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line">  private deferStop?: boolean</span><br><span class="line"></span><br><span class="line">  onStop?: <span class="function">() =&gt;</span> <span class="keyword">void</span></span><br><span class="line">  <span class="comment">// dev only</span></span><br><span class="line">  onTrack?: <span class="function">(<span class="params">event: DebuggerEvent</span>) =&gt;</span> <span class="keyword">void</span></span><br><span class="line">  <span class="comment">// dev only</span></span><br><span class="line">  onTrigger?: <span class="function">(<span class="params">event: DebuggerEvent</span>) =&gt;</span> <span class="keyword">void</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">constructor</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    public fn: () =&gt; T,</span></span></span><br><span class="line"><span class="params"><span class="function">    public scheduler: EffectScheduler | <span class="literal">null</span> = <span class="literal">null</span>,</span></span></span><br><span class="line"><span class="params"><span class="function">    scope?: EffectScope</span></span></span><br><span class="line"><span class="params"><span class="function">  </span>)</span> &#123;</span><br><span class="line">    recordEffectScope(<span class="built_in">this</span>, scope)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">run</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (!<span class="built_in">this</span>.active) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">this</span>.fn()</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> parent: ReactiveEffect | <span class="literal">undefined</span> = activeEffect</span><br><span class="line">    <span class="keyword">let</span> lastShouldTrack = shouldTrack</span><br><span class="line">    <span class="comment">//遍历嵌套依赖，如果依赖有循环引用，则直接返回</span></span><br><span class="line">    <span class="keyword">while</span> (parent) &#123;</span><br><span class="line">      <span class="keyword">if</span> (parent === <span class="built_in">this</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">      &#125;</span><br><span class="line">      parent = parent.parent</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="comment">//记录这次嵌套的依赖</span></span><br><span class="line">      <span class="built_in">this</span>.parent = activeEffect</span><br><span class="line">      activeEffect = <span class="built_in">this</span></span><br><span class="line">      shouldTrack = <span class="literal">true</span></span><br><span class="line">	  <span class="comment">//依赖深度加一</span></span><br><span class="line">      trackOpBit = <span class="number">1</span> &lt;&lt; ++effectTrackDepth</span><br><span class="line">	  <span class="comment">//如果依赖深度过大，则清除依赖，一般不会</span></span><br><span class="line">      <span class="keyword">if</span> (effectTrackDepth &lt;= maxMarkerBits) &#123;</span><br><span class="line">        <span class="comment">//给每个_effect实例中的deps属性打标签，表示我已经遍历过这个属性的</span></span><br><span class="line">        initDepMarkers(<span class="built_in">this</span>)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        cleanupEffect(<span class="built_in">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//最后执行effect函数</span></span><br><span class="line">      <span class="keyword">return</span> <span class="built_in">this</span>.fn()</span><br><span class="line">    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (effectTrackDepth &lt;= maxMarkerBits) &#123;</span><br><span class="line">        finalizeDepMarkers(<span class="built_in">this</span>)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//退回上一级依赖</span></span><br><span class="line">      trackOpBit = <span class="number">1</span> &lt;&lt; --effectTrackDepth</span><br><span class="line">        </span><br><span class="line">      activeEffect = <span class="built_in">this</span>.parent</span><br><span class="line">      shouldTrack = lastShouldTrack</span><br><span class="line">      <span class="built_in">this</span>.parent = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">this</span>.deferStop) &#123;</span><br><span class="line">        <span class="built_in">this</span>.stop()</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="title">stop</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">    <span class="comment">// stopped while running itself - defer the cleanup</span></span><br><span class="line">    <span class="keyword">if</span> (activeEffect === <span class="built_in">this</span>) &#123;</span><br><span class="line">      <span class="built_in">this</span>.deferStop = <span class="literal">true</span></span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">this</span>.active) &#123;</span><br><span class="line">      cleanupEffect(<span class="built_in">this</span>)</span><br><span class="line">      <span class="keyword">if</span> (<span class="built_in">this</span>.onStop) &#123;</span><br><span class="line">        <span class="built_in">this</span>.onStop()</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="built_in">this</span>.active = <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="track"><a href="#track" class="headerlink" title="track()"></a>track()</h4><p>track就是依赖收集器，负责把依赖收集起来放到一个统一管理中心。</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">track</span>(<span class="params">target: <span class="built_in">object</span>, <span class="keyword">type</span>: TrackOpTypes, key: unknown</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (shouldTrack &amp;&amp; activeEffect) &#123;</span><br><span class="line">    <span class="comment">//如果这个依赖是激活了的，就创建一个target</span></span><br><span class="line">    <span class="keyword">let</span> depsMap = targetMap.get(target)</span><br><span class="line">    <span class="keyword">if</span> (!depsMap) &#123;</span><br><span class="line">      targetMap.set(target, (depsMap = <span class="keyword">new</span> <span class="built_in">Map</span>()))</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//来收集依赖函数，当监听的 key 值发生变化时，触发 dep 中的依赖函数</span></span><br><span class="line">    <span class="keyword">let</span> dep = depsMap.get(key)</span><br><span class="line">    <span class="keyword">if</span> (!dep) &#123;</span><br><span class="line">      depsMap.set(key, (dep = createDep()))</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">const</span> eventInfo = __DEV__</span><br><span class="line">      ? &#123; <span class="attr">effect</span>: activeEffect, target, <span class="keyword">type</span>, key &#125;</span><br><span class="line">      : <span class="literal">undefined</span></span><br><span class="line">	<span class="comment">//收集依赖，生成dep放进集合中，用在后续依赖追踪</span></span><br><span class="line">    trackEffects(dep, eventInfo)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/25/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1308,14 +1437,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">118</span>
+          <span class="site-state-item-count">120</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">22</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
