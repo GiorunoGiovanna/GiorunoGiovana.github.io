@@ -186,6 +186,118 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" class="post-title-link" itemprop="url">Webpack学习笔记02</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-06 17:04:42" itemprop="dateCreated datePublished" datetime="2021-12-06T17:04:42+08:00">2021-12-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Webpack/" itemprop="url" rel="index"><span itemprop="name">Webpack</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Css文件优化操作"><a href="#Css文件优化操作" class="headerlink" title="Css文件优化操作"></a>Css文件优化操作</h1><h2 id="提取css文件"><a href="#提取css文件" class="headerlink" title="提取css文件"></a>提取css文件</h2><ol>
+<li><p>默认情况下webpack打包会把css文件压缩到目的js文件中</p>
+</li>
+<li><p>如果要提取出js中的文件需要加载插件mini-css-extract-plugin</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">npm i mini-css-extract-plugin -D	//加载依赖</span><br><span class="line"></span><br><span class="line">const MiniCssExtractPlugin = require(&#x27;mini-css-extract-plugin&#x27;)</span><br><span class="line"></span><br><span class="line">	module:&#123;</span><br><span class="line">		rules:[</span><br><span class="line">			&#123;</span><br><span class="line">				test:/\.css$/,</span><br><span class="line">				use:[</span><br><span class="line">					//创建style标签，将样式放入</span><br><span class="line">					// &#x27;style-loader&#x27;,</span><br><span class="line">					//取代&#x27;style-loader&#x27;。作用，提取被打包js中的css代码成为单独的文件</span><br><span class="line">					MiniCssExtractPlugin.loader,</span><br><span class="line">					//将css文件整合到js文件中</span><br><span class="line">					&#x27;css-loader&#x27;</span><br><span class="line">				]</span><br><span class="line">			&#125;</span><br><span class="line">		]</span><br><span class="line">	&#125;,</span><br><span class="line">	plugins:[</span><br><span class="line">		new MiniCssExtractPlugin(&#123;</span><br><span class="line">			//对输出的css文件重命名</span><br><span class="line">			filename:&#x27;css/built.css&#x27;</span><br><span class="line">		&#125;)</span><br><span class="line">	]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h2 id="压缩css文件"><a href="#压缩css文件" class="headerlink" title="压缩css文件"></a>压缩css文件</h2><ol>
+<li>使用插件提取出来的css文件是按照正常格式输出的，这样的文件比较大，需要压缩</li>
+<li>使用optimize-css-assets-webpack-plugin插件进行压缩</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">npm i optimize-css-assets-webpack-plugin -D	//加载依赖</span><br><span class="line"></span><br><span class="line">const OptimizeCssAssetsWebpackPlugin = require(&#x27;optimize-css-assets-webpack-plugin&#x27;)</span><br><span class="line"></span><br><span class="line">	plugins:[</span><br><span class="line">		//压缩css</span><br><span class="line">		new OptimizeCssAssetsWebpackPlugin()</span><br><span class="line">	],</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="css兼容性处理"><a href="#css兼容性处理" class="headerlink" title="css兼容性处理"></a>css兼容性处理</h2><p>1.在开发环境中对兼容性的要求很高，因为不同的浏览器之间css实现方式可能不同，可能会有冲突。这个时候就需要兼容性处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">npm i postcss-preset-env -D	//加载依赖</span><br><span class="line"></span><br><span class="line">// 设置nodejs环境变量</span><br><span class="line">process.env.NODE_ENV = &#x27;development&#x27;;</span><br><span class="line"></span><br><span class="line">module: &#123;</span><br><span class="line">    rules: [</span><br><span class="line">      &#123;</span><br><span class="line">        test: /\.css$/,</span><br><span class="line">        use: [</span><br><span class="line">          MiniCssExtractPlugin.loader,</span><br><span class="line">          &#x27;css-loader&#x27;,</span><br><span class="line">          /*</span><br><span class="line">            css兼容性处理：postcss --&gt; postcss-loader postcss-preset-env</span><br><span class="line"></span><br><span class="line">            帮postcss找到package.json中browserslist里面的配置，通过配置加载指定的css兼容性样式</span><br><span class="line"></span><br><span class="line">            &quot;browserslist&quot;: &#123;</span><br><span class="line">              // 开发环境 --&gt; 设置node环境变量：process.env.NODE_ENV = development</span><br><span class="line">              &quot;development&quot;: [</span><br><span class="line">                &quot;last 1 chrome version&quot;,</span><br><span class="line">                &quot;last 1 firefox version&quot;,</span><br><span class="line">                &quot;last 1 safari version&quot;</span><br><span class="line">              ],</span><br><span class="line">              // 生产环境：默认是看生产环境</span><br><span class="line">              &quot;production&quot;: [</span><br><span class="line">                &quot;&gt;0.2%&quot;,</span><br><span class="line">                &quot;not dead&quot;,</span><br><span class="line">                &quot;not op_mini all&quot;</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          */</span><br><span class="line">          // 使用loader的默认配置</span><br><span class="line">          // &#x27;postcss-loader&#x27;,</span><br><span class="line">          // 修改loader的配置</span><br><span class="line">          &#123;</span><br><span class="line">            loader: &#x27;postcss-loader&#x27;,</span><br><span class="line">            options: &#123;</span><br><span class="line">              ident: &#x27;postcss&#x27;,</span><br><span class="line">              plugins: () =&gt; [</span><br><span class="line">                // postcss的插件</span><br><span class="line">                require(&#x27;postcss-preset-env&#x27;)()</span><br><span class="line">              ]</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/06/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001Html%E4%B8%AD%E7%9A%84JavaScript/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1155,117 +1267,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/06/26/Bolb%E5%92%8CFormData%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/06/26/Bolb%E5%92%8CFormData%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/" class="post-title-link" itemprop="url">Bolb和FormData之间的区别</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-06-26 20:15:44" itemprop="dateCreated datePublished" datetime="2021-06-26T20:15:44+08:00">2021-06-26</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/FuntcionStream/" itemprop="url" rel="index"><span itemprop="name">FuntcionStream</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/06/26/Bolb%E5%92%8CFormData%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/06/26/Bolb%E5%92%8CFormData%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>​     问题背景：参与了学校大佬的一个开源项目，基于Apache Pulsar的Function Stream。具体内容看<a target="_blank" rel="noopener" href="https://github.com/FunctionStream/function-stream">这里</a>。我在项目中负责某几个接口的对接，其中有一个接口接受一个文件和一个对象，由于后端是基于Apache Pulsar开发的，接口是其他人做的，修改接口不太现实，只好从前端入手了。</p>
-<p>​    首先在postman上尝试，能够正常上传。跑去看了看上传成功的数据格式。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/20210910080004594.png" alt="img"><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p>​    Content-Type是form-data，所以很自然地使用FormData去构造数据，将funcConfig和data分别append进参数中，然后上传，结果是不出意料地失败了。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/1624179110.png" alt="1624179110"></p>
-<p>​    网上的说法有：</p>
-<ol>
-<li>把对象直接append进data里。</li>
-<li>是把对象序列化后append进data里</li>
-</ol>
-<p>​    试过之后发现都不行，要么报错说参数缺失，要么参数格式有误。</p>
-<p>​    最后在博客看到有一个说法是用Blob去构造对象。</p>
-<p>​    找到一个例子</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/06/26/Bolb%E5%92%8CFormData%E4%B9%8B%E9%97%B4%E7%9A%84%E5%8C%BA%E5%88%AB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span>
+    <a class="extend prev" rel="prev" href="/page/11/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1333,7 +1338,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

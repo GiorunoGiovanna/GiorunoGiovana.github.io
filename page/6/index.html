@@ -186,6 +186,116 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/" class="post-title-link" itemprop="url">TS学习笔记02类</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-27 21:33:20" itemprop="dateCreated datePublished" datetime="2022-04-27T21:33:20+08:00">2022-04-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TypeScript/" itemprop="url" rel="index"><span itemprop="name">TypeScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="TypeScript中的类"><a href="#TypeScript中的类" class="headerlink" title="TypeScript中的类"></a>TypeScript中的类</h1><p>TS中的类定义方式和ES6中定义方式很相似，直接使用class关键字来定义</p>
+<p><strong>值得注意的是，在使用变量之前需要声明这个变量，不能像在es6中constructor直接使用this</strong></p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Call</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> name</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">name: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.name = name</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">call</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.name</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> c = <span class="keyword">new</span> Call(<span class="string">&#x27;ddd&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(c.call())</span><br></pre></td></tr></table></figure>
+
+<h2 id="类中的属性声明"><a href="#类中的属性声明" class="headerlink" title="类中的属性声明"></a>类中的属性声明</h2><ol>
+<li><p><code>public</code>公有属性：这个类本身，它的子类和类外都能访问的属性</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Call</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> yourname: <span class="built_in">string</span> = <span class="string">&#x27;xixi&#x27;</span></span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">yourname: <span class="built_in">string</span></span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.yourname = yourname</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="title">call</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>.yourname</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> c = <span class="keyword">new</span> Call(<span class="string">&#x27;ddd&#x27;</span>)</span><br><span class="line"><span class="built_in">console</span>.log(c.call())	<span class="comment">//ddd</span></span><br><span class="line"><span class="built_in">console</span>.log(c.yourname)	<span class="comment">//在类外ddd</span></span><br></pre></td></tr></table></figure></li>
+<li><p><code>private</code>私有属性：这个类本身和它的子类才能访问，类外不能访问</p>
+</li>
+<li><p><code>static</code>静态属性：只有这个类本身才能访问，子类和类外都不能访问</p>
+</li>
+</ol>
+<h2 id="类的多态"><a href="#类的多态" class="headerlink" title="类的多态"></a>类的多态</h2><p>多态是一种继承的形式，父类定义一个方法不去实现，让它的子类去实现，每个子类都可以由不同的表现</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">eat</span>(<span class="params">food: <span class="built_in">string</span></span>)</span> &#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Cat</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    eat(food: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`喜欢吃<span class="subst">$&#123;food&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Dog</span> <span class="keyword">extends</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line">    eat(food: <span class="built_in">string</span>): <span class="built_in">void</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">`不喜欢吃<span class="subst">$&#123;food&#125;</span>`</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">let</span> cat = <span class="keyword">new</span> Cat()</span><br><span class="line">cat.eat(<span class="string">&#x27;鱼&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> dog = <span class="keyword">new</span> Dog()</span><br><span class="line">dog.eat(<span class="string">&#x27;菜&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="TS中的抽象类"><a href="#TS中的抽象类" class="headerlink" title="TS中的抽象类"></a>TS中的抽象类</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/27/TS%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E7%B1%BB/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/27/Ts%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%92%8C%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1113,108 +1223,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" class="post-title-link" itemprop="url">浏览器缓存机制</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-13 13:51:43" itemprop="dateCreated datePublished" datetime="2022-04-13T13:51:43+08:00">2022-04-13</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="浏览器的缓存机制"><a href="#浏览器的缓存机制" class="headerlink" title="浏览器的缓存机制"></a>浏览器的缓存机制</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>为了节约网络的资源，加速浏览。浏览器会对最近请求过的一些文档进行存储，当访问者再次请求这个页面的时候，浏览器就可以从本地加载文档，而不用等待网络中的文档，可以加速页面的预览。</p>
-<h2 id="浏览器缓存"><a href="#浏览器缓存" class="headerlink" title="浏览器缓存"></a>浏览器缓存</h2><h3 id="缓存策略"><a href="#缓存策略" class="headerlink" title="缓存策略"></a>缓存策略</h3><p>浏览器的缓存策略分为两种，强制缓存和协商缓存，并且缓存策略都是通过设置http Header来实现的</p>
-<h4 id="强制缓存"><a href="#强制缓存" class="headerlink" title="强制缓存"></a>强制缓存</h4><h5 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h5><p>设置过期的具体时间，在这个时间内再次请求，则命中强缓存</p>
-<h5 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h5>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/13/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/5/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1282,7 +1294,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

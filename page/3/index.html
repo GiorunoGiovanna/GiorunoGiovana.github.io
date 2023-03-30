@@ -186,6 +186,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008Redux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008Redux/" class="post-title-link" itemprop="url">React学习笔记08Redux</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-21 09:02:10 / 修改时间：10:37:33" itemprop="dateCreated datePublished" datetime="2022-05-21T09:02:10+08:00">2022-05-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008Redux/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008Redux/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="React之Redux"><a href="#React之Redux" class="headerlink" title="React之Redux"></a>React之Redux</h1><p>随着单页面应用的兴起，JavaScript需要管理非常多的状态。在Vue框架中，有一个官方支持的状态管理工具Vuex，而在React中也有一个官方支持的状态管理工具——Redux。</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><ul>
+<li>Store</li>
+<li>State</li>
+<li>Reducer</li>
+<li>Action</li>
+</ul>
+<h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><p>Store是保存全局数据的地方，你可以把它看成一个容器（带有推送功能的数据仓库）。就像Vuex单一状态树的概念，整个应用只能由一个store。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createStore &#125; <span class="keyword">from</span> <span class="string">&#x27;redux&#x27;</span>;</span><br><span class="line"><span class="keyword">const</span> store = createStore(fn);</span><br></pre></td></tr></table></figure>
+
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>如果想要得到某个时间点的数据，就需要对Store生成快照。这个时点的数据集合，就叫做当前时刻的State。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> state = store.getState();</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B008Redux/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/20/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1131,117 +1231,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">Vuex学习笔记01核心概念</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-15 09:53:13" itemprop="dateCreated datePublished" datetime="2022-05-15T09:53:13+08:00">2022-05-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vuex/" itemprop="url" rel="index"><span itemprop="name">Vuex</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h1><p>Vuex是Vue推荐使用的状态管理工具，它的功能强大，并且专门为Vue设计。</p>
-<p>在我们制作项目的时候，往往会遇到组件之间通信的问题，对于Vue而言，父子组件通信十分方便，但是兄弟组件或者没有什么联系的组件之间通信就比较麻烦了，因为它们之间的通信需要一个所谓的中间人，无法直接通信。因此诞生了<code>eventbus</code>事件总线的方式。</p>
-<p>Vue中的<code>eventbus</code>利用一个空的Vue组件作为中间人，从而使组件之间能够间接的通信，这在小型项目中是十分有用的，但是随着项目越来越大，<code>eventbus</code>的状态管理会越来越复杂。并且Vue3.0废除了<code>eventbus</code>依赖的一个API<code>$on</code>，因此<code>eventbus</code>的性价比变低了，这时候官方使用的Vuex就显得越来越重要了。</p>
-<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p>vuex中有5个核心概念：</p>
-<ul>
-<li>State</li>
-<li>Getter</li>
-<li>Mutation</li>
-<li>Action</li>
-<li>Module</li>
-</ul>
-<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>State是Vuex的单一状态树，所有的数据都存储在State上。</p>
-<h5 id="使用方式-以Vue3为例-："><a href="#使用方式-以Vue3为例-：" class="headerlink" title="使用方式(以Vue3为例)："></a>使用方式(以Vue3为例)：</h5>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1309,7 +1302,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">120</span>
+          <span class="site-state-item-count">121</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
