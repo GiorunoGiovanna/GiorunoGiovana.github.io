@@ -186,6 +186,169 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">js学习笔记12异步编程</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-11 08:12:54" itemprop="dateCreated datePublished" datetime="2021-12-11T08:12:54+08:00">2021-12-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Promise-期约"><a href="#Promise-期约" class="headerlink" title="Promise(期约)"></a>Promise(期约)</h1><ol>
+<li><h4 id="promise基础"><a href="#promise基础" class="headerlink" title="promise基础"></a>promise基础</h4><ul>
+<li>可以通过new 操作符来实例化一个promise对象。创建新期约的时候需要传入执行器（executor）函数作为参数。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">() =&gt;</span> &#123;&#125;)</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p)	<span class="comment">//Promise&lt;pending&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><h4 id="期约状态机"><a href="#期约状态机" class="headerlink" title="期约状态机"></a>期约状态机</h4><ol>
+<li>Peomise是一个有状态的对象，可能处于三种状态<ul>
+<li>待定（pedding）</li>
+<li>兑现（fulfilled），有时也叫解决，（resolved）</li>
+<li>拒绝（rejected）</li>
+</ul>
+</li>
+<li>待定（pending）是promise的初始状态，可以转换为另外两种状态，并且一旦转换就不可逆。</li>
+<li>另外，promise的状态也不能不被外部的JavaScript代码修改，也不能被外界读取（私有）。</li>
+</ol>
+</li>
+<li><h4 id="解决值、拒绝理由及期约用例"><a href="#解决值、拒绝理由及期约用例" class="headerlink" title="解决值、拒绝理由及期约用例"></a>解决值、拒绝理由及期约用例</h4><ul>
+<li>promise的用途是，抽象的标识一个异步操作，并且通知这个操作是否完成</li>
+<li>一些情况下，promise封装的异步操作会实际生成某个值，而程序期待promise状态改变的时候可以访问这个值。例如，如果请求范围为200-299的状态码，让promise状态转化为resolved，并且内部可以接受到一个JSON字符串。拒绝同理，只是接受的变成一个拒绝理由。</li>
+<li>为了支持这种用例，promise每次转换状态，就会有一个私有的内部值或理由。二者都是可选的，并且默认为undefined。</li>
+</ul>
+</li>
+<li><h4 id="同步-异步执行的二元性"><a href="#同步-异步执行的二元性" class="headerlink" title="同步/异步执行的二元性"></a>同步/异步执行的二元性</h4><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;foo&#x27;</span>)</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e)	<span class="comment">//Error:foo</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">	<span class="built_in">Promise</span>.reject(<span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;bar&#x27;</span>))</span><br><span class="line">&#125;<span class="keyword">catch</span>(e)&#123;</span><br><span class="line">	<span class="built_in">console</span>.log(e)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//Uncaught (in Promise) Error:bar</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>上面的例子报错的原因是：try。。。catch捕获的是哦同步执行时抛出的错误，因此第一个错误可以捕获，但是第二个Promise中抛出的异常是以异步模式进行的，因此没有捕获。</li>
+<li>这个例子中可以看出promise的真正异步特性:他们时同步对象（在同步中执行使用），但是也是异步执行的媒介</li>
+<li>代码一旦开始以异步模式执行，则唯一与之交互的方式就是使用异步结构——更具体的说，就是promise方法。</li>
+</ul>
+</li>
+<li><h4 id="Promise-resolve"><a href="#Promise-resolve" class="headerlink" title="Promise.resolve()"></a>Promise.resolve()</h4><ul>
+<li>通过调用一个Promise.resolve()方法，可以实例化一个已处于解决状态的promise。</li>
+<li>使用这个方法实际上可以把任何值转化为一个promise</li>
+<li>这是一个幂等的方法，即嵌套调用多少次结果都一样</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> p = <span class="built_in">Promise</span>.resolve(<span class="number">7</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p===<span class="built_in">Promise</span>.resolve(<span class="built_in">Promise</span>.resolve(p)))		<span class="comment">//true</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>注意，这样会把抛出的错误都包装到已解决的promise中。</li>
+</ul>
+</li>
+<li><h4 id="Promise-rejected"><a href="#Promise-rejected" class="headerlink" title="Promise.rejected()"></a>Promise.rejected()</h4><ul>
+<li>和resolved类似，但是不是幂等的，给他传入一个resolve会把这个promise包装成拒绝理由。</li>
+</ul>
+</li>
+<li><h4 id="通过执行函数控制promise状态"><a href="#通过执行函数控制promise状态" class="headerlink" title="通过执行函数控制promise状态"></a>通过执行函数控制promise状态</h4><ul>
+<li>由于promise状态是私有的，所以只能在内部进行操作。内部操作在promise的执行器函数中完成。</li>
+<li>执行器的两个职责<ul>
+<li>初始化promise的异步行为</li>
+<li>控制状态的最终转换<ul>
+<li>转换是通过调用它的两个函数参数实现的<ul>
+<li>reslove()</li>
+<li>reject()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>执行器函数是同步执行的。</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">() =&gt;</span> <span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,<span class="string">&#x27;executor&#x27;</span>));</span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,<span class="string">&#x27;promise initialized&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//executor</span></span><br><span class="line"><span class="comment">//promise initialized</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加setTimeout可以推迟切换状态：</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> p = <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>) =&gt;</span> <span class="built_in">setTimeout</span>(resolve,<span class="number">1000</span>)</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="built_in">console</span>.log,<span class="number">0</span>,p)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>再次强调，promise的状态只能改变一次，且不可逆。任何在状态改变后视图再次改变状态的操作都会无效。</li>
+</ul>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/11/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B012%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/10/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B011%E5%87%BD%E6%95%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1693,136 +1856,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" class="post-title-link" itemprop="url">Js学习笔记03变量、作用域与内存</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-06 21:36:53" itemprop="dateCreated datePublished" datetime="2021-12-06T21:36:53+08:00">2021-12-06</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="原始值与引用值"><a href="#原始值与引用值" class="headerlink" title="原始值与引用值"></a>原始值与引用值</h1><ol>
-<li>原始值：最简单的数据</li>
-<li>引用值：由多个值构成的对象</li>
-<li>JavaScript不允许直接访问内存的位置，在操作对象的时候实际操作的时对该对象的引用，为此，保存引用值的变量是按引用访问的</li>
-</ol>
-<h2 id="动态属性"><a href="#动态属性" class="headerlink" title="动态属性"></a>动态属性</h2><ol>
-<li>原始值：原始值不能拥有属性，但尝试给它添加属性不会报错</li>
-<li>引用值：引用值可以动态添加属性</li>
-<li>原始值的初始化：<ol>
-<li>只使用原始字面量形式，如var a = 1</li>
-<li>使用new初始化，这会创建一个object类型的实例，但是行为上类似于原始值</li>
-</ol>
-</li>
-</ol>
-<h2 id="复制值"><a href="#复制值" class="headerlink" title="复制值"></a>复制值</h2><ol>
-<li><p>原始值：复制原始值得到的是一个相互独立的副本</p>
-</li>
-<li><p>引用值：引用值持有的其实是对堆内存中实际值的一个引用，复制引用值实际上是复制了指向堆内存的指针，所以原始引用值和复制的引用值是会互相影响的。（浅复制）</p>
-</li>
-<li><p>深复制：复制一份独立的副本。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">//借用JSON方法：stringify和parse实现深复制</span><br><span class="line">function deepClone(obj)&#123;</span><br><span class="line">    let _obj = JSON.stringify(obj),</span><br><span class="line">        objClone = JSON.parse(_obj);</span><br><span class="line">    return objClone</span><br><span class="line">&#125;    </span><br><span class="line">let a=[0,1,[2,3],4],</span><br><span class="line">    b=deepClone(a);</span><br><span class="line">a[0]=1;</span><br><span class="line">a[2][0]=1;</span><br><span class="line">console.log(a,b);</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="传递参数"><a href="#传递参数" class="headerlink" title="传递参数"></a>传递参数</h2><ol>
-<li>ECMAScript中所有函数都是按值传递的。</li>
-<li>原始值：和复制值行为一样</li>
-<li>引用值：注意！传递参数的时候不是按引用传递，而是按值传递。<ol>
-<li>区别在于，如果你在函数内重新定义传入的参数，修改它的属性。</li>
-<li>如果是按引用传递，在函数外查看参数的属性应该是会变的。</li>
-<li>但是按值传递，函数外的对象属性不会发生变化，对对象的引用没有发生改变。</li>
-</ol>
-</li>
-</ol>
-<h2 id="如何确定类型"><a href="#如何确定类型" class="headerlink" title="如何确定类型"></a>如何确定类型</h2><ol>
-<li>原始值用typeof确定类型比较好</li>
-<li>引用值使用instanceof操作符确定类型，例如：person instanceof Object</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/06/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003%E5%8F%98%E9%87%8F%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E4%B8%8E%E5%86%85%E5%AD%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1894,7 +1927,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

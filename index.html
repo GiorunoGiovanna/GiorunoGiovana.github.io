@@ -186,6 +186,136 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/04/03/http%E5%B8%B8%E8%A7%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%92%8C%E5%93%8D%E5%BA%94%E5%A4%B4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/03/http%E5%B8%B8%E8%A7%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%92%8C%E5%93%8D%E5%BA%94%E5%A4%B4/" class="post-title-link" itemprop="url">http常见请求头和响应头</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-03 17:11:05 / 修改时间：17:44:10" itemprop="dateCreated datePublished" datetime="2023-04-03T17:11:05+08:00">2023-04-03</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/04/03/http%E5%B8%B8%E8%A7%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%92%8C%E5%93%8D%E5%BA%94%E5%A4%B4/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/04/03/http%E5%B8%B8%E8%A7%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%92%8C%E5%93%8D%E5%BA%94%E5%A4%B4/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="http常见请求头和响应头"><a href="#http常见请求头和响应头" class="headerlink" title="http常见请求头和响应头"></a>http常见请求头和响应头</h1><h2 id="请求头"><a href="#请求头" class="headerlink" title="请求头"></a>请求头</h2><ol>
+<li><h5 id="Accept"><a href="#Accept" class="headerlink" title="Accept"></a>Accept</h5><p><code>Accept:text/html</code>浏览器可以接受的服务器发回的类型</p>
+</li>
+<li><h5 id="Connection"><a href="#Connection" class="headerlink" title="Connection"></a>Connection</h5><p><code>Connection:keep-alive</code>是否保持这个tcp链接的链接状态（长连接）</p>
+</li>
+<li><h5 id="Host（请求目标地址）"><a href="#Host（请求目标地址）" class="headerlink" title="Host（请求目标地址）"></a>Host（请求目标地址）</h5><p><code>Host:www.baidu.com</code> 请求报头域主要用于指定被请求资源的Internet主机和端口号，它通常从HTTP URL中提取出来的。</p>
+</li>
+<li><h5 id="Referer（请求来源地址）"><a href="#Referer（请求来源地址）" class="headerlink" title="Referer（请求来源地址）"></a>Referer（请求来源地址）</h5><p><code>Referer:https://www.baidu.com/?tn=62095104_8_oem_dg</code> 当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器我是从哪个页面链接过来的，服务器籍此可以获得一些信息用于处理。</p>
+</li>
+<li><h5 id="User-Agent"><a href="#User-Agent" class="headerlink" title="User-Agent"></a>User-Agent</h5><p>告诉HTTP服务器， 客户端使用的操作系统和浏览器的名称和版本。</p>
+</li>
+<li><h5 id="Cache-control"><a href="#Cache-control" class="headerlink" title="Cache-control"></a>Cache-control</h5><ul>
+<li><code>Cache-Control:private</code> 默认为private 响应只能够作为私有的缓存，不能再用户间共享</li>
+<li><code>Cache-Control:public</code> 响应会被缓存，并且在多用户间共享。正常情况, 如果要求HTTP认证,响应会自动设置为 private.</li>
+<li><code>Cache-Control:no-cache</code> 响应不会被缓存,而是实时向服务器端请求资源。</li>
+<li><code>Cache-Control:max-age=10</code> 设置缓存最大的有效时间，但是这个参数定义的是时间大小（比如：60）而不是确定的时间点。单位是[秒 seconds]。</li>
+<li><code>Cache-Control:no-store</code> 在任何条件下，响应都不会被缓存，并且不会被写入到客户端的磁盘里，这也是基于安全考虑的某些敏感的响应才会使用这个。</li>
+</ul>
+</li>
+<li><h5 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h5><p><code>Cookie</code>是用来存储一些用户信息以便让服务器辨别用户身份的（大多数需要登录的网站上面会比较常见），比如cookie会存储一些用户的用户名和密码，当用户登录后就会在客户端产生一个cookie来存储相关信息，这样浏览器通过读取cookie的信息去服务器上验证并通过后会判定你是合法用户，从而允许查看相应网页。当然cookie里面的数据不仅仅是上述范围，还有很多信息可以存储是cookie里面，比如sessionid等。</p>
+</li>
+<li><h5 id="Range（用于断点续传）"><a href="#Range（用于断点续传）" class="headerlink" title="Range（用于断点续传）"></a>Range（用于断点续传）</h5><p><code>Range:bytes=0-5</code> 指定第一个字节的位置和最后一个字节的位置。用于告诉服务器自己想取对象的哪部分。</p>
+</li>
+</ol>
+<h2 id="常用的http响应头"><a href="#常用的http响应头" class="headerlink" title="常用的http响应头"></a>常用的http响应头</h2><ol>
+<li><h5 id="Content-Type"><a href="#Content-Type" class="headerlink" title="Content-Type"></a>Content-Type</h5><p><code>Content-Type：text/html;charset=UTF-8</code> 告诉客户端，资源文件的类型，还有字符编码，客户端通过utf-8对资源进行解码，然后对资源进行html解析。通常我们会看到有些网站是乱码的，往往就是服务器端没有返回正确的编码。</p>
+</li>
+<li><h5 id="Date"><a href="#Date" class="headerlink" title="Date"></a>Date</h5><p><code>Date: Tue, 03 Apr 2018 03:52:28 GMT</code> 这个是服务端发送资源时的服务器时间，GMT是格林尼治所在地的标准时间。http协议中发送的时间都是GMT的，这主要是解决在互联网上，不同时区在相互请求资源的时候，时间混乱问题。</p>
+</li>
+<li><h5 id="Expires"><a href="#Expires" class="headerlink" title="Expires"></a>Expires</h5><p><code>Expires:Sun, 1 Jan 2000 01:00:00 GMT</code> 这个响应头也是跟缓存有关的，告诉客户端在这个时间前，可以直接访问缓存副本，很显然这个值会存在问题，因为客户端和服务器的时间不一定会都是相同的，如果时间不同就会导致问题。所以这个响应头是没有Cache-Control：max-age=*这个响应头准确的，因为max-age=date中的date是个相对时间，不仅更好理解，也更准确。</p>
+</li>
+<li><h5 id="Last-Modified"><a href="#Last-Modified" class="headerlink" title="Last-Modified"></a>Last-Modified</h5><p><code>Last-Modified: Dec, 26 Dec 2015 17:30:00 GMT</code> 所请求的对象的最后修改日期(按照 RFC 7231 中定义的“超文本传输协议日期”格式来表示)</p>
+</li>
+<li><h5 id="Etag"><a href="#Etag" class="headerlink" title="Etag"></a>Etag</h5><p><code>ETag: &quot;737060cd8c284d8af7ad3082f209582d&quot;</code> 就是一个对象（比如URL）的标志值，就一个对象而言，比如一个html文件，如果被修改了，其Etag也会别修改，所以，ETag的作用跟Last-Modified的作用差不多，主要供WEB服务器判断一个对象是否改变了。比如前一次请求某个html文件时，获得了其 ETag，当这次又请求这个文件时，浏览器就会把先前获得ETag值发送给WEB服务器，然后WEB服务器会把这个ETag跟该文件的当前ETag进行对比，然后就知道这个文件有没有改变了。</p>
+</li>
+<li><h5 id="Access-Control-Allow-Origin"><a href="#Access-Control-Allow-Origin" class="headerlink" title="Access-Control-Allow-Origin"></a>Access-Control-Allow-Origin</h5><ul>
+<li><code>Access-Control-Allow-Origin: *</code><em>号代表所有网站可以跨域资源共享，如果当前字段为</em>那么Access-Control-Allow-Credentials就不能为true</li>
+<li><code>Access-Control-Allow-Origin: www.baidu.com</code> 指定哪些网站可以跨域资源共享</li>
+</ul>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/03/http%E5%B8%B8%E8%A7%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%92%8C%E5%93%8D%E5%BA%94%E5%A4%B4/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/30/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8404/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -211,6 +341,22 @@
               <span class="post-meta-item-text">发表于</span>
 
               <time title="创建时间：2023-03-30 14:04:50" itemprop="dateCreated datePublished" datetime="2023-03-30T14:04:50+08:00">2023-03-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-03 17:53:23" itemprop="dateModified" datetime="2023-04-03T17:53:23+08:00">2023-04-03</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%84/" itemprop="url" rel="index"><span itemprop="name">面经摘抄</span></a>
+                </span>
             </span>
 
           
@@ -238,7 +384,37 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <h1 id="面经摘抄04"><a href="#面经摘抄04" class="headerlink" title="面经摘抄04"></a>面经摘抄04</h1><ol>
+<li><h5 id="DOM常用API总结"><a href="#DOM常用API总结" class="headerlink" title="DOM常用API总结"></a>DOM常用API总结</h5></li>
+<li><h5 id="九宫格123456789，实现159布局"><a href="#九宫格123456789，实现159布局" class="headerlink" title="九宫格123456789，实现159布局"></a>九宫格123456789，实现159布局</h5><p>利用flex的align-self属性对每一个块做定制化布局设置</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;contain&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;n1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;n2&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;n3&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.contain</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">900px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">900px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">display</span>: flex;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: pink;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.n1</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-self</span>: flex-start;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: skyblue;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.n2</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-self</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: skyblue;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.n3</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">300px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-self</span>: flex-end;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: skyblue;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><h5 id="js更精确的定时执行函数"><a href="#js更精确的定时执行函数" class="headerlink" title="js更精确的定时执行函数"></a>js更精确的定时执行函数</h5><p>最简单的定时执行函数是<code>setTimeout</code>,<code>setInterval</code>，但是这两种定时器实际上存在较大的误差，这是由于JavaScript是单线程语言引起的，由于这两个函数属于宏任务调用，即使时间到了，只要还有同步任务和微任务没有完成，都会进行等待，误差由此而来。</p>
+<p>为了实现更为精确的定时函数，可以借助Date对象对时间进行纠错，也可以使用webWorker开启一个单独的线程给定时函数使用</p>
+</li>
+<li><h5 id="如果只是获取了dom节点，消耗资源吗"><a href="#如果只是获取了dom节点，消耗资源吗" class="headerlink" title="如果只是获取了dom节点，消耗资源吗"></a>如果只是获取了dom节点，消耗资源吗</h5><p>消耗资源，因为DOM是一个独立于语言的，用于操作XML和HTML文档的程序接口。与JavaScript是相互独立的。每次访问的时候访问的其实是<strong>HTML集合</strong>，HTML集合是包含DOM节点<strong>引用</strong>的类数组对象，并不真正包含DOM节点，每次需要新的信息，就需要通过DOM接口查询DOM结构，再返回新的HTML集合。</p>
+</li>
+<li><h5 id="box-shadow详解"><a href="#box-shadow详解" class="headerlink" title="box-shadow详解"></a>box-shadow详解</h5><p>box-shadow是用来定义元素阴影的属性，由于不占用实际空间，可以无限叠加等特性而广受使用。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">box-shadow</span>: (insert) offset-x offset-y blur spread color;</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li>insert：用来定义阴影在元素内部还是元素外部的关键字</li>
+<li>offset-x/offset-y：阴影在x/y轴上的偏移量</li>
+<li>blur：阴影的模糊半径</li>
+<li>spread：阴影的大小</li>
+<li>color：设置阴影的颜色</li>
+<li>扩展：<code>filter: drop-shadow(5px 5px 10px black)</code>可以使用这个方式根据像素点来设置阴影</li>
+</ol>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/30/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8404/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1231,104 +1407,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/29/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/29/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/" class="post-title-link" itemprop="url">Vue3源码学习笔记03</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-29 09:56:37 / 修改时间：10:24:08" itemprop="dateCreated datePublished" datetime="2022-06-29T09:56:37+08:00">2022-06-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue3%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue3源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/06/29/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/29/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vue3源码学习笔记—生命周期"><a href="#Vue3源码学习笔记—生命周期" class="headerlink" title="Vue3源码学习笔记—生命周期"></a>Vue3源码学习笔记—生命周期</h1><p>跟Vue2的生命周期相比，Vue3的生命周期没有过多的变化，无非就是把<code>beforeDestroy</code>改名为<code>beforeUnmounted</code>这种命名统一化的操作，还有新增了几个服务端渲染的生命周期。</p>
-<p>为了适应composition API，生命周期也从原来的挂载在Vue实例中变为了可拆卸的模块。</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> createHook =</span><br><span class="line">  <span class="xml"><span class="tag">&lt;<span class="name">T</span> <span class="attr">extends</span> <span class="attr">Function</span> = <span class="string">()</span> =&gt;</span> any&gt;(lifecycle: LifecycleHooks) =&gt;</span></span><br><span class="line"><span class="xml">  (hook: T, target: ComponentInternalInstance | null = currentInstance) =&gt;</span></span><br><span class="line"><span class="xml">    // post-create lifecycle registrations are noops during SSR (except for serverPrefetch)</span></span><br><span class="line"><span class="xml">    (!isInSSRComponentSetup || lifecycle === LifecycleHooks.SERVER_PREFETCH) &amp;&amp;</span></span><br><span class="line"><span class="xml">    injectHook(lifecycle, hook, target)</span></span><br><span class="line"><span class="xml"></span></span><br><span class="line"><span class="xml">//把常用的生命周期都模块化了</span></span><br><span class="line"><span class="xml">export const onBeforeMount = createHook(LifecycleHooks.BEFORE_MOUNT)</span></span><br><span class="line"><span class="xml">export const onMounted = createHook(LifecycleHooks.MOUNTED)</span></span><br><span class="line"><span class="xml">export const onBeforeUpdate = createHook(LifecycleHooks.BEFORE_UPDATE)</span></span><br><span class="line"><span class="xml">export const onUpdated = createHook(LifecycleHooks.UPDATED)</span></span><br><span class="line"><span class="xml">export const onBeforeUnmount = createHook(LifecycleHooks.BEFORE_UNMOUNT)</span></span><br><span class="line"><span class="xml">export const onUnmounted = createHook(LifecycleHooks.UNMOUNTED)</span></span><br><span class="line"><span class="xml">export const onServerPrefetch = createHook(LifecycleHooks.SERVER_PREFETCH)</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="injectHook"><a href="#injectHook" class="headerlink" title="injectHook"></a>injectHook</h2><p>用于把对应模块中的我们写的逻辑储存起来，在组件渲染的各个阶段去执行，先暂停组件的任务，把这个钩子执行完成再向下执行。</p>
-<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">injectHook</span>(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">  <span class="keyword">type</span>: LifecycleHooks,</span></span></span><br><span class="line"><span class="params"><span class="function">  hook: <span class="built_in">Function</span> &amp; &#123; __weh?: <span class="built_in">Function</span> &#125;,</span></span></span><br><span class="line"><span class="params"><span class="function">  target: ComponentInternalInstance | <span class="literal">null</span> = currentInstance,</span></span></span><br><span class="line"><span class="params"><span class="function">  prepend: <span class="built_in">boolean</span> = <span class="literal">false</span></span></span></span><br><span class="line"><span class="params"><span class="function"></span>): <span class="title">Function</span> | <span class="title">undefined</span> </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (target) &#123;</span><br><span class="line">    <span class="keyword">const</span> hooks = target[<span class="keyword">type</span>] || (target[<span class="keyword">type</span>] = [])</span><br><span class="line">    <span class="comment">//封装我们写的逻辑并且缓存</span></span><br><span class="line">    <span class="keyword">const</span> wrappedHook =</span><br><span class="line">      hook.__weh ||</span><br><span class="line">      (hook.__weh = <span class="function">(<span class="params">...args: unknown[]</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (target.isUnmounted) &#123;</span><br><span class="line">          <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//暂停依赖收集</span></span><br><span class="line">        pauseTracking()</span><br><span class="line">        <span class="comment">// 设置target为当前运行的组件实例</span></span><br><span class="line">        setCurrentInstance(target)</span><br><span class="line">        <span class="comment">// 执行钩子函数</span></span><br><span class="line">        <span class="keyword">const</span> res = callWithAsyncErrorHandling(hook, target, <span class="keyword">type</span>, args)</span><br><span class="line">        unsetCurrentInstance()</span><br><span class="line">        <span class="comment">// 恢复依赖收集</span></span><br><span class="line">        resetTracking()</span><br><span class="line">        <span class="keyword">return</span> res</span><br><span class="line">      &#125;)</span><br><span class="line">    <span class="keyword">if</span> (prepend) &#123;</span><br><span class="line">      hooks.unshift(wrappedHook)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      hooks.push(wrappedHook)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> wrappedHook</span><br><span class="line">  &#125; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="onBeforeMount-和-onMounted"><a href="#onBeforeMount-和-onMounted" class="headerlink" title="onBeforeMount 和 onMounted"></a>onBeforeMount 和 onMounted</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> setupRenderEffect: SetupRenderEffectFn = <span class="function">(<span class="params"></span></span></span><br><span class="line"><span class="params"><span class="function">    instance,</span></span></span><br><span class="line"><span class="params"><span class="function">    initialVNode,</span></span></span><br><span class="line"><span class="params"><span class="function">    container,</span></span></span><br><span class="line"><span class="params"><span class="function">    anchor,</span></span></span><br><span class="line"><span class="params"><span class="function">    parentSuspense,</span></span></span><br><span class="line"><span class="params"><span class="function">    isSVG,</span></span></span><br><span class="line"><span class="params"><span class="function">    optimized</span></span></span><br><span class="line"><span class="params"><span class="function">  </span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> componentUpdateFn = <span class="function">() =&gt;</span> &#123;</span><br><span class="line">      <span class="comment">//如果此时还没有挂载，就进行挂载</span></span><br><span class="line">      <span class="keyword">if</span> (!instance.isMounted) &#123;</span><br><span class="line">        <span class="keyword">let</span> vnodeHook: VNodeHook | <span class="literal">null</span> | <span class="literal">undefined</span></span><br><span class="line">        <span class="comment">// 获取组件实例上的onBeforeMount，和onMounted</span></span><br><span class="line">        <span class="keyword">const</span> &#123; el, props &#125; = initialVNode</span><br><span class="line">        <span class="keyword">const</span> &#123; bm, m, parent &#125; = instance</span><br><span class="line">        <span class="keyword">const</span> isAsyncWrapperVNode = isAsyncWrapper(initialVNode)</span><br><span class="line"></span><br><span class="line">        toggleRecurse(instance, <span class="literal">false</span>)</span><br><span class="line">        <span class="comment">// beforeMount hook</span></span><br><span class="line">        <span class="comment">//执行beforeMount钩子函数，此时数据ok，虚拟DOM ok，但是没有渲染成真实DOM</span></span><br><span class="line">        <span class="keyword">if</span> (bm) &#123;</span><br><span class="line">          invokeArrayFns(bm)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// onVnodeBeforeMount</span></span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">          !isAsyncWrapperVNode &amp;&amp;</span><br><span class="line">          (vnodeHook = props &amp;&amp; props.onVnodeBeforeMount)</span><br><span class="line">        ) &#123;</span><br><span class="line">          invokeVNodeHook(vnodeHook, parent, initialVNode)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">          __COMPAT__ &amp;&amp;</span><br><span class="line">          isCompatEnabled(DeprecationTypes.INSTANCE_EVENT_HOOKS, instance)</span><br><span class="line">        ) &#123;</span><br><span class="line">          instance.emit(<span class="string">&#x27;hook:beforeMount&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        toggleRecurse(instance, <span class="literal">true</span>)</span><br><span class="line">          <span class="comment">//。。。</span></span><br><span class="line">          <span class="comment">//patch函数生成了真实的DOM节点</span></span><br><span class="line">          patch(</span><br><span class="line">              <span class="literal">null</span>,</span><br><span class="line">              subTree,</span><br><span class="line">              container,</span><br><span class="line">              anchor,</span><br><span class="line">              instance,</span><br><span class="line">              parentSuspense,</span><br><span class="line">              isSVG</span><br><span class="line">          )</span><br><span class="line">          <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">              endMeasure(instance, <span class="string">`patch`</span>)</span><br><span class="line">          &#125;</span><br><span class="line">          initialVNode.el = subTree.el</span><br><span class="line">      &#125;</span><br><span class="line">        <span class="comment">// mounted hook</span></span><br><span class="line">        <span class="comment">//执行mounted钩子函数，此时数据ok，DOM ok</span></span><br><span class="line">        <span class="keyword">if</span> (m) &#123;</span><br><span class="line">            queuePostRenderEffect(m, parentSuspense)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// onVnodeMounted</span></span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            !isAsyncWrapperVNode &amp;&amp;</span><br><span class="line">            (vnodeHook = props &amp;&amp; props.onVnodeMounted)</span><br><span class="line">        ) &#123;</span><br><span class="line">            <span class="keyword">const</span> scopedInitialVNode = initialVNode</span><br><span class="line">            queuePostRenderEffect(</span><br><span class="line">                <span class="function">() =&gt;</span> invokeVNodeHook(vnodeHook!, parent, scopedInitialVNode),</span><br><span class="line">                parentSuspense</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            __COMPAT__ &amp;&amp;</span><br><span class="line">            isCompatEnabled(DeprecationTypes.INSTANCE_EVENT_HOOKS, instance)</span><br><span class="line">        ) &#123;</span><br><span class="line">            queuePostRenderEffect(</span><br><span class="line">                <span class="function">() =&gt;</span> instance.emit(<span class="string">&#x27;hook:mounted&#x27;</span>),</span><br><span class="line">                parentSuspense</span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">        instance.isMounted = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// #2458: deference mount-only object parameters to prevent memleaks</span></span><br><span class="line">        initialVNode = container = anchor = <span class="literal">null</span> <span class="keyword">as</span> <span class="built_in">any</span></span><br><span class="line">    &#125; </span><br></pre></td></tr></table></figure>
-
-<p>组件的挂载一共有两种情况，第一种是组件初始化第一次挂载，这个使用就要执行onBeforeMount 和 onMounted和一些初始化的逻辑，还有一种就是组件更新时的重新挂载，这个时候就不必进行其他初始化操作了，就走另一条逻辑进行patch。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/29/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1400,7 +1478,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
