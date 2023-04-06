@@ -186,6 +186,355 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/04/06/Vue%E4%B8%ADkeep-alive%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/06/Vue%E4%B8%ADkeep-alive%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6/" class="post-title-link" itemprop="url">Vue中keep-alive缓存组件</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-06 08:49:13 / 修改时间：09:34:54" itemprop="dateCreated datePublished" datetime="2023-04-06T08:49:13+08:00">2023-04-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue%E9%9D%A2%E8%AF%95/" itemprop="url" rel="index"><span itemprop="name">Vue面试</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/04/06/Vue%E4%B8%ADkeep-alive%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/04/06/Vue%E4%B8%ADkeep-alive%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vue中keep-alive缓存组件"><a href="#Vue中keep-alive缓存组件" class="headerlink" title="Vue中keep-alive缓存组件"></a>Vue中keep-alive缓存组件</h1><p>Vue中的<code>keep-alive</code>是用于保持组件存活的一个功能，因为在Vue中，当组件被切换成另一个的时候，这个旧组件会被销毁，如果不进行缓存，再次打开这个组件的时候就需要重复渲染。因此，对于需要频繁切换显示的组件可以使用<code>keep-alive</code>缓存组件</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p><code>keep-alive</code>类似于<code>router-view</code>是一个抽象组件，它本身不会渲染dom，只会保存它标签下的组件。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">keep-alive</span> <span class="attr">max</span>=<span class="string">&quot;5&quot;</span> <span class="attr">:include</span>=<span class="string">&quot;whiteList&quot;</span> <span class="attr">:exclude</span>=<span class="string">&quot;blackList&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">“personShow”</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">name</span>: <span class="string">&#x27;App&#x27;</span>,</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="title">data</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="javascript">          <span class="attr">whiteList</span>:[<span class="string">&#x27;styleLibrary&#x27;</span>,<span class="string">&#x27;OrderList&#x27;</span>,<span class="string">&#x27;SalesData&#x27;</span>],</span></span><br><span class="line"><span class="javascript">          <span class="attr">blackList</span>:[<span class="string">&#x27;Footer&#x27;</span>],</span></span><br><span class="line"><span class="javascript">          <span class="attr">personShow</span>:<span class="literal">false</span>,</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>&lt;keep-alive&gt;</code>标签特有的属性<code>include</code>以及<code>exclude</code>字段来进行，<code>include</code>表示需要缓存的页面，<code>exclude</code>表示不需要缓存的页面，可以看见我在<code>data</code>中注册了黑名单和白名单，<strong>切记是写上组件中注册的<code>name</code>属性，而不是路由中写的<code>name</code>属性。</strong>值得注意的是，当你同一个<code>name</code>的组件，既写在<code>exclude</code>，又写在<code>include</code>中，脚踏两只船时，<code>exclude</code>的权级比<code>include</code>要高，例如<code>a</code>组件脚踏两只船的时候，<code>a</code>组件是不会被缓存。</li>
+<li>通过设置<code>max</code>，可以控制可缓存组件的最大数，当缓存的数量达到最大时，采用<a href="https://link.juejin.cn/?target=https://baike.baidu.com/item/LRU/1269842?fr=aladdin">LRU算法</a>，将最近最久未使用的页面予以淘汰，再将新页面进行缓存</li>
+</ul>
+<h2 id="keep-alive的生命周期"><a href="#keep-alive的生命周期" class="headerlink" title="keep-alive的生命周期"></a>keep-alive的生命周期</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">created` &gt; `mounted` &gt; `activated` &gt; `deactivated</span><br></pre></td></tr></table></figure>
+
+<p>由于<code>keep-alive</code>会缓存当前的状态，所以对于<code>created</code>和<code>mounted</code>的生命周期只会触发一次，但是每次进入这个页面，都会触发<code>activated</code>生命周期，而且每次退出的时候会触发<code>deactivated</code>生命周期，而且我在<code>activated</code>生命周期中写了一个<code>alert(&#39;我来了&#39;)</code>,发现是先弹出提示，然后才是到相应的页面，也就是说执行顺序在路由跳转之前，<code>deactivated</code>同理，都是执行完了，再进行路由跳转。总结而言，比方说你的首页使用了<code>&lt;keep-alive&gt;</code>，那么，只有第一次到首页会触发<code>created</code>以及<code>mounted</code>，你后面无论再到首页多少次，都不会触发<code>created</code>以及<code>mounted</code>，除非你手动刷新，但是只要你到首页，无论第几次，进来都会触发<code>activated</code>，离开都会触发`deactivated</p>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/06/Vue%E4%B8%ADkeep-alive%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/04/05/%E6%B5%8F%E8%A7%88%E5%99%A8iframe%E5%88%9D%E6%8E%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/05/%E6%B5%8F%E8%A7%88%E5%99%A8iframe%E5%88%9D%E6%8E%A2/" class="post-title-link" itemprop="url">浏览器iframe初探</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2023-04-05 15:55:08" itemprop="dateCreated datePublished" datetime="2023-04-05T15:55:08+08:00">2023-04-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-06 08:45:07" itemprop="dateModified" datetime="2023-04-06T08:45:07+08:00">2023-04-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">浏览器</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/04/05/%E6%B5%8F%E8%A7%88%E5%99%A8iframe%E5%88%9D%E6%8E%A2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/04/05/%E6%B5%8F%E8%A7%88%E5%99%A8iframe%E5%88%9D%E6%8E%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="浏览器iframe初探"><a href="#浏览器iframe初探" class="headerlink" title="浏览器iframe初探"></a>浏览器iframe初探</h1><p>iframe是html5的一个标签，专门用来内嵌一个网页到dom中的，由于网站之间是相对独立的，因此iframe是由许多规则的。iframe是嵌入式框架, 是html标签, 还是一个内联元素， iframe 元素会创建包含另外一个文档的内联框架（即行内框架) ，说白了iframe用来在页面嵌入其他页面。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;demo_iframe_sandbox.htm&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="iframe常见属性"><a href="#iframe常见属性" class="headerlink" title="iframe常见属性"></a>iframe常见属性</h2><ul>
+<li><code>frameborder</code>是否显示边框，1(yes),0(no)</li>
+<li><code>height/width</code></li>
+<li><code>name</code>框架的名称，window.frames[name]时专用的属性。</li>
+<li><code>scrolling</code>框架的是否滚动。yes,no,auto</li>
+<li><code>src</code>内框架的地址，可以使页面地址，也可以是图片的地址</li>
+<li><code>sandbox</code>沙箱限制<ul>
+<li><code>allow-same-origin</code>允许将内容作为普通来源对待。</li>
+<li><code>allow-top-navigation</code>嵌入的页面的上下文可以导航（加载）内容到顶级的浏览上下文环境（browsing context）。</li>
+<li><code>allow-forms</code>允许表单提交。</li>
+<li><code>allow-script</code> 允许脚本执行。</li>
+</ul>
+</li>
+</ul>
+<h2 id="iframe的优缺点"><a href="#iframe的优缺点" class="headerlink" title="iframe的优缺点"></a>iframe的优缺点</h2><p>优点：</p>
+<ul>
+<li>页面和程序分离，几乎不会收到外界任何js或css影响</li>
+<li>可以通过iframe嵌套页面，提高代码复用率，比如页面的头部样式</li>
+<li>重新加载页面的时候，不需要重载iframe页内容</li>
+<li>iframe可以解决第三方内容加载缓慢</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>复杂度高，不宜管理</li>
+<li>iframe框架的内容无法被搜索引擎捕获, 所以iframe不适用于首页</li>
+<li>iframe兼容性较差</li>
+<li>iframe有一定的安全风险</li>
+<li>iframe会阻塞主页面的Onload事件</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/05/%E6%B5%8F%E8%A7%88%E5%99%A8iframe%E5%88%9D%E6%8E%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/04/05/vite%E4%B8%8Ewebpack%E6%AF%94%E8%BE%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/04/05/vite%E4%B8%8Ewebpack%E6%AF%94%E8%BE%83/" class="post-title-link" itemprop="url">vite与webpack比较</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-04-05 10:18:29 / 修改时间：10:44:26" itemprop="dateCreated datePublished" datetime="2023-04-05T10:18:29+08:00">2023-04-05</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/vite/" itemprop="url" rel="index"><span itemprop="name">vite</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/04/05/vite%E4%B8%8Ewebpack%E6%AF%94%E8%BE%83/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/04/05/vite%E4%B8%8Ewebpack%E6%AF%94%E8%BE%83/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="vite与webpack比较"><a href="#vite与webpack比较" class="headerlink" title="vite与webpack比较"></a>vite与webpack比较</h1><p>众所周知，vite和webpack是前端中比较流行的打包框架，它们之间各有特色，实现原理也不相同。这里探讨一下vite和webpack的区别到底有哪些，以及两者各自的优劣。</p>
+<h2 id="vite和webpack的区别"><a href="#vite和webpack的区别" class="headerlink" title="vite和webpack的区别"></a>vite和webpack的区别</h2><h4 id="打包过程"><a href="#打包过程" class="headerlink" title="打包过程"></a>打包过程</h4><ul>
+<li>wepack打包过程<ol>
+<li>识别入口文件</li>
+<li>通过递归方式遍历每一个依赖。生成虚拟语法树AST</li>
+<li>分析生成AST，编译代码，生成代码</li>
+<li>打包</li>
+</ol>
+</li>
+<li>vite打包过程<ol>
+<li>识别入口文件</li>
+<li>使用基于go语言的esbuild预构建依赖打包依赖文件</li>
+<li>启动webSocket服务器</li>
+<li>当浏览器需要资源的时候，发起get请求。vite劫持请求在服务器中整合需要的依赖进行返回</li>
+</ol>
+</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>webpack是预先将所有依赖以及源码先全部打包，使用的是基于JavaScript语言的打包器，然后启动静态服务器。在启动过程中比较缓慢。</li>
+<li>vite是将依赖通过基于go的esbuild预构建依赖，源码不做处理，等到浏览器解析到需要的JavaScript再发起请求获取资源，启动较快。</li>
+</ul>
+<h4 id="热更新过程"><a href="#热更新过程" class="headerlink" title="热更新过程"></a>热更新过程</h4><ul>
+<li>webpack热更新<ol>
+<li>在以前的webpack中，由于将所有的文件都做了预先打包，当文件发生更改的时候，就会出现某一部分的AST节点以及之后的节点可能全部失效的情况，这个时候webpack默认会重新打包一遍整个文件，开发体验较差。</li>
+<li>现在webpack可以支持热重载（HMR），只对其中某个更改的的模块进行热更新，其他模块不需要重复打包。当然，如果项目过大，这个方法仍然体验不好。</li>
+</ol>
+</li>
+<li>vite热更新<ol>
+<li>在 Vite 中，HMR 是在原生 ESM 上执行的。当编辑一个文件时，Vite 只需要精确地使已编辑的模块与其最近的 HMR 边界之间的链失效（大多数时候只需要模块本身），使 HMR 更新始终快速，无论应用的大小。</li>
+<li>Vite 同时利用 HTTP 头来加速整个页面的重新加载（再次让浏览器为我们做更多事情）：源码模块的请求会根据 304 Not Modified 进行协商缓存，而依赖模块请求则会通过 Cache-Control,immutable 进行强缓存，因此一旦被缓存它们将不需要再次请求。</li>
+</ol>
+</li>
+</ul>
+<h4 id="生态"><a href="#生态" class="headerlink" title="生态"></a>生态</h4>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/04/05/vite%E4%B8%8Ewebpack%E6%AF%94%E8%BE%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/04/03/http%E5%B8%B8%E8%A7%81%E8%AF%B7%E6%B1%82%E5%A4%B4%E5%92%8C%E5%93%8D%E5%BA%94%E5%A4%B4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -347,7 +696,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-04-03 17:53:23" itemprop="dateModified" datetime="2023-04-03T17:53:23+08:00">2023-04-03</time>
+                <time title="修改时间：2023-04-04 09:39:48" itemprop="dateModified" datetime="2023-04-04T09:39:48+08:00">2023-04-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -405,6 +754,7 @@
 <li>扩展：<code>filter: drop-shadow(5px 5px 10px black)</code>可以使用这个方式根据像素点来设置阴影</li>
 </ol>
 </li>
+<li></li>
 </ol>
 
           <!--noindex-->
@@ -1106,307 +1456,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/" class="post-title-link" itemprop="url">手写小顶堆</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-03-13 08:28:42 / 修改时间：08:49:16" itemprop="dateCreated datePublished" datetime="2023-03-13T08:28:42+08:00">2023-03-13</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="手写小顶堆"><a href="#手写小顶堆" class="headerlink" title="手写小顶堆"></a>手写小顶堆</h1><p>堆是一种常用的数据结构，它是一种树形结构，特点的树的每个节点都大于等于(大顶堆)或者小于等于(小顶堆)它的子节点。由于JavaScript没有堆结构，因此想要使用堆需要自己手动实现。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinHeap</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="comment">// 由于js没有树结构，使用数组模拟</span></span><br><span class="line">        <span class="built_in">this</span>.heap = []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">getNodeParent</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (i - <span class="number">1</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">getNodeLeft</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> i * <span class="number">2</span> + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">getNodeRight</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> i * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">swap</span>(<span class="params">i, j</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> temp = <span class="built_in">this</span>.heap[i]</span><br><span class="line">        <span class="built_in">this</span>.heap[i] = <span class="built_in">this</span>.heap[j]</span><br><span class="line">        <span class="built_in">this</span>.heap[j] = temp</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每次新增数据，要确定它的位置，需要把它置于树的最后一位，通过上浮的动作注意比较沿路节点，找到位置</span></span><br><span class="line">    <span class="function"><span class="title">flowUp</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (i === <span class="number">0</span>) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">let</span> parent = <span class="built_in">this</span>.getNodeParent(i)</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap[parent] &gt; <span class="built_in">this</span>.heap[i]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(parent, i)</span><br><span class="line">            <span class="built_in">this</span>.flowUp(parent)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">insert</span>(<span class="params">value</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.heap.push(value)</span><br><span class="line">        <span class="built_in">this</span>.flowUp(<span class="built_in">this</span>.heap.length - <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每次弹出顶部数据，现需要重新确定当前的最小值，将最后一个树放到头节点，通过下沉动作比较左右子节点，找到位置</span></span><br><span class="line">    <span class="function"><span class="title">diveDown</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> left = <span class="built_in">this</span>.getNodeLeft(i)</span><br><span class="line">        <span class="keyword">let</span> right = <span class="built_in">this</span>.getNodeRight(i)</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap[left] &lt; <span class="built_in">this</span>.heap[i]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(left, i)</span><br><span class="line">            <span class="built_in">this</span>.diveDown(left)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap[right] &lt; <span class="built_in">this</span>.heap[i]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(right, i)</span><br><span class="line">            <span class="built_in">this</span>.diveDown(right)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">pop</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> pop</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap.length === <span class="number">1</span>) &#123;</span><br><span class="line">            pop = <span class="built_in">this</span>.heap.pop()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pop = <span class="built_in">this</span>.heap[<span class="number">0</span>]</span><br><span class="line">            <span class="built_in">this</span>.heap[<span class="number">0</span>] = <span class="built_in">this</span>.heap.pop()</span><br><span class="line">            <span class="built_in">this</span>.diveDown(<span class="number">0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pop</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/07/15/ESM%E5%92%8CCommonJS/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/15/ESM%E5%92%8CCommonJS/" class="post-title-link" itemprop="url">ESM和CommonJS</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-07-15 15:56:30" itemprop="dateCreated datePublished" datetime="2022-07-15T15:56:30+08:00">2022-07-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-19 15:19:44" itemprop="dateModified" datetime="2023-03-19T15:19:44+08:00">2023-03-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/07/15/ESM%E5%92%8CCommonJS/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/07/15/ESM%E5%92%8CCommonJS/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="ESM和CommonJS"><a href="#ESM和CommonJS" class="headerlink" title="ESM和CommonJS"></a>ESM和CommonJS</h1><p>在JavaScript的发展历史中，出现了多种模块化规范，这是由于js项目过于庞大的话可以进行解耦合，从而让JavaScript项目更加规范化的目的。其中最为常见的就是node本身实现的CommonJS和es6标准的ES Modules两种规范。</p>
-<p>总结主要区别有：</p>
-<ol>
-<li>commonjs输出的是值的拷贝和esm输出的是值的引用</li>
-<li>commonjs是运行时加载属于同步加载，esm是编译时加载属于异步加载</li>
-<li>esm 存在 export/import 提升</li>
-</ol>
-<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h2><p>CommonJS是最常用的js模块化规范之一，也是nodejs支持的模块规范。其中最重要的概念是module对象和require函数。</p>
-<h3 id="module"><a href="#module" class="headerlink" title="module"></a>module</h3><p>module是一个对象，专门用于存储js输出的值。其中有三个属性</p>
-<ul>
-<li>exports：就是module.exports对应的值</li>
-<li>loaded：表示当前模块是否加载完成</li>
-<li>paths：node模块的加载路径</li>
-</ul>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.xxx = ‘a’</span><br><span class="line"><span class="keyword">const</span> obj = <span class="built_in">require</span>(./xxx.js)</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/07/15/ESM%E5%92%8CCommonJS/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/" class="post-title-link" itemprop="url">开发小工具02markdown批量转换</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-29 21:17:59 / 修改时间：21:41:45" itemprop="dateCreated datePublished" datetime="2022-06-29T21:17:59+08:00">2022-06-29</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="开发小工具02electron-todolist"><a href="#开发小工具02electron-todolist" class="headerlink" title="开发小工具02electron-todolist"></a>开发小工具02electron-todolist</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在网上冲浪的时候发现一个框架electron，可以用web去写桌面应用，正好我有个需求就是做一个可以常驻桌面的todolist，加计时器。这个技术需求就刚刚好。</p>
-<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><ol>
-<li>electron的原理就是把一个浏览器加web项目打包成二进制执行文件exe，我是这么理解的</li>
-<li>初步计划是使用Vite+Vue3+electron的方式做</li>
-<li>todolist的开发就是很常规的那种，就是注意一下布局去适应桌面</li>
-</ol>
-<h2 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h2><ol>
-<li>套壳运行的时候很多坑，首先就是Vite打包问题，他并不是在本地跑一个web服务器，而是在本地直接运行项目，所以Vite打包不能打包成相对地址，而要打包成为绝对地址</li>
-<li>套壳在main.js处做系统级的处理，比如所给主窗口的入口文件（index.html），一些开发工具，调试工具等。在这里把项目的默认边框去除，定长宽和背景设置。</li>
-<li>而且打包后的文件有点大，一个todolist就快200m了。。。不敢相信VScode是怎么写的。</li>
-</ol>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1478,7 +1527,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

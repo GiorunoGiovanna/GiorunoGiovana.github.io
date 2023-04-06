@@ -186,6 +186,309 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">SSL/TLS原理</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-02 09:38:47 / 修改时间：10:29:45" itemprop="dateCreated datePublished" datetime="2022-06-02T09:38:47+08:00">2022-06-02</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL/TLS原理"></a>SSL/TLS原理</h1><p>使用SSL/TLS加密的HTTP协议HTTPS是时下最流行的网页加密技术。主要任务是提供<strong>私密性，信息完整性和身份认证</strong>。SSL是一个不依赖于平台和运用程序的协议，位于TCP/IP协议与各种应用层协议之间，为数据通信提高安全支持。</p>
+<h2 id="SSL-TLS位置"><a href="#SSL-TLS位置" class="headerlink" title="SSL/TLS位置"></a>SSL/TLS位置</h2><p>SSL/TLS是位于应用层和TCP层之间的协议，一旦启用SSL/TLS协议，数据就先传递给SSL/TLS层再传递给TCP层。</p>
+<table>
+<thead>
+<tr>
+<th align="center">HTTP/FTP（应用层）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">SSL/TLS（加密协议）</td>
+</tr>
+<tr>
+<td align="center">TCP（传输层）</td>
+</tr>
+</tbody></table>
+<h2 id="前置知识："><a href="#前置知识：" class="headerlink" title="前置知识："></a>前置知识：</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>对称加密就是加密方和解密方都使用同一个密钥进行加密/解密。这种方法比较简单，性能也比较好，但是缺点就是密钥不能泄露，一旦泄露对话就不安全了。SSL/TLS的最终目的就是安全的在网络中发送对称加密密钥。</p>
+<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>非对称加密就是加密方和解密方使用不同密钥。通常有一个密钥称为公钥，就是公布到网络中，任何人都可以访问，还有一个私钥。这种方式性能不如对称加密，但是更安全，可以用来安全交换对称加密密钥。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/" class="post-title-link" itemprop="url">力扣前端页面抖动bug</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-26 10:38:34 / 修改时间：20:01:31" itemprop="dateCreated datePublished" datetime="2022-05-26T10:38:34+08:00">2022-05-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="力扣页面捉虫"><a href="#力扣页面捉虫" class="headerlink" title="力扣页面捉虫"></a>力扣页面捉虫</h1><p>作为一个菜鸟大三，今天在力扣上面看面经，结果给我发现一个无伤大雅的小bug。当我在看讨论区大佬的面经的时候，正想着给大佬点一个赞，结果发现我无论如何也看不清点赞按钮，难道是我学得太过深入导致眼花了？揉了揉眼睛，发现事情并没有那么简单。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E5%8A%A8%E7%94%BB.gif" alt="动画"></p>
+<p>我们把页面滑动到帖子结束，讨论区开始的地方，经过细微的调试，就能复现这个bug。</p>
+<p>我定着这个抖动的框陷入了沉思，作为一个合格的菜鸟，我第一时间就按下了f12，选中了这个节点。果然class在疯狂的变换。我又换了火狐浏览器，发现bug依旧。如果不是浏览器的问题，那就是代码本身有问题吗？</p>
+<h2 id="分析bug原理"><a href="#分析bug原理" class="headerlink" title="分析bug原理"></a>分析bug原理</h2><p>首先，在页面处于这个帖子本身的时候，也就是高于这个点赞评论框的时候，这个框是吸附在浏览器窗口底部的。<img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E6%88%AA%E5%9B%BE1.png" alt="截图1"></p>
+<p>其次，当页面处于这个帖子的评论区的时候，也就是低于点赞评论框，这个点赞评论框就是位于帖子底部的。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E6%88%AA%E5%9B%BE2.png" alt="截图2"></p>
+<p>那么我们滑动窗口的时候，在某个时刻，就触发了样式的改变，所以很可能是使用了DOM监听器去监听帖子底部到页面顶端的距离，去判断这个框是吸附在底部还是正常表现。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/26/electron%E5%88%9D%E6%8E%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/26/electron%E5%88%9D%E6%8E%A2/" class="post-title-link" itemprop="url">electron初探</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-05-26 10:24:28 / 修改时间：10:37:20" itemprop="dateCreated datePublished" datetime="2022-05-26T10:24:28+08:00">2022-05-26</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/26/electron%E5%88%9D%E6%8E%A2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/electron%E5%88%9D%E6%8E%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="electron初探"><a href="#electron初探" class="headerlink" title="electron初探"></a>electron初探</h1><p>在冲浪的时候无意间看到的一个框架，据说能把web端应用编译成win、linux、mac端桌面应用，大名鼎鼎的vscode也是基于这个框架的。牛。</p>
+<p>于是小试一下，结果发现还是有一点坑，</p>
+<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>这篇博客已经说明了大部分配置。<a target="_blank" rel="noopener" href="https://blog.csdn.net/gesila2/article/details/121215230">https://blog.csdn.net/gesila2/article/details/121215230</a></p>
+<p>我再说明我遇到的问题，</p>
+<ol>
+<li><p>路由配置：electron不支持history路由模式，只能使用hash路由模式</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//electron配置</span></span><br><span class="line"><span class="attr">history</span>: createWebHashHistory(process.env.BASE_URL ? process.env.BASE_URL : <span class="literal">null</span>)</span><br></pre></td></tr></table></figure></li>
+<li><p>文件地址配置：electron与web应用的区别是，它不依靠服务器运行，所以文件索引地址应该是绝对地址文件，而不是web服务器中的相对地址。</p>
+</li>
+<li><p>关于依赖：electron只认生产环境依赖<code>devDependencies</code>，所以要把依赖放到生产环境依赖中</p>
+</li>
+</ol>
+<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>打包后的体积有一点大，我只不过是一个小小demo就189mb了。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/26/electron%E5%88%9D%E6%8E%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/24/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B007watcher/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -918,321 +1221,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" class="post-title-link" itemprop="url">React学习笔记01JSX基本语法</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-18 16:20:18 / 修改时间：16:25:55" itemprop="dateCreated datePublished" datetime="2022-05-18T16:20:18+08:00">2022-05-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="React"><a href="#React" class="headerlink" title="React"></a>React</h1><p>在React中运用了一种特殊的语法叫做JSX（JavaScript+XML），是一个看起来很像XML的JavaScript语法扩展。在React中可以选择JSX或者JavaScript语法进行编写，但是多数人推荐使用JSX。</p>
-<p>JSX跟XML很像，但还是有所不同，下面介绍一些简单的JSX语法规则。</p>
-<ol>
-<li>定义虚拟DOM的时候不要写引号，这不是个字符串</li>
-<li>标签中引入js表达式的时候要用<code>&#123;&#125;</code></li>
-<li>样式类名指定不要用class，因为在ES6中class被保留位创建类的关键字</li>
-<li>内联样式要用<code>style=&#123;&#123;key:value&#125;&#125;</code>的形式去写</li>
-<li>根标签只能有一个</li>
-<li>标签首字母<ul>
-<li>如果小写字母开头，则react转化位html</li>
-<li>如果大写开头，则转化为react组件</li>
-</ul>
-</li>
-</ol>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//1.创建虚拟DOM</span><br><span class="line">const VDOM = (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h2 className=&quot;title&quot; id=&#123;myId.toLowerCase()&#125;&gt;</span><br><span class="line">            &lt;span style=&#123;&#123; color: &#x27;white&#x27;, fontSize: &#x27;30px&#x27; &#125;&#125;&gt;&#123;myContext.toLowerCase()&#125;&lt;/span&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">        &lt;h2 className=&quot;title&quot; id=&#123;myId.toUpperCase()&#125;&gt;</span><br><span class="line">            &lt;span style=&#123;&#123; color: &#x27;white&#x27;, fontSize: &#x27;30px&#x27; &#125;&#125;&gt;&#123;myContext.toLowerCase()&#125;&lt;/span&gt;</span><br><span class="line">        &lt;/h2&gt;</span><br><span class="line">        &lt;input type=&quot;text&quot; name=&quot;&quot; id=&quot;&quot; /&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">)</span><br><span class="line">// 2.渲染虚拟DOM到页面</span><br><span class="line">ReactDOM.render(VDOM, document.getElementById(&#x27;test&#x27;))</span><br></pre></td></tr></table></figure>
-
-<h2 id="JSX小练习：使用JSX遍历一个动态表格"><a href="#JSX小练习：使用JSX遍历一个动态表格" class="headerlink" title="JSX小练习：使用JSX遍历一个动态表格"></a>JSX小练习：使用JSX遍历一个动态表格</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;!-- 准备好一个容器 --&gt;</span><br><span class="line">    &lt;div id=&quot;test&quot;&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- 引入react核心库 --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/react.development.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 引入react-dom,用于支持react操作DOM --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/react-dom.development.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;!-- 引入babel，用于将jsx转为js --&gt;</span><br><span class="line">    &lt;script type=&quot;text/javascript&quot; src=&quot;../js/babel.min.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script type=&quot;text/babel&quot;&gt;</span><br><span class="line">    const arr = [&#x27;Vue&#x27;, &#x27;React&#x27;, &#x27;Angular&#x27;]</span><br><span class="line">    //1.创建虚拟DOM</span><br><span class="line">    const VDOM = (</span><br><span class="line">    &lt;div&gt;</span><br><span class="line">        &lt;h1&gt;框架列表&lt;/h1&gt;</span><br><span class="line">        &lt;ul&gt;</span><br><span class="line">            &#123;arr.map((m, i) =&gt; &lt;li key=&#123;i&#125;&gt;&#123;m&#125;&lt;/li&gt;)&#125;</span><br><span class="line">        &lt;/ul&gt;</span><br><span class="line">    &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">    // 2.渲染虚拟DOM到页面</span><br><span class="line">    ReactDOM.render(VDOM, document.getElementById(&#x27;test&#x27;))</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001JSX%E5%9F%BA%E6%9C%AC%E8%AF%AD%E6%B3%95/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/" class="post-title-link" itemprop="url">React学习笔记02State</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-18 14:53:20 / 修改时间：15:09:25" itemprop="dateCreated datePublished" datetime="2022-05-18T14:53:20+08:00">2022-05-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="React组件三大核心属性之State"><a href="#React组件三大核心属性之State" class="headerlink" title="React组件三大核心属性之State"></a>React组件三大核心属性之State</h1><p>state是组件对象中最重要的属性，值是一个对象（可以包含多个key-value的组合）。组件被称为状态机，通过更新组件的state来更新对应的页面显示（重新渲染组件）</p>
-<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>我们需要使用类式创建组件，这样才能给组件初始化状态。</p>
-<ol>
-<li><p>在构造器上挂载state，标准格式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">constructor(props) &#123;</span><br><span class="line">    super(props)</span><br><span class="line">    this.state = &#123;</span><br><span class="line">        isHot: false,</span><br><span class="line">        isWind: false</span><br><span class="line">    &#125;</span><br><span class="line">    this.changeState = this.changeState.bind(this)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>简写格式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"> state = &#123; isHot: true, isWind: false &#125;</span><br><span class="line">//原理，直接使用变量会默认创建挂载在类上的静态属性</span><br></pre></td></tr></table></figure></li>
-<li><p>定义render函数，返回一个jsx格式的类XML代码，作为模板代码，在render函数中的this指向组件实例对象</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">render() &#123;</span><br><span class="line">    const &#123; isHot, isWind &#125; = this.state</span><br><span class="line">    return (</span><br><span class="line">        &lt;div onClick=&#123;this.changeState&#125;&gt;</span><br><span class="line">            今天天气&#123;isHot ? &#x27;炎热&#x27; : &#x27;凉爽&#x27;&#125;,&#123;isWind ? &#x27;有风&#x27; : &#x27;无风&#x27;&#125;</span><br><span class="line">        &lt;/div&gt;</span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>添加方法，标准格式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">//直接挂载在类的原型链上，注意，这种方法在实例中调用的时候会导致this的丢失，需要在构造器中绑定this</span><br><span class="line">changeState() &#123;</span><br><span class="line">    //注意！！！状态不可以直接更改！！</span><br><span class="line">    // this.state.isHot = !this.state.isHot</span><br><span class="line">    const isHot = this.state.isHot</span><br><span class="line">    //状态必须通过setState进行更改，并且更改是只更改选中项的</span><br><span class="line">    this.setState(&#123; isHot: !isHot &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>简写格式</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">//原理，利用箭头函数的this在定义的时候就已经绑定了</span><br><span class="line">changeState = () =&gt; &#123;</span><br><span class="line">    const isHot = this.state.isHot</span><br><span class="line">    this.setState(&#123; isHot: !isHot &#125;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-<h2 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h2><p><strong>在react中不允许直接修改状态，需要使用一个在react实例原型上的方法<code>setState</code>去间接修改变量。</strong></p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002State/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" class="post-title-link" itemprop="url">Vite学习笔记02底层原理手写</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-16 10:18:43" itemprop="dateCreated datePublished" datetime="2022-05-16T10:18:43+08:00">2022-05-16</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vite/" itemprop="url" rel="index"><span itemprop="name">vite</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vite底层原理手写"><a href="#Vite底层原理手写" class="headerlink" title="Vite底层原理手写"></a>Vite底层原理手写</h1><p>通过对<code>vite</code>底层原理的解析，我们可以发现<code>vite</code>其实是运行在一个服务器上的，浏览器解析入口<code>html</code>的时候遇到了依赖就会发起请求，<code>vite</code>进行回应。循环往复直到依赖全部加载完成。</p>
-<h2 id="建立web服务，返回宿主页"><a href="#建立web服务，返回宿主页" class="headerlink" title="建立web服务，返回宿主页"></a>建立web服务，返回宿主页</h2><p>这里使用express为例子进行web服务器的搭建</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> app = express()</span><br><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>)</span><br><span class="line"></span><br><span class="line">app.use(<span class="function">(<span class="params">req, res</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//组合拼接出请求文件的绝对地址</span></span><br><span class="line">    <span class="keyword">const</span> url = req.url</span><br><span class="line">    <span class="keyword">if</span> (url === <span class="string">&#x27;/&#x27;</span>) &#123;</span><br><span class="line">        <span class="comment">//如果是默认请求，则返回宿主页面</span></span><br><span class="line">        <span class="keyword">let</span> body = fs.readFileSync(path.join(__dirname, <span class="string">&#x27;./index.html&#x27;</span>), <span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        res.send(body)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">app.listen(<span class="number">8081</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;http server running at http://127.0.0.1:8081&#x27;</span>)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h2 id="JS路径加载"><a href="#JS路径加载" class="headerlink" title="JS路径加载"></a>JS路径加载</h2><p>浏览器解析<code>html</code>到<code>script</code>标签的时候就会重新发起<code>url</code>请求，这个时候我们的<code>web</code>服务器就要返回对应的<code>js</code>文件。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (url.endsWith(<span class="string">&#x27;js&#x27;</span>)) &#123;</span><br><span class="line">    <span class="comment">// js文件加载处理</span></span><br><span class="line">    <span class="keyword">const</span> p = path.join(__dirname, url)</span><br><span class="line">    <span class="comment">//解析是否有裸模块加载</span></span><br><span class="line">    <span class="keyword">let</span> body = rewoteImport(fs.readFileSync(p, <span class="string">&#x27;utf-8&#x27;</span>))</span><br><span class="line">    <span class="comment">//设置响应头</span></span><br><span class="line">    res.setHeader(<span class="string">&quot;Content-Type&quot;</span>, <span class="string">&quot;application/javascript;charset=utf-8&quot;</span>)</span><br><span class="line">    res.send(body)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="裸模块加载"><a href="#裸模块加载" class="headerlink" title="裸模块加载"></a>裸模块加载</h2><p>在我们的项目中存在一些第三方的依赖，它们的引入不是通过相对路径，而是裸模块的方式，就是</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/16/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1304,7 +1292,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

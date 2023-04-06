@@ -5649,9 +5649,6 @@
 <li><p><strong>频繁使用eventbus的后果</strong></p>
 <p>$on事件是不会自动销毁的，需要我们手动销毁，如果我们一直触发又不进行销毁，就会造成内存泄露。</p>
 </li>
-<li><p><strong>keep-alive解释</strong></p>
-<p>keep-alive是Vue中内置的组件，用来缓存不活动动态组件的。</p>
-</li>
 <li><p><strong>Vue设置全局变量和全局函数</strong></p>
 <ol>
 <li><p>使用export default/module.exports</p>
@@ -6812,6 +6809,7 @@
 <li>扩展：<code>filter: drop-shadow(5px 5px 10px black)</code>可以使用这个方式根据像素点来设置阴影</li>
 </ol>
 </li>
+<li></li>
 </ol>
 ]]></content>
       <categories>
@@ -6868,6 +6866,139 @@
 ]]></content>
       <categories>
         <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vue中keep-alive缓存组件</title>
+    <url>/2023/04/06/Vue%E4%B8%ADkeep-alive%E7%BC%93%E5%AD%98%E7%BB%84%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="Vue中keep-alive缓存组件"><a href="#Vue中keep-alive缓存组件" class="headerlink" title="Vue中keep-alive缓存组件"></a>Vue中keep-alive缓存组件</h1><p>Vue中的<code>keep-alive</code>是用于保持组件存活的一个功能，因为在Vue中，当组件被切换成另一个的时候，这个旧组件会被销毁，如果不进行缓存，再次打开这个组件的时候就需要重复渲染。因此，对于需要频繁切换显示的组件可以使用<code>keep-alive</code>缓存组件</p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p><code>keep-alive</code>类似于<code>router-view</code>是一个抽象组件，它本身不会渲染dom，只会保存它标签下的组件。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">keep-alive</span> <span class="attr">max</span>=<span class="string">&quot;5&quot;</span> <span class="attr">:include</span>=<span class="string">&quot;whiteList&quot;</span> <span class="attr">:exclude</span>=<span class="string">&quot;blackList&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">router-view</span> <span class="attr">v-if</span>=<span class="string">“personShow”</span>&gt;</span><span class="tag">&lt;/<span class="name">router-view</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">keep-alive</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">name</span>: <span class="string">&#x27;App&#x27;</span>,</span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="title">data</span>(<span class="params"></span>)</span>&#123;</span></span><br><span class="line"><span class="javascript">      <span class="keyword">return</span>&#123;</span></span><br><span class="line"><span class="javascript">          <span class="attr">whiteList</span>:[<span class="string">&#x27;styleLibrary&#x27;</span>,<span class="string">&#x27;OrderList&#x27;</span>,<span class="string">&#x27;SalesData&#x27;</span>],</span></span><br><span class="line"><span class="javascript">          <span class="attr">blackList</span>:[<span class="string">&#x27;Footer&#x27;</span>],</span></span><br><span class="line"><span class="javascript">          <span class="attr">personShow</span>:<span class="literal">false</span>,</span></span><br><span class="line"><span class="javascript">      &#125;</span></span><br><span class="line"><span class="javascript">    &#125;,</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>&lt;keep-alive&gt;</code>标签特有的属性<code>include</code>以及<code>exclude</code>字段来进行，<code>include</code>表示需要缓存的页面，<code>exclude</code>表示不需要缓存的页面，可以看见我在<code>data</code>中注册了黑名单和白名单，<strong>切记是写上组件中注册的<code>name</code>属性，而不是路由中写的<code>name</code>属性。</strong>值得注意的是，当你同一个<code>name</code>的组件，既写在<code>exclude</code>，又写在<code>include</code>中，脚踏两只船时，<code>exclude</code>的权级比<code>include</code>要高，例如<code>a</code>组件脚踏两只船的时候，<code>a</code>组件是不会被缓存。</li>
+<li>通过设置<code>max</code>，可以控制可缓存组件的最大数，当缓存的数量达到最大时，采用<a href="https://link.juejin.cn/?target=https://baike.baidu.com/item/LRU/1269842?fr=aladdin">LRU算法</a>，将最近最久未使用的页面予以淘汰，再将新页面进行缓存</li>
+</ul>
+<h2 id="keep-alive的生命周期"><a href="#keep-alive的生命周期" class="headerlink" title="keep-alive的生命周期"></a>keep-alive的生命周期</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">created` &gt; `mounted` &gt; `activated` &gt; `deactivated</span><br></pre></td></tr></table></figure>
+
+<p>由于<code>keep-alive</code>会缓存当前的状态，所以对于<code>created</code>和<code>mounted</code>的生命周期只会触发一次，但是每次进入这个页面，都会触发<code>activated</code>生命周期，而且每次退出的时候会触发<code>deactivated</code>生命周期，而且我在<code>activated</code>生命周期中写了一个<code>alert(&#39;我来了&#39;)</code>,发现是先弹出提示，然后才是到相应的页面，也就是说执行顺序在路由跳转之前，<code>deactivated</code>同理，都是执行完了，再进行路由跳转。总结而言，比方说你的首页使用了<code>&lt;keep-alive&gt;</code>，那么，只有第一次到首页会触发<code>created</code>以及<code>mounted</code>，你后面无论再到首页多少次，都不会触发<code>created</code>以及<code>mounted</code>，除非你手动刷新，但是只要你到首页，无论第几次，进来都会触发<code>activated</code>，离开都会触发`deactivated</p>
+]]></content>
+      <categories>
+        <category>Vue面试</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>vite与webpack比较</title>
+    <url>/2023/04/05/vite%E4%B8%8Ewebpack%E6%AF%94%E8%BE%83/</url>
+    <content><![CDATA[<h1 id="vite与webpack比较"><a href="#vite与webpack比较" class="headerlink" title="vite与webpack比较"></a>vite与webpack比较</h1><p>众所周知，vite和webpack是前端中比较流行的打包框架，它们之间各有特色，实现原理也不相同。这里探讨一下vite和webpack的区别到底有哪些，以及两者各自的优劣。</p>
+<h2 id="vite和webpack的区别"><a href="#vite和webpack的区别" class="headerlink" title="vite和webpack的区别"></a>vite和webpack的区别</h2><h4 id="打包过程"><a href="#打包过程" class="headerlink" title="打包过程"></a>打包过程</h4><ul>
+<li>wepack打包过程<ol>
+<li>识别入口文件</li>
+<li>通过递归方式遍历每一个依赖。生成虚拟语法树AST</li>
+<li>分析生成AST，编译代码，生成代码</li>
+<li>打包</li>
+</ol>
+</li>
+<li>vite打包过程<ol>
+<li>识别入口文件</li>
+<li>使用基于go语言的esbuild预构建依赖打包依赖文件</li>
+<li>启动webSocket服务器</li>
+<li>当浏览器需要资源的时候，发起get请求。vite劫持请求在服务器中整合需要的依赖进行返回</li>
+</ol>
+</li>
+</ul>
+<p>区别：</p>
+<ul>
+<li>webpack是预先将所有依赖以及源码先全部打包，使用的是基于JavaScript语言的打包器，然后启动静态服务器。在启动过程中比较缓慢。</li>
+<li>vite是将依赖通过基于go的esbuild预构建依赖，源码不做处理，等到浏览器解析到需要的JavaScript再发起请求获取资源，启动较快。</li>
+</ul>
+<h4 id="热更新过程"><a href="#热更新过程" class="headerlink" title="热更新过程"></a>热更新过程</h4><ul>
+<li>webpack热更新<ol>
+<li>在以前的webpack中，由于将所有的文件都做了预先打包，当文件发生更改的时候，就会出现某一部分的AST节点以及之后的节点可能全部失效的情况，这个时候webpack默认会重新打包一遍整个文件，开发体验较差。</li>
+<li>现在webpack可以支持热重载（HMR），只对其中某个更改的的模块进行热更新，其他模块不需要重复打包。当然，如果项目过大，这个方法仍然体验不好。</li>
+</ol>
+</li>
+<li>vite热更新<ol>
+<li>在 Vite 中，HMR 是在原生 ESM 上执行的。当编辑一个文件时，Vite 只需要精确地使已编辑的模块与其最近的 HMR 边界之间的链失效（大多数时候只需要模块本身），使 HMR 更新始终快速，无论应用的大小。</li>
+<li>Vite 同时利用 HTTP 头来加速整个页面的重新加载（再次让浏览器为我们做更多事情）：源码模块的请求会根据 304 Not Modified 进行协商缓存，而依赖模块请求则会通过 Cache-Control,immutable 进行强缓存，因此一旦被缓存它们将不需要再次请求。</li>
+</ol>
+</li>
+</ul>
+<h4 id="生态"><a href="#生态" class="headerlink" title="生态"></a>生态</h4><ul>
+<li><p>webpack生态</p>
+<p>作为一个元老级打包框架，webpack庞大的loader和plugin生态及其丰富。</p>
+</li>
+<li><p>vite生态</p>
+<p>vite是一个相对年轻的打包框架，在生态方面还远不如webpack</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>vite</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>浏览器iframe初探</title>
+    <url>/2023/04/05/%E6%B5%8F%E8%A7%88%E5%99%A8iframe%E5%88%9D%E6%8E%A2/</url>
+    <content><![CDATA[<h1 id="浏览器iframe初探"><a href="#浏览器iframe初探" class="headerlink" title="浏览器iframe初探"></a>浏览器iframe初探</h1><p>iframe是html5的一个标签，专门用来内嵌一个网页到dom中的，由于网站之间是相对独立的，因此iframe是由许多规则的。iframe是嵌入式框架, 是html标签, 还是一个内联元素， iframe 元素会创建包含另外一个文档的内联框架（即行内框架) ，说白了iframe用来在页面嵌入其他页面。</p>
+<figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">src</span>=<span class="string">&quot;demo_iframe_sandbox.htm&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="iframe常见属性"><a href="#iframe常见属性" class="headerlink" title="iframe常见属性"></a>iframe常见属性</h2><ul>
+<li><code>frameborder</code>是否显示边框，1(yes),0(no)</li>
+<li><code>height/width</code></li>
+<li><code>name</code>框架的名称，window.frames[name]时专用的属性。</li>
+<li><code>scrolling</code>框架的是否滚动。yes,no,auto</li>
+<li><code>src</code>内框架的地址，可以使页面地址，也可以是图片的地址</li>
+<li><code>sandbox</code>沙箱限制<ul>
+<li><code>allow-same-origin</code>允许将内容作为普通来源对待。</li>
+<li><code>allow-top-navigation</code>嵌入的页面的上下文可以导航（加载）内容到顶级的浏览上下文环境（browsing context）。</li>
+<li><code>allow-forms</code>允许表单提交。</li>
+<li><code>allow-script</code> 允许脚本执行。</li>
+</ul>
+</li>
+</ul>
+<h2 id="iframe的优缺点"><a href="#iframe的优缺点" class="headerlink" title="iframe的优缺点"></a>iframe的优缺点</h2><p>优点：</p>
+<ul>
+<li>页面和程序分离，几乎不会收到外界任何js或css影响</li>
+<li>可以通过iframe嵌套页面，提高代码复用率，比如页面的头部样式</li>
+<li>重新加载页面的时候，不需要重载iframe页内容</li>
+<li>iframe可以解决第三方内容加载缓慢</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>复杂度高，不宜管理</li>
+<li>iframe框架的内容无法被搜索引擎捕获, 所以iframe不适用于首页</li>
+<li>iframe兼容性较差</li>
+<li>iframe有一定的安全风险</li>
+<li>iframe会阻塞主页面的Onload事件</li>
+</ul>
+<h2 id="iframe同域与跨域"><a href="#iframe同域与跨域" class="headerlink" title="iframe同域与跨域"></a>iframe同域与跨域</h2><ul>
+<li>当主页面与内嵌页面是同域时，父页面可以对子页面进行改动，反之亦然</li>
+<li>当主页面与内嵌页面不同域时，父页面没有权限改动子页面，只可以进行页面的跳转</li>
+</ul>
+<h2 id="获取iframe内的内容"><a href="#获取iframe内的内容" class="headerlink" title="获取iframe内的内容"></a>获取iframe内的内容</h2><ul>
+<li><p>结合Name属性，通过window提供的frames获取</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">console.log(window.frames[&#x27;ifr1&#x27;].window)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="iframe获取主页面的内容"><a href="#iframe获取主页面的内容" class="headerlink" title="iframe获取主页面的内容"></a>iframe获取主页面的内容</h2><p>如果<strong>iframe与主页面同域</strong>，可以获取主页面的内容</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="built_in">window</span>.parent <span class="comment">//获取上一级的window对象，如果还是iframe则是该iframe的window对象</span></span><br><span class="line"><span class="built_in">window</span>.top <span class="comment">//获取最顶级容器的window对象，即，就是你打开页面的文档</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="主页面为https协议，iframe为http协议，能正常打开吗"><a href="#主页面为https协议，iframe为http协议，能正常打开吗" class="headerlink" title="主页面为https协议，iframe为http协议，能正常打开吗"></a>主页面为https协议，iframe为http协议，能正常打开吗</h2><p>不能，会导致一下错误</p>
+<blockquote>
+<p>Mixed Content: The page at ‘<a href="https://link.juejin.cn/?target=https://www.a.com">www.a.com</a>‘ was loaded over HTTPS, but requested an insecure frame ‘<a href="https://link.juejin.cn/?target=http://www.b.com">www.b.com</a>‘. This request has been blocked; the content must be served over HTTPS.</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>浏览器</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>

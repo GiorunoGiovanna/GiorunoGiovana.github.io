@@ -186,6 +186,307 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/" class="post-title-link" itemprop="url">手写小顶堆</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-03-13 08:28:42 / 修改时间：08:49:16" itemprop="dateCreated datePublished" datetime="2023-03-13T08:28:42+08:00">2023-03-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写小顶堆"><a href="#手写小顶堆" class="headerlink" title="手写小顶堆"></a>手写小顶堆</h1><p>堆是一种常用的数据结构，它是一种树形结构，特点的树的每个节点都大于等于(大顶堆)或者小于等于(小顶堆)它的子节点。由于JavaScript没有堆结构，因此想要使用堆需要自己手动实现。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MinHeap</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="comment">// 由于js没有树结构，使用数组模拟</span></span><br><span class="line">        <span class="built_in">this</span>.heap = []</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">getNodeParent</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> (i - <span class="number">1</span>) &gt;&gt; <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">getNodeLeft</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> i * <span class="number">2</span> + <span class="number">1</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">getNodeRight</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> i * <span class="number">2</span> + <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">swap</span>(<span class="params">i, j</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> temp = <span class="built_in">this</span>.heap[i]</span><br><span class="line">        <span class="built_in">this</span>.heap[i] = <span class="built_in">this</span>.heap[j]</span><br><span class="line">        <span class="built_in">this</span>.heap[j] = temp</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每次新增数据，要确定它的位置，需要把它置于树的最后一位，通过上浮的动作注意比较沿路节点，找到位置</span></span><br><span class="line">    <span class="function"><span class="title">flowUp</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (i === <span class="number">0</span>) <span class="keyword">return</span></span><br><span class="line">        <span class="keyword">let</span> parent = <span class="built_in">this</span>.getNodeParent(i)</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap[parent] &gt; <span class="built_in">this</span>.heap[i]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(parent, i)</span><br><span class="line">            <span class="built_in">this</span>.flowUp(parent)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">insert</span>(<span class="params">value</span>)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.heap.push(value)</span><br><span class="line">        <span class="built_in">this</span>.flowUp(<span class="built_in">this</span>.heap.length - <span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">// 每次弹出顶部数据，现需要重新确定当前的最小值，将最后一个树放到头节点，通过下沉动作比较左右子节点，找到位置</span></span><br><span class="line">    <span class="function"><span class="title">diveDown</span>(<span class="params">i</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> left = <span class="built_in">this</span>.getNodeLeft(i)</span><br><span class="line">        <span class="keyword">let</span> right = <span class="built_in">this</span>.getNodeRight(i)</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap[left] &lt; <span class="built_in">this</span>.heap[i]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(left, i)</span><br><span class="line">            <span class="built_in">this</span>.diveDown(left)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap[right] &lt; <span class="built_in">this</span>.heap[i]) &#123;</span><br><span class="line">            <span class="built_in">this</span>.swap(right, i)</span><br><span class="line">            <span class="built_in">this</span>.diveDown(right)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="title">pop</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> pop</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.heap.length === <span class="number">1</span>) &#123;</span><br><span class="line">            pop = <span class="built_in">this</span>.heap.pop()</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            pop = <span class="built_in">this</span>.heap[<span class="number">0</span>]</span><br><span class="line">            <span class="built_in">this</span>.heap[<span class="number">0</span>] = <span class="built_in">this</span>.heap.pop()</span><br><span class="line">            <span class="built_in">this</span>.diveDown(<span class="number">0</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> pop</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/03/13/%E6%89%8B%E5%86%99%E5%B0%8F%E9%A1%B6%E5%A0%86/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/07/15/ESM%E5%92%8CCommonJS/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/07/15/ESM%E5%92%8CCommonJS/" class="post-title-link" itemprop="url">ESM和CommonJS</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-07-15 15:56:30" itemprop="dateCreated datePublished" datetime="2022-07-15T15:56:30+08:00">2022-07-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-19 15:19:44" itemprop="dateModified" datetime="2023-03-19T15:19:44+08:00">2023-03-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/07/15/ESM%E5%92%8CCommonJS/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/07/15/ESM%E5%92%8CCommonJS/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="ESM和CommonJS"><a href="#ESM和CommonJS" class="headerlink" title="ESM和CommonJS"></a>ESM和CommonJS</h1><p>在JavaScript的发展历史中，出现了多种模块化规范，这是由于js项目过于庞大的话可以进行解耦合，从而让JavaScript项目更加规范化的目的。其中最为常见的就是node本身实现的CommonJS和es6标准的ES Modules两种规范。</p>
+<p>总结主要区别有：</p>
+<ol>
+<li>commonjs输出的是值的拷贝和esm输出的是值的引用</li>
+<li>commonjs是运行时加载属于同步加载，esm是编译时加载属于异步加载</li>
+<li>esm 存在 export/import 提升</li>
+</ol>
+<h2 id="CommonJS"><a href="#CommonJS" class="headerlink" title="CommonJS"></a>CommonJS</h2><p>CommonJS是最常用的js模块化规范之一，也是nodejs支持的模块规范。其中最重要的概念是module对象和require函数。</p>
+<h3 id="module"><a href="#module" class="headerlink" title="module"></a>module</h3><p>module是一个对象，专门用于存储js输出的值。其中有三个属性</p>
+<ul>
+<li>exports：就是module.exports对应的值</li>
+<li>loaded：表示当前模块是否加载完成</li>
+<li>paths：node模块的加载路径</li>
+</ul>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">exports</span>.xxx = ‘a’</span><br><span class="line"><span class="keyword">const</span> obj = <span class="built_in">require</span>(./xxx.js)</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/07/15/ESM%E5%92%8CCommonJS/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/" class="post-title-link" itemprop="url">开发小工具02markdown批量转换</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-29 21:17:59 / 修改时间：21:41:45" itemprop="dateCreated datePublished" datetime="2022-06-29T21:17:59+08:00">2022-06-29</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="开发小工具02electron-todolist"><a href="#开发小工具02electron-todolist" class="headerlink" title="开发小工具02electron-todolist"></a>开发小工具02electron-todolist</h1><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>在网上冲浪的时候发现一个框架electron，可以用web去写桌面应用，正好我有个需求就是做一个可以常驻桌面的todolist，加计时器。这个技术需求就刚刚好。</p>
+<h2 id="开发过程"><a href="#开发过程" class="headerlink" title="开发过程"></a>开发过程</h2><ol>
+<li>electron的原理就是把一个浏览器加web项目打包成二进制执行文件exe，我是这么理解的</li>
+<li>初步计划是使用Vite+Vue3+electron的方式做</li>
+<li>todolist的开发就是很常规的那种，就是注意一下布局去适应桌面</li>
+</ol>
+<h2 id="踩坑"><a href="#踩坑" class="headerlink" title="踩坑"></a>踩坑</h2><ol>
+<li>套壳运行的时候很多坑，首先就是Vite打包问题，他并不是在本地跑一个web服务器，而是在本地直接运行项目，所以Vite打包不能打包成相对地址，而要打包成为绝对地址</li>
+<li>套壳在main.js处做系统级的处理，比如所给主窗口的入口文件（index.html），一些开发工具，调试工具等。在这里把项目的默认边框去除，定长宽和背景设置。</li>
+<li>而且打包后的文件有点大，一个todolist就快200m了。。。不敢相信VScode是怎么写的。</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/29/%E5%BC%80%E5%8F%91%E5%B0%8F%E5%B7%A5%E5%85%B702markdown%E6%89%B9%E9%87%8F%E8%BD%AC%E6%8D%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/29/Vue3%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -897,309 +1198,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">SSL/TLS原理</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-06-02 09:38:47 / 修改时间：10:29:45" itemprop="dateCreated datePublished" datetime="2022-06-02T09:38:47+08:00">2022-06-02</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/" itemprop="url" rel="index"><span itemprop="name">计算机网络</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="SSL-TLS原理"><a href="#SSL-TLS原理" class="headerlink" title="SSL/TLS原理"></a>SSL/TLS原理</h1><p>使用SSL/TLS加密的HTTP协议HTTPS是时下最流行的网页加密技术。主要任务是提供<strong>私密性，信息完整性和身份认证</strong>。SSL是一个不依赖于平台和运用程序的协议，位于TCP/IP协议与各种应用层协议之间，为数据通信提高安全支持。</p>
-<h2 id="SSL-TLS位置"><a href="#SSL-TLS位置" class="headerlink" title="SSL/TLS位置"></a>SSL/TLS位置</h2><p>SSL/TLS是位于应用层和TCP层之间的协议，一旦启用SSL/TLS协议，数据就先传递给SSL/TLS层再传递给TCP层。</p>
-<table>
-<thead>
-<tr>
-<th align="center">HTTP/FTP（应用层）</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">SSL/TLS（加密协议）</td>
-</tr>
-<tr>
-<td align="center">TCP（传输层）</td>
-</tr>
-</tbody></table>
-<h2 id="前置知识："><a href="#前置知识：" class="headerlink" title="前置知识："></a>前置知识：</h2><h3 id="对称加密"><a href="#对称加密" class="headerlink" title="对称加密"></a>对称加密</h3><p>对称加密就是加密方和解密方都使用同一个密钥进行加密/解密。这种方法比较简单，性能也比较好，但是缺点就是密钥不能泄露，一旦泄露对话就不安全了。SSL/TLS的最终目的就是安全的在网络中发送对称加密密钥。</p>
-<h3 id="非对称加密"><a href="#非对称加密" class="headerlink" title="非对称加密"></a>非对称加密</h3><p>非对称加密就是加密方和解密方使用不同密钥。通常有一个密钥称为公钥，就是公布到网络中，任何人都可以访问，还有一个私钥。这种方式性能不如对称加密，但是更安全，可以用来安全交换对称加密密钥。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/" class="post-title-link" itemprop="url">力扣前端页面抖动bug</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-26 10:38:34 / 修改时间：20:01:31" itemprop="dateCreated datePublished" datetime="2022-05-26T10:38:34+08:00">2022-05-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%85%B6%E4%BB%96/" itemprop="url" rel="index"><span itemprop="name">其他</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="力扣页面捉虫"><a href="#力扣页面捉虫" class="headerlink" title="力扣页面捉虫"></a>力扣页面捉虫</h1><p>作为一个菜鸟大三，今天在力扣上面看面经，结果给我发现一个无伤大雅的小bug。当我在看讨论区大佬的面经的时候，正想着给大佬点一个赞，结果发现我无论如何也看不清点赞按钮，难道是我学得太过深入导致眼花了？揉了揉眼睛，发现事情并没有那么简单。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E5%8A%A8%E7%94%BB.gif" alt="动画"></p>
-<p>我们把页面滑动到帖子结束，讨论区开始的地方，经过细微的调试，就能复现这个bug。</p>
-<p>我定着这个抖动的框陷入了沉思，作为一个合格的菜鸟，我第一时间就按下了f12，选中了这个节点。果然class在疯狂的变换。我又换了火狐浏览器，发现bug依旧。如果不是浏览器的问题，那就是代码本身有问题吗？</p>
-<h2 id="分析bug原理"><a href="#分析bug原理" class="headerlink" title="分析bug原理"></a>分析bug原理</h2><p>首先，在页面处于这个帖子本身的时候，也就是高于这个点赞评论框的时候，这个框是吸附在浏览器窗口底部的。<img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E6%88%AA%E5%9B%BE1.png" alt="截图1"></p>
-<p>其次，当页面处于这个帖子的评论区的时候，也就是低于点赞评论框，这个点赞评论框就是位于帖子底部的。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E6%88%AA%E5%9B%BE2.png" alt="截图2"></p>
-<p>那么我们滑动窗口的时候，在某个时刻，就触发了样式的改变，所以很可能是使用了DOM监听器去监听帖子底部到页面顶端的距离，去判断这个框是吸附在底部还是正常表现。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/26/%E5%8A%9B%E6%89%A3%E5%89%8D%E7%AB%AF%E9%A1%B5%E9%9D%A2%E6%8A%96%E5%8A%A8bug/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/26/electron%E5%88%9D%E6%8E%A2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/26/electron%E5%88%9D%E6%8E%A2/" class="post-title-link" itemprop="url">electron初探</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-26 10:24:28 / 修改时间：10:37:20" itemprop="dateCreated datePublished" datetime="2022-05-26T10:24:28+08:00">2022-05-26</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/26/electron%E5%88%9D%E6%8E%A2/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/26/electron%E5%88%9D%E6%8E%A2/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="electron初探"><a href="#electron初探" class="headerlink" title="electron初探"></a>electron初探</h1><p>在冲浪的时候无意间看到的一个框架，据说能把web端应用编译成win、linux、mac端桌面应用，大名鼎鼎的vscode也是基于这个框架的。牛。</p>
-<p>于是小试一下，结果发现还是有一点坑，</p>
-<h3 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h3><p>这篇博客已经说明了大部分配置。<a target="_blank" rel="noopener" href="https://blog.csdn.net/gesila2/article/details/121215230">https://blog.csdn.net/gesila2/article/details/121215230</a></p>
-<p>我再说明我遇到的问题，</p>
-<ol>
-<li><p>路由配置：electron不支持history路由模式，只能使用hash路由模式</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//electron配置</span></span><br><span class="line"><span class="attr">history</span>: createWebHashHistory(process.env.BASE_URL ? process.env.BASE_URL : <span class="literal">null</span>)</span><br></pre></td></tr></table></figure></li>
-<li><p>文件地址配置：electron与web应用的区别是，它不依靠服务器运行，所以文件索引地址应该是绝对地址文件，而不是web服务器中的相对地址。</p>
-</li>
-<li><p>关于依赖：electron只认生产环境依赖<code>devDependencies</code>，所以要把依赖放到生产环境依赖中</p>
-</li>
-</ol>
-<h3 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h3><p>打包后的体积有一点大，我只不过是一个小小demo就189mb了。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/26/electron%E5%88%9D%E6%8E%A2/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1271,7 +1269,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">125</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
