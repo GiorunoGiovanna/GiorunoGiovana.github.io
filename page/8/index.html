@@ -186,6 +186,435 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/" class="post-title-link" itemprop="url">面经摘抄02</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-11 16:05:30" itemprop="dateCreated datePublished" datetime="2022-04-11T16:05:30+08:00">2022-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-04-06 08:47:22" itemprop="dateModified" datetime="2023-04-06T08:47:22+08:00">2023-04-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%84/" itemprop="url" rel="index"><span itemprop="name">面经摘抄</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="面经摘抄02"><a href="#面经摘抄02" class="headerlink" title="面经摘抄02"></a>面经摘抄02</h1><ol>
+<li><h5 id="重绘和回流以及如何减少回流"><a href="#重绘和回流以及如何减少回流" class="headerlink" title="重绘和回流以及如何减少回流"></a>重绘和回流以及如何减少回流</h5><p>重绘：当前页面中元素样式的改变并不影响它在文档流中的位置，也就是说布局没有发生改变的时候</p>
+<p>回流：任何会改变元素几何信息的操作，都会触发回流，回流是影响浏览器新能的关键因素。</p>
+<ol>
+<li>js更改DOM元素（增删改）</li>
+<li>样式表的添加或者删除</li>
+<li>窗口大小改变</li>
+<li>字体大小改变</li>
+<li>激活伪类，如:hover(hover颜色除外)</li>
+<li>改变样式属性（颜色，透明度除外）</li>
+<li>更改元素的className</li>
+<li>位置的计算（对如offsetHeight或者getComputerdStyle之类的元素进行测量）</li>
+<li>修改页面上的内容，例如输入框中的文本、用户输入</li>
+</ol>
+<p>如何减少回流：</p>
+<p>css：</p>
+<ul>
+<li>避免设置多层内联样式</li>
+<li>如果需要设置动画效果，最好将元素脱离正常的文档流</li>
+<li>避免使用css表达式</li>
+</ul>
+<p>JavaScript</p>
+<ul>
+<li>避免频繁操作演示，最好将样式列表定义为class并一次性改变样式</li>
+<li>避免频繁操作DOM</li>
+<li>可以先将元素设置为不可见：display：none,操作结束后再把它显示出来。 </li>
+<li>通过硬件加速可以是渲染图层提升为复合图层。</li>
+</ul>
+</li>
+<li><h5 id="内存泄露的原因和解决方案"><a href="#内存泄露的原因和解决方案" class="headerlink" title="内存泄露的原因和解决方案"></a>内存泄露的原因和解决方案</h5><p>通俗点说就是指由于疏忽或者错误造成程序未能释放已经不再使用的内存，从而造成内存上的浪费。</p>
+<ol>
+<li><p>意外的全局变量：在函数内部没有使用var声明变量，导致创建一个全局变量。</p>
+<p>解决方案：使用严格模式编写，使用eslint纠错</p>
+</li>
+<li><p>计时器和回调函数timers：定时器在使用的时候会生成一个唯一的标识符用于操作这个计时器，如果调用了计时器之后不管他，就会导致标识符一直存在</p>
+<p>解决方案：当不需要再使用计时器的时候调用ckeartimeout或者clearInterval</p>
+</li>
+<li><p>js闭包</p>
+<p>闭包在IE6下会造成内存泄漏，但是现在已经无须考虑了。值得注意的是闭包本身不会造成内存泄漏，但闭包过多很容易导致内存泄漏。闭包会造成对象引用的生命周期脱离当前函数的上下文，如果闭包如果使用不当，可以导致环形引用（circular reference），类似于死锁，只能避免，无法发生之后解决，即使有垃圾回收也还是会内存泄露。</p>
+</li>
+<li><p>DOM泄露</p>
+<p>给DOM对象添加的熟悉感是一个对象的引用</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = &#123;&#125;;</span><br><span class="line"><span class="built_in">document</span>.getElementById(<span class="string">&#x27;id&#x27;</span>).diyProp = a;</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+<li><h5 id="JavaScript为什么是单线程的"><a href="#JavaScript为什么是单线程的" class="headerlink" title="JavaScript为什么是单线程的"></a>JavaScript为什么是单线程的</h5><p>这与JavaScript的用途有关，JavaScript最初是被设计为浏览器的脚本语言，而浏览器的作用就是和用户交互，以及操作DOM。这决定了它只能是单线程的，否则会带来很严重的冲突问题。比如，JavaScript在一个线程中删除了一个DOM节点，但是另一个线程却修改了这个DOM节点，浏览器应该以哪一个线程的结果为准？</p>
+<p>为了利用多核CPU的计算能力，HTML5提出Web Worker标准，允许JavaScript脚本创建多个线程，但是子线程完 全受主线程控制，且不得操作DOM。所以，这个新标准并没有改变JavaScript单线程的本质。</p>
+</li>
+<li><h5 id="事件委托的原理以及优缺点"><a href="#事件委托的原理以及优缺点" class="headerlink" title="事件委托的原理以及优缺点"></a>事件委托的原理以及优缺点</h5><p>原理：JavaScript事件代理是通过把事件处理器添加到上一个上级元素，这样就比米娜了将事件处理器添加到多个子级的元素上。当我们需要对很多元素添加事件的时候，可以通过将事件添加到它们的上级元素而将事件委托给上级元素来触发处理函数。这主要得益于浏览器的事件冒泡机制。</p>
+<p>优点：</p>
+<ol>
+<li>减少事件注册，节省内存。</li>
+<li>在table上代理所有td的click事件</li>
+<li>简化了DOM节点更新的时候，相应的事件的更新</li>
+<li>不用在新添加的li上绑定click事件</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>事件委托基于冒泡，对于不冒泡的事件不支持</li>
+<li>层级过多，冒泡过程中，可能会被某层阻止</li>
+<li>把所有事件都用代理就可能会出现事件误判。比如，在document中代理了所有button的click事件，另外的人在引用改js时，可能不知道，造成单击button触发了两个click事件。、</li>
+</ol>
+</li>
+<li><h5 id="tree-shaking原理"><a href="#tree-shaking原理" class="headerlink" title="tree-shaking原理"></a>tree-shaking原理</h5><p>简单来说，tree-shaking的本质就是在打包过程中消除无用的代码。tree-shaking思想出现得很早，但在JavaScript中得到有效应用是ES6之后。</p>
+<p>因为在ES6之前，代码的引用是CommonJS规范的动态的<code>require</code>,这样的话代码是在被使用的时候才会引入，这样导致代码打包的时候编译器不好判断是否能删除。</p>
+<p>而ES6之后引入使用的ES6 Modules是<code>import</code>纯静态引入，代码在打包的时候就可以扫描代码，用到的留下，没有用到的就删除，从而优化打包后的体积。</p>
+<p>CommonJS和ES6 Module的主要区别</p>
+<p>1、CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</p>
+<p>2、CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</p>
+<p>3、CommonJs 是单个值导出，ES6 Module可以导出多个</p>
+<p>4、CommonJs 是动态语法可以写在判断里，ES6 Module 静态语法只能写在顶层</p>
+<p>5、CommonJs 的 this 是当前模块，ES6 Module的 this 是 undefined</p>
+</li>
+<li><p><strong>文字跑马灯</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    * &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin</span>:<span class="number">0</span>;<span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">font-size</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">color</span>:<span class="number">#fff</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.block</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">500px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#65b4ae</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">white-space</span>: nowrap;</span></span><br><span class="line"><span class="css">        <span class="attribute">overflow</span>: hidden;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.words</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">position</span>: relative;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: fit-content;</span></span><br><span class="line"><span class="css">        <span class="attribute">animation</span>:move <span class="number">10s</span> linear infinite;</span></span><br><span class="line"><span class="css">        <span class="attribute">padding-left</span>:<span class="number">50px</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css">    <span class="selector-class">.words</span><span class="selector-pseudo">::after</span>&#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">position</span>: absolute; </span></span><br><span class="line"><span class="css">        <span class="attribute">right</span>:<span class="number">100%</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">content</span>:<span class="built_in">attr</span>(text);</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="keyword">@keyframes</span> move &#123;</span></span><br><span class="line"><span class="css">        <span class="number">0%</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="attribute">transform</span>: <span class="built_in">translateX</span>(<span class="number">0</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">        <span class="number">100%</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="comment">/*将字幕完全隐藏*/</span></span></span><br><span class="line"><span class="css">            <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">100%</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="comment">&lt;!--原理：利用单行文字可以设置超出部分隐藏，同时css中transform只对标签中的值起作用--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;block&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">&quot;words&quot;</span> <span class="attr">text</span>=<span class="string">&quot;HOW YOU LIKE THAT&quot;</span>&gt;</span></span><br><span class="line">            HOW YOU LIKE THAT</span><br><span class="line">        <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原理如下</p>
+<p><img src="C:\Users\Martin\Downloads\文字跑马灯原理.png" alt="文字跑马灯原理"></p>
+</li>
+<li><p><strong>环绕跑马灯</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* 页面初始化 */</span></span></span><br><span class="line"><span class="css">    * &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">padding</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin</span>: <span class="number">0</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-tag">body</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#414141</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">display</span>: flex;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-items</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">justify-content</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">100vh</span>;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* content为内容部分 */</span></span></span><br><span class="line"><span class="css">    <span class="selector-class">.content</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">150px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background-color</span>: <span class="number">#414141</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">border-radius</span>: <span class="number">10px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">text-align</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">line-height</span>: <span class="number">50px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">font-size</span>: <span class="number">20px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">color</span>: wheat;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="comment">/* cover为边框部分 */</span></span></span><br><span class="line"><span class="css">    <span class="selector-class">.cover</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">display</span>: inherit;</span></span><br><span class="line"><span class="css">        <span class="attribute">align-items</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">justify-content</span>: center;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">60px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">160px</span>;</span></span><br><span class="line"><span class="css">        <span class="comment">/* 圆角 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">border-radius</span>: <span class="number">15px</span>;</span></span><br><span class="line"><span class="css">        <span class="comment">/* background-color: pink; */</span></span></span><br><span class="line"><span class="css">        <span class="comment">/* transition: all 3s; */</span></span></span><br><span class="line"><span class="css">        <span class="comment">/* 核心代码 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: <span class="built_in">linear-gradient</span>(<span class="number">135deg</span>, <span class="built_in">rgb</span>(<span class="number">1</span>, <span class="number">255</span>, <span class="number">234</span>), <span class="built_in">rgb</span>(<span class="number">255</span>, <span class="number">251</span>, <span class="number">14</span>), <span class="built_in">rgb</span>(<span class="number">0</span>, <span class="number">238</span>, <span class="number">255</span>));</span></span><br><span class="line"><span class="css">        <span class="comment">/*添加动画 */</span></span></span><br><span class="line"><span class="css">        <span class="attribute">animation</span>: color <span class="number">3s</span> linear infinite;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="keyword">@keyframes</span> <span class="attribute">color</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="selector-tag">to</span> &#123;</span></span><br><span class="line"><span class="css">            <span class="attribute">filter</span>: <span class="built_in">hue-rotate</span>(<span class="number">360deg</span>);</span></span><br><span class="line"><span class="css">        &#125;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;cover&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;content&quot;</span>&gt;</span><span class="tag">&lt;<span class="name">span</span>&gt;</span>hello world!<span class="tag">&lt;/<span class="name">span</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>原理如下</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/%E7%8E%AF%E7%BB%95%E8%B7%91%E9%A9%AC%E7%81%AF%E5%8E%9F%E7%90%86%E5%9B%BE.png" alt="环绕跑马灯原理图"></p>
+</li>
+<li><p><strong>如何区分箭头函数和普通函数</strong></p>
+<ul>
+<li>箭头函数不能用于构造函数，普通函数可以。所以只要new一下就可以知道是否是箭头函数。</li>
+<li>普通函数this指向可以被call/apply/bind修改，箭头函数的this指向在定义的时候就已经确定了。</li>
+<li>普通函数有具名函数和匿名函数，箭头函数只有匿名函数</li>
+</ul>
+</li>
+<li><p><strong>引起内存泄露的原因</strong></p>
+<ul>
+<li>意外的全局变量，在函数内部如果不使用关键字定义变量，会使这个变量默认挂载在全局中。</li>
+<li>没有及时清除的定时器，定时器在使用的时候会返回一个唯一标识，如果不计时清除的话，定时器会一直存在</li>
+<li>事件监听器，举例子在图片懒加载中使用到了<code>IntercetionObserver</code>这个监听器，如果不及时清除监视器的话，每次被监视的DOM经过窗口边缘都会执行回调。</li>
+<li>闭包，闭包会保存函数外部的变量，使用完闭包之后要清除</li>
+<li>缓存，浏览器允许我们缓存一些数据到内存中，但是我们不能无休止的加入</li>
+</ul>
+</li>
+<li><p><strong>try/catch能否捕捉到timeout内部的异常？</strong></p>
+<p> 一般情况下是不能的，因为try/catch能捕捉的异常只限于同步的，且在try/catch线程执行期间内的异常才能捕获。</p>
+   <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">    	<span class="comment">//异步线程，是在同步任务执行完毕之后才执行的，所以不会被捕获</span></span><br><span class="line">        <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            reject(<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;捕获错误！&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">func()</span><br></pre></td></tr></table></figure>
+
+<p>   当然，也不是一定不行，如果我们用async/await改造函数为同步的就可以解决了。</p>
+   <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">await</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">            reject(<span class="number">1</span>)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="string">&#x27;捕获错误！&#x27;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">func()</span><br></pre></td></tr></table></figure>
+
+<p>   引申：</p>
+<p>   用async/await+promise+timeout可以改造一个同步的休眠器</p>
+   <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">sleep</span>(<span class="params">delay</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve, reject</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            resolve(delay)</span><br><span class="line">        &#125;, delay)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">async</span> <span class="function"><span class="keyword">function</span> <span class="title">func</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;开始执行&#x27;</span>)</span><br><span class="line">    <span class="keyword">await</span> sleep(<span class="number">5000</span>)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;继续&#x27;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func()</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>浏览器从输入url到渲染页面的全过程</strong></p>
+<p>现代浏览器会去解析你的输入，如果不是url则会默认使用搜索引擎查询这个输入，这里只讨论正确url的情况。</p>
+<p>现代浏览器从输入url到渲染整个页面的过程可以分为三个部分：</p>
+<ol>
+<li>DNS解析URL过程</li>
+<li>浏览器发送请求到与服务器交互的过程</li>
+<li>浏览器对接收到的页面进行渲染的过程</li>
+</ol>
+<p><strong>一、DNS解析URL过程</strong></p>
+<p>我们都知道，域名其实不是一个服务器的真正地址，更像是一个方便人类查找和记忆的代号。根据计算机网络原理，服务器的地址是一串32位（ipv4）或者128位（ipv6）的二进制代码组成的ip地址。我们输入的域名并不能让浏览器找到服务器的位置，而是需要解析域名，查找其对应的ip地址。这就是DNS解析。</p>
+<p>DNS解析是一个渐进的过程，它会先访问浏览器缓存，本机host，本地DNS服务器查找。没有的话就会去网络上从顶级域名服务器，根域名服务器等一直递归查询。</p>
+<p><strong>二、浏览器与服务器交互的过程</strong></p>
+<ol>
+<li>浏览器先与服务器建立TCP链接，通过三次握手建立链接。</li>
+<li>浏览器发送一个get请求到服务器请求url对应的网页。</li>
+<li>服务器接收到http请求之后，如果有这个页面，就返回报文</li>
+<li>浏览器接收到页面后开始渲染</li>
+</ol>
+<p><strong>三、浏览器页面渲染的过程（扩展，服务器端渲染，预渲染，浏览器渲染）</strong></p>
+<ol>
+<li>浏览器将html节点解析为DOM树</li>
+<li>将css解析成CSS OM树</li>
+<li>将DOM树和CSS OM树构造成render树</li>
+<li>JavaScript根据得到的render树计算所有节点在屏幕中的位置，进行布局</li>
+<li>遍历render树并调用硬件API绘制所有节点（重绘）</li>
+</ol>
+</li>
+<li><p><strong>display:none,opacity:0和visibility:hidden的区别</strong></p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>display:none</th>
+<th>opacity:0</th>
+<th>visibility:hidden</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>文件流</td>
+<td>不出出现在文件流上</td>
+<td>不可见，但占据空间</td>
+<td>不可见，但占据空间</td>
+</tr>
+<tr>
+<td>子元素</td>
+<td>子元素不出现</td>
+<td>子元素不出现</td>
+<td>设置visibility:visible子元素可见</td>
+</tr>
+<tr>
+<td>点击事件</td>
+<td>无法触发</td>
+<td>可以触发</td>
+<td>自身不可触发，子元素可以通过冒泡触发</td>
+</tr>
+</tbody></table>
+</li>
+<li><p><strong>display、float、position的关系</strong></p>
+<p>优先级而言：<code>display:none&gt;position绝对定位&gt;float&gt;position相对定位</code></p>
+</li>
+<li><p><strong>清除浮动的几种方式</strong></p>
+<ul>
+<li><p>在需要清除浮动的元素结尾处加空标签，为这个空标签添加样式<code>clear:both</code>。</p>
+<p>优点：简单易上手，</p>
+<p>缺点：比较麻烦，结构不好</p>
+</li>
+<li><p>父级定义<code>overflow:hidden</code>， 可以通过触发BFC的方式，实现清楚浮动效果。</p>
+<p>优点：简洁明了</p>
+<p>缺点：内容增多的时候不会自动换行，无法显示溢出的元素。</p>
+</li>
+<li><p>使用<code>:after</code>和<code>:before</code>或者<code>zoom（IE）</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.div1</span>:after &#123;</span><br><span class="line">    content: <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="attribute">display</span>: block;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">clear</span>: both;</span><br><span class="line">    <span class="attribute">visibility</span>: hidden;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>优点：主流网站都在用，兼容性好</p>
+</li>
+</ul>
+</li>
+<li><p><strong>display：inline-block什么时候不会显示间隙</strong></p>
+<ul>
+<li>移除空格</li>
+<li>使用margin负值</li>
+<li>font-size:0</li>
+<li>letter-spacing</li>
+<li>word-spacing</li>
+</ul>
+</li>
+<li><p><strong>流体布局（左右固定中间可大可小）</strong></p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;container&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;left&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;right&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;main&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.left</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">float</span>: left;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">100px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: pink;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.right</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">float</span>: right;</span></span><br><span class="line"><span class="css">        <span class="attribute">width</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: skyblue;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span></span><br><span class="line"><span class="css">    <span class="selector-class">.main</span> &#123;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin-left</span>: <span class="number">120px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">margin-right</span>: <span class="number">220px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">height</span>: <span class="number">200px</span>;</span></span><br><span class="line"><span class="css">        <span class="attribute">background</span>: wheat;</span></span><br><span class="line"><span class="css">    &#125;</span></span><br><span class="line"><span class="css"></span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p><strong>路由全局守卫的三个参数</strong></p>
+<p>全局守卫有前置守卫和后置守卫，是vueRouter对象的两个钩子函数，分别是<code>befroeEach</code>和<code>afterEach</code></p>
+<p>前置守卫</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">router.beforeEach(<span class="function">(<span class="params">to, <span class="keyword">from</span>, next</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//  to: 目标路由</span></span><br><span class="line">    <span class="comment">//  from: 当前路由</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// next() 跳转  一定要调用</span></span><br><span class="line">    next(<span class="literal">false</span>);<span class="comment">//不让走</span></span><br><span class="line">    next(<span class="literal">true</span>);<span class="comment">//继续前行</span></span><br><span class="line">    next(<span class="string">&#x27;/login&#x27;</span>)<span class="comment">//走哪</span></span><br><span class="line">    next(&#123;<span class="attr">path</span>:<span class="string">&#x27;/detail/2&#x27;</span>,<span class="attr">params</span>:&#123;&#125;,<span class="attr">query</span>:&#123;&#125;&#125;)<span class="comment">//带点货</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>后置守卫</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">router.afterEach(<span class="function">(<span class="params">to,<span class="keyword">from</span></span>)=&gt;</span>&#123;</span><br><span class="line">   <span class="comment">//全局后置守卫业务</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
+<li><p><strong>频繁使用eventbus的后果</strong></p>
+<p>$on事件是不会自动销毁的，需要我们手动销毁，如果我们一直触发又不进行销毁，就会造成内存泄露。</p>
+</li>
+<li><p><strong>Vue设置全局变量和全局函数</strong></p>
+<ol>
+<li><p>使用export default/module.exports</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> BASEURL = <span class="string">&quot;http://localhost:3333/&quot;</span></span><br><span class="line"><span class="keyword">const</span> URL = &#123;</span><br><span class="line">    <span class="attr">getCategory</span>:BASEURL+<span class="string">&#x27;category&#x27;</span>,</span><br><span class="line">    <span class="attr">getGoodsInfo</span>:BASEURL+<span class="string">&#x27;getGoodsInfo&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> URL</span><br><span class="line">在入口文件中引入</span><br><span class="line"><span class="keyword">import</span> url <span class="keyword">from</span> <span class="string">&#x27;./api/api&#x27;</span></span><br><span class="line">Vue.prototype.URL=url;</span><br></pre></td></tr></table></figure></li>
+<li><p>挂载在全局Vue实例上</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Vue2</span></span><br><span class="line">Vue.prototype.$store = <span class="keyword">new</span> Store()</span><br><span class="line"></span><br><span class="line"><span class="comment">//Vue3</span></span><br><span class="line"><span class="keyword">const</span> store = <span class="keyword">new</span> Store()</span><br><span class="line">Vue.use(store)</span><br></pre></td></tr></table></figure></li>
+<li><p>Vuex状态管理</p>
+</li>
+</ol>
+</li>
+<li><p><strong>解释Vue单项数据流</strong></p>
+<p>Vue中数据的流动是单项的，只能从父组件流向子组件，例如子组件可以通过props获得父组件的数据，但是子组件是不允许直接修改父组件的数据的，只能通过复制一份，或者$emit等方式通知父组件修改。</p>
+</li>
+<li><p><strong>选择器优先级</strong></p>
+<p>!important&gt;行内选择器&gt;id选择器&gt;类选择器&gt;元素选择器</p>
+</li>
+<li><hr>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/11/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8402/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/11/%E6%89%8B%E5%86%99freeze/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/04/11/%E6%89%8B%E5%86%99freeze/" class="post-title-link" itemprop="url">手写freeze</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-11 13:49:26" itemprop="dateCreated datePublished" datetime="2022-04-11T13:49:26+08:00">2022-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%89%8B%E5%86%99%E7%B3%BB%E5%88%97/" itemprop="url" rel="index"><span itemprop="name">手写系列</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/04/11/%E6%89%8B%E5%86%99freeze/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/11/%E6%89%8B%E5%86%99freeze/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="手写Object-freeze"><a href="#手写Object-freeze" class="headerlink" title="手写Object.freeze"></a>手写Object.freeze</h1><p>有时候再JavaScript中我们期望一个对象的值不要被改变或删节，我们需要找到一个方法将这个对象“冻结”起来。</p>
+<p>我们需要：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.seal(object)</span><br></pre></td></tr></table></figure>
+
+<p>这个API能阻止对象中的属性被删除或者增加</p>
+<p>然而对于对象中已经存在的属性，我们也要阻止它们被修改，这个时候就需要：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Object</span>.defineProperty(object,p,&#123;...&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这个API允许我们为对象中的元素设置一些拦截器方法，我们可以再这个地方设置对象的属性为不可写的，这样对象就不会被改变啦。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> _objectFreeze = <span class="function"><span class="params">object</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 判断传入参数是否为对象</span></span><br><span class="line">    <span class="keyword">if</span> (object <span class="keyword">instanceof</span> <span class="built_in">Object</span>) &#123;</span><br><span class="line">        <span class="comment">// Object.seal()方法可以让对象不能被扩展、删除属性等等。</span></span><br><span class="line">        <span class="comment">// 遍历对象中的属性</span></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> p <span class="keyword">in</span> object) &#123;</span><br><span class="line">            <span class="comment">// 修改对象中属性的特性&#x27;可写&#x27;为false</span></span><br><span class="line">            <span class="built_in">Object</span>.defineProperty(object, p, &#123;</span><br><span class="line">                <span class="attr">writable</span>: <span class="literal">false</span>,</span><br><span class="line">            &#125;);</span><br><span class="line">            <span class="comment">// 实现深冻结</span></span><br><span class="line">            _objectFreeze(object[p]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//Object.seal可以实现使这个对象不能添加或删除属性</span></span><br><span class="line">    <span class="built_in">Object</span>.seal(object);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/04/11/%E6%89%8B%E5%86%99freeze/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/10/%E9%A6%96%E5%B1%8F%E5%8A%A0%E8%BD%BD%E4%BC%98%E5%8C%96/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1092,220 +1521,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/" class="post-title-link" itemprop="url">css学习笔记04动画</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-04-04 09:25:28" itemprop="dateCreated datePublished" datetime="2022-04-04T09:25:28+08:00">2022-04-04</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="CSS3动画"><a href="#CSS3动画" class="headerlink" title="CSS3动画"></a>CSS3动画</h1><p>在CSS3之前前端动画实现基本上都靠JavaScriptAPI去动态改变元素样式属性来完成，这种方式虽然能够实现动画，但是在性能上存在一些问题。CSS3动画的出现很好地解决了这些问题。</p>
-<p>CSS动画属性主要有<strong>transform、transition、animation</strong></p>
-<h2 id="transform"><a href="#transform" class="headerlink" title="transform"></a>transform</h2><p>transform可以用来设置元素的形状改变，主要有以下几种变形：<code>rotate</code>（旋转）、<code>scale</code>（缩放）、<code>skew</code>（扭曲）、<code>translate</code>（移动）和<code>matrix</code>（矩阵变形），语法如下：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-class</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span> ： <span class="attribute">none</span> | &lt;<span class="attribute">transform</span>-function&gt; <span class="selector-attr">[ &lt;transform-function&gt; ]</span>*</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><code>none</code>表示不做变换；<code>&lt;transform-function&gt;</code>表示一个或多个变化函数，变化函数由函数名和参数组成，参数包含在<code>()</code>里面，用<strong>空格</strong>分开，例如：</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.transform-class</span> &#123;</span><br><span class="line">    <span class="attribute">transform</span> ： rotate(<span class="number">30deg</span>) scale(<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="transform-origin基点"><a href="#transform-origin基点" class="headerlink" title="transform-origin基点"></a>transform-origin基点</h3><p>所有变形都是基于基点，基点默认为元素的中心点。用法：<code>transform-origin:(x,y)</code>其中x和y的值可以是百分比、rem或者px等等，也可以用表示位置的单词来表示例如：x可以用<code>left、center、right</code>；y可以用<code>top、center、bottom</code><strong>不要加括号也不要加逗号，空格就行</strong></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/04/04/css%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004%E5%8A%A8%E7%94%BB/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/" class="post-title-link" itemprop="url">css常见布局方式</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-03-30 10:46:55" itemprop="dateCreated datePublished" datetime="2022-03-30T10:46:55+08:00">2022-03-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/CSS/" itemprop="url" rel="index"><span itemprop="name">CSS</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="CSS中常见的几种布局方式"><a href="#CSS中常见的几种布局方式" class="headerlink" title="CSS中常见的几种布局方式"></a>CSS中常见的几种布局方式</h1><h2 id="两栏布局"><a href="#两栏布局" class="headerlink" title="两栏布局"></a>两栏布局</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：两栏布局*/</span></span><br><span class="line"><span class="comment">/*1.float*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden;<span class="comment">/*清除浮动，可以用float:right代替*/</span></span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：两栏布局*/</span></span><br><span class="line"><span class="comment">/*2.flex*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：两栏布局*/</span></span><br><span class="line"><span class="comment">/*3.grid*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:grid;</span><br><span class="line">    grid-template-<span class="attribute">columns</span>:<span class="number">30%</span> <span class="number">70%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="三栏布局"><a href="#三栏布局" class="headerlink" title="三栏布局"></a>三栏布局</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：三栏布局*/</span></span><br><span class="line"><span class="comment">/*1.flex*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:flex;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.middle</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">40%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:green;</span><br><span class="line">    <span class="attribute">flex</span>:<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：三栏布局*/</span></span><br><span class="line"><span class="comment">/*2.float*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.middle</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">40%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:green;</span><br><span class="line">    <span class="attribute">float</span><span class="selector-pseudo">:left</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">30%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue;</span><br><span class="line">    <span class="attribute">overflow</span>:hidden</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*css常见布局：三栏布局*/</span></span><br><span class="line"><span class="comment">/*3.grid*/</span></span><br><span class="line"><span class="selector-class">.container</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">50vw</span>;</span><br><span class="line">    <span class="attribute">display</span>:grid;</span><br><span class="line">    grid-template-<span class="attribute">columns</span>:<span class="number">20%</span> <span class="number">60%</span> <span class="number">20%</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.left</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:pink</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.middle</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:green;</span><br><span class="line">    <span class="attribute">flex</span>:<span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.right</span>&#123;</span><br><span class="line">    <span class="attribute">width</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>:<span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background</span>:blue</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="九宫格布局"><a href="#九宫格布局" class="headerlink" title="九宫格布局"></a>九宫格布局</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/03/30/css%E5%B8%B8%E8%A7%81%E5%B8%83%E5%B1%80%E6%96%B9%E5%BC%8F/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1377,7 +1592,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

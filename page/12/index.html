@@ -186,6 +186,305 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/" class="post-title-link" itemprop="url">Vue源码学习笔记06</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-08 10:31:19" itemprop="dateCreated datePublished" datetime="2021-12-08T10:31:19+08:00">2021-12-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="vue-router"><a href="#vue-router" class="headerlink" title="vue-router"></a>vue-router</h1><p>vue-router是Vue框架的另一个强大工具。它和 Vue.js 的核心深度集成，让构建单页面应用变得易如反掌。</p>
+<h1 id="哈希路由"><a href="#哈希路由" class="headerlink" title="哈希路由"></a>哈希路由</h1><p>单页应用路由，我们有一些url，想把他们映射到组件。即使组件和这些url有一一对应的关系，并能够实现跳转。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;url&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#foo&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">&quot;routeTo(&#x27;#bar&#x27;)&quot;</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">	<span class="comment">//一个基于哈希的路由解决方案</span></span></span><br><span class="line"><span class="javascript">	<span class="comment">/*</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		浏览器有两种方式进行路由，可以使用哈希，也可以使用HTML5 History API。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		从某种意义上说，Html5 History APi更好，它支持弹出状态，你的URL看起来会更好，但是他需要某种服务器配置</span></span></span><br><span class="line"><span class="comment"><span class="javascript">		为了更方便的展示，这里使用哈希方式访问。</span></span></span><br><span class="line"><span class="comment"><span class="javascript">	*/</span></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">components</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">foo</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">    <span class="attr">bar</span>: &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span>&#125;,</span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="attr">methods</span>: &#123;</span></span><br><span class="line"><span class="javascript">    routeTo (route) &#123;</span></span><br><span class="line"><span class="javascript">      <span class="built_in">window</span>.location.hash = route</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+<h1 id="路由表"><a href="#路由表" class="headerlink" title="路由表"></a>路由表</h1><p>完成了基础路由跳转的实现，那么我们能不能把基础路由和组件的对应关系维护起来，形成一张表，这样当我们需要跳转的时候查询路由表再跳转对应组件就好了。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">component</span> <span class="attr">:is</span>=<span class="string">&quot;matchedComponent&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">component</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#foo&quot;</span>&gt;</span>foo<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#bar&quot;</span>&gt;</span>bar<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/foo&#x27; -&gt; Foo</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/bar&#x27; -&gt; Bar</span></span></span><br><span class="line"><span class="javascript"><span class="comment">// &#x27;#/404&#x27; -&gt; NotFound</span></span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Foo = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;foo&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> Bar = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;bar&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> NotFound = &#123; <span class="attr">template</span>: <span class="string">`&lt;div&gt;not found!&lt;/div&gt;`</span> &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="comment">//路由表，维护组件和路径的对应关系</span></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> routeTable = &#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">foo</span>: Foo,</span></span><br><span class="line"><span class="javascript">  <span class="attr">bar</span>: Bar</span></span><br><span class="line"><span class="javascript">&#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;hashchange&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">  app.url = <span class="built_in">window</span>.location.hash.slice(<span class="number">1</span>)</span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript"><span class="keyword">const</span> app = <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">  <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">  <span class="attr">data</span>: &#123;</span></span><br><span class="line"><span class="javascript">    <span class="attr">url</span>: <span class="string">&#x27;foo&#x27;</span></span></span><br><span class="line"><span class="javascript">  &#125;,</span></span><br><span class="line"><span class="javascript">  <span class="comment">//两种视图实现方式,render渲染函数和html模板</span></span></span><br><span class="line"><span class="javascript">  render (h) &#123;</span></span><br><span class="line"><span class="javascript">	  <span class="keyword">return</span> h(<span class="string">&#x27;div&#x27;</span>, [</span></span><br><span class="line"><span class="javascript">		  h(routeTable[<span class="built_in">this</span>.url] || NotFound),</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#foo&#x27;</span>&#125;&#125;, <span class="string">&#x27;foo&#x27;</span>),</span></span><br><span class="line"><span class="javascript">		  <span class="string">&#x27; | &#x27;</span>,</span></span><br><span class="line"><span class="javascript">		  h(<span class="string">&#x27;a&#x27;</span>,&#123; <span class="attr">attrs</span>:&#123; <span class="attr">href</span>:<span class="string">&#x27;#bar&#x27;</span>&#125;&#125;, <span class="string">&#x27;bar&#x27;</span>)</span></span><br><span class="line"><span class="javascript">	  ])</span></span><br><span class="line"><span class="javascript">  &#125;</span></span><br><span class="line"><span class="javascript">  <span class="comment">// computed: &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   matchedComponent () &#123;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//     return routeTable[this.url] || NotFound</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">//   &#125;</span></span></span><br><span class="line"><span class="javascript">  <span class="comment">// &#125;</span></span></span><br><span class="line"><span class="javascript">&#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/08/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B006%E8%B7%AF%E7%94%B1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/" class="post-title-link" itemprop="url">js学习笔记07对象</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-07 21:51:01" itemprop="dateCreated datePublished" datetime="2021-12-07T21:51:01+08:00">2021-12-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><h2 id="理解对象"><a href="#理解对象" class="headerlink" title="理解对象"></a>理解对象</h2><ol>
+<li><h4 id="属性的类型"><a href="#属性的类型" class="headerlink" title="属性的类型"></a>属性的类型</h4><ol>
+<li><h5 id="数据属性"><a href="#数据属性" class="headerlink" title="数据属性"></a>数据属性</h5><ol>
+<li>数据属性包含一个保存数据值的位置。值会从这个位置读取，也会写入到这个位置。</li>
+<li>要修改属性的默认特性，就必须使用Object.defineProperty()方法。这个方法接受3个参数（要个其添加属性的对象，属性的名称和一个描述对象）<ol>
+<li>最后一个参数，即描述符对象上的属性可以包含:configurable、enumerable、wirtable和value</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="访问器属性"><a href="#访问器属性" class="headerlink" title="访问器属性"></a>访问器属性</h5><ol>
+<li>访问器属性不包含数据值，包含一个获取(getter)函数和一个(setter)函数，不过这两个函数不是必须的。</li>
+<li>在读取访问器属性时，会调用获取函数，这个函数的责任是返回一个有效的值。再写入访问器属性时，会调用设置函数并传入新值，这个函数必须决定对数据做出什么修改。（Vue响应式原理）</li>
+</ol>
+</li>
+<li><h5 id="定义多个属性"><a href="#定义多个属性" class="headerlink" title="定义多个属性"></a>定义多个属性</h5><ol>
+<li>Object.defineProperties()可以通过多个描述符一次性定义多个属性。它接受两个参数（要为之添加或修改属性的对象和另一个描述符对象，其属性与一一对应）</li>
+</ol>
+</li>
+<li><h5 id="读取属性的特性"><a href="#读取属性的特性" class="headerlink" title="读取属性的特性"></a>读取属性的特性</h5><ol>
+<li>使用Object.getOwnPropertyDescriptor()方法可以取得指定属性的属性描述符。<ol>
+<li>这个方法接受两个参数:属性所在的对象和要去的其描述符的属性名。返回值是一个对象，包含访问器属性</li>
+</ol>
+</li>
+<li>ES7新增了Object.getOwnPropertyDescriptors()静态方法<ol>
+<li>接受一个对象，并返回这个对象每个属性的特性</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="对象解构"><a href="#对象解构" class="headerlink" title="对象解构"></a>对象解构</h4><ol>
+<li>使用解构，可以在一个类似对象字面量的结构中，声明多个变量，同时执行多个复制动作。可以简写<ol>
+<li>解构赋值不一定与对象属性匹配，赋值的时候可以忽略某些属性，如果引用的属性不存在，则该变量的值为undefined，也可以定义默认值，适用于属性不存在的情况。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="增强的对象语法"><a href="#增强的对象语法" class="headerlink" title="增强的对象语法"></a>增强的对象语法</h4><ol>
+<li><h5 id="属性值的简写"><a href="#属性值的简写" class="headerlink" title="属性值的简写"></a>属性值的简写</h5><ol>
+<li>简写的属性名只要使用变量名就会自动被解释为同名的属性键</li>
+</ol>
+</li>
+<li><h5 id="可计算属性"><a href="#可计算属性" class="headerlink" title="可计算属性"></a>可计算属性</h5><ol>
+<li>如果想使用变量的值作为属性，那么必须先声明对象，然后使用中括号语法来添加属性。换句话说，不能再对象字面量中直接动态命名属性<ol>
+<li>中括号包围的对象属性键告诉运行时将其作为JavaScript表达式而不是字符串来求值。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h5 id="简写方法名"><a href="#简写方法名" class="headerlink" title="简写方法名"></a>简写方法名</h5><ol>
+<li><p>再给对象定义方法时，通常要写一个方法名、冒号，然后再引用一个匿名函数表达式。</p>
+<ol>
+<li>新的简写方法可以直接声明函数，例如sayName(){…}，与可计算属性键相互兼容</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const methodKey = &quot;foo&quot;</span><br><span class="line">let person = &#123;</span><br><span class="line">	[methodKey](name)&#123;</span><br><span class="line">		alert(&quot;aaa &quot;+name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">person.sayName(&quot;john&quot;)		//aaa john</span><br></pre></td></tr></table></figure></li>
+</ol>
+</li>
+</ol>
+</li>
+<li><h4 id="对象标识及相等判定"><a href="#对象标识及相等判定" class="headerlink" title="对象标识及相等判定"></a>对象标识及相等判定</h4><ol>
+<li>ES6新增了Object.assign()方法用于合并对象。接受一个目标对象和一个多源对象作为参数，然后将每个源对象中可枚举和自由属性赋值到目标函数。<ol>
+<li>这是一种浅拷贝，如果多个源对象有相同的属性，则使用最后一个。此外，从源对象访问器属性中取得的值，比如获取函数，会作为一个静态值赋值给目标对象。如果赋值期间出错，则操作会终止并退出，同时抛出错误。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>前提：使用Object构造函数创建多个有相同接口的对象会比较麻烦。ES6开始正式支持类和继承。</p>
+<h3 id="工厂模式"><a href="#工厂模式" class="headerlink" title="工厂模式"></a>工厂模式</h3><p>简单来说，就是把创建Object对象的过程封装到函数中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	let 0 = new Object</span><br><span class="line">	o.name = name</span><br><span class="line">	o.age = age</span><br><span class="line">	o.job = job</span><br><span class="line">	o.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">	return o</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="构造函数模式"><a href="#构造函数模式" class="headerlink" title="构造函数模式"></a>构造函数模式</h3><ol>
+<li><h5 id="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"><a href="#跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。" class="headerlink" title="跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。"></a>跟工厂模式相比，有三个区别。比起工厂模式，构造的实例都被认为是Object实例。</h5><ol>
+<li>没有显示地创建对象</li>
+<li>属性和方法直接赋值给this</li>
+<li>没有return</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function 	createPerson（name,age,job）&#123;</span><br><span class="line">	this.name = name</span><br><span class="line">	this.age = age</span><br><span class="line">	this.job = job</span><br><span class="line">	this.sayName = function()&#123;</span><br><span class="line">		console.log(this.name)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let person1 = cretePerson(&quot;jianhuo&quot;,19,&quot;geiyepa&quot;)</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"><a href="#按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的" class="headerlink" title="按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的"></a>按照惯例，构造函数名称的首字母都是要大写的，非构造函数名称的首字母都是要小写的</h5></li>
+<li><h5 id="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"><a href="#要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作" class="headerlink" title="要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作"></a>要创建Person实例，要使用new操作符，以这种方式调用构造函数会执行以下操作</h5><ol>
+<li>在内存中创建一个新对象</li>
+<li>在这个新对象的内部的[[Prototype]]特性被赋值为构造函数的prototype属性</li>
+<li>构造函数内部的this被赋值为这个新对象（即this指向新对象）</li>
+<li>执行构造函数内部的代码（给新对象添加属性）</li>
+<li>如果构造函数返回非空对象，则返回该对象；否则返回创建的新对象</li>
+</ol>
+</li>
+<li><h5 id="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"><a href="#构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数" class="headerlink" title="构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数"></a>构造函数不一定要写成函数声明形式。赋值给变量的函数表达式也可以标识构造函数</h5></li>
+<li><h5 id="如果不想传参数，那么new的时候后面的括号可以不加。"><a href="#如果不想传参数，那么new的时候后面的括号可以不加。" class="headerlink" title="如果不想传参数，那么new的时候后面的括号可以不加。"></a>如果不想传参数，那么new的时候后面的括号可以不加。</h5></li>
+<li><h5 id="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"><a href="#构造函数也是函数，和普通函数的唯一区别是调用方式的不同。" class="headerlink" title="构造函数也是函数，和普通函数的唯一区别是调用方式的不同。"></a>构造函数也是函数，和普通函数的唯一区别是调用方式的不同。</h5><ol>
+<li>使用new操作符调用就是构造函数，不使用new操作符调用就是普通函数</li>
+</ol>
+</li>
+<li><h5 id="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"><a href="#构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。" class="headerlink" title="构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。"></a>构造函数的主要问题是，其定义的方法会再每个实例上都创建一遍。</h5><ol>
+<li>要解决这个问题，可以把函数定义转移到构造函数外面。</li>
+</ol>
+</li>
+</ol>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B007%E5%AF%B9%E8%B1%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1368,229 +1667,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" class="post-title-link" itemprop="url">Webpack学习笔记01</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-05 20:40:49" itemprop="dateCreated datePublished" datetime="2021-12-05T20:40:49+08:00">2021-12-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Webpack/" itemprop="url" rel="index"><span itemprop="name">Webpack</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="webpack是什么"><a href="#webpack是什么" class="headerlink" title="webpack是什么"></a>webpack是什么</h1><p>webpack是一种前端资源构建工具，一个静态的模块打包器（module bundler）。在webpack看来，前端的所有资源文件（js/json/css/img/less）都会作为模块处理。</p>
-<p><strong>五个核心概念</strong></p>
-<ol>
-<li><p><strong>Entry</strong></p>
-<p>​    入口：提示webpack以哪一个文件为入口起点打包，分析构建内部依赖图。</p>
-</li>
-<li><p>   <strong>Output</strong></p>
-</li>
-</ol>
-<p>   ​     输出：提示webpack打包后的资源bundles输出到哪里去，以及如何命名</p>
-<ol start="3">
-<li>   <strong>Loader</strong></li>
-</ol>
-<p>   ​     Loader：相当于翻译官，让webpack能够取处理哪些非JavaScript文件（webpack本身只能理解JavaScript）</p>
-<ol start="4">
-<li>   <strong>Plugins</strong></li>
-</ol>
-<p>   ​     插件：可以用于执行范围更广的任务。插件的范围包括从打包优化和压缩，一直到重新定义环境中的变量。</p>
-<ol start="5">
-<li><p>   <strong>Mode</strong></p>
-</li>
-<li><p>development</p>
-<p>会将DefinePlugin中process.env.NODE_ENV的值设置为development能让代码本地调试运行的环境</p>
-</li>
-<li><p>production</p>
-</li>
-</ol>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/05/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6/" class="post-title-link" itemprop="url">Vue源码学习笔记04</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-12-05 14:54:28" itemprop="dateCreated datePublished" datetime="2021-12-05T14:54:28+08:00">2021-12-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Vue%E6%BA%90%E7%A0%81/" itemprop="url" rel="index"><span itemprop="name">Vue源码</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="高阶组件"><a href="#高阶组件" class="headerlink" title="高阶组件"></a>高阶组件</h3><p>简单来说，就是一个封装了一个或多个具体功能的组件，它与外界的联系只有简单的props，这样可以保证这个组件与其他组件的耦合度最低，可复用性强，并且不容易污染其他组件。</p>
-<h3 id="高阶函数和Mixins"><a href="#高阶函数和Mixins" class="headerlink" title="高阶函数和Mixins"></a>高阶函数和Mixins</h3><p>高阶函数不会污染外部函数，可以在其他组件中被复用。如果确定组件只用在这个项目中，他只处理非常具体的任务，那么使用mixin也是可以的。</p>
-<p>由于高阶函数与其他组件耦合度低，也使得它更好的进行测试，可以分别测试增强组件和内部组件，相反，使用Mixin时，你只能测试一个组件。</p>
-<p>然而，有时候Mixin比高阶函数更容易掌握，当你使用了太多的高阶组件时，组件的层级会变得复杂，使得难以定位错误，还有搞清楚它们的层级关系，和他们之间的影响。而且，当你多层嵌套时，你需要注意属性需要经过多层传递，嵌套多层组件也会带来一些性能开销，使用mixin的话往往能节省这些开销，所以要视情况使用。</p>
-<h3 id="高阶函数的实现"><a href="#高阶函数的实现" class="headerlink" title="高阶函数的实现"></a>高阶函数的实现</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">smart-avatar</span> <span class="attr">username</span>=<span class="string">&quot;vuejs&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">smart-avatar</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="comment">// mock API</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">fetchURL</span> (<span class="params">username, cb</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="comment">// hard coded, bonus: exercise: make it fetch from gravatar!</span></span></span><br><span class="line"><span class="javascript">            cb(<span class="string">&#x27;https://avatars3.githubusercontent.com/u/6128107?v=4&amp;s=200&#x27;</span>)</span></span><br><span class="line"><span class="javascript">        &#125;, <span class="number">500</span>)</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> Avatar = &#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">props</span>: [<span class="string">&#x27;src&#x27;</span>],</span></span><br><span class="line"><span class="javascript">        <span class="attr">template</span>: <span class="string">`&lt;img :src=&quot;src&quot;&gt;`</span></span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="comment">//高阶组件</span></span></span><br><span class="line"><span class="javascript">    <span class="function"><span class="keyword">function</span> <span class="title">withAvatarURL</span> (<span class="params">InnerComponent</span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">        <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">            <span class="attr">props</span>: &#123;</span></span><br><span class="line"><span class="javascript">                <span class="attr">username</span>: <span class="built_in">String</span></span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            data () &#123;</span></span><br><span class="line"><span class="javascript">                <span class="keyword">return</span> &#123;</span></span><br><span class="line"><span class="javascript">                    <span class="attr">url</span>: <span class="string">&#x27;http://via.placeholder.com/200x200&#x27;</span></span></span><br><span class="line"><span class="javascript">                &#125;</span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            created () &#123;</span></span><br><span class="line"><span class="javascript">                <span class="comment">//在这里进行请求</span></span></span><br><span class="line"><span class="javascript">                fetchURL(<span class="built_in">this</span>.username, <span class="function">(<span class="params">url</span>) =&gt;</span> &#123; <span class="built_in">this</span>.url = url &#125;)</span></span><br><span class="line"><span class="javascript">            &#125;,</span></span><br><span class="line"><span class="javascript">            render (h) &#123;</span></span><br><span class="line"><span class="javascript">                <span class="comment">//渲染一个image标签，第二个参数给src传值</span></span></span><br><span class="line"><span class="javascript">                <span class="keyword">return</span> h(InnerComponent, &#123; <span class="attr">props</span>: &#123; <span class="attr">src</span>: <span class="built_in">this</span>.url &#125; &#125;)</span></span><br><span class="line"><span class="javascript">            &#125;</span></span><br><span class="line"><span class="javascript">        &#125;</span></span><br><span class="line"><span class="javascript">    &#125;</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> SmartAvatar = withAvatarURL(Avatar)</span></span><br><span class="line"><span class="javascript"></span></span><br><span class="line"><span class="javascript">    <span class="keyword">new</span> Vue(&#123;</span></span><br><span class="line"><span class="javascript">        <span class="attr">el</span>: <span class="string">&#x27;#app&#x27;</span>,</span></span><br><span class="line"><span class="javascript">        <span class="attr">components</span>: &#123; SmartAvatar &#125;</span></span><br><span class="line"><span class="javascript">    &#125;)</span></span><br><span class="line"><span class="javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="data:image/gif;base64,R0lGODlhAQABAPABAP///wAAACH5BAEKAAAALAAAAAABAAEAAAICRAEAOw==" alt="点击并拖拽以移动"></p>
-<p> 参考视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/av51444410/">尤雨溪教你写vue 高级vue教程 源码分析 中文字幕翻译完毕_哔哩哔哩_bilibili</a></p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/12/05/Vue%E6%BA%90%E7%A0%81%E7%AC%94%E8%AE%B004%E9%AB%98%E9%98%B6%E7%BB%84%E4%BB%B6/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1662,7 +1738,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>

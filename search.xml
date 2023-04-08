@@ -1796,6 +1796,17 @@
 </li>
 </ul>
 </li>
+<li><p>git cherry pick</p>
+<p>前面的git merge和git rebase都是针对于整个分支的合并过程，但是有时候我们不需要将一个分支的所有提交都合并，<strong>只想合并其中某些分支</strong>，这个时候就可以使用git cherry pick</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">git cherry-pick commit号 #将这个commit号提交合并到当前分支上</span><br><span class="line">git cherry-pick commit1号 commit2号 #将这个commit1号和commit2号提交合并到当前分支上</span><br><span class="line">git cherry-pick commit1号..commit2号 #将(commit1号,commit2号]提交合并到当前分支上</span><br><span class="line">git cherry-pick commit1号^..commit2号 #将[commit1号,commit2号]提交合并到当前分支上</span><br></pre></td></tr></table></figure>
+
+<p>如果在合并过程中发生冲突，有以下方法</p>
+<ul>
+<li>解决冲突，然后git add，然后继续合并<code>git cherry-pick --continue</code></li>
+<li>回滚：<code>git cherry-pick --abbort</code></li>
+<li>中断：<code>git cherry-pick --quit</code></li>
+</ul>
+</li>
 </ol>
 <h3 id="git团队开发常用操作命令"><a href="#git团队开发常用操作命令" class="headerlink" title="git团队开发常用操作命令"></a>git团队开发常用操作命令</h3><ol>
 <li><p>获取远端库项目</p>
@@ -5273,21 +5284,6 @@
 <figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.demo</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">300px</span>; </span><br><span class="line">    <span class="comment">/*设置文字在一行显示，不能换行*/</span></span><br><span class="line">    <span class="attribute">overflow</span>: hidden;</span><br><span class="line">    <span class="comment">/*规定当文本溢出时，显示省略符号来代表被修剪的文本*/</span></span><br><span class="line">    <span class="attribute">text-overflow</span>: ellipsis; </span><br><span class="line">    <span class="comment">/*文字长度超出限定宽度，则隐藏超出的内容*/</span></span><br><span class="line">    <span class="attribute">white-space</span>: nowrap;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 <li><h5 id="async和await的原理"><a href="#async和await的原理" class="headerlink" title="async和await的原理"></a>async和await的原理</h5><p>async函数返回一个Promise对象，当函数执行的时候，一旦遇到awiat就会先返回，等到触发的异步操作完成，才会接着执行函数体后面的的语句。async函数就是Generator函数的语法糖。<a href="https://stoneocean.top/2021/12/07/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B006%E8%BF%AD%E4%BB%A3%E5%99%A8%E4%B8%8E%E7%94%9F%E6%88%90%E5%99%A8/">详见</a></p>
 </li>
-<li><h5 id="Http0-9，Http1-0，Http2-0，Http3-0简介"><a href="#Http0-9，Http1-0，Http2-0，Http3-0简介" class="headerlink" title="Http0.9，Http1.0，Http2.0，Http3.0简介"></a>Http0.9，Http1.0，Http2.0，Http3.0简介</h5><p>Http0.9是一个初期基本协议，只有get请求，只用于获取html</p>
-<p>Http1.0支持 HEAD，POST 方法，支持状态码，但是规定只能短链接，频繁请求会使网络负担大</p>
-<p>Http1.1支持了TCP长连接，同时引入Cookie网络安全机制</p>
-<p>Http2.0支持二进制传输，使用HPACK算法压缩头部，可以同时在一个连接中发送多个请求（多路复用）。</p>
-<p><strong>HPACK实现原理</strong>：两张表，动态表和静态表</p>
-<ol>
-<li>静态表是将头部的信息如请求协议get用1表示，post用2表示，对照静态表将原本的字符串压缩成数字。</li>
-<li>动态表是将剩下由用户定义的变量用哈夫曼编码优化</li>
-</ol>
-<p>Http3.0添加QUIC协议，基于UDP协议，之前的版本都只支持TCP协议，如果网络不好或者频繁切换网络环境的话TCP会一直断开重连，UCP协议解决了。</p>
-<p>1.<strong>线头阻塞问题</strong>：TCP协议重如果又数据丢包，需要等待重传，浪费后续资源</p>
-<p><strong>原理</strong>：QUIC协议在遇到某个stream传输失败的时候不会阻塞等待，而是继续向下接收数据，因为有一个计数变量，所以哪怕到达顺序不一样也能还原，因为没有线头阻塞，这在文件流传输等不要求高可靠性的场景下很有用。</p>
-<p>2.<strong>切换网络时候保持连接</strong>：从4g切换为5g时候，TCP协议会重连，但是UDP协议通过内建协议不必重连。</p>
-<p><strong>原理</strong>：QUIC建立协议的时候会随机产生一个64位的ID，接收方确认不依靠ip地址，而是依靠这个ID，所以哪怕网络环境变化，只要ID没变，链接就可以保持。</p>
-</li>
 <li><h5 id="Nodejs使用Proxy代理跨域的原理"><a href="#Nodejs使用Proxy代理跨域的原理" class="headerlink" title="Nodejs使用Proxy代理跨域的原理"></a>Nodejs使用Proxy代理跨域的原理</h5><p>在浏览器中跨域访问是被禁止的，但是在服务器中没有这个限制，所以我们想要在前端实现跨域请求的话可以把请求发送到自己的服务端，再让服务端去请求目标服务器，这样就不会有跨域的限制。</p>
 <h6 id="配置代码："><a href="#配置代码：" class="headerlink" title="配置代码："></a>配置代码：</h6><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">dev&#123;</span><br><span class="line">    <span class="attr">proxyTable</span>:&#123;</span><br><span class="line">        <span class="string">&#x27;/api&#x27;</span>:&#123;</span><br><span class="line">            <span class="attr">target</span>:<span class="string">&#x27;http://192.168.0.1&#x27;</span>,<span class="comment">//要代理的域名</span></span><br><span class="line">            <span class="attr">changeOrigin</span>:<span class="literal">true</span>,<span class="comment">//允许跨域</span></span><br><span class="line">            pathRewrite：&#123;</span><br><span class="line">                ‘/api<span class="string">&#x27;:&#x27;</span><span class="string">&#x27;,//这个是定义要访问的路径</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        &#125;</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
 
@@ -6809,7 +6805,8 @@
 <li>扩展：<code>filter: drop-shadow(5px 5px 10px black)</code>可以使用这个方式根据像素点来设置阴影</li>
 </ol>
 </li>
-<li></li>
+<li><h5 id="类数组对象有哪些"><a href="#类数组对象有哪些" class="headerlink" title="类数组对象有哪些"></a>类数组对象有哪些</h5><p>函数中的argument参数集合对象，获取dom元素集合，正则匹配对象集合</p>
+</li>
 </ol>
 ]]></content>
       <categories>
@@ -6999,6 +6996,83 @@
 ]]></content>
       <categories>
         <category>浏览器</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>http协议发展史</title>
+    <url>/2023/04/07/http%E5%8D%8F%E8%AE%AE%E5%8F%91%E5%B1%95%E5%8F%B2/</url>
+    <content><![CDATA[<h1 id="http协议发展史"><a href="#http协议发展史" class="headerlink" title="http协议发展史"></a>http协议发展史</h1><p>我们知道HTTP是浏览器中最重要且使用最多的协议，它不仅是浏览器与服务端的通信语言，更是互联网的基石。随着浏览器的不断更新迭代，HTTP为了适应技术的更新也在不断进化，学习HTTP的最佳途径就是从浏览器的发展视角来了解HTTP的演进。</p>
+<h1 id="Http0-9"><a href="#Http0-9" class="headerlink" title="Http0.9"></a>Http0.9</h1><p>Http0.9是一个初期基本协议，只有get请求，只用于获取html</p>
+<h4 id="流程："><a href="#流程：" class="headerlink" title="流程："></a>流程：</h4><ul>
+<li>客户端和服务端建立TCP链接</li>
+<li>客户端发起get请求到服务端，请求index.html数据</li>
+<li>服务端发回一个Ascii码编码的html字符串</li>
+</ul>
+<h4 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h4><p>简单，一个请求一个链接</p>
+<h2 id="Http1-0"><a href="#Http1-0" class="headerlink" title="Http1.0"></a>Http1.0</h2><p>相比于Http0.9，有以下更新</p>
+<ul>
+<li>增加了HEAD、POST等方法</li>
+<li>增加了响应状态码，标记可能的错误原因</li>
+<li>引入了协议版本号概念（请求行，在http包中第一行，携带版本信息，请求方法等）</li>
+<li>引入了HTTP header概念（请求头，使得请求更加灵活）</li>
+<li>传输的数据不再局限与文本内容</li>
+</ul>
+<h4 id="特点：-1"><a href="#特点：-1" class="headerlink" title="特点："></a>特点：</h4><p>请求更加丰富，具有结构性，但是仍然不能进行长连接</p>
+<h2 id="Http1-1"><a href="#Http1-1" class="headerlink" title="Http1.1"></a>Http1.1</h2><p>相比于Http1.0，有以下更新</p>
+<ul>
+<li>长连接：引入TCP连接复用，即一个TCP可以被多个http请求复用</li>
+<li>并发连接：对于一个域名的请求允许分配多个长连接（缓解线头阻塞的问题）</li>
+<li>增加了PUT、DELETE、OPTIONS、PATCH等方法</li>
+<li>新增了缓存相关字段（if-Modified-Since，If-None-Match）</li>
+<li>请求头中引入了range字段，支持断点续传</li>
+<li>允许响应数据分块（chunked），利于传输大文件</li>
+<li>强制要求Host头、让互联网主机托管称为可能</li>
+<li>引入安全机制（HTTPS，cookie）</li>
+</ul>
+<h4 id="特点：-2"><a href="#特点：-2" class="headerlink" title="特点："></a>特点：</h4><p>非常既有革命性的更新，使得http协议完全可广泛使用，但仍有缺点，例如压缩算法不健全，协议包太大，线头阻塞没有完全解决等</p>
+<h2 id="Http2-0"><a href="#Http2-0" class="headerlink" title="Http2.0"></a>Http2.0</h2><p>相比于Http1.1，有以下更新</p>
+<ul>
+<li>支持二进制传输：Http1.1传输的文本内容可以是二进制的，Http2.0中包括头部信息和内容都可以是二进制的，统称为帧</li>
+<li>HPACK算法压缩头部：使用专用算法压缩头部，减少数据传输量，主要是通过服务端和客户端同时维护一张头部信息表，所有的头部信息在表里面都会有对应的记录，并且会有一个索引号，这样后面只需要发送索引号即可</li>
+<li>多路复用： 废弃了 HTTP/1.1 中的管道，同一个TCP连接里面，客户端和服务器可以同时发送多个请求和多个响应，并且不用按照顺序来。由于服务器不用按顺序来处理响应，所以避免了“对头堵塞”的问题。</li>
+<li>服务端主动推送：允许服务器主动向客户推送数据</li>
+<li>数据流： 由于HTTP/2版本的数据包不是按照顺序发送的，同一个TCP连接里面相连的两个数据包可能是属于不同的响应，因此，必须要有一种方法来区分每一个数据包属于哪个响应。HTTP/2版本中，每个请求或者响应的所有数据包，称为一个<code>数据流（stream）</code>，并且每一个数据流都有一个唯一的编号ID，请求数据流的编号ID为奇数，响应数据流的编号ID为偶数。每个数据包在发送的时候带上对应数据流的编号ID，这样服务器和客户端就能分区是属于哪一个数据流。最后，客户端还能指定数据流的优先级，优先级越高，服务器会越快做出响应。</li>
+</ul>
+<p><strong>HPACK实现原理</strong>：两张表，动态表和静态表</p>
+<ol>
+<li>静态表是将头部的信息如请求协议get用1表示，post用2表示，对照静态表将原本的字符串压缩成数字。</li>
+<li>动态表是将剩下由用户定义的变量用哈夫曼编码优化</li>
+</ol>
+<h2 id="Http3-0"><a href="#Http3-0" class="headerlink" title="Http3.0"></a>Http3.0</h2><p>添加基于UDP协议的QUIC协议。Http2.0由于采用二进制分帧进行多路复用，通常只使用一个 TCP 连接进行传输，在丢包或网络中断的情况下后面的所有数据都被阻塞。</p>
+<p>1.<strong>线头阻塞问题</strong>：TCP协议重如果又数据丢包，需要等待重传，浪费后续资源</p>
+<p><strong>原理</strong>：QUIC协议在遇到某个stream传输失败的时候不会阻塞等待，而是继续向下接收数据，因为有一个计数变量，所以哪怕到达顺序不一样也能还原，因为没有线头阻塞，这在文件流传输等不要求高可靠性的场景下很有用。</p>
+<p>2.<strong>切换网络时候保持连接</strong>：从4g切换为5g时候，TCP协议会重连，但是UDP协议通过内建协议不必重连。</p>
+<p><strong>原理</strong>：QUIC建立协议的时候会随机产生一个64位的ID，接收方确认不依靠ip地址，而是依靠这个ID，所以哪怕网络环境变化，只要ID没变，链接就可以保持。</p>
+]]></content>
+      <categories>
+        <category>计算机网络</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>手写排序算法</title>
+    <url>/2023/04/06/%E6%89%8B%E5%86%99%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95/</url>
+    <content><![CDATA[<h1 id="手写排序算法"><a href="#手写排序算法" class="headerlink" title="手写排序算法"></a>手写排序算法</h1><h2 id="数组乱序"><a href="#数组乱序" class="headerlink" title="数组乱序"></a>数组乱序</h2><p>数组乱序的意思是要我们把一个数组打乱成无规则的数组</p>
+<ul>
+<li><p>洗牌算法</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffle</span>(<span class="params">arr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = arr.length; i; i--) &#123;</span><br><span class="line">        <span class="comment">// 产生一个随机位置</span></span><br><span class="line">        <span class="keyword">let</span> j = <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * i);</span><br><span class="line">        <span class="comment">// 交换位置</span></span><br><span class="line">        <span class="keyword">let</span> temp = arr[i - <span class="number">1</span>]</span><br><span class="line">        arr[i - <span class="number">1</span>] = arr[j]</span><br><span class="line">        arr[j] = temp</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(shuffle([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>, <span class="number">9</span>, <span class="number">10</span>]))</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="快速排序"><a href="#快速排序" class="headerlink" title="快速排序"></a>快速排序</h2><p>快速排序是一种比较不稳定的排序算法，它的步骤是先选定一个基准，将这个基准的位置</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">partition</span>(<span class="params">arr, low, high</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 选择一个基准，默认以第一个元素作为基准</span></span><br><span class="line">    <span class="keyword">let</span> pivot = arr[low];</span><br><span class="line">    <span class="comment">// 每个循环都使得一个大于基准的值移动到基准右侧，一个小于基准的值移动到基准左侧</span></span><br><span class="line">    <span class="keyword">while</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="comment">// 从右向左找到一个小于基准的值</span></span><br><span class="line">        <span class="keyword">while</span> (low &lt; high &amp;&amp; arr[high] &gt; pivot) &#123;</span><br><span class="line">            --high;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 交换</span></span><br><span class="line">        arr[low] = arr[high];</span><br><span class="line">        <span class="comment">// 从左向右找到一个大于基准的值</span></span><br><span class="line">        <span class="keyword">while</span> (low &lt; high &amp;&amp; arr[low] &lt;= pivot) &#123;</span><br><span class="line">            ++low;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//交换</span></span><br><span class="line">        arr[high] = arr[low];</span><br><span class="line">    &#125;</span><br><span class="line">    arr[low] = pivot;</span><br><span class="line">    <span class="keyword">return</span> low;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr, low = <span class="number">0</span>, high = arr.length - <span class="number">1</span></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &lt; high) &#123;</span><br><span class="line">        <span class="keyword">let</span> pivot = partition(arr, low, high);</span><br><span class="line">        quickSort(arr, low, pivot - <span class="number">1</span>);</span><br><span class="line">        quickSort(arr, pivot + <span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>手写系列</category>
       </categories>
       <tags>
         <tag>学习笔记</tag>

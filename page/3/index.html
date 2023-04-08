@@ -186,6 +186,211 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" class="post-title-link" itemprop="url">算法-二分查找</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-06-15 08:48:00 / 修改时间：09:11:11" itemprop="dateCreated datePublished" datetime="2022-06-15T08:48:00+08:00">2022-06-15</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E7%AE%97%E6%B3%95/" itemprop="url" rel="index"><span itemprop="name">算法</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p><strong>使用二分查找的要求是确定数据上下界，并且数据是有顺序的</strong>。具体思路就是从数组的中间元素开始，如果中间的元素恰好是目标值，则搜索结束，如果目标值大于或小于中间元素，则在大于或小于的那一半重新二分。</p>
+<h4 id="704-二分查找"><a href="#704-二分查找" class="headerlink" title="704. 二分查找"></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/binary-search/">704. 二分查找</a></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> search = <span class="function"><span class="keyword">function</span>(<span class="params">nums, target</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// 二分</span></span><br><span class="line">    <span class="keyword">let</span> start = <span class="number">0</span>,end = nums.length-<span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span>(start&lt;=end)&#123;</span><br><span class="line">        <span class="keyword">let</span> mid = <span class="built_in">Math</span>.floor((start+end)/<span class="number">2</span>)</span><br><span class="line">        <span class="keyword">if</span>(nums[mid]&lt;target)&#123;</span><br><span class="line">            start = mid + <span class="number">1</span></span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(nums[mid]&gt;target)&#123;</span><br><span class="line">            end = mid - <span class="number">1</span></span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">return</span> mid</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> -<span class="number">1</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="69-x-的平方根"><a href="#69-x-的平方根" class="headerlink" title="69. x 的平方根 "></a><a target="_blank" rel="noopener" href="https://leetcode.cn/problems/sqrtx/">69. x 的平方根 </a></h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mySqrt = <span class="function"><span class="keyword">function</span>(<span class="params">x</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(x===<span class="number">1</span>)&#123;<span class="keyword">return</span> <span class="number">1</span>&#125;</span><br><span class="line">    <span class="keyword">let</span> left = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> right = x;</span><br><span class="line">    <span class="keyword">let</span> mid;</span><br><span class="line">    <span class="keyword">while</span>(<span class="number">1</span>)&#123;</span><br><span class="line">        mid = <span class="built_in">Math</span>.floor((left+right)/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">if</span>(mid**<span class="number">2</span>===x)&#123;</span><br><span class="line">            <span class="keyword">return</span> mid;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span>(mid**<span class="number">2</span>&gt;x)&#123;</span><br><span class="line">            right=mid;</span><br><span class="line">        &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            left=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        mid2 = <span class="built_in">Math</span>.floor((left+right)/<span class="number">2</span>);</span><br><span class="line">        <span class="keyword">if</span>(mid===mid2)&#123;<span class="keyword">return</span> mid&#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/15/%E7%AE%97%E6%B3%95-%E4%BA%8C%E5%88%86%E6%9F%A5%E6%89%BE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/05/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/06/05/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" class="post-title-link" itemprop="url">浏览器完整生命周期</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-06-05 09:09:14" itemprop="dateCreated datePublished" datetime="2022-06-05T09:09:14+08:00">2022-06-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-03-29 09:27:34" itemprop="dateModified" datetime="2023-03-29T09:27:34+08:00">2023-03-29</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%B5%8F%E8%A7%88%E5%99%A8/" itemprop="url" rel="index"><span itemprop="name">浏览器</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/06/05/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/06/05/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="浏览器完整生命周期"><a href="#浏览器完整生命周期" class="headerlink" title="浏览器完整生命周期"></a>浏览器完整生命周期</h1><p>浏览器是前端开发最重要的工具之一，那么浏览器从输入到页面加载中间到底经历了什么</p>
+<h2 id="浏览器内部逻辑分析"><a href="#浏览器内部逻辑分析" class="headerlink" title="浏览器内部逻辑分析"></a>浏览器内部逻辑分析</h2><p>在现代浏览器中我们在输入框如果输入不正确的url地址，浏览器会自动跳转到默认搜索引擎搜索你输入的内容。如果你输入的url没有错，则进行页面的跳转。</p>
+<h2 id="网络请求角度分析"><a href="#网络请求角度分析" class="headerlink" title="网络请求角度分析"></a>网络请求角度分析</h2><p>我们通过chrome的开发者工具抓取network请求包，分析第一个请求的时序。</p>
+<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220605091710369.png" alt="image-20220605091710369"></p>
+<p>发现有如下顺序，</p>
+<ol>
+<li>预处理</li>
+<li>DNS解析</li>
+<li>建立链接（SSL）</li>
+<li>发起HTTP请求</li>
+<li>等待响应</li>
+<li>缓存处理（此处没有，但是一般对于某些大文件，第二次加载的时候会使用，等会解析）</li>
+<li>接收数据</li>
+</ol>
+<h3 id="DNS解析详细过程"><a href="#DNS解析详细过程" class="headerlink" title="DNS解析详细过程"></a>DNS解析详细过程</h3>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/06/05/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%8C%E6%95%B4%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/06/02/SSL-TLS%E5%8E%9F%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1030,197 +1235,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004refs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004refs/" class="post-title-link" itemprop="url">React学习笔记04refs</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-19 08:40:31 / 修改时间：08:57:24" itemprop="dateCreated datePublished" datetime="2022-05-19T08:40:31+08:00">2022-05-19</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004refs/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004refs/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="组件三大属性值refs"><a href="#组件三大属性值refs" class="headerlink" title="组件三大属性值refs"></a>组件三大属性值refs</h1><p>在React中refs是一个用于获取DOM节点的机制。</p>
-<p>想象这样一个场景，你需要从后台获取数据，然后再渲染到页面上，这个时候你需要一个DOM节点进行渲染，怎么获取一个特定的DOM节点呢，答案是使用refs。</p>
-<h2 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h2><h3 id="字符串形式refs（不推荐）"><a href="#字符串形式refs（不推荐）" class="headerlink" title="字符串形式refs（不推荐）"></a>字符串形式refs（不推荐）</h3><p>通过直接在JSX中的标签使用<code>ref=&#39;name&#39;</code>的形式可以轻松将DOM节点收纳至组件实例对象的refs属性上，这种方法十分简便，但可能导致性能上的问题，官方也不推荐使用，并表示可能在未来的版本中弃用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">//创建类式组件</span><br><span class="line">class Demo extends React.Component &#123;</span><br><span class="line">    showData = () =&gt; &#123;</span><br><span class="line">        const &#123; text1 &#125; = this.refs</span><br><span class="line">        alert(text1.value)</span><br><span class="line">    &#125;</span><br><span class="line">    showData2 = () =&gt; &#123;</span><br><span class="line">        const &#123; text2 &#125; = this.refs</span><br><span class="line">        alert(text2.value)</span><br><span class="line">    &#125;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;input ref=&quot;text1&quot; type=&quot;text&quot; placeholder=&quot;点击按钮提示数据&quot; /&gt;</span><br><span class="line">                &lt;button onClick=&#123;this.showData&#125;&gt;点我提示左侧数据&lt;/button&gt;</span><br><span class="line">                &lt;br /&gt;</span><br><span class="line">                &lt;br /&gt;</span><br><span class="line">                &lt;input ref=&quot;text2&quot; onBlur=&#123;this.showData2&#125; type=&quot;text&quot; placeholder=&quot;失去焦点提示数据&quot; /&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//挂载在页面上</span><br><span class="line">ReactDOM.render(&lt;Demo /&gt;, document.getElementById(&#x27;test&#x27;))</span><br></pre></td></tr></table></figure>
-
-<h2 id="回调形式refs"><a href="#回调形式refs" class="headerlink" title="回调形式refs"></a>回调形式refs</h2><p>通过在JSX标签种指定一个回调函数来为ref命名也可以达到目的。</p>
-<h5 id="内联形式回调"><a href="#内联形式回调" class="headerlink" title="内联形式回调"></a>内联形式回调</h5>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004refs/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/" class="post-title-link" itemprop="url">React学习笔记03props</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2022-05-18 16:26:32 / 修改时间：19:51:46" itemprop="dateCreated datePublished" datetime="2022-05-18T16:26:32+08:00">2022-05-18</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h2 id="组件三大属性之props"><a href="#组件三大属性之props" class="headerlink" title="组件三大属性之props"></a>组件三大属性之props</h2><p>props是React中用于传递数据的一个概念。当我们需要向组件传入外部的值的时候就需要使用props进行传值。</p>
-<h2 id="props基本用法"><a href="#props基本用法" class="headerlink" title="props基本用法"></a>props基本用法</h2><p>在我们需要传入值的组件的render函数中函数标签中传入值，在组件类内部使用<code>this.props</code>进行访问</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">//创建类式组件</span><br><span class="line">class Demo extends React.Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        const &#123; first, second, thrid &#125; = this.props</span><br><span class="line">        return (</span><br><span class="line">            &lt;div&gt;</span><br><span class="line">                &lt;ul&gt;</span><br><span class="line">                    &lt;li&gt;&#123;first&#125;&lt;/li&gt;</span><br><span class="line">                    &lt;li&gt;&#123;second&#125;&lt;/li&gt;</span><br><span class="line">                    &lt;li&gt;&#123;thrid&#125;&lt;/li&gt;</span><br><span class="line">                &lt;/ul&gt;</span><br><span class="line">            &lt;/div&gt;</span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//渲染组件到页面上</span><br><span class="line">ReactDOM.render(&lt;Demo first=&quot;Vue&quot; second=&quot;React&quot; thrid=&quot;Angular&quot; /&gt;, document.getElementById(&#x27;test&#x27;))</span><br><span class="line">ReactDOM.render(&lt;Demo first=&quot;Vuex&quot; second=&quot;Vue-router&quot; thrid=&quot;axios&quot; /&gt;, document.getElementById(&#x27;test1&#x27;))</span><br><span class="line">ReactDOM.render(&lt;Demo first=&quot;State&quot; second=&quot;Props&quot; thrid=&quot;promise&quot; /&gt;, document.getElementById(&#x27;test2&#x27;))</span><br></pre></td></tr></table></figure>
-
-<h2 id="批量传入props"><a href="#批量传入props" class="headerlink" title="批量传入props"></a>批量传入props</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//简写批量传递参数</span><br><span class="line">const p = &#123; first: &#x27;Vue&#x27;, second: &#x27;React&#x27;, thrid: &#x27;Angular&#x27; &#125;</span><br><span class="line">//前提，所有参数一一对应，这里的&#123;..p&#125;和用于浅复制的&#123;..p&#125;不一样</span><br><span class="line">//这里的花括号指的是允许在花括号中使用js表达式，实际上的js语句是...p</span><br><span class="line">//用于浅复制的花括号指的是新建一个对象</span><br><span class="line">ReactDOM.render(&lt;Demo &#123;...p&#125; /&gt;, document.getElementById(&#x27;test&#x27;))</span><br></pre></td></tr></table></figure>
-
-<h2 id="对Props的传值进行约束"><a href="#对Props的传值进行约束" class="headerlink" title="对Props的传值进行约束"></a>对Props的传值进行约束</h2><p>在一些情况下，我们希望传入的值是一个固定类型的值，或者我们希望一个变量是有默认值的，这个时候我们就需要对Props进行约束。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//props属性类型限制</span><br><span class="line">Demo.propTypes = &#123;</span><br><span class="line">    first: PropTypes.string.isRequired,</span><br><span class="line">    second: PropTypes.number,</span><br><span class="line">&#125;</span><br><span class="line">//props默认值设置</span><br><span class="line">Demo.defaultProps = &#123;</span><br><span class="line">    first: &#x27;dada&#x27;，</span><br><span class="line">    second: 66</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/18/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B003props/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1292,7 +1306,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">125</span>
+          <span class="site-state-item-count">127</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
