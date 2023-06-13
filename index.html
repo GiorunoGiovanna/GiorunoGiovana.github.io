@@ -186,6 +186,229 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/06/13/%E4%BD%BF%E7%94%A8GithubActions%E6%89%98%E7%AE%A1%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/06/13/%E4%BD%BF%E7%94%A8GithubActions%E6%89%98%E7%AE%A1%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">使用GithubActions托管前端项目</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-06-13 20:55:39 / 修改时间：23:07:47" itemprop="dateCreated datePublished" datetime="2023-06-13T20:55:39+08:00">2023-06-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/github/" itemprop="url" rel="index"><span itemprop="name">github</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/06/13/%E4%BD%BF%E7%94%A8GithubActions%E6%89%98%E7%AE%A1%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/06/13/%E4%BD%BF%E7%94%A8GithubActions%E6%89%98%E7%AE%A1%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="使用GithubActions托管前端项目"><a href="#使用GithubActions托管前端项目" class="headerlink" title="使用GithubActions托管前端项目"></a>使用GithubActions托管前端项目</h1><blockquote>
+<p>前置概念</p>
+</blockquote>
+<h5 id="CI-CD"><a href="#CI-CD" class="headerlink" title="CI/CD"></a>CI/CD</h5><p>在传统项目开发中，我们需要将项目打包后将生成的文件上传到服务器来部署一个项目。而CI/CD是一种通过在应用开发阶段引入自动化来进行持续集成和部署等操作的方案。换句话说就是把手动部署任务换成了自动部署任务。</p>
+<h5 id="GitHub-Actions"><a href="#GitHub-Actions" class="headerlink" title="GitHub Actions"></a>GitHub Actions</h5><p>Github Actions是GitHub推出的一个CI/CD工具，可以在这个自动化部署的流程中进行代码校验，代码测试，代码部署等动作，使得开发者只需要关心代码本身，而不必考虑部署问题。一般而言，流程如下：</p>
+<ol>
+<li>触发actions的动作，例如push代码</li>
+<li>actions自动执行预设好的任务</li>
+<li>反馈</li>
+</ol>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ol>
+<li><p>创建github项目，注意生成的github page默认url为<code>https://(你的用户名).github.io/(你的项目名)</code></p>
+</li>
+<li><p>可以自行编写<code>/.github/workflows</code>中actions脚本文件，例如<code>main.yml</code>,也可以在Actions选项卡中选择一个已经提前编写好的脚本文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个action的命名</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">GitHub</span> <span class="string">Actions</span> <span class="string">Build</span> <span class="string">and</span> <span class="string">Deploy</span> <span class="string">Demo</span></span><br><span class="line"><span class="comment"># 触发条件</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="comment"># 当用户push代码的时候触发</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="comment"># 当用户push代码到这个分支的时候触发</span></span><br><span class="line">    <span class="attr">branches:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">main</span></span><br><span class="line"><span class="attr">permissions:</span></span><br><span class="line">  <span class="attr">contents:</span> <span class="string">write</span></span><br><span class="line"><span class="comment"># 触发后的工作流程</span></span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="comment"># 构建流程</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">  	<span class="comment"># 运行环境</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="comment"># 步骤</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">    <span class="comment"># 步骤一，拉取最新代码</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/checkout@main</span></span><br><span class="line">	<span class="comment"># 步骤二，构建环境</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Build</span></span><br><span class="line">      <span class="comment"># 使用14版本的node</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">      <span class="attr">with:</span> </span><br><span class="line">        <span class="attr">node-version:</span> <span class="string">&#x27;14&#x27;</span></span><br><span class="line">     <span class="comment"># 步骤三，安装依赖以及打包</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">and</span> <span class="string">build</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">              npm install</span></span><br><span class="line"><span class="string">              npm run build</span></span><br><span class="line"><span class="string"></span>    <span class="comment"># 步骤四，部署到GitHub page</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">gh-pages</span></span><br><span class="line">      <span class="attr">uses:</span> <span class="string">peaceiris/actions-gh-pages@v3</span></span><br><span class="line">      <span class="attr">with:</span></span><br><span class="line">      	<span class="comment"># 使用github token作为授权密钥，注意github token会自动生成，不必配置</span></span><br><span class="line">        <span class="attr">github_token:</span> <span class="string">$&#123;&#123;</span> <span class="string">secrets.GITHUB_TOKEN</span> <span class="string">&#125;&#125;</span></span><br><span class="line">        <span class="comment"># 部署使用的文件夹</span></span><br><span class="line">        <span class="attr">publish_dir:</span> <span class="string">./dist</span></span><br><span class="line">        </span><br></pre></td></tr></table></figure></li>
+<li><p>如果步骤正确，会在项目中新建一个<code>gh-page</code>分支，专门存放将部署好的静态文件</p>
+</li>
+<li><p>我们在<code>Settings</code>选项卡中的<code>Pages</code>中选择部署的分支为<code>gh-page</code></p>
+<p><img src="https://github.com/GiorunoGiovanna/Blog-Drawingbed/raw/main/pic/image-20230613230449796.png" alt="image-20230613230449796"></p>
+</li>
+<li><p>此时访问url即可看到部署成功的页面了</p>
+</li>
+</ol>
+<h2 id="注意事项："><a href="#注意事项：" class="headerlink" title="注意事项："></a>注意事项：</h2>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/13/%E4%BD%BF%E7%94%A8GithubActions%E6%89%98%E7%AE%A1%E5%89%8D%E7%AB%AF%E9%A1%B9%E7%9B%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009React-hook/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2023/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009React-hook/" class="post-title-link" itemprop="url">React学习笔记09React-hook</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2023-05-21 09:20:46 / 修改时间：14:35:18" itemprop="dateCreated datePublished" datetime="2023-05-21T09:20:46+08:00">2023-05-21</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/React/" itemprop="url" rel="index"><span itemprop="name">React</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2023/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009React-hook/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2023/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009React-hook/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="React-hook"><a href="#React-hook" class="headerlink" title="React-hook"></a>React-hook</h1><p>在React中由两种组件写法，一种是类式组件，另一种是函数式组件，其中函数式组件是无状态组件，即没有生命周期，也没有数据状态管理state等。因此，为了让函数式组件也可以像类组件一样具有状态，所以使用<code>React-hook</code>。</p>
+<h2 id="为什么使用函数式组件-hook"><a href="#为什么使用函数式组件-hook" class="headerlink" title="为什么使用函数式组件+hook"></a>为什么使用函数式组件+hook</h2><ol>
+<li>函数式组件+hook写的代码逻辑性更强，可以抽离公共的方法，公共组件。</li>
+<li>写起来更有函数即组件，无疑也提高代码的开发效率、</li>
+<li>react-hooks可能把庞大的class组件，化整为零成很多小组件，useMemo等方法让组件或者变量制定一个适合自己的独立的渲染空间，一定程度上可以提高性能，减少渲染次数。</li>
+</ol>
+<h2 id="如何使用hook"><a href="#如何使用hook" class="headerlink" title="如何使用hook"></a>如何使用hook</h2><ol>
+<li><h5 id="useState-数据存储，派发更新"><a href="#useState-数据存储，派发更新" class="headerlink" title="useState 数据存储，派发更新"></a>useState 数据存储，派发更新</h5><p>useState返回一个数组，第一项是state此时的值，第二项是state的派发更新函数，即想要修改state就需要通过这个更新函数去修改，值得注意的是，state发生更改会导致整个函数组件从头到尾执行一次，因此需要配合<code>useMemo，useCallback</code>等api使用，否则回拖垮性能</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> [num,setNum] = <span class="title function_">useState</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">addCount</span> = (<span class="params">e</span>)=&gt;&#123;</span><br><span class="line">        <span class="title function_">setNum</span>(num+<span class="number">1</span>)</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#x27;App-header&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Child</span> <span class="attr">num</span> = <span class="string">&#123;num&#125;</span> <span class="attr">click</span> = <span class="string">&#123;addCount&#125;</span> &gt;</span><span class="tag">&lt;/<span class="name">Child</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="useEffect-组件更新副作用钩子"><a href="#useEffect-组件更新副作用钩子" class="headerlink" title="useEffect 组件更新副作用钩子"></a>useEffect 组件更新副作用钩子</h5><p>useEffect是一个在组件发生更新后触发的钩子，其中包括初次绘制，state更新，props更新。因此想要更好的使用这个钩子应当适当添加监听对象，即这个钩子的第二个参数，这是一个数组，当数组内的状态发生改变的时候，才触发这个钩子。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> [num,setNum] = <span class="title function_">useState</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">addCount</span> = (<span class="params">e</span>)=&gt;&#123;</span><br><span class="line">        <span class="title function_">setNum</span>(num+<span class="number">1</span>)</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        (<span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">wait</span>(<span class="params"></span>)&#123;</span><br><span class="line">            <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">                <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;<span class="title function_">resolve</span>(<span class="number">1</span>)&#125;,<span class="number">5000</span>)</span><br><span class="line">            &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">                <span class="variable language_">console</span>.<span class="title function_">log</span>(res)</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)()</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2</span>)</span><br><span class="line">        <span class="comment">// 只有当num发生改变的时候，才触发钩子，其他更新不触发</span></span><br><span class="line">    &#125;,[num])</span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#x27;App-header&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                &#123;/* &#123;this.state.count&#125; */&#125;</span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Child</span> <span class="attr">num</span> = <span class="string">&#123;num&#125;</span> <span class="attr">click</span> = <span class="string">&#123;addCount&#125;</span> &gt;</span><span class="tag">&lt;/<span class="name">Child</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="useLayoutEffect-渲染更新之前的-useEffect"><a href="#useLayoutEffect-渲染更新之前的-useEffect" class="headerlink" title="useLayoutEffect 渲染更新之前的 useEffect"></a>useLayoutEffect 渲染更新之前的 useEffect</h5><p>类似于<code>useEffect</code>,<code>useEffect</code> 执行顺序 组件更新挂载完成 -&gt; 浏览器dom 绘制完成 -&gt; 执行useEffect回调 。</p>
+<p><code>useLayoutEffect</code> 执行顺序 组件更新挂载完成 -&gt; 执行useLayoutEffect回调-&gt; 浏览器dom 绘制完成</p>
+</li>
+<li><h5 id="useRef-获取元素，缓存数据"><a href="#useRef-获取元素，缓存数据" class="headerlink" title="useRef 获取元素，缓存数据"></a>useRef 获取元素，缓存数据</h5><p>和传统的class组件ref一样，react-hooks 也提供获取元素方法 useRef,它有一个参数可以作为缓存数据的初始值，返回值可以被dom元素ref标记，可以获取被标记的元素节点.</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> [num,setNum] = <span class="title function_">useState</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">addCount</span> = (<span class="params">e</span>)=&gt;&#123;</span><br><span class="line">        <span class="title function_">setNum</span>(num+<span class="number">1</span>)</span><br><span class="line">    &#125; </span><br><span class="line">    <span class="keyword">const</span> dom = <span class="title function_">useRef</span>(<span class="literal">null</span>)</span><br><span class="line">    <span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(dom)</span><br><span class="line">    &#125;,[num])</span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#x27;App-header&#x27;</span> <span class="attr">ref</span>=<span class="string">&#123;dom&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Child</span> <span class="attr">num</span> = <span class="string">&#123;num&#125;</span> <span class="attr">click</span> = <span class="string">&#123;addCount&#125;</span> &gt;</span><span class="tag">&lt;/<span class="name">Child</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="useContext-获取来自祖先组件的context值"><a href="#useContext-获取来自祖先组件的context值" class="headerlink" title="useContext 获取来自祖先组件的context值"></a>useContext 获取来自祖先组件的context值</h5><figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 祖先组件创建context，并使用&lt;context。Provider&gt;限定context值的作用域</span></span><br><span class="line"><span class="keyword">const</span> root = <span class="title class_">ReactDOM</span>.<span class="title function_">createRoot</span>(<span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;root&#x27;</span>));</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> contextA = <span class="title function_">createContext</span>(<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">root.<span class="title function_">render</span>(</span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">React.StrictMode</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;<span class="name">contextA.Provider</span> <span class="attr">value</span>=<span class="string">&#123;</span>&#x27;<span class="attr">ss</span>&#x27;&#125;&gt;</span></span></span><br><span class="line"><span class="language-xml">      <span class="tag">&lt;<span class="name">App</span> /&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">contextA.Provider</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">  <span class="tag">&lt;/<span class="name">React.StrictMode</span>&gt;</span></span></span><br><span class="line">);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 后代组件引入这个context，即可获取这个值</span></span><br><span class="line"><span class="comment">// 注意，获取的context值是非响应式的</span></span><br><span class="line"><span class="keyword">import</span> &#123;contextA&#125; <span class="keyword">from</span> <span class="string">&#x27;./index&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">Child</span>(<span class="params">props</span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> a = <span class="title function_">useContext</span>(contextA)</span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">        <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">onClick</span>=<span class="string">&#123;props.click&#125;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            &#123;props.num&#125;a</span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="useMemo-减少不必要的渲染"><a href="#useMemo-减少不必要的渲染" class="headerlink" title="useMemo 减少不必要的渲染"></a>useMemo 减少不必要的渲染</h5><p>使用useMemo可以让在memo中的方法仅在它规定的监听对象发生更改的时候才重新执行</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">DemoUseMemo</span>=(<span class="params"></span>)=&gt;&#123;</span><br><span class="line">    <span class="keyword">const</span> [ number ,setNumber ] = <span class="title function_">useState</span>(<span class="number">0</span>)</span><br><span class="line">    <span class="keyword">const</span> newLog = <span class="title function_">useMemo</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="title function_">log</span> =(<span class="params"></span>)=&gt;&#123;</span><br><span class="line">            <span class="comment">/* 点击span之后 打印出来的number 不是实时更新的number值 */</span></span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(number)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> log</span><br><span class="line">      <span class="comment">/* [] 没有 number */</span>  </span><br><span class="line">    &#125;,[])</span><br><span class="line">    <span class="keyword">return</span> <span class="language-xml"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">onClick</span>=<span class="string">&#123;()</span>=&gt;</span>newLog()&#125; &gt;打印<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">        <span class="tag">&lt;<span class="name">span</span> <span class="attr">onClick</span>=<span class="string">&#123;</span> ()=&gt;</span> setNumber( number + 1 )  &#125; &gt;增加<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><h5 id="useCallback-useMemo版本的回调函数"><a href="#useCallback-useMemo版本的回调函数" class="headerlink" title="useCallback useMemo版本的回调函数"></a>useCallback useMemo版本的回调函数</h5><p>跟useMemo很像，但是useMemo返回的是函数的运行结果，而useCallback返回函数。</p>
+</li>
+</ol>
+
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/05/21/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B009React-hook/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/04/07/http%E5%8D%8F%E8%AE%AE%E5%8F%91%E5%B1%95%E5%8F%B2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1129,368 +1352,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" class="post-title-link" itemprop="url">js学习笔记16作用域链</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              
-
-              <time title="创建时间：2023-03-27 15:46:31 / 修改时间：16:13:11" itemprop="dateCreated datePublished" datetime="2023-03-27T15:46:31+08:00">2023-03-27</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="JavaScript作用域链"><a href="#JavaScript作用域链" class="headerlink" title="JavaScript作用域链"></a>JavaScript作用域链</h1><h2 id="什么是作用域链"><a href="#什么是作用域链" class="headerlink" title="什么是作用域链"></a>什么是作用域链</h2><p>JavaScript中作用域链是说变量的可访问性和可见性。也就是说整个程序中那些部分可以访问这个变量，或者说这个变量在那些地方可见。</p>
-<h2 id="为什么作用域很重要"><a href="#为什么作用域很重要" class="headerlink" title="为什么作用域很重要"></a>为什么作用域很重要</h2><ul>
-<li>安全，特定的变量只有在特定的区域中才能被访问，有了作用域我们就i可以避免在程序其他位置意外对某个变量做出修改</li>
-<li>命名问题，不同的作用域中允许存在定义相同的变量名称</li>
-</ul>
-<h2 id="作用域类型"><a href="#作用域类型" class="headerlink" title="作用域类型"></a>作用域类型</h2><ol>
-<li>全局作用域</li>
-<li>函数作用域</li>
-<li>块级作用域</li>
-</ol>
-<h4 id="全局作用域"><a href="#全局作用域" class="headerlink" title="全局作用域"></a>全局作用域</h4><p>任何不在函数中或者是大括号中声明的变量，都是在全局作用域下，全局作用域下声明的变量可以在程序的任意位置访问。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;b&#x27;</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">read</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(a)</span><br><span class="line">&#125;</span><br><span class="line">read() <span class="comment">//b</span></span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/03/27/js%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B016%E4%BD%9C%E7%94%A8%E5%9F%9F%E9%93%BE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/" class="post-title-link" itemprop="url">面经摘抄03</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2023-03-20 14:49:20" itemprop="dateCreated datePublished" datetime="2023-03-20T14:49:20+08:00">2023-03-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-03-30 14:03:05" itemprop="dateModified" datetime="2023-03-30T14:03:05+08:00">2023-03-30</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%84/" itemprop="url" rel="index"><span itemprop="name">面经摘抄</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="面经摘抄03"><a href="#面经摘抄03" class="headerlink" title="面经摘抄03"></a>面经摘抄03</h1><ol>
-<li><h5 id="怎么知道点击的横纵坐标"><a href="#怎么知道点击的横纵坐标" class="headerlink" title="怎么知道点击的横纵坐标"></a>怎么知道点击的横纵坐标</h5><p>首先给点击绑定事件监听，然后根据回调中的事件对象中的offsetX和offsetY判断点击发生位置</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">&#x27;click&#x27;</span>, <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(e.offsetX)</span><br><span class="line">    <span class="built_in">console</span>.log(e.offsetY)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-<li><h5 id="vue依赖收集在什么时候发生，父子组件都会更新吗"><a href="#vue依赖收集在什么时候发生，父子组件都会更新吗" class="headerlink" title="vue依赖收集在什么时候发生，父子组件都会更新吗"></a>vue依赖收集在什么时候发生，父子组件都会更新吗</h5><p>vue依赖收集是为了在接受到数据更改的时候能够通知到其他使用了这个数据的组件的一种手段，通常在初始化阶段就发生依赖收集，在Vue2中，由于响应式原理的限制，vue2对于一些能增改数组的方法没有很好的监听手段，于是需要重写数组方法，在这个过程中也会发生依赖收集。</p>
-<p>父子组件都会进行依赖收集和更新，但是更新的顺序和具体实现有关，不一定是所有的父组件都会在所有的子组件更新之前更新。通常情况下，父组件会在子组件之前更新，但也可以通过一些特殊的方式来改变更新的顺序。</p>
-</li>
-<li><h5 id="for循环1000次，组件会更新多少次"><a href="#for循环1000次，组件会更新多少次" class="headerlink" title="for循环1000次，组件会更新多少次"></a>for循环1000次，组件会更新多少次</h5><p>会更新1次，因为Vue更新视图不是同步的而是异步更新，这个是根据当前浏览器是否支持promise或setTimeout来决定的。由于for是同步的，那么会等到同步代码全部结束后再根据最后的结果触发watcher走响应式更新的一套操作。</p>
-</li>
-<li><h5 id="框架是怎么知道什么时候生成虚拟dom"><a href="#框架是怎么知道什么时候生成虚拟dom" class="headerlink" title="框架是怎么知道什么时候生成虚拟dom"></a>框架是怎么知道什么时候生成虚拟dom</h5></li>
-<li><h5 id="如何终止forEach遍历？"><a href="#如何终止forEach遍历？" class="headerlink" title="如何终止forEach遍历？"></a>如何终止forEach遍历？</h5><ol>
-<li><p>break(X)</p>
-</li>
-<li><p>return false(X)</p>
-</li>
-<li><p>抛出异常</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">    arr.forEach(<span class="function"><span class="params">m</span> =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> (m === <span class="number">4</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">&#x27;break&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">console</span>.log(m)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">&#x27;is break&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ol>
-</li>
-<li><p>for…in和for…of的区别</p>
-<p>for…in是用于遍历可枚举属性，包括它原型链上新增的可枚举属性</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新增原型链上的可枚举属性可导致for in遍历问题</span></span><br><span class="line"><span class="built_in">Array</span>.prototype.mykey = <span class="string">&#x27;value&#x27;</span></span><br><span class="line"><span class="keyword">let</span> arr = <span class="keyword">new</span> <span class="built_in">Array</span>(<span class="number">1</span>).fill(<span class="number">0</span>)</span><br><span class="line"><span class="keyword">for</span> (key <span class="keyword">in</span> arr) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(key)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>for…of本质上是遍历拥有迭代器iterator的对象，而普通对象没有迭代器，因此可以给普通对象添加一个迭代器来使其可以被遍历</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> obj = &#123;</span><br><span class="line">    <span class="attr">a</span>: <span class="number">1</span>,</span><br><span class="line">    <span class="attr">b</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">c</span>: <span class="number">3</span>,</span><br><span class="line">    [<span class="built_in">Symbol</span>.iterator]: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">        <span class="keyword">let</span> keys = <span class="built_in">Object</span>.keys(<span class="built_in">this</span>)</span><br><span class="line">        <span class="keyword">let</span> index = <span class="number">0</span></span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="function"><span class="title">next</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> index === keys.length ? &#123; <span class="attr">done</span>: <span class="literal">true</span> &#125; : &#123; <span class="attr">done</span>: <span class="literal">false</span>, <span class="attr">value</span>: obj[keys[index++]] &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> (item <span class="keyword">of</span> obj) &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(item)<span class="comment">// 1，2，3</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><h5 id="sessionStorage真的不能在页面之间共享状态吗？"><a href="#sessionStorage真的不能在页面之间共享状态吗？" class="headerlink" title="sessionStorage真的不能在页面之间共享状态吗？"></a>sessionStorage真的不能在页面之间共享状态吗？</h5><p>标准答案是不能，但是在标签或窗口中打开一个<strong>同源</strong>新页面时会<strong>复制</strong>，注意是复制一份全新的副本作为新会话窗口的上下文，也就是说在打开之前的状态是保持一致的，但是打开之后就<strong>不能共享实时的状态</strong>了</p>
-</li>
-<li><h5 id="跨页面通信方法"><a href="#跨页面通信方法" class="headerlink" title="跨页面通信方法"></a>跨页面通信方法</h5><ol>
-<li><p>使用localStorage进行同源页面跨页面通信</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 一个窗口的设值代码</span></span><br><span class="line"><span class="built_in">localStorage</span>.setItem(<span class="string">&#x27;aaa&#x27;</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 其他窗口监听storage事件</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&quot;storage&quot;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(e)</span><br><span class="line">  <span class="built_in">console</span>.log(e.newValue)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></li>
-<li><p>使用BroadCast Channel进行同源页面跨页面通信</p>
-<p>可以创建一个用于广播的通信频道。类似于localStroage。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">const bc = new BroadcastChannel(’channelName‘);</span><br><span class="line"></span><br><span class="line">// 监听这个频道</span><br><span class="line">bc.onmessage = function (e) &#123;</span><br><span class="line">    const data = e.data;</span><br><span class="line">    const text = &#x27;[receive] &#x27; + data.msg + &#x27; —— tab &#x27; + data.from;</span><br><span class="line">    console.log(&#x27;[BroadcastChannel] receive message:&#x27;, text);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">// 像这个频道发送消息</span><br><span class="line">bc.postMessage(mydata);</span><br></pre></td></tr></table></figure></li>
-<li><p>使用Service Worker进行同源页面跨页面通信</p>
-</li>
-<li><p>使用iframe桥进行<strong>非同源</strong>页面跨页面通信</p>
-<p>要实现该功能，可以使用一个用户不可见的 iframe 作为“桥”。由于 iframe 与父页面间可以通过指定<code>origin</code>来忽略同源限制，因此可以在每个页面中嵌入一个 iframe （例如：<code>http://sample.com/bridge.html</code>），而这些 iframe 由于使用的是一个 url，因此属于同源页面，其通信方式可以复用上面第一部分提到的各种方式。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 业务页面代码 */</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// …… do something</span></span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">//先由页面发送给自己的iframe</span></span><br><span class="line"><span class="built_in">window</span>.frames[<span class="number">0</span>].window.postMessage(mydata, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/* iframe 内代码 */</span></span><br><span class="line"><span class="keyword">const</span> bc = <span class="keyword">new</span> BroadcastChannel(<span class="string">&#x27;AlienZHOU&#x27;</span>);</span><br><span class="line"><span class="comment">// 收到来自页面的消息后，在 iframe 间进行广播</span></span><br><span class="line"><span class="built_in">window</span>.addEventListener(<span class="string">&#x27;message&#x27;</span>, <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    bc.postMessage(e.data);</span><br><span class="line">&#125;);    </span><br><span class="line"></span><br><span class="line"><span class="comment">/* iframe 内代码 */</span></span><br><span class="line"><span class="comment">// 对于收到的（iframe）广播消息，通知给所属的业务页面</span></span><br><span class="line">bc.onmessage = <span class="function"><span class="keyword">function</span> (<span class="params">e</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.parent.postMessage(e.data, <span class="string">&#x27;*&#x27;</span>);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></li>
-<li><p>使用webSocket进行跨页面通信</p>
-</li>
-</ol>
-</li>
-<li><h5 id="不使用额外变量交换a，b值"><a href="#不使用额外变量交换a，b值" class="headerlink" title="不使用额外变量交换a，b值"></a>不使用额外变量交换a，b值</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = a+b</span><br><span class="line">b = a-b</span><br><span class="line">a = a-b</span><br></pre></td></tr></table></figure></li>
-<li><h5 id="JavaScript死锁和死锁检查"><a href="#JavaScript死锁和死锁检查" class="headerlink" title="JavaScript死锁和死锁检查"></a>JavaScript死锁和死锁检查</h5><p>一般情况下，认为死锁是两个或以上的进程发生冲突导致不断等待的情况产生的。但是JavaScript作为经典的单线程语言也可以发生死锁。利用Promise没有决议就会一直阻塞的原理，可以实现阻塞部分代码形成死锁</p>
-</li>
-<li><h5 id="检查内存泄漏"><a href="#检查内存泄漏" class="headerlink" title="检查内存泄漏"></a>检查内存泄漏</h5><p>使用chrome浏览器开发者工具中的memory或者performance检查浏览器变量情况。</p>
-</li>
-<li><h5 id="如何实现组件按需引入"><a href="#如何实现组件按需引入" class="headerlink" title="如何实现组件按需引入"></a>如何实现组件按需引入</h5><ul>
-<li>TreeShaking（antD）基于webpack打包过程的treeShaking操作除掉多余的无用代码达到按需引入的目的，好处是不需要额外配置，坏处是由于基于webpacck，无法对css做按需引入处理。</li>
-<li>Babel-plugin-import（elementui、vant）借助Babel解析编辑ATS的能力实现了一种成熟的组件按需引入方式，目前很多的组件库都是依靠这种方式进行了实现，例如Element-UI等。这种方式的优点是不需要库使用者了解原理，只需按照文档说明配置即可。缺点是使用者仍旧需要为了按需引入来增加可能本来无需使用的Babel及其相关配置（这点也是目前仍然有大量程序员不使用组件按需引入功能的原因，不是所有人都想触碰Babel配置的，尤其当他还不够了解Babel机制的时候）。</li>
-<li>最后，我们进入到实现按需引入的终极方式——Monorepo！为什么说它是终极方式呢？因为通过Monorepo形式组织的组件库在发布时每个组件都是一个单独的NPM包，用户可以自己选择希望使用的组件并安装（你没听错，甚至都不用安装整个组件库），这样自然做到了完完全全的按需引入（甚至可以说从根本上干掉了这个概念）！</li>
-</ul>
-</li>
-<li><h5 id="正向代理和反向代理"><a href="#正向代理和反向代理" class="headerlink" title="正向代理和反向代理"></a>正向代理和反向代理</h5><p>正向代理：由客户端进行代理，对于服务器来说，是不知道它的实际客户是谁的，服务器不用进行任何处理。相当于客户端自带一个服务器，服务器直接于这个客户端的代理服务器进行交互，然后客户端的代理服务器再与服务器交互。</p>
-<p>反向代理：由服务器进行代理，对于客户端而言，不用进行任何处理，与上面相反。</p>
-</li>
-<li><h5 id="webSocket为什么依赖于Http链接"><a href="#webSocket为什么依赖于Http链接" class="headerlink" title="webSocket为什么依赖于Http链接"></a>webSocket为什么依赖于Http链接</h5><ul>
-<li>webSocket在第一次握手时，需要借助http将链接通过请求头Upgrade等字段将http请求升级成webSocket</li>
-<li>webSocket设计上就是天生为了增强http通信能力（全双工）</li>
-<li>可以获得一个兼容的支持，如果服务器不支持webSocket也可以建立http通信，返回onError，比服务器完全无响应好得多</li>
-</ul>
-</li>
-<li><h5 id="DocumentFragment用在哪里"><a href="#DocumentFragment用在哪里" class="headerlink" title="DocumentFragment用在哪里"></a>DocumentFragment用在哪里</h5><p>documentFragment是一个没有父对象的最小文档对象，可以理解为一个轻量版的dom，由于不是真实dom的一部分，变化不会触发回流。</p>
-<p>基于这一点，我们在需要渲染非常多节点的时候，如果一个个插入dom节点，会导致多次回流，严重损耗资源。可以先将dom节点插入这个DocumentFragment，再将DocumentFragment插入真实dom中，只进行一次回流。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> app = <span class="built_in">document</span>.querySelector(<span class="string">&#x27;.app&#x27;</span>)</span><br><span class="line"><span class="keyword">let</span> fragement = <span class="built_in">document</span>.createDocumentFragment()</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> i = <span class="number">0</span>;i&lt;<span class="number">5</span>;i++)&#123;</span><br><span class="line">    <span class="keyword">let</span> div = <span class="built_in">document</span>.createElement(<span class="string">&#x27;li&#x27;</span>)</span><br><span class="line">    div.setAttribute(<span class="string">&#x27;class&#x27;</span>,<span class="string">&#x27;item&#x27;</span>)</span><br><span class="line">    div.innerText = <span class="number">6666</span></span><br><span class="line">    fragement.appendChild(div)</span><br><span class="line">&#125;</span><br><span class="line">app.appendChild(fragement)</span><br></pre></td></tr></table></figure></li>
-<li><h5 id="JS类中的static，public，private，protected区别"><a href="#JS类中的static，public，private，protected区别" class="headerlink" title="JS类中的static，public，private，protected区别"></a>JS类中的static，public，private，protected区别</h5><ul>
-<li><p>static(静态)</p>
-<p>静态成员只能通过这个类本身去访问，外部无法获取。</p>
-</li>
-<li><p>public(公有)</p>
-<p>任何对象都可以访问，修改，删除这些共有的成员。</p>
-</li>
-<li><p>private(私有)</p>
-<p>私有成员由构造函数产生。只能由私有方法去访问。</p>
-</li>
-<li><p>protected(保护)</p>
-<p>保护对象只能由私有方法或者子类的私有方法访问</p>
-</li>
-</ul>
-<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_38045106/article/details/84666638">参考</a></p>
-<table>
-<thead>
-<tr>
-<th align="center">关键字</th>
-<th align="center">类本身</th>
-<th align="center">类的方法</th>
-<th align="center">类的实例</th>
-<th align="center">子类</th>
-<th align="center">子类方法</th>
-<th align="center">子类实例</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">static</td>
-<td align="center">+</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">+</td>
-<td align="center">-</td>
-<td align="center">-</td>
-</tr>
-<tr>
-<td align="center">public</td>
-<td align="center">-</td>
-<td align="center">+</td>
-<td align="center">+</td>
-<td align="center">-</td>
-<td align="center">+</td>
-<td align="center">+</td>
-</tr>
-<tr>
-<td align="center">private</td>
-<td align="center">-</td>
-<td align="center">+</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">-</td>
-</tr>
-<tr>
-<td align="center">protected</td>
-<td align="center">-</td>
-<td align="center">+</td>
-<td align="center">-</td>
-<td align="center">-</td>
-<td align="center">+</td>
-<td align="center">-</td>
-</tr>
-</tbody></table>
-</li>
-<li><h5 id="scroll、client、offset的区别"><a href="#scroll、client、offset的区别" class="headerlink" title="scroll、client、offset的区别"></a>scroll、client、offset的区别</h5><ul>
-<li><p>offset偏移</p>
-<p>相对于父元素的偏移量</p>
-</li>
-<li><p>client可视区</p>
-<p>相对于可视区的偏移量</p>
-</li>
-<li><p>scroll滚动</p>
-<p>相对于完整页面实际占有面积与可视区占有面积的偏移量</p>
-</li>
-</ul>
-<p><img src="https://github.com/GiorunoGiovanna/Blog-Drawingbed/raw/main/pic/%E8%B7%9D%E7%A6%BB%E5%85%B3%E7%B3%BB.png" alt="距离关系"></p>
-<p><img src="https://github.com/GiorunoGiovanna/Blog-Drawingbed/raw/main/pic/scroll.png" alt="scroll"></p>
-</li>
-<li><h5 id="iframe嵌入页面的优缺点"><a href="#iframe嵌入页面的优缺点" class="headerlink" title="iframe嵌入页面的优缺点"></a>iframe嵌入页面的优缺点</h5><p>优点：可以原封不动展现页面，不会阻塞主页面渲染。</p>
-<p>缺点：增加服务器http请求，会阻塞页面onload事件。</p>
-</li>
-<li><h5 id="base64传输图片的优缺点"><a href="#base64传输图片的优缺点" class="headerlink" title="base64传输图片的优缺点"></a>base64传输图片的优缺点</h5><p>优点：可以将二进制数据转换成字符串，不必通过文件流方式传输，可以简单加密</p>
-<p>缺点：编码后体积更大，编解码耗费资源</p>
-</li>
-<li><h5 id="为什么由ASCII，Unicode和UTF-8等字符编码格式"><a href="#为什么由ASCII，Unicode和UTF-8等字符编码格式" class="headerlink" title="为什么由ASCII，Unicode和UTF-8等字符编码格式"></a>为什么由ASCII，Unicode和UTF-8等字符编码格式</h5><p>计算机兴起之初，只有ASCII码，用8字节二进制编码可以标识约256个字符，表达英文字符够用了。</p>
-<p>但是随着计算机的发展，ASCII码不够用标识全世界的字符了，于是出现了Unicode，Unicode是一个符号集合。具体可以由UTF-8，UTF-16，UTF-32等具体实现方法。</p>
-<p>以UTF-8举例：</p>
-<ul>
-<li>对于单字节符号，第一位为0，后面7位为这个符号的Unicode。</li>
-<li>对于n字节的符号，第一个字节的前n位都设为1，第n+1位设为0，后面字节的前两位一律设为10.剩下的就是这个符号的Unicode码。</li>
-</ul>
-</li>
-<li><h5 id="如何实现0-5px"><a href="#如何实现0-5px" class="headerlink" title="如何实现0.5px"></a>如何实现0.5px</h5><ol>
-<li><h6 id="伪元素-scale-兼容性最好，推荐"><a href="#伪元素-scale-兼容性最好，推荐" class="headerlink" title="伪元素+scale (兼容性最好，推荐)"></a>伪元素+<a target="_blank" rel="noopener" href="https://so.csdn.net/so/search?q=scale&spm=1001.2101.3001.7020">scale</a> (兼容性最好，推荐)</h6><p>实现方式：给容器设置伪元素，设置绝对定位，宽高都是200%，边框是1px，然后使用transform:scale(0.5) 让伪元素缩小原来的一半，此时伪元素的边框和容器的边缘重合。</p>
-</li>
-<li><h6 id="利用阴影代替边框"><a href="#利用阴影代替边框" class="headerlink" title="利用阴影代替边框"></a>利用阴影代替边框</h6><p>特点：方便，能正常展示圆角，而且能实现0.1px等更细的边框，兼容性还行。</p>
-</li>
-</ol>
-</li>
-<li><h5 id="Promise-then内能用try-catch捕获错误吗"><a href="#Promise-then内能用try-catch捕获错误吗" class="headerlink" title="Promise.then内能用try catch捕获错误吗"></a>Promise.then内能用try catch捕获错误吗</h5><p>Promise.then或者async/await写法，发生异常的时候都不能捕获。</p>
-</li>
-</ol>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/03/20/%E9%9D%A2%E7%BB%8F%E6%91%98%E6%8A%8403/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1562,14 +1423,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">127</span>
+          <span class="site-state-item-count">129</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">

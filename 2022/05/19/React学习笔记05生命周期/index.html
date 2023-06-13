@@ -20,18 +20,20 @@
     var CONFIG = {"hostname":"giorunogiovanna.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":true},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="React生命周期详解（新）React16之后有三个生命周期被废弃：  componentWillMount componentWillReceviceProps componentWillUpdate  因为这些生命周期方法容易被误解和滥用 React16.8+的生命周期分为三个阶段，分别是挂载阶段、更新阶段、卸载阶段 挂载阶段 constructor：构造函数，最先被执行，我们通常在构造函数里">
+  <meta name="description" content="React生命周期详解（新）类式组件中的生命周期React16之后有三个生命周期被废弃：  componentWillMount componentWillReceviceProps componentWillUpdate  因为这些生命周期方法容易被误解和滥用 React16.8+的生命周期分为三个阶段，分别是挂载阶段、更新阶段、卸载阶段 挂载阶段 constructor：构造函数，最先被执行，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="React学习笔记05生命周期">
 <meta property="og:url" content="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/index.html">
 <meta property="og:site_name" content="StoneOcean&#39;s Blog">
-<meta property="og:description" content="React生命周期详解（新）React16之后有三个生命周期被废弃：  componentWillMount componentWillReceviceProps componentWillUpdate  因为这些生命周期方法容易被误解和滥用 React16.8+的生命周期分为三个阶段，分别是挂载阶段、更新阶段、卸载阶段 挂载阶段 constructor：构造函数，最先被执行，我们通常在构造函数里">
+<meta property="og:description" content="React生命周期详解（新）类式组件中的生命周期React16之后有三个生命周期被废弃：  componentWillMount componentWillReceviceProps componentWillUpdate  因为这些生命周期方法容易被误解和滥用 React16.8+的生命周期分为三个阶段，分别是挂载阶段、更新阶段、卸载阶段 挂载阶段 constructor：构造函数，最先被执行，">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77843a0d241c4e8f9e70af2c8946f563~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp">
 <meta property="article:published_time" content="2022-05-19T07:01:19.000Z">
-<meta property="article:modified_time" content="2022-05-19T07:36:58.174Z">
+<meta property="article:modified_time" content="2023-05-20T08:37:01.667Z">
 <meta property="article:author" content="StoneOcean">
 <meta property="article:tag" content="学习笔记">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77843a0d241c4e8f9e70af2c8946f563~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp">
 
 <link rel="canonical" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/19/React%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F/">
 
@@ -212,10 +214,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-05-19 15:01:19 / 修改时间：15:36:58" itemprop="dateCreated datePublished" datetime="2022-05-19T15:01:19+08:00">2022-05-19</time>
+              <time title="创建时间：2022-05-19 15:01:19" itemprop="dateCreated datePublished" datetime="2022-05-19T15:01:19+08:00">2022-05-19</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-05-20 16:37:01" itemprop="dateModified" datetime="2023-05-20T16:37:01+08:00">2023-05-20</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -251,7 +259,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <h1 id="React生命周期详解（新）"><a href="#React生命周期详解（新）" class="headerlink" title="React生命周期详解（新）"></a>React生命周期详解（新）</h1><p>React16之后有三个生命周期被废弃：</p>
+        <h1 id="React生命周期详解（新）"><a href="#React生命周期详解（新）" class="headerlink" title="React生命周期详解（新）"></a>React生命周期详解（新）</h1><h2 id="类式组件中的生命周期"><a href="#类式组件中的生命周期" class="headerlink" title="类式组件中的生命周期"></a>类式组件中的生命周期</h2><p>React16之后有三个生命周期被废弃：</p>
 <ul>
 <li><code>componentWillMount</code></li>
 <li><code>componentWillReceviceProps</code></li>
@@ -259,7 +267,7 @@
 </ul>
 <p>因为这些生命周期方法容易被误解和滥用</p>
 <p><strong>React16.8+的生命周期分为三个阶段，分别是挂载阶段、更新阶段、卸载阶段</strong></p>
-<h2 id="挂载阶段"><a href="#挂载阶段" class="headerlink" title="挂载阶段"></a>挂载阶段</h2><ul>
+<h3 id="挂载阶段"><a href="#挂载阶段" class="headerlink" title="挂载阶段"></a>挂载阶段</h3><ul>
 <li><p><code>constructor</code>：构造函数，最先被执行，我们通常在构造函数里初始化state对象或者给自定义方法绑定this</p>
 </li>
 <li><p><code>getDerivedStateFromProps</code>：<code>static getDerivedStateFromProps(nextProps,prevState)</code>,这是一个静态方法，当我们接受到新的属性想要去修改state的时候，可以使用<code>getDerivedStateFromProps</code></p>
@@ -269,7 +277,7 @@
 <li><p><code>componentDidMount</code>：组件挂载之后调用，类似于Vue中的mounted，这个时候可以获取DOM节点并操作，比如对canvas，svg等操作，服务器请求，订阅都可以写在这个里面，但是记得在<code>componentWillUnmount</code>中取消订阅。</p>
 </li>
 </ul>
-<h2 id="更新阶段"><a href="#更新阶段" class="headerlink" title="更新阶段"></a>更新阶段</h2><ul>
+<h3 id="更新阶段"><a href="#更新阶段" class="headerlink" title="更新阶段"></a>更新阶段</h3><ul>
 <li><p><code>getDerivedStateFromProps</code>：这个方法在整个改在阶段都可能会调用</p>
 </li>
 <li><p><code>shouldComponentUpdate</code>：<code>shouldComponentUpdate(nextProps,nextState)</code>,有两个参数，分别是组件更新前已经发生变化的新props和新state，同时接收一个返回值，用来表示此次组件是否需要更新。</p>
@@ -281,9 +289,23 @@
 <li><p><code>componentDidUpdate</code>：<code>componentDidUpdate(preProps,prevState,snapShot)</code>,第三个参数是<code>getSnapshotBeforeUpdate</code>返回的，如果触发某些回调函数时需要用到DOM元素的状态，则将对比或计算的过程迁移至<code>getSnapshotBeforeUpdate</code>,然后在<code>componentDidUpdate</code>中统一触发回调或更新状态。</p>
 </li>
 </ul>
-<h2 id="卸载阶段"><a href="#卸载阶段" class="headerlink" title="卸载阶段"></a>卸载阶段</h2><ul>
+<h3 id="卸载阶段"><a href="#卸载阶段" class="headerlink" title="卸载阶段"></a>卸载阶段</h3><ul>
 <li><code>componentWillUnmount</code>：当组件被卸载或者销毁了就会调用，我们可以在这个生命周期里面去清除一些定时器，取消订阅等等收尾工作</li>
 </ul>
+<h3 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h3><p><img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/77843a0d241c4e8f9e70af2c8946f563~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp" alt="image.png"></p>
+<h2 id="函数式组件中代替生命周期钩子的hook"><a href="#函数式组件中代替生命周期钩子的hook" class="headerlink" title="函数式组件中代替生命周期钩子的hook"></a>函数式组件中代替生命周期钩子的hook</h2><p>函数式组件时React中更加细化的一种组件写法，函数式编程可以让我们的代码颗粒化，单元化，形成独立的渲染环境，减少渲染次数，优化性能。但是函数式组件中并没有生命周期钩子，于是需要使用某些hook去替代生命周期的钩子</p>
+<h3 id="useEffect组件更新副作用钩子"><a href="#useEffect组件更新副作用钩子" class="headerlink" title="useEffect组件更新副作用钩子"></a>useEffect组件更新副作用钩子</h3><h4 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h4><p>如果想要在函数式组件中实现类似<code>componentDidMount</code>钩子的初始化进行一些操作，可以使用<code>useEffect</code>。<strong>但是需要注意的是，<code>useEffect</code>不是生命周期钩子，它在每次组件发生更新的时候都会触发。包括state更新，props更新，因此想要合理使用<code>useEffect</code>就必须加入限定条件，即<code>useEffect</code>的第二个参数，限定<code>useEffect</code>的回调在这个数组规定的数据发生变化的时候才触发</strong></p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">App</span>(<span class="params"></span>)&#123;</span><br><span class="line">    <span class="keyword">const</span> [num,setNum] = <span class="title function_">useState</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> [num1,setNum1] = <span class="title function_">useState</span>(<span class="number">1</span>)</span><br><span class="line">    <span class="keyword">const</span> <span class="title function_">addCount</span> = (<span class="params">e</span>)=&gt;&#123;</span><br><span class="line">        <span class="title function_">setNum</span>(num+<span class="number">1</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 由於只有在num1更新的时候才触发回调，因此num发生更新的时候不会打印2</span></span><br><span class="line">    <span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2</span>)</span><br><span class="line">    &#125;,[num1])</span><br><span class="line">    <span class="keyword">return</span>(</span><br><span class="line">            <span class="language-xml"><span class="tag">&lt;<span class="name">div</span> <span class="attr">className</span>=<span class="string">&#x27;App-header&#x27;</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">                &#123;/* &#123;this.state.count&#125; */&#125;</span></span><br><span class="line"><span class="language-xml">                <span class="tag">&lt;<span class="name">Child</span> <span class="attr">num</span> = <span class="string">&#123;num&#125;</span> <span class="attr">click</span> = <span class="string">&#123;addCount&#125;</span> &gt;</span><span class="tag">&lt;/<span class="name">Child</span>&gt;</span></span></span><br><span class="line"><span class="language-xml">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span></span><br><span class="line">    )</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="title class_">App</span>;</span><br></pre></td></tr></table></figure>
+
+<h4 id="异步使用useEffect"><a href="#异步使用useEffect" class="headerlink" title="异步使用useEffect"></a>异步使用useEffect</h4><p><code>useEffect</code>是不可以直接异步使用的，也不可以直接使用async await语法糖。想要异步使用<code>useEffect</code>可以对effect进行一层包装。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">useEffect</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="comment">// 自包装一个异步的函数</span></span><br><span class="line">    (<span class="keyword">async</span> <span class="keyword">function</span> <span class="title function_">wait</span>(<span class="params"></span>)&#123;</span><br><span class="line">        <span class="keyword">await</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve,reject</span>)=&gt;</span>&#123;</span><br><span class="line">            <span class="built_in">setTimeout</span>(<span class="function">()=&gt;</span>&#123;<span class="title function_">resolve</span>(<span class="number">1</span>)&#125;,<span class="number">5000</span>)</span><br><span class="line">        &#125;).<span class="title function_">then</span>(<span class="function"><span class="params">res</span>=&gt;</span>&#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(res)</span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;)()</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="number">2</span>)</span><br><span class="line">&#125;,[num])</span><br></pre></td></tr></table></figure>
+
+<h3 id="useMemo"><a href="#useMemo" class="headerlink" title="useMemo"></a>useMemo</h3><p><code>useMemo</code>是一个返回缓存值的hook，有点类似于Vue中的<code>computed</code>，我们在使用时传入一个回调函数，这个回调函数需要返回一个值作为计算结果，第二个参数是一个被监听的数据数组，意思是只要数组中的数据发生更新，就触发这个<code>useMemo</code>。</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> newNum = <span class="title function_">useMemo</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> num+<span class="number">1</span></span><br><span class="line">    <span class="comment">// 监听num，当num发生改变，触发这个useMemo，返回一个计算后的值</span></span><br><span class="line">&#125;,[num]</span><br></pre></td></tr></table></figure>
+
+<h3 id="useCallback"><a href="#useCallback" class="headerlink" title="useCallback"></a>useCallback</h3><p><code>useCallback</code>是一个返回缓存函数的hook，和<code>useMemo</code>很像，不过返回的是一个函数</p>
+<figure class="highlight jsx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> newNum = <span class="title function_">useCallback</span>(<span class="function">()=&gt;</span>&#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;dd&#x27;</span>,num+num1)</span><br><span class="line">&#125;,[num,num1])</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -368,7 +390,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#React%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E8%AF%A6%E8%A7%A3%EF%BC%88%E6%96%B0%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">React生命周期详解（新）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="nav-number">1.1.</span> <span class="nav-text">挂载阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E9%98%B6%E6%AE%B5"><span class="nav-number">1.2.</span> <span class="nav-text">更新阶段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="nav-number">1.3.</span> <span class="nav-text">卸载阶段</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#React%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E8%AF%A6%E8%A7%A3%EF%BC%88%E6%96%B0%EF%BC%89"><span class="nav-number">1.</span> <span class="nav-text">React生命周期详解（新）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%BC%8F%E7%BB%84%E4%BB%B6%E4%B8%AD%E7%9A%84%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F"><span class="nav-number">1.1.</span> <span class="nav-text">类式组件中的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8C%82%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="nav-number">1.1.1.</span> <span class="nav-text">挂载阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E9%98%B6%E6%AE%B5"><span class="nav-number">1.1.2.</span> <span class="nav-text">更新阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E9%98%B6%E6%AE%B5"><span class="nav-number">1.1.3.</span> <span class="nav-text">卸载阶段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E5%9B%BE"><span class="nav-number">1.1.4.</span> <span class="nav-text">流程图</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BB%84%E4%BB%B6%E4%B8%AD%E4%BB%A3%E6%9B%BF%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90%E7%9A%84hook"><span class="nav-number">1.2.</span> <span class="nav-text">函数式组件中代替生命周期钩子的hook</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#useEffect%E7%BB%84%E4%BB%B6%E6%9B%B4%E6%96%B0%E5%89%AF%E4%BD%9C%E7%94%A8%E9%92%A9%E5%AD%90"><span class="nav-number">1.2.1.</span> <span class="nav-text">useEffect组件更新副作用钩子</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BD%BF%E7%94%A8useEffect"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">异步使用useEffect</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useMemo"><span class="nav-number">1.2.2.</span> <span class="nav-text">useMemo</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#useCallback"><span class="nav-number">1.2.3.</span> <span class="nav-text">useCallback</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -384,14 +406,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">127</span>
+          <span class="site-state-item-count">129</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-count">24</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
