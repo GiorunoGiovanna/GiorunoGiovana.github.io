@@ -186,6 +186,324 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%AE%9E%E7%8E%B0miniVuex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%AE%9E%E7%8E%B0miniVuex/" class="post-title-link" itemprop="url">Vuex学习笔记02实现miniVuex</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-15 15:35:09" itemprop="dateCreated datePublished" datetime="2022-05-15T15:35:09+08:00">2022-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vuex/" itemprop="url" rel="index"><span itemprop="name">Vuex</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%AE%9E%E7%8E%B0miniVuex/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%AE%9E%E7%8E%B0miniVuex/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="mini-Vue-amp-amp-mini-VueX"><a href="#mini-Vue-amp-amp-mini-VueX" class="headerlink" title="mini-Vue&amp;&amp;mini-VueX"></a>mini-Vue&amp;&amp;mini-VueX</h1><p>我们在Vue中使用Vuex的步骤是先引入Vuex，然后<code>createStore</code>，将配置项做好之后，调用Vue实例<code>app.use()</code>,从而实现挂载了Vuex这个插件。</p>
+<h2 id="app-use"><a href="#app-use" class="headerlink" title="app.use()"></a>app.use()</h2><p>在<code>potions API</code>中我们会将插件挂载到全局Vue实例中<code>app.globalProperties.$store = store</code></p>
+<p>而在<code>composition API</code>中为了实现组件化，我们需要通过<code>install</code>方法将我们需要被挂载插件的对象传入到插件构造方法内部。</p>
+<p>这也是文档一定要我们实现一个install方法的原因,<code>app.use()</code>会调用store提供的这个install方法，并把<code>app</code>传给它。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//实现一个具有创建app实例功能的mini-Vue</span></span><br><span class="line"><span class="keyword">const</span> MiniVue = &#123;</span><br><span class="line">    <span class="function"><span class="title">createApp</span>(<span class="params">options</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> app = &#123;</span><br><span class="line">            <span class="function"><span class="title">mount</span>(<span class="params">selector</span>)</span> &#123;</span><br><span class="line">                <span class="keyword">const</span> parent = <span class="built_in">document</span>.querySelector(selector)</span><br><span class="line">                <span class="keyword">const</span> ctx = options.setup()</span><br><span class="line">                <span class="comment">//监听渲染函数，达到实时刷新数据的效果</span></span><br><span class="line">                watchEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">const</span> el = options.render.call(ctx)</span><br><span class="line">                    parent.innerHTML = <span class="string">&#x27;&#x27;</span></span><br><span class="line">                    parent.appendChild(el)</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="comment">//实现use方法，在实例上使用插件</span></span><br><span class="line">            <span class="function"><span class="title">use</span>(<span class="params">plugin, ...options</span>)</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (plugin &amp;&amp; <span class="keyword">typeof</span> plugin.install === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">                    plugin.install(app, ...options)</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    <span class="built_in">console</span>.warn(<span class="string">&#x27;请传入plugin对象，并且提供和一个install方法&#x27;</span>)</span><br><span class="line">                &#125;</span><br><span class="line">                plugin.install(app)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> app</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="实现store类"><a href="#实现store类" class="headerlink" title="实现store类"></a>实现store类</h2><p>我们在使用Vuex的时候是先<code>createStore</code>，在这个函数里面传入state、mutations等参数。根据module的概念，我们可以创建多个store实例，这里我们使用类方法创建一个Store类。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> map = []</span><br><span class="line"><span class="comment">//创建Store类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Store</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="title">constructor</span>(<span class="params">options</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//状态树直接使用reactive令他变为响应式的</span></span><br><span class="line">        <span class="built_in">this</span>._state = reactive(&#123;</span><br><span class="line">            <span class="attr">data</span>: options.state</span><br><span class="line">        &#125;)</span><br><span class="line">        <span class="comment">//获取修改状态的方法mutations</span></span><br><span class="line">        <span class="built_in">this</span>._mutations = options.mutations</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">get</span> <span class="title">state</span>() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">this</span>._state.data</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//mutations的提交方法</span></span><br><span class="line">    <span class="function"><span class="title">commit</span>(<span class="params">type, payload</span>)</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> entry = <span class="built_in">this</span>._mutations[type]</span><br><span class="line">        <span class="keyword">if</span> (!entry) &#123;</span><br><span class="line">            <span class="built_in">console</span>.error(<span class="string">&#x27;mutitaion不存在&#x27;</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        entry(<span class="built_in">this</span>.state, payload)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//通过install在app上进行扩展插件的操作</span></span><br><span class="line">    <span class="function"><span class="title">install</span>(<span class="params">app, injectKey</span>)</span> &#123;</span><br><span class="line">        <span class="comment">//扩展app</span></span><br><span class="line">        <span class="comment">//为app全局挂载上$store，在这个小demo中没必要</span></span><br><span class="line">        <span class="comment">// app.config.globalProperties.$store = this</span></span><br><span class="line">        <span class="comment">//在setup中这样使用很简单，现在的demo没有这个条件，改用更简单的方式</span></span><br><span class="line">        <span class="comment">// provide(&#x27;store&#x27;, this)</span></span><br><span class="line">        <span class="comment">//挂载到this上</span></span><br><span class="line">        map[injectKey || <span class="string">&#x27;store&#x27;</span>] = <span class="built_in">this</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createStore</span>(<span class="params">options</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> Store(options)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">useStore</span>(<span class="params">key = <span class="literal">null</span></span>) </span>&#123;</span><br><span class="line">    <span class="comment">// return inject(&#x27;store&#x27;)</span></span><br><span class="line">    <span class="comment">//在composition API中我们为需要install的实例挂载，用一个简易的全局变量进行通信</span></span><br><span class="line">    <span class="keyword">return</span> map[key !== <span class="literal">null</span> ? key : <span class="string">&#x27;store&#x27;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E5%AE%9E%E7%8E%B0miniVuex/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" class="post-title-link" itemprop="url">Vuex学习笔记01核心概念</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-15 09:53:13" itemprop="dateCreated datePublished" datetime="2022-05-15T09:53:13+08:00">2022-05-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vuex/" itemprop="url" rel="index"><span itemprop="name">Vuex</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Vuex"><a href="#Vuex" class="headerlink" title="Vuex"></a>Vuex</h1><p>Vuex是Vue推荐使用的状态管理工具，它的功能强大，并且专门为Vue设计。</p>
+<p>在我们制作项目的时候，往往会遇到组件之间通信的问题，对于Vue而言，父子组件通信十分方便，但是兄弟组件或者没有什么联系的组件之间通信就比较麻烦了，因为它们之间的通信需要一个所谓的中间人，无法直接通信。因此诞生了<code>eventbus</code>事件总线的方式。</p>
+<p>Vue中的<code>eventbus</code>利用一个空的Vue组件作为中间人，从而使组件之间能够间接的通信，这在小型项目中是十分有用的，但是随着项目越来越大，<code>eventbus</code>的状态管理会越来越复杂。并且Vue3.0废除了<code>eventbus</code>依赖的一个API<code>$on</code>，因此<code>eventbus</code>的性价比变低了，这时候官方使用的Vuex就显得越来越重要了。</p>
+<h2 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h2><p>vuex中有5个核心概念：</p>
+<ul>
+<li>State</li>
+<li>Getter</li>
+<li>Mutation</li>
+<li>Action</li>
+<li>Module</li>
+</ul>
+<h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p>State是Vuex的单一状态树，所有的数据都存储在State上。</p>
+<h5 id="使用方式-以Vue3为例-："><a href="#使用方式-以Vue3为例-：" class="headerlink" title="使用方式(以Vue3为例)："></a>使用方式(以Vue3为例)：</h5>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/15/Vuex%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
+      <meta itemprop="name" content="StoneOcean">
+      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="StoneOcean's Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" class="post-title-link" itemprop="url">Webpack底层原理手写</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-14 16:20:03" itemprop="dateCreated datePublished" datetime="2022-05-14T16:20:03+08:00">2022-05-14</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Webpack/" itemprop="url" rel="index"><span itemprop="name">Webpack</span></a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Webpack底层原理手写"><a href="#Webpack底层原理手写" class="headerlink" title="Webpack底层原理手写"></a>Webpack底层原理手写</h1><p><code>webpack</code>是时下最受欢迎的前端打包工具之一。前端需要打包的原因在于现代浏览器不支持<code>CommonJS</code>的导入，也就是不支持<code>require()</code>和<code>export</code>。为此我们再运行前端项目的时候需要有一个服务器，并且将<code>nodejs</code>中以<code>CommonJS</code>格式书写的<code>js</code>代码进行编译打包，转移成浏览器能够理解的<code>ES Module</code>语法。</p>
+<h2 id="Part1-原型和boundle"><a href="#Part1-原型和boundle" class="headerlink" title="Part1.原型和boundle"></a>Part1.原型和boundle</h2><p>在整个<code>webpack</code>运行中，最先要做的就是编译，也就是将代码翻译成浏览器能够认识的代码。</p>
+<ol>
+<li>从入口开始解析整个项目，去收集依赖。</li>
+<li>将ES6语法通过<code>babel</code>转成ES5语法（现在已经不需要了，浏览器已经支持ES6）。</li>
+<li>替换require与exports，因为浏览器不支持这些语法。</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//webpack原理</span></span><br><span class="line"><span class="comment">//建立自运行函数，保证变量不外泄</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">list</span>) </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">function</span> <span class="title">require</span>(<span class="params">file</span>) </span>&#123;</span><br><span class="line">        <span class="comment">//由于es Module没有exports这个方法函数，最简单的方法就是创建一个</span></span><br><span class="line">        <span class="keyword">var</span> <span class="built_in">exports</span> = &#123;&#125;;</span><br><span class="line">        </span><br><span class="line">        (<span class="function"><span class="keyword">function</span> (<span class="params"><span class="built_in">exports</span>, code</span>) </span>&#123;</span><br><span class="line">            <span class="built_in">eval</span>(code)</span><br><span class="line">        &#125;)(<span class="built_in">exports</span>, list[file])</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">exports</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//从入口开始解析</span></span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&quot;index.js&quot;</span>)</span><br><span class="line">&#125;)(&#123;</span><br><span class="line">    <span class="comment">//1.从入口开始解析整个项目，收集依赖</span></span><br><span class="line">    <span class="comment">//2.ES6转ES5(bable)</span></span><br><span class="line">    <span class="comment">//3.替换require与exports，因为不支持commentJS，没有这些方法</span></span><br><span class="line">    <span class="string">&#x27;index.js&#x27;</span>: <span class="string">`</span></span><br><span class="line"><span class="string">            var add = require(&#x27;add.js&#x27;).default</span></span><br><span class="line"><span class="string">            console.log(add(1, 2))</span></span><br><span class="line"><span class="string">        `</span>,</span><br><span class="line">    <span class="string">&#x27;add.js&#x27;</span>: <span class="string">`</span></span><br><span class="line"><span class="string">            exports.default = function (a, b) &#123;</span></span><br><span class="line"><span class="string">                return a + b</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">        `</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Part2-AST与模块分析"><a href="#Part2-AST与模块分析" class="headerlink" title="Part2.AST与模块分析"></a>Part2.AST与模块分析</h2><p>在<code>webpack</code>编译过程中，会遇到两个问题：</p>
+<ol>
+<li>有哪些依赖被引入了</li>
+<li>将ES6转换成ES5代码（为了兼容）</li>
+</ol>
+<p>对于第一个问题，<code>webpack</code>的解决方法是先将文件转化为<code>AST</code>抽象语法树，然后再解析<code>AST</code>，分析依赖。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/05/14/Webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B005%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%E6%89%8B%E5%86%99/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/13/webpack%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B004loader%E5%92%8Cplugin/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -917,352 +1235,10 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" class="post-title-link" itemprop="url">vite学习笔记</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-08 15:08:28" itemprop="dateCreated datePublished" datetime="2022-05-08T15:08:28+08:00">2022-05-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/vite/" itemprop="url" rel="index"><span itemprop="name">vite</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Vite学习笔记"><a href="#Vite学习笔记" class="headerlink" title="Vite学习笔记"></a>Vite学习笔记</h1><h2 id="vite是什么"><a href="#vite是什么" class="headerlink" title="vite是什么"></a>vite是什么</h2><p>vite是一种新型的前端构建工具，能够显著提升前端开发体验。它主要由两个部分组成：</p>
-<ul>
-<li>一个开发服务器，它基于原生ES模块提供了丰富的内建功能，如速度快到惊人的模块热更新</li>
-<li>一套构建指令，它使用Rollup打包代码，并且它是预配置的，可以输出用于生产环境的高度优化过的静态资源</li>
-</ul>
-<h2 id="为什么要用vite"><a href="#为什么要用vite" class="headerlink" title="为什么要用vite"></a>为什么要用vite</h2><p>vite在打包速度上相比于webpack有明显的优势，当然，webpack作为当下最流行的打包工具，它的生态比vite优秀许多，不过我们可以看出vite的潜力。</p>
-<h2 id="vite和webpack的区别"><a href="#vite和webpack的区别" class="headerlink" title="vite和webpack的区别"></a>vite和webpack的区别</h2><ol>
-<li><p><strong>底层</strong></p>
-<p>从底层上说，vite是基于esbuild与构建依赖。而esbuild是采用go语言编写，操作以纳秒计，而js是以毫秒计。</p>
-</li>
-<li><p><strong>启动方式</strong></p>
-<h4 id="webpack："><a href="#webpack：" class="headerlink" title="webpack："></a><strong>webpack：</strong></h4><p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/webpack%E5%8E%9F%E7%90%86.png" alt="webpack原理"></p>
-<p>webpack的启动方式是先将所有用到的依赖收集，然后打包成boundle，即整合的依赖，再启动服务，我们查看由webpack构建的前端项目的时候会发现一些比较大的依赖文件，就是由webpack整合的。由于需要提前整合处理依赖，因此启动webpack是需要一定的时间的。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-20220508152615681.png" alt="image-20220508152615681"></p>
-<h4 id="vite："><a href="#vite：" class="headerlink" title="vite："></a><strong>vite：</strong></h4><p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/vite%E5%90%AF%E5%8A%A8%E5%8E%9F%E7%90%86.png" alt="vite启动原理"></p>
-<p>vite的启动方式得益于ES Module的支持，也就是可以静态引入资源。vite是先启动服务器，在页面编译的时候如果对某个模块有请求，再动态编译。所以vite的启动特别快，因为webpack需要编译，而vite不需要，直接启动。在热更新方面，也因为只让浏览器重新请求这个模块，而不像webpack一样重新编译，所以更快。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/image-2022050815445089224.png" alt="image-2022050815445089224"></p>
-</li>
-</ol>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/08/Vite%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/" class="post-title-link" itemprop="url">nodejs学习笔记02架构</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-07 21:11:15" itemprop="dateCreated datePublished" datetime="2022-05-07T21:11:15+08:00">2022-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index"><span itemprop="name">nodejs</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Nodejs架构"><a href="#Nodejs架构" class="headerlink" title="Nodejs架构"></a>Nodejs架构</h1><p>Nodejs是一个构建在Chrome浏览器V8引擎上的JavaScript运行环境，也是我们是使用过程中直接能调用的API。</p>
-<p>Nodejs在底层上其实是由c/c++实现的，也就是说，我们获得的API实际上是由c/c++编写的库提供的。当然JavaScript并不能直接和c/c++通信，因此需要一个“桥梁”。所以nodejs实际上是由三成架构组成的——<strong>nodejs API库，bindings（桥梁）和c/c++底层</strong></p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/nodejs%E6%9E%B6%E6%9E%84.png" alt="nodejs架构"></p>
-<p>Node bindings是JavaScript与C/C++库之间的桥梁，通过bindings将c/c++实现的库暴露给JavaScript，同时把js传入V8，解析后交给libuv发起非阻塞I/O，并等待事件循环调度。</p>
-<p>底层库：</p>
-<ol>
-<li>V8是JavaScript的虚拟机，为JavaScript提供了在非浏览器端运行的环境</li>
-<li>libuv为nodejs提供了跨平台，线程池，异步I/O能力，这是nodejs高效的主要原因</li>
-<li>c-ares提供了异步处理DNS相关的能力</li>
-<li>http_parser、OpenSSL、zlib提供包括http解析、SSL、数据压缩等能⼒。</li>
-</ol>
-<p><strong>Nodejs到底是单线程还是多线程</strong></p>
-<p>一般来说我们认为JavaScript是单线程的，但是nodejs的底层由c/c++参与，分为了一个主线程和多个子线程，所以我们认为Nodejs其实是多线程的。</p>
-<h2 id="nodejs高效的原因"><a href="#nodejs高效的原因" class="headerlink" title="nodejs高效的原因"></a>nodejs高效的原因</h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B002%E6%9E%B6%E6%9E%84/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://giorunogiovanna.github.io/GiorunoGiovana.github.io/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/avatar.jpeg">
-      <meta itemprop="name" content="StoneOcean">
-      <meta itemprop="description" content="记录自己的学习路程，以及一些有趣的事物">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="StoneOcean's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" class="post-title-link" itemprop="url">nodejs学习笔记01事件循环</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-05-07 15:58:07" itemprop="dateCreated datePublished" datetime="2022-05-07T15:58:07+08:00">2022-05-07</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-05-17 10:54:23" itemprop="dateModified" datetime="2022-05-17T10:54:23+08:00">2022-05-17</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index"><span itemprop="name">nodejs</span></a>
-                </span>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Valine：</span>
-    
-    <a title="valine" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/#valine-comments" itemprop="discussionUrl">
-      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Nodejs中的事件循环"><a href="#Nodejs中的事件循环" class="headerlink" title="Nodejs中的事件循环"></a>Nodejs中的事件循环</h1><p>在浏览器环境中的JavaScript有一个事件循环，是一个比较简单的模型。而在Nodejs中也有一个事件循环，不同于浏览器，nodejs环境中的事件循环更为复杂。</p>
-<p><img src="https://fastly.jsdelivr.net/gh/GiorunoGiovanna/Blog-Drawingbed/drawingbed/nodejs%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF(1).png" alt="nodejs事件循环(1)"></p>
-<ol>
-<li><p>Timers：用于储存定时器的回调函数（setTImeout,setInterval）</p>
-</li>
-<li><p>Pending callbacks：执行与操作系统相关的回调函数，比如启动服务器端应用时监听端口的操作就是在这里调用</p>
-</li>
-<li><p>Idle，prepare：系统内部使用</p>
-</li>
-<li><p>IO Poll：存储I/O操作的回调函数队列，例如文件读写操作的回调函数</p>
-<p><strong>如果事件队列中有回调函数，就执行它们直到清空队列</strong></p>
-<p><strong>否则事件循环将在此阶段停留一段时间以等待新的回调函数进入，这个等待取决于以下两个条件：</strong></p>
-<ol>
-<li>setImmediate队列（check阶段中存在要执行的回调函数）</li>
-<li>timers队列中存在要执行的回调函数，在这种情况下，事件循环将一至check阶段，然后移至Closing callbacks阶段，并最终从timers阶段进入下一次循环</li>
-</ol>
-</li>
-<li><p>Check：存储setImmediate API的回调函数</p>
-</li>
-<li><p>Clonsing callbacks：执行与关闭事件相关的回调，比如关闭数据库链接的回调函数等。</p>
-</li>
-</ol>
-<h2 id="事件循环小测试"><a href="#事件循环小测试" class="headerlink" title="事件循环小测试"></a>事件循环小测试</h2><p>注意:在微任务中nextTick的优先级要比其他的更高</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>)</span><br><span class="line"></span><br><span class="line">fs.readFile(<span class="string">&#x27;./loading.html&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">1</span>)</span><br><span class="line">    &#125;, <span class="number">0</span>)</span><br><span class="line">    setImmediate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">        <span class="built_in">console</span>.log(<span class="number">2</span>)</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)          <span class="comment">//2 1</span></span><br><span class="line"><span class="built_in">setTimeout</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">3</span>)</span><br><span class="line">&#125;)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">4</span>)</span><br><span class="line">process.nextTick(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">5</span>)</span><br><span class="line">&#125;)</span><br><span class="line">setImmediate(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="number">6</span>)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">//4 5 3 6 2 1</span></span><br></pre></td></tr></table></figure>
-
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/05/07/nodejs%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B001%E4%BA%8B%E4%BB%B6%E5%BE%AA%E7%8E%AF/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
+    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
   </nav>
 
 
@@ -1330,20 +1306,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">129</span>
+          <span class="site-state-item-count">132</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">27</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
